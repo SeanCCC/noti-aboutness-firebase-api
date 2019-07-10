@@ -1,8 +1,19 @@
 const functions = require('firebase-functions').region('asia-east2');
+const cors = require("cors")
+const express = require("express")
+const apiRoutes = require('./src/routes')
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-exports.api = functions.https.onRequest((request, response) => {
- response.send("Hello from Firebase!");
-});
+const app = express()
+app.use(cors({ origin: true }))
+app.use('/', apiRoutes);
+
+const api = functions.https.onRequest((request, response) => {
+    if (!request.path) {
+      request.url = `/${request.url}`
+    }
+    return app(request, response)
+  })
+
+  module.exports = {
+    api
+  }
