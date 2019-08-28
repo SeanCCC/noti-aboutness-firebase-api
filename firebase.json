@@ -15,7 +15,9 @@
       "**/node_modules/**"
     ],
     "rewrites": [{
-      "source": "/apis", "function": "apis"
+      "source": "/apis/**", "function": "apis"
+    },{
+      "source": "**", "destination": "/public/404.html"
     }]
   }
 }

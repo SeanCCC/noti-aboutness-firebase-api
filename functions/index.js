@@ -1,19 +1,25 @@
-const functions = require('firebase-functions').region('asia-east2');
+const functions = require('firebase-functions');
 const cors = require("cors")
 const express = require("express")
+const bodyParser = require('body-parser');
 const apiRoutes = require('./src/routes')
-
 const app = express()
+
 app.use(cors({ origin: true }))
-app.use('/', apiRoutes);
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-const api = functions.https.onRequest((request, response) => {
-    if (!request.path) {
-      request.url = `/${request.url}`
-    }
-    return app(request, response)
-  })
+app.use('/apis', apiRoutes);
 
-  module.exports = {
-    api
+const apis = functions.https.onRequest((request, response) => {
+  if (!request.path) {
+    request.url = `/${request.url}`
   }
+  return app(request, response)
+})
+
+module.exports = {
+  apis
+}

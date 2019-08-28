@@ -1,9 +1,7 @@
 const express = require('express');
-
+const formRoutes = require('./form');
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.json({test: 'test'});
-});
+router.use('/form', formRoutes);
 
 module.exports = router;
