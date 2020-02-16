@@ -1,14 +1,14 @@
-import React from 'react';
+import React from 'react'
 import 'semantic-ui-css/semantic.min.css'
-import './App.css';
-import Recruit from './pages/Recruit';
+import './App.css'
+import Recruit from './pages/Recruit'
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-} from "react-router-dom";
+  Route
+} from 'react-router-dom'
 
-function App() {
+function App () {
   return (
     <Router>
       <div>
@@ -22,7 +22,7 @@ function App() {
         </Switch>
       </div>
     </Router>
-  );
+  )
 }
 
-export default App;
+export default App
