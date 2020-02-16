@@ -1,5 +1,5 @@
 import React from 'react'
-import Form from './Form'
+import Introduction from './Introduction'
 import {
   Switch,
   Route,
@@ -12,8 +12,8 @@ export default function Recruit () {
   return (
     <div>
       <Switch>
-        <Route path={`${match.path}/form`}>
-          <Form/>
+        <Route path={`${match.path}/introduction`}>
+          <Introduction/>
         </Route>
         <Route path={match.path}>
           <h3>Please select a topic.</h3>

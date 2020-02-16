@@ -1,0 +1,25 @@
+.App {
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+  // background-color: gainsboro;
+  height: 100vh;
+}
+
+.page{
+  display: flex;
+  flex-direction: column;
+}
+
+.submit-button{
+  position: sticky;
+  bottom: 0px;
+  left: 0px;
+  padding: 16px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  button{
+    width: 100%;
+  }
+}

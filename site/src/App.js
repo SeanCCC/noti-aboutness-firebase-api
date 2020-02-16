@@ -1,6 +1,6 @@
 import React from 'react'
 import 'semantic-ui-css/semantic.min.css'
-import './App.css'
+import './App.scss'
 import Recruit from './pages/Recruit'
 import {
   BrowserRouter as Router,
@@ -11,7 +11,7 @@ import {
 function App () {
   return (
     <Router>
-      <div>
+      <div className="App">
         <Switch>
           <Route path="/recruit">
             <Recruit/>
