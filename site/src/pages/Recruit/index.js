@@ -5,20 +5,21 @@ import {
   Route,
   useRouteMatch
 } from 'react-router-dom'
+import FormPage from './FormPage'
 
 export default function Recruit () {
   const match = useRouteMatch()
-
   return (
-    <div>
-      <Switch>
-        <Route path={`${match.path}/introduction`}>
-          <Introduction/>
-        </Route>
-        <Route path={match.path}>
-          <h3>Please select a topic.</h3>
-        </Route>
-      </Switch>
-    </div>
+    <Switch>
+      <Route path={`${match.path}/introduction`}>
+        <Introduction/>
+      </Route>
+      <Route path={`${match.path}/form`}>
+        <FormPage />
+      </Route>
+      <Route path={match.path}>
+        <div>else</div>
+      </Route>
+    </Switch>
   )
 }
