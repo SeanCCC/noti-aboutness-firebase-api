@@ -125,10 +125,6 @@ export default class FormPage extends Component {
       unlimitedCellular: {
         value: undefined,
         valid: false
-      },
-      brandName: {
-        value: undefined,
-        valid: false
       }
     }
     this.handleChange = this.handleChange.bind(this)
