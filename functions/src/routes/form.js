@@ -1,6 +1,7 @@
 const express = require('express')
-const { pushDB } = require('../utils')
 const router = express.Router()
+const { pushDB } = require('../utils')
+const { sendEmailCheck } = require('../mail')
 
 router.get('/', (req, res) => {
   console.log(123)
@@ -10,9 +11,11 @@ router.get('/', (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const payload = req.body
+    const { email, name, gender } = payload
     const timestamp = new Date()
-    console.log(timestamp)
-    await pushDB('candidate', { ...payload, timestamp: timestamp.toString() })
+    const newRef = await pushDB('candidate', { ...payload, timestamp: timestamp.toString() })
+    const id = newRef.key
+    await sendEmailCheck(email, name, gender, id)
     res.send('success')
   } catch (err) {
     console.error(err)

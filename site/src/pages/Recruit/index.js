@@ -7,7 +7,7 @@ import {
   Redirect
 } from 'react-router-dom'
 import FormPage from './FormPage'
-import { AcceptPage, ReturnPage } from './ResultPage'
+import { AcceptPage, ReturnPage, EmailCheckPage } from './ResultPage'
 
 export default function Recruit () {
   const match = useRouteMatch()
@@ -21,6 +21,9 @@ export default function Recruit () {
       </Route>
       <Route path={`${match.path}/accept`}>
         <AcceptPage />
+      </Route>
+      <Route path={`${match.path}/checkmail`}>
+        <EmailCheckPage />
       </Route>
       <Route path={`${match.path}/return`}>
         <ReturnPage />

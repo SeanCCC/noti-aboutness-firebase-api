@@ -12,6 +12,17 @@ export function AcceptPage () {
   )
 }
 
+export function EmailCheckPage () {
+  return (
+    <div className="page">
+      <Header textAlign="center" as='h2'>感謝您費時填寫表單</Header>
+      <Segment attached>
+      您已經完成表單，研究團隊已經寄了一封信箱驗證信給您，請您點擊內附的連結。
+      </Segment>
+    </div>
+  )
+}
+
 export function ReturnPage () {
   return (
     <div className="page">

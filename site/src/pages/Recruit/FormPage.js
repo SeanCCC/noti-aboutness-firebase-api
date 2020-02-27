@@ -271,6 +271,7 @@ export default class FormPage extends Component {
       acu[name] = cur
       return acu
     }, {})
+    this.setState({ uploading: true })
     await axios.post('/apis/recruit/form', payload)
     this.setState({ uploading: false, accept: true })
   }
@@ -278,7 +279,7 @@ export default class FormPage extends Component {
   render () {
     const { uploading, accept } = this.state
     if (accept) {
-      return <Redirect to='/recruit/accept' />
+      return <Redirect to='/recruit/checkmail' />
     }
     return (
       <div className="page">
