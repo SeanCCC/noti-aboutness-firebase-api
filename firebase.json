@@ -15,7 +15,11 @@
       "**/node_modules/**"
     ],
     "rewrites": [{
-      "source": "/apis/**", "function": "apis"
+      "source": "/apis/recruit/**", "function": "recruit"
+    },{
+      "source": "/apis/panel/**", "function": "panel"
+    },{
+      "source": "/apis/noti/**", "function": "noti"
     },{
       "source": "**", "destination": "/index.html"
     }]

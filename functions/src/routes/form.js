@@ -7,7 +7,7 @@ router.get('/', (req, res) => {
   res.json({test: 'test'});
 });
 
-router.post('/input', async (req, res) => {
+router.post('/', async (req, res) => {
     const {test} = req.body;
     const timestamp = new Date();
     await appendToCollection('tesst', {test, timestamp});
