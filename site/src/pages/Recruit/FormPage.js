@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Header, Form } from 'semantic-ui-react'
 import check from 'check-types'
+import axios from 'axios'
 import { genderOptions, boolOptions, androidSystemVersion, mobileOpitons, osOptions, cityOptions } from './formOptions'
 
 const formContent = [
@@ -47,6 +48,14 @@ const formContent = [
       name: 'phoneBrand',
       options: mobileOpitons
     }, {
+      type: 'input',
+      label: '手機品牌名稱（如果上一題選其他才要填）',
+      placeholder: '上一題選其他才要填',
+      name: 'brandName'
+    }]
+  }, {
+    type: 'group',
+    content: [{
       type: 'select',
       label: '手機系統',
       name: 'phoneSystem',
@@ -78,6 +87,7 @@ export default class FormPage extends Component {
     super(props)
     this.state = {
       submitted: false,
+      uploading: false,
       name: {
         value: undefined,
         valid: false
@@ -107,6 +117,10 @@ export default class FormPage extends Component {
         valid: false
       },
       phoneBrand: {
+        value: undefined,
+        valid: false
+      },
+      brandName: {
         value: undefined,
         valid: false
       },
@@ -144,10 +158,11 @@ export default class FormPage extends Component {
     else if (['phoneNumber'].includes(name)) checkFunc = (input) => check.match(input, /^09\d{8}$/)
     else if (['gender', 'city', 'phoneBrand', 'phoneSystem', 'androidVersion', 'cellularAccess', 'unlimitedCellular'].includes(name)) {
       checkFunc = check.not.undefined
+    } else if (['brandName'].includes(name)) {
+      checkFunc = this.state.phoneBrand.value === 'other' ? check.nonEmptyString : () => true
     } else return true
     const item = this.state[name]
     const valid = checkFunc(item.value)
-    console.log({ item, name, valid })
     this.setState({ [name]: { ...item, valid } })
     return valid
   }
@@ -166,6 +181,9 @@ export default class FormPage extends Component {
       if (submitted) {
         this.checkVal(name)
       }
+      if (name === 'phoneBrand') {
+        this.checkVal('brandName')
+      }
     })
   }
 
@@ -179,7 +197,7 @@ export default class FormPage extends Component {
   renderItem (item) {
     const { type, name } = item
     const { valid, value } = this.state[name]
-    const { submitted } = this.state
+    const { submitted, uploading } = this.state
     if (type === 'input') {
       const { label, placeholder } = item
       return (
@@ -188,6 +206,7 @@ export default class FormPage extends Component {
           fluid
           value={value}
           label={label}
+          disabled={uploading}
           placeholder={placeholder || label}
           name={name}
           error={!valid && submitted ? {
@@ -206,6 +225,7 @@ export default class FormPage extends Component {
           fluid
           value={value}
           label={label}
+          disabled={uploading}
           placeholder={placeholder || label}
           name={name}
           error={!valid && submitted ? {
@@ -234,19 +254,29 @@ export default class FormPage extends Component {
     else return this.renderItem(item)
   }
 
-  onSubmit () {
+  async onSubmit () {
     const valid = this.checkForm()
     this.setState({ submitted: true })
-    console.log(valid)
+    if (!valid) return
+    const getList = ['name', 'occupation', 'email', 'age', 'phoneNumber', 'gender', 'city', 'phoneBrand', 'phoneSystem', 'androidVersion', 'cellularAccess', 'unlimitedCellular', 'brandName']
+    const payload = getList.reduce((acu, name) => {
+      const cur = this.state[name].value
+      acu[name] = cur
+      return acu
+    }, {})
+    this.setState({ uploading: true })
+    await axios.post('/apis/recruit/form', payload)
+    this.setState({ uploading: false })
   }
 
   render () {
+    const { uploading } = this.state
     return (
       <div className="page">
         <Header as='h2' textAlign="center">招募問卷</Header>
         <Form>
           {formContent.map(this.renderForm)}
-          <Form.Button fluid primary onClick={this.onSubmit} >提交</Form.Button>
+          <Form.Button fluid primary loading={uploading} onClick={this.onSubmit} >提交</Form.Button>
         </Form>
       </div>
     )
