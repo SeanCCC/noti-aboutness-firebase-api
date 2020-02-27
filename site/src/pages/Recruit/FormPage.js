@@ -3,7 +3,7 @@ import { Header, Form } from 'semantic-ui-react'
 import check from 'check-types'
 import axios from 'axios'
 import { genderOptions, boolOptions, androidSystemVersion, mobileOpitons, osOptions, cityOptions } from './formOptions'
-
+import { Redirect } from 'react-router-dom'
 const formContent = [
   {
     type: 'group',
@@ -46,6 +46,7 @@ const formContent = [
       type: 'select',
       label: '手機品牌',
       name: 'phoneBrand',
+      errorMsg: '該實驗目前不支援Android系統以外的手機系統',
       options: mobileOpitons
     }, {
       type: 'input',
@@ -58,11 +59,13 @@ const formContent = [
     content: [{
       type: 'select',
       label: '手機系統',
+      errorMsg: '該實驗目前不支援Android系統以外的手機系統',
       name: 'phoneSystem',
       options: osOptions
     }, {
       type: 'select',
       label: 'Android系統版本',
+      errorMsg: '該實驗目前不支援低於Android 4或非Android系統的手機',
       name: 'androidVersion',
       options: androidSystemVersion
     }]
@@ -88,6 +91,7 @@ export default class FormPage extends Component {
     this.state = {
       submitted: false,
       uploading: false,
+      accept: false,
       name: {
         value: undefined,
         valid: false
@@ -156,7 +160,10 @@ export default class FormPage extends Component {
     if (['name', 'occupation', 'email'].includes(name)) checkFunc = check.nonEmptyString
     else if (['age'].includes(name)) checkFunc = (input) => check.number(Number(input))
     else if (['phoneNumber'].includes(name)) checkFunc = (input) => check.match(input, /^09\d{8}$/)
-    else if (['gender', 'city', 'phoneBrand', 'phoneSystem', 'androidVersion', 'cellularAccess', 'unlimitedCellular'].includes(name)) {
+    else if (['phoneSystem'].includes(name)) checkFunc = (input) => input === 'android'
+    else if (['phoneBrand'].includes(name)) checkFunc = (input) => input !== 'apple' && check.not.undefined(input)
+    else if (['androidVersion'].includes(name)) checkFunc = (input) => input !== 'notAndroid' && check.not.undefined(input)
+    else if (['gender', 'city', 'cellularAccess', 'unlimitedCellular'].includes(name)) {
       checkFunc = check.not.undefined
     } else if (['brandName'].includes(name)) {
       checkFunc = this.state.phoneBrand.value === 'other' ? check.nonEmptyString : () => true
@@ -218,7 +225,7 @@ export default class FormPage extends Component {
         />
       )
     } else if (type === 'select') {
-      const { label, name, placeholder, options } = item
+      const { label, name, placeholder, options, errorMsg } = item
       return (
         <Form.Select
           key={name}
@@ -229,7 +236,7 @@ export default class FormPage extends Component {
           placeholder={placeholder || label}
           name={name}
           error={!valid && submitted ? {
-            content: '尚未填入或內容錯誤',
+            content: errorMsg || '尚未填入或內容錯誤',
             pointing: 'below'
           } : null}
           options={options}
@@ -264,13 +271,15 @@ export default class FormPage extends Component {
       acu[name] = cur
       return acu
     }, {})
-    this.setState({ uploading: true })
     await axios.post('/apis/recruit/form', payload)
-    this.setState({ uploading: false })
+    this.setState({ uploading: false, accept: true })
   }
 
   render () {
-    const { uploading } = this.state
+    const { uploading, accept } = this.state
+    if (accept) {
+      return <Redirect to='/recruit/accept' />
+    }
     return (
       <div className="page">
         <Header as='h2' textAlign="center">招募問卷</Header>

@@ -5,7 +5,8 @@ import Recruit from './pages/Recruit'
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route,
+  Redirect
 } from 'react-router-dom'
 
 function App () {
@@ -17,7 +18,7 @@ function App () {
             <Recruit/>
           </Route>
           <Route path="/">
-            <div>else</div>
+            <Redirect to='/recruit/introduction' />
           </Route>
         </Switch>
       </div>
