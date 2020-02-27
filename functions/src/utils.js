@@ -6,11 +6,12 @@ admin.initializeApp({
   databaseURL: `https://${serviceAccount.project_id}.firebaseio.com`
 });
 
-const db = admin.firestore();
+var db = admin.database();
 
-const appendToCollection = async (collectionName, data) => {
-    const testCollection = db.collection(collectionName);
-    return await testCollection.add(data);
+const appendToCollection = async (refPath, data) => {
+  const ref = db.ref(refPath);
+  return await ref.set(data)
 }
+
 
 module.exports = {appendToCollection};
