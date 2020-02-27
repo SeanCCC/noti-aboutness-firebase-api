@@ -8,9 +8,14 @@ admin.initializeApp({
 
 var db = admin.database()
 
-const appendToCollection = async (refPath, data) => {
+const setDB = async (refPath, data) => {
   const ref = db.ref(refPath)
   await ref.set(data)
 }
 
-module.exports = { appendToCollection }
+const pushDB = async (refPath, data) => {
+  const ref = db.ref(refPath)
+  await ref.push(data)
+}
+
+module.exports = { setDB, pushDB }

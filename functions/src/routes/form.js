@@ -1,5 +1,5 @@
 const express = require('express')
-const { appendToCollection } = require('../utils')
+const { pushDB } = require('../utils')
 const router = express.Router()
 
 router.get('/', (req, res) => {
@@ -8,10 +8,16 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-  const { test } = req.body
-  const timestamp = new Date()
-  await appendToCollection('tesst', { test, timestamp })
-  res.json({ a: '123' })
+  try {
+    const payload = req.body
+    const timestamp = new Date()
+    console.log(timestamp)
+    await pushDB('candidate', { ...payload, timestamp: timestamp.toString() })
+    res.send('success')
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
 })
 
 module.exports = router
