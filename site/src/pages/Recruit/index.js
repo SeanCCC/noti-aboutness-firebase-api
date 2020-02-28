@@ -7,6 +7,7 @@ import {
   Redirect
 } from 'react-router-dom'
 import FormPage from './FormPage'
+import MailCheckPage from './MailCheck'
 import { AcceptPage, ReturnPage, EmailCheckPage, ErrorPage, RepeatPage } from './ResultPage'
 
 export default function Recruit () {
@@ -22,9 +23,10 @@ export default function Recruit () {
       <Route path={`${match.path}/accept`}>
         <AcceptPage />
       </Route>
-      <Route path={`${match.path}/checkmail`}>
+      <Route path={`${match.path}/mail`}>
         <EmailCheckPage />
       </Route>
+      <Route path={`${match.path}/mailcheck`} component={MailCheckPage}/>
       <Route path={`${match.path}/return`}>
         <ReturnPage />
       </Route>

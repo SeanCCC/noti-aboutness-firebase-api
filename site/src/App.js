@@ -14,9 +14,7 @@ function App () {
     <Router>
       <div className="App">
         <Switch>
-          <Route path="/recruit">
-            <Recruit/>
-          </Route>
+          <Route path="/recruit" component={Recruit}/>
           <Route path="/">
             <Redirect to='/recruit/introduction' />
           </Route>

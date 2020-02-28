@@ -292,7 +292,7 @@ export default class FormPage extends Component {
   render () {
     const { uploading, accept, error, repeat, email } = this.state
     if (accept) {
-      return <Redirect to={`/recruit/checkmail?email=${email.value}`} />
+      return <Redirect to={`/recruit/mail?email=${email.value}`} />
     } else if (error) {
       return <Redirect to='/recruit/error' />
     } else if (repeat) {

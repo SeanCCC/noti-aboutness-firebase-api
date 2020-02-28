@@ -23,7 +23,7 @@ const pushDB = async (refPath, data) => {
 const fetchDB = async (refPath, orderByKey = true) => {
   const ref = orderByKey ? db.ref(refPath).orderByKey() : db.ref(refPath)
   const res = await ref.once('value')
-  return res
+  return res.val()
 }
 
 const findDB = async (refPath, key, value) => {
