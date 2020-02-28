@@ -39,7 +39,7 @@ export default function Introduction () {
 張忠喬, 研究生<br/>
 國立交通大學資訊科學與工程研究所<br/>
 0975-068-858<br/>
-sean831004.cs07g@nctu.edu.tw<br/>
+notiatmuilab@gmail.com<br/>
         </Segment>
         <Segment>
         研究計畫主持人<br/>

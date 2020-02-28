@@ -20,17 +20,21 @@ const formContent = [
       type: 'input',
       label: '年齡',
       placeholder: '填入數字即可',
-      name: 'age'
+      name: 'age',
+      errorMsg: '輸入錯誤或不符合招募條件'
     }]
   }, {
-    type: 'input',
-    label: '職業',
-    name: 'occupation'
-  }, {
-    type: 'select',
-    label: '所在縣市',
-    name: 'city',
-    options: cityOptions
+    type: 'group',
+    content: [{
+      type: 'input',
+      label: '職業',
+      name: 'occupation'
+    }, {
+      type: 'select',
+      label: '所在縣市',
+      name: 'city',
+      options: cityOptions
+    }]
   }, {
     type: 'input',
     label: '電子郵件',
@@ -65,7 +69,7 @@ const formContent = [
     }, {
       type: 'select',
       label: 'Android系統版本',
-      errorMsg: '該實驗目前不支援低於Android 4或非Android系統的手機',
+      errorMsg: '該實驗目前不支援Android 4以下或非Android系統的手機',
       name: 'androidVersion',
       options: androidSystemVersion
     }]
@@ -90,7 +94,9 @@ export default class FormPage extends Component {
     super(props)
     this.state = {
       submitted: false,
+      repeat: false,
       uploading: false,
+      error: false,
       accept: false,
       name: {
         value: undefined,
@@ -158,11 +164,11 @@ export default class FormPage extends Component {
   checkVal (name) {
     let checkFunc = () => true
     if (['name', 'occupation', 'email'].includes(name)) checkFunc = check.nonEmptyString
-    else if (['age'].includes(name)) checkFunc = (input) => check.number(Number(input))
+    else if (['age'].includes(name)) checkFunc = (input) => check.number(Number(input)) && Number(input) >= 20 && Number(input) <= 60
     else if (['phoneNumber'].includes(name)) checkFunc = (input) => check.match(input, /^09\d{8}$/)
     else if (['phoneSystem'].includes(name)) checkFunc = (input) => input === 'android'
     else if (['phoneBrand'].includes(name)) checkFunc = (input) => input !== 'apple' && check.not.undefined(input)
-    else if (['androidVersion'].includes(name)) checkFunc = (input) => input !== 'notAndroid' && check.not.undefined(input)
+    else if (['androidVersion'].includes(name)) checkFunc = (input) => input !== 'notAndroid' && input !== '4' && check.not.undefined(input)
     else if (['gender', 'city', 'cellularAccess', 'unlimitedCellular'].includes(name)) {
       checkFunc = check.not.undefined
     } else if (['brandName'].includes(name)) {
@@ -206,7 +212,7 @@ export default class FormPage extends Component {
     const { valid, value } = this.state[name]
     const { submitted, uploading } = this.state
     if (type === 'input') {
-      const { label, placeholder } = item
+      const { label, placeholder, errorMsg } = item
       return (
         <Form.Input
           key={name}
@@ -217,7 +223,7 @@ export default class FormPage extends Component {
           placeholder={placeholder || label}
           name={name}
           error={!valid && submitted ? {
-            content: '尚未填入或內容錯誤',
+            content: errorMsg || '尚未填入或內容錯誤',
             pointing: 'below'
           } : null}
           onChange={this.handleChange}
@@ -272,14 +278,25 @@ export default class FormPage extends Component {
       return acu
     }, {})
     this.setState({ uploading: true })
-    await axios.post('/apis/recruit/form', payload)
-    this.setState({ uploading: false, accept: true })
+    try {
+      const res = await axios.post('/apis/recruit/form', payload)
+      this.setState({ uploading: false, accept: true })
+      if (res.status === 400) this.setState({ uploading: false, repeat: true })
+      else this.setState({ uploading: false, error: true })
+    } catch (err) {
+      if (err.response && err.response.status === 400) this.setState({ uploading: false, repeat: true })
+      else this.setState({ uploading: false, error: true })
+    }
   }
 
   render () {
-    const { uploading, accept } = this.state
+    const { uploading, accept, error, repeat, email } = this.state
     if (accept) {
-      return <Redirect to='/recruit/checkmail' />
+      return <Redirect to={`/recruit/checkmail?email=${email.value}`} />
+    } else if (error) {
+      return <Redirect to='/recruit/error' />
+    } else if (repeat) {
+      return <Redirect to='/recruit/repeat' />
     }
     return (
       <div className="page">

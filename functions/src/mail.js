@@ -12,12 +12,12 @@ const transporter = nodemailer.createTransport({
   }
 })
 
-const sendEmailCheck = async (email, name, gender, id) => {
+const sendEmailCheck = async (to, name, gender, id) => {
   const config = {
     from: 'MUILAB通知實驗研究團隊',
-    to: email,
+    to: to,
     subject: 'MUILAB通知實驗信箱驗證信',
-    html: `<p>${name}${gender === 'male' ? '先生' : '小姐'}您好，感謝您費時填寫招募問卷，請點擊連結以完成信箱驗證：<a href="https://notiaboutness.muilab.org/form/mailcheck?id=${id}">驗證連結</a></p>`
+    html: `<p>${name}${gender === 'male' ? '先生' : '小姐'}您好，感謝您費時填寫招募問卷，請點擊連結以完成信箱驗證：<a href="https://notiaboutness.muilab.org/recruit/mailcheck?id=${id}">驗證連結</a></p>`
   }
   await transporter.sendMail(config)
 }

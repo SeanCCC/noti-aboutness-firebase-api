@@ -20,4 +20,16 @@ const pushDB = async (refPath, data) => {
   return res
 }
 
-module.exports = { setDB, pushDB }
+const fetchDB = async (refPath, orderByKey = true) => {
+  const ref = orderByKey ? db.ref(refPath).orderByKey() : db.ref(refPath)
+  const res = await ref.once('value')
+  return res
+}
+
+const findDB = async (refPath, key, value) => {
+  const ref = db.ref(refPath)
+  const res = await ref.orderByChild(key).equalTo(value).once('value')
+  return res.val()
+}
+
+module.exports = { setDB, pushDB, fetchDB, findDB }
