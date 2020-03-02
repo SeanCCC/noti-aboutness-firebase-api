@@ -4,25 +4,25 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const apiRoutes = require('./src/routes')
 
-// recruit apis
-const recruitApp = express()
-recruitApp.use(function (req, res, next) {
+// site apis
+const siteApp = express()
+siteApp.use(function (req, res, next) {
   console.log('Time:', Date.now())
   next()
 })
-recruitApp.use(cors({ origin: true }))
-recruitApp.use(express.json())
-recruitApp.use(express.urlencoded({ extended: false }))
-recruitApp.use(bodyParser.json())
-recruitApp.use(bodyParser.urlencoded({ extended: true }))
+siteApp.use(cors({ origin: true }))
+siteApp.use(express.json())
+siteApp.use(express.urlencoded({ extended: false }))
+siteApp.use(bodyParser.json())
+siteApp.use(bodyParser.urlencoded({ extended: true }))
 
-recruitApp.use('/apis/recruit', apiRoutes)
+siteApp.use('/apis/site', apiRoutes)
 
-const recruit = functions.https.onRequest((request, response) => {
+const site = functions.https.onRequest((request, response) => {
   if (!request.path) {
     request.url = `/${request.url}`
   }
-  return recruitApp(request, response)
+  return siteApp(request, response)
 })
 
 // panel apis
@@ -56,7 +56,7 @@ const noti = functions.https.onRequest((request, response) => {
 })
 
 module.exports = {
-  recruit,
+  site,
   noti,
   panel
 }

@@ -15,7 +15,7 @@
       "**/node_modules/**"
     ],
     "rewrites": [{
-      "source": "/apis/recruit/**", "function": "recruit"
+      "source": "/apis/site/**", "function": "site"
     },{
       "source": "/apis/panel/**", "function": "panel"
     },{

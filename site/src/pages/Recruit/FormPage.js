@@ -279,7 +279,7 @@ export default class FormPage extends Component {
     }, {})
     this.setState({ uploading: true })
     try {
-      const res = await axios.post('/apis/recruit/form', payload)
+      const res = await axios.post('/apis/site/form', payload)
       this.setState({ uploading: false, accept: true })
       if (res.status === 400) this.setState({ uploading: false, repeat: true })
       else this.setState({ uploading: false, error: true })
