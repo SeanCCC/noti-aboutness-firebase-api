@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Header, Segment, Checkbox, Button, Icon, Message } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
+import { ContactComp } from '../Contact'
 // import { Link } from 'react-router-dom'
 // import axios from 'axios'
 
@@ -73,6 +74,7 @@ export default class MailInfo extends Component {
         <Segment attached>
           <Button fluid primary onClick={this.onSubmit} >我已寄出或交付同意書</Button>
         </Segment>
+        <ContactComp/>
       </div>
     )
   }

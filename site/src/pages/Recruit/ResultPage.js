@@ -1,7 +1,8 @@
 import React from 'react'
-import { Header, Message } from 'semantic-ui-react'
+import { Header, Message, Segment } from 'semantic-ui-react'
 import queryString from 'query-string'
 import { useLocation } from 'react-router-dom'
+import { ContactComp } from '../Contact'
 
 export function AcceptPage () {
   return (
@@ -33,6 +34,7 @@ export function ReturnPage () {
       <Message negative>
         <Message.Header>由於研究團隊的程式需要安裝在Android手機上，研究團隊無法就您納入參與者，您填寫的資料將不會以任何形式保存。</Message.Header>
       </Message>
+      <ContactComp/>
     </div>
   )
 }
@@ -44,6 +46,7 @@ export function ErrorPage () {
       <Message negative>
         <Message.Header>目前頁面出現了某些問題，研究團隊將儘速著手處理。</Message.Header>
       </Message>
+      <ContactComp/>
     </div>
   )
 }
@@ -53,8 +56,9 @@ export function RepeatPage () {
     <div className="page">
       <Header textAlign="center" as='h2'>感謝您費時填寫表單</Header>
       <Message negative>
-        <Message.Header>您過去已通過信箱驗證或已被納入參與者，表單內容將以過去填寫的為準，如果需要進行修改，請聯絡研究團隊。Email: notiatmuilab@gmail.com</Message.Header>
+        <Message.Header>您過去已通過信箱驗證或已被納入參與者，表單內容將以過去填寫的為準，如果需要進行修改，請聯絡研究團隊。</Message.Header>
       </Message>
+      <ContactComp/>
     </div>
   )
 }
