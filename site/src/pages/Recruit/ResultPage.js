@@ -20,7 +20,7 @@ export function EmailCheckPage () {
     <div className="page">
       <Header textAlign="center" as='h2'>感謝您費時填寫表單</Header>
       <Message positive>
-        <Message.Header>您已經完成表單，研究團隊已經寄了一封信箱驗證信至{email}，請您點擊內附的連結。如果沒有找到該信，請檢視垃圾信件槽。</Message.Header>
+        <Message.Header>您已經完成表單，研究團隊已經寄了一封信箱驗證信至{email}，請您點擊內附的連結。如果沒有找到該信，請檢視垃圾信箱。</Message.Header>
       </Message>
     </div>
   )

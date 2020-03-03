@@ -21,7 +21,7 @@ const formContent = [
       label: '年齡',
       placeholder: '填入數字即可',
       name: 'age',
-      errorMsg: '輸入錯誤或不符合招募條件'
+      errorMsg: '輸入錯誤或不符合招募條件(20歲至60歲)'
     }]
   }, {
     type: 'group',
@@ -36,14 +36,25 @@ const formContent = [
       options: cityOptions
     }]
   }, {
-    type: 'input',
-    label: '電子郵件',
-    name: 'email'
-  }, {
-    type: 'input',
-    label: '手機號碼',
-    name: 'phoneNumber',
-    placeholder: '09XXXXXXXX'
+    type: 'group',
+    content: [{
+      type: 'input',
+      label: '電子郵件',
+      name: 'email'
+    }, {
+      type: 'input',
+      label: '手機號碼',
+      name: 'phoneNumber',
+      placeholder: '09XXXXXXXX'
+    }]
+  },
+  {
+    type: 'select',
+    label: '是否有與主持人（張永儒老師）有利害關係，例如：與主持人有課程或指導師生關係',
+    name: 'personOfInterest',
+    placeholder: '請選擇',
+    errorMsg: '輸入錯誤或不符合招募條件(不得有利害關係)',
+    options: boolOptions
   }, {
     type: 'group',
     content: [{
@@ -89,67 +100,35 @@ const formContent = [
   }
 ]
 
+const createDefaultState = () => {
+  return formContent.reduce((acu, cur) => {
+    const _acu = { ...acu }
+    const defaultValue = {
+      value: undefined,
+      valid: false
+    }
+    if (cur.type === 'group') {
+      cur.content.forEach(({ name }) => {
+        _acu[name] = defaultValue
+      })
+    } else {
+      _acu[cur.name] = defaultValue
+    }
+    return _acu
+  }, {})
+}
+
 export default class FormPage extends Component {
   constructor (props) {
     super(props)
+    const defaultState = createDefaultState()
     this.state = {
       submitted: false,
       repeat: false,
       uploading: false,
       error: false,
       accept: false,
-      name: {
-        value: undefined,
-        valid: false
-      },
-      gender: {
-        value: undefined,
-        valid: false
-      },
-      age: {
-        value: undefined,
-        valid: false
-      },
-      occupation: {
-        value: undefined,
-        valid: false
-      },
-      city: {
-        value: undefined,
-        valid: false
-      },
-      email: {
-        value: undefined,
-        valid: false
-      },
-      phoneNumber: {
-        value: undefined,
-        valid: false
-      },
-      phoneBrand: {
-        value: undefined,
-        valid: false
-      },
-      brandName: {
-        value: undefined,
-        valid: false
-      },
-      phoneSystem: {
-        value: undefined,
-        valid: false
-      },
-      androidVersion: {
-        value: undefined,
-        valid: false
-      },
-      cellularAccess: {
-        value: undefined,
-        valid: false
-      },
-      unlimitedCellular: {
-        value: undefined,
-        valid: false
-      }
+      ...defaultState
     }
     this.handleChange = this.handleChange.bind(this)
     this.checkVal = this.checkVal.bind(this)
@@ -173,6 +152,8 @@ export default class FormPage extends Component {
       checkFunc = check.not.undefined
     } else if (['brandName'].includes(name)) {
       checkFunc = this.state.phoneBrand.value === 'other' ? check.nonEmptyString : () => true
+    } else if (['personOfInterest'].includes(name)) {
+      checkFunc = (input) => input === false
     } else return true
     const item = this.state[name]
     const valid = checkFunc(item.value)
@@ -271,7 +252,18 @@ export default class FormPage extends Component {
     const valid = this.checkForm()
     this.setState({ submitted: true })
     if (!valid) return
-    const getList = ['name', 'occupation', 'email', 'age', 'phoneNumber', 'gender', 'city', 'phoneBrand', 'phoneSystem', 'androidVersion', 'cellularAccess', 'unlimitedCellular', 'brandName']
+    const getList = formContent.reduce((acu, cur) => {
+      const _acu = [...acu]
+      if (cur.type === 'group') {
+        cur.content.forEach(item => {
+          _acu.push(item.name)
+        })
+      } else {
+        _acu.push(cur.name)
+      }
+      return _acu
+    }, [])
+    console.log(getList)
     const payload = getList.reduce((acu, name) => {
       const cur = this.state[name].value
       acu[name] = cur
