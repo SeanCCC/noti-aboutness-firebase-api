@@ -24,3 +24,15 @@
     width: 100%;
   }
 }
+
+.likert-scale{
+  display: grid;
+  grid-template-columns: auto 1fr 1fr 1fr 1fr 1fr auto;
+  grid-column-gap: 4px;
+  margin-bottom: 16px;
+  .align-center{
+    align-items: center;
+    justify-content: center;
+    display: grid;
+  }
+}
