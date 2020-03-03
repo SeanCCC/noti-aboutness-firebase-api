@@ -1,5 +1,5 @@
 import React from 'react'
-import { Header, Message, Segment } from 'semantic-ui-react'
+import { Header, Message } from 'semantic-ui-react'
 import queryString from 'query-string'
 import { useLocation } from 'react-router-dom'
 import { ContactComp } from '../Contact'
