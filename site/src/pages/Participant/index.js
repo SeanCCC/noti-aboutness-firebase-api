@@ -20,7 +20,6 @@ export default function Recruit () {
       <Route path={`${match.path}/mailinfo`} component={MailInfo}/>
       <Route path={`${match.path}/waiting`} component={WaitPage}/>
       <Route path={`${match.path}/instruction`} component={Instruction}/>
-      <Route path={`${match.path}/pickdate`} component={() => <div>pickdate</div>}/>
       <Route path={`${match.path}/ready`} component={() => <div>ready</div>}/>
       <Route path={match.path}>
         <Redirect to={`${match.path}/orientation`} />

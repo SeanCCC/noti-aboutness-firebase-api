@@ -6,10 +6,6 @@ const apiRoutes = require('./src/routes')
 
 // site apis
 const siteApp = express()
-siteApp.use(function (req, res, next) {
-  console.log('Time:', Date.now())
-  next()
-})
 siteApp.use(cors({ origin: true }))
 siteApp.use(express.json())
 siteApp.use(express.urlencoded({ extended: false }))

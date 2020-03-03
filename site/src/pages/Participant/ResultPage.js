@@ -1,6 +1,8 @@
 import React from 'react'
-import { Header, Message } from 'semantic-ui-react'
+import { Header, Message, Dimmer, Loader } from 'semantic-ui-react'
 import { ContactComp } from '../Contact'
+import PropTypes from 'prop-types'
+
 // import queryString from 'query-string'
 // import { useLocation } from 'react-router-dom'
 
@@ -15,6 +17,18 @@ export function WaitPage () {
   )
 }
 
+export function StartPage () {
+  return (
+    <div className="page">
+      <Header textAlign="center" as='h2'>感謝您的合作</Header>
+      <Message positive>
+        <Message.Header>您已完成了所有流程，實驗將於明天開始。</Message.Header>
+      </Message>
+      <ContactComp/>
+    </div>
+  )
+}
+
 export function ErrorPage () {
   return (
     <div className="page">
@@ -25,4 +39,29 @@ export function ErrorPage () {
       <ContactComp/>
     </div>
   )
+}
+export function UnauthPage () {
+  return (
+    <div className="page">
+      <Header textAlign="center" as='h2'>網址錯誤</Header>
+      <Message negative>
+        <Message.Header>此網址錯誤，請確認網址是否與信件內容一致，如已確認，請聯絡研究團隊。</Message.Header>
+      </Message>
+      <ContactComp/>
+    </div>
+  )
+}
+
+export function LoadingPage ({ text }) {
+  return (
+    <div className="page">
+      <Dimmer active inverted>
+        <Loader inverted>{text}</Loader>
+      </Dimmer>
+    </div>
+  )
+}
+
+LoadingPage.propTypes = {
+  text: PropTypes.string
 }

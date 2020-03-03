@@ -1,7 +1,7 @@
 import React from 'react'
 import { Header, Message } from 'semantic-ui-react'
 import queryString from 'query-string'
-import { useLocation } from 'react-router-dom'
+import { useLocation, Link } from 'react-router-dom'
 import { ContactComp } from '../Contact'
 
 export function AcceptPage () {
@@ -59,6 +59,28 @@ export function RepeatPage () {
         <Message.Header>您過去已通過信箱驗證或已被納入參與者，表單內容將以過去填寫的為準，如果需要進行修改，請聯絡研究團隊。</Message.Header>
       </Message>
       <ContactComp/>
+    </div>
+  )
+}
+
+export function SuccessPage () {
+  return (
+    <div className="page">
+      <Header textAlign="center" as='h2'>驗證成功</Header>
+      <Message positive>
+        <Message.Header>研究團隊將於短期內與您聯絡。</Message.Header>
+      </Message>
+    </div>
+  )
+}
+
+export function FailPage () {
+  return (
+    <div className="page">
+      <Header textAlign="center" as='h2'>驗證失敗</Header>
+      <Message negative>
+        <Message.Header>表單尚未填寫，請<Link to="/recruit/form">填寫問卷</Link></Message.Header>
+      </Message>
     </div>
   )
 }
