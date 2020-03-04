@@ -2,7 +2,6 @@ import React from 'react'
 import { Header, Message, Dimmer, Loader } from 'semantic-ui-react'
 import { ContactComp } from '../Contact'
 import PropTypes from 'prop-types'
-
 // import queryString from 'query-string'
 // import { useLocation } from 'react-router-dom'
 
@@ -17,7 +16,7 @@ export function WaitPage () {
   )
 }
 
-export function StartPage () {
+export function ReadyPage () {
   return (
     <div className="page">
       <Header textAlign="center" as='h2'>感謝您的合作</Header>

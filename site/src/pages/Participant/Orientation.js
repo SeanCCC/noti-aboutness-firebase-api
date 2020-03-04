@@ -2,13 +2,12 @@ import React, { Component } from 'react'
 import { Header, Embed, Segment, Checkbox, Button, Icon, Message } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { ContactComp } from '../Contact'
-import { checkId } from './checkId'
 // import { Link } from 'react-router-dom'
 // import axios from 'axios'
 
 const consentFileLink = 'https://www.youtube.com/'
 
-class Orientation extends Component {
+export default class Orientation extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -74,5 +73,3 @@ class Orientation extends Component {
 Orientation.propTypes = {
   location: PropTypes.object
 }
-
-export default checkId(Orientation)

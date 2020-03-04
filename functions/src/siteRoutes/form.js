@@ -20,7 +20,7 @@ router.get('/mailcheck', async (req, res) => {
     const { email } = result
     const emailRepeat = await checkEmailRepeat(email)
     if (emailRepeat) return res.status(400).send('repeated')
-    const moveAsync = setDB(`candidate/${id}`, { ...result, status: 'init' })
+    const moveAsync = setDB(`candidate/${id}`, { ...result })
     const removeAsync = setDB(`submitted/${id}`, null)
     await moveAsync
     await removeAsync

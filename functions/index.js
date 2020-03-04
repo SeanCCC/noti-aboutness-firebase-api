@@ -2,7 +2,8 @@ const functions = require('firebase-functions')
 const cors = require('cors')
 const express = require('express')
 const bodyParser = require('body-parser')
-const apiRoutes = require('./src/routes')
+const siteRoutes = require('./src/siteRoutes')
+const panelRoutes = require('./src/panelRoutes')
 
 // site apis
 const siteApp = express()
@@ -12,7 +13,7 @@ siteApp.use(express.urlencoded({ extended: false }))
 siteApp.use(bodyParser.json())
 siteApp.use(bodyParser.urlencoded({ extended: true }))
 
-siteApp.use('/apis/site', apiRoutes)
+siteApp.use('/apis/site', siteRoutes)
 
 const site = functions.https.onRequest((request, response) => {
   if (!request.path) {
@@ -28,6 +29,8 @@ panelApp.use(express.json())
 panelApp.use(express.urlencoded({ extended: false }))
 panelApp.use(bodyParser.json())
 panelApp.use(bodyParser.urlencoded({ extended: true }))
+
+panelApp.use('/apis/panel', panelRoutes)
 
 const panel = functions.https.onRequest((request, response) => {
   if (!request.path) {
