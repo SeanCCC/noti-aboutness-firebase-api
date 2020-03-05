@@ -6,10 +6,10 @@ import { UnauthPage, ErrorPage, LoadingPage } from './ResultPage'
 import { Redirect } from 'react-router-dom'
 import status from '../status'
 
-const redirectTable = [
-  { status: status.INIT, path: '/participant/orientation' },
-  { status: status.VIDEO_DONE, path: '/participant/bigfive' },
-  { status: status.BIG_FIVE_DONE, path: '/participant/mailinfo' },
+const statusMoveTable = [
+  { status: status.INIT, path: '/participant/orientation', api: '/apis/site/participant/done/video' },
+  { status: status.VIDEO_DONE, path: '/participant/bigfive', api: '/apis/site/participant/done/bigfive' },
+  { status: status.BIG_FIVE_DONE, path: '/participant/mailinfo', api: '/apis/site/participant/done/sendconsent' },
   { status: status.CONSENT_SENT, path: '/participant/waiting' },
   { status: status.CONSENT_VALID, path: '/participant/instruction' },
   { status: status.READY, path: '/participant/ready' }
@@ -26,6 +26,7 @@ export const checkId = (WrappedComponent) => {
         status: status.INIT
       }
       this.redirect = this.redirect.bind(this)
+      this.nextStep = this.nextStep.bind(this)
     }
 
     async componentDidMount () {
@@ -40,27 +41,42 @@ export const checkId = (WrappedComponent) => {
       }
     }
 
+    async nextStep () {
+      const { status } = this.state
+      const { location } = this.props
+      const { search } = location
+      const { id } = queryString.parse(search)
+      const match = statusMoveTable.find(item => {
+        return item.status === status
+      })
+      const { api } = match
+      if (api === undefined) return
+      const res = await axios.post(api, { id })
+      const newStatus = res.data.status
+      await this.setState({ status: newStatus })
+    }
+
     redirect () {
       const { status } = this.state
       const { location } = this.props
       const { pathname, search } = location
       const { id } = queryString.parse(search)
-      const matchRedirect = redirectTable.find(item => {
+      const match = statusMoveTable.find(item => {
         return item.status === status
       })
-      if (matchRedirect === undefined) {
+      if (match === undefined) {
         this.setState({ error: true, authed: false })
         return <ErrorPage/>
-      } else if (matchRedirect.path === pathname) {
+      } else if (match.path === pathname) {
         return null
-      } else return <Redirect to={`${matchRedirect.path}?id=${id}`}/>
+      } else return <Redirect to={`${match.path}?id=${id}`}/>
     }
 
     render () {
       const { authed, loading } = this.state
       if (loading) return <LoadingPage text="網址檢查中"/>
       else if (authed === true) {
-        return this.redirect() || <WrappedComponent {...this.props}/>
+        return this.redirect() || <WrappedComponent nextStep={this.nextStep}/>
       } else if (authed === false) return <UnauthPage/>
       else return <ErrorPage/>
     }
