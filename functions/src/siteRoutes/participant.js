@@ -1,9 +1,15 @@
 const express = require('express')
 const router = express.Router()
-const { fetchDB } = require('../utils')
+const { fetchDB, updateDB } = require('../utils')
+const status = require('../status')
 
 const fetchIdDetail = async (id) => {
   const result = await fetchDB(`participant/${id}`)
+  return result
+}
+
+const moveStauts = async (id, status) => {
+  const result = await updateDB(`participant/${id}`, { status })
   return result
 }
 
@@ -13,6 +19,42 @@ router.get('/checkid', async (req, res) => {
     const { id } = payload
     const result = await fetchIdDetail(id)
     if (result !== null) { res.json({ status: result.status }) } else res.status(401).send('unauthorized')
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
+
+router.post('/done/video', async (req, res) => {
+  try {
+    const payload = req.body
+    const { id } = payload
+    await moveStauts(id, status.VIDEO_DONE)
+    res.json({ status: status.VIDEO_DONE })
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
+
+router.post('/done/bigfive', async (req, res) => {
+  try {
+    const payload = req.body
+    const { id } = payload
+    await moveStauts(id, status.BIG_FIVE_DONE)
+    res.json({ status: status.BIG_FIVE_DONE })
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
+
+router.post('/done/sendconsent', async (req, res) => {
+  try {
+    const payload = req.body
+    const { id } = payload
+    await moveStauts(id, status.CONSENT_SENT)
+    res.json({ status: status.CONSENT_SENT })
   } catch (err) {
     console.error(err)
     res.status(500).send('error')

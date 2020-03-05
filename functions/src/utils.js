@@ -14,6 +14,12 @@ const setDB = async (refPath, data) => {
   return res
 }
 
+const updateDB = async (refPath, data) => {
+  const ref = db.ref(refPath)
+  const res = await ref.update(data)
+  return res
+}
+
 const pushDB = async (refPath, data) => {
   const ref = db.ref(refPath)
   const res = await ref.push(data)
@@ -32,4 +38,4 @@ const findDB = async (refPath, key, value) => {
   return res.val()
 }
 
-module.exports = { setDB, pushDB, fetchDB, findDB }
+module.exports = { setDB, pushDB, fetchDB, findDB, updateDB }
