@@ -41,7 +41,7 @@ export const checkId = (WrappedComponent) => {
       }
     }
 
-    async nextStep () {
+    async nextStep (payload) {
       const { status } = this.state
       const { location } = this.props
       const { search } = location
@@ -51,7 +51,7 @@ export const checkId = (WrappedComponent) => {
       })
       const { api } = match
       if (api === undefined) return
-      const res = await axios.post(api, { id })
+      const res = await axios.post(api, { id, ...payload })
       const newStatus = res.data.status
       await this.setState({ status: newStatus })
     }
@@ -74,7 +74,7 @@ export const checkId = (WrappedComponent) => {
 
     render () {
       const { authed, loading } = this.state
-      if (loading) return <LoadingPage text="網址檢查中"/>
+      if (loading) return <LoadingPage text="載入中"/>
       else if (authed === true) {
         return this.redirect() || <WrappedComponent nextStep={this.nextStep}/>
       } else if (authed === false) return <UnauthPage/>

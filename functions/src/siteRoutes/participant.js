@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { fetchDB, updateDB } = require('../utils')
+const { fetchDB, updateDB, setDB } = require('../utils')
 const status = require('../status')
 
 const fetchIdDetail = async (id) => {
@@ -40,8 +40,11 @@ router.post('/done/video', async (req, res) => {
 router.post('/done/bigfive', async (req, res) => {
   try {
     const payload = req.body
-    const { id } = payload
-    await moveStauts(id, status.BIG_FIVE_DONE)
+    const { id, result } = payload
+    const setBigfiveAsync = setDB(`bigfive/${id}`, result)
+    const moveStatusAsync = moveStauts(id, status.BIG_FIVE_DONE)
+    await setBigfiveAsync
+    await moveStatusAsync
     res.json({ status: status.BIG_FIVE_DONE })
   } catch (err) {
     console.error(err)
@@ -52,8 +55,11 @@ router.post('/done/bigfive', async (req, res) => {
 router.post('/done/sendconsent', async (req, res) => {
   try {
     const payload = req.body
-    const { id } = payload
-    await moveStauts(id, status.CONSENT_SENT)
+    const { id, mailMethod } = payload
+    const moveStatusAsync = moveStauts(id, status.CONSENT_SENT)
+    const setBigfiveAsync = updateDB(`participant/${id}`, { mailMethod })
+    await moveStatusAsync
+    await setBigfiveAsync
     res.json({ status: status.CONSENT_SENT })
   } catch (err) {
     console.error(err)

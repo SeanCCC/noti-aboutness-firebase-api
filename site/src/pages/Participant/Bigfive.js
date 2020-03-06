@@ -27,6 +27,7 @@ export default class Bigfive extends Component {
     this.state = {
       done: false,
       submitted: false,
+      loading: false,
       result: [],
       errorList: []
     }
@@ -52,15 +53,20 @@ export default class Bigfive extends Component {
     return errorList
   }
 
-  onSubmit () {
+  async onSubmit () {
+    const { result } = this.state
     const errorList = this.validate()
     const done = errorList.length === 0
     this.setState({ submitted: true, errorList, done })
-    // if (!done) return
+    const { nextStep } = this.props
+    if (!done) return
+    this.setState({ loading: true })
+    await nextStep({ result })
+    this.setState({ loading: false })
   }
 
   render () {
-    const { result, done, submitted, errorList } = this.state
+    const { result, done, submitted, errorList, loading } = this.state
     const errorText = errorList.join(',')
     return (
       <div className="page">
@@ -78,11 +84,11 @@ export default class Bigfive extends Component {
         {submitted && !done ? <Segment attached>
           <Message negative>
             <Message.Header>量表尚未完成</Message.Header>
-            <p>請檢查第{errorText}題</p>
+            <p>{`請檢查第${errorText}題`}</p>
           </Message>
         </Segment> : null}
         <Segment attached>
-          <Button fluid primary onClick={this.onSubmit} >下一步</Button>
+          <Button fluid primary onClick={this.onSubmit} loading={loading} >下一步</Button>
         </Segment>
       </div>
     )
@@ -90,5 +96,5 @@ export default class Bigfive extends Component {
 }
 
 Bigfive.propTypes = {
-  location: PropTypes.object
+  nextStep: PropTypes.func
 }
