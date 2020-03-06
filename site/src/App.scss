@@ -30,9 +30,14 @@
   grid-template-columns: auto 1fr 1fr 1fr 1fr 1fr auto;
   grid-column-gap: 4px;
   margin-bottom: 16px;
-  .align-center{
-    align-items: center;
-    justify-content: center;
-    display: grid;
-  }
+}
+
+.align-center{
+  align-items: center;
+  justify-content: center;
+  display: grid;
+}
+
+.short-padded {
+  padding: 8px
 }
