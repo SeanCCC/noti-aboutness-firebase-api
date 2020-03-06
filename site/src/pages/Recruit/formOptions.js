@@ -65,4 +65,35 @@ const cityOptions = [
   { key: 'lienchiang', text: '連江縣', value: 'lienchiang' }
 ]
 
-export { genderOptions, boolOptions, androidSystemVersion, mobileOpitons, osOptions, cityOptions }
+const jobOptions = [
+  { key: 'student', text: '學生', value: 'student' },
+  { key: 'publick', text: '軍公教', value: 'publick' },
+  { key: 'service', text: '服務業', value: 'service' },
+  { key: 'tech', text: '資訊科技業', value: 'tech' },
+  { key: 'media', text: '大眾傳播業', value: 'media' },
+  { key: 'commerce', text: '商業', value: 'commerce' },
+  { key: 'manufacture', text: '製造業', value: 'manufacture' },
+  { key: 'freelancer', text: '自由業', value: 'freelancer' },
+  { key: 'other', text: '其他', value: 'other' }
+]
+
+const networkAccessOptions = [
+  { key: 'constantly', text: '幾乎無時無刻都連網路', value: 'constantly' },
+  { key: 'serveralTimesADay', text: '一天好幾次', value: 'serveralTimesADay' },
+  { key: 'onceADay', text: '大約一天一次', value: 'onceADay' },
+  { key: 'serveralTimesAWeek', text: '一週好幾次', value: 'serveralTimesAWeek' },
+  { key: 'onceAWeek', text: '大約一週一次', value: 'onceAWeek' },
+  { key: 'lessThanOnceAWeek', text: '少於一週一次', value: 'lessThanOnceAWeek' },
+  { key: 'notSure', text: '不確定', value: 'notSure' }
+]
+
+const networkLimit = [
+  { key: 'none', text: '沒有搭配數據方案', value: 'none' },
+  { key: '250MB', text: '不超過250MB', value: '250MB' },
+  { key: '500MB', text: '介於251MB至500MB之間', value: '500MB' },
+  { key: '1GB', text: '介於501MB至1GB之間', value: '1GB' },
+  { key: '5GB', text: '介於1GB至5GB之間', value: '5GB' },
+  { key: 'unlimmited', text: '無限制', value: 'unlimmited' }
+]
+
+export { genderOptions, boolOptions, androidSystemVersion, mobileOpitons, osOptions, cityOptions, jobOptions, networkAccessOptions, networkLimit }
