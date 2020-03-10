@@ -12,7 +12,7 @@ import { WaitPage, ReadyPage } from './ResultPage'
 import Instruction from './Instruction'
 import { checkId } from './checkId'
 
-export default function Recruit () {
+export default function Participant () {
   const match = useRouteMatch()
   return (
     <Switch>
