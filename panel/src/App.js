@@ -18,7 +18,7 @@ function App () {
           <Route path="/recruit" component={Recruit}/>
           <Route path="/participant" component={Participant}/>
           <Route path="/">
-            <Redirect to='/recruit/introduction' />
+            <Redirect to='/recruit' />
           </Route>
         </Switch>
       </div>
