@@ -1,8 +1,7 @@
 .App {
   display: flex;
-  justify-content: center;
   padding: 16px;
-  // background-color: gainsboro;
+  flex-direction: column;
   height: 100vh;
 }
 
@@ -40,4 +39,10 @@
 
 .short-padded {
   padding: 8px
+}
+
+.login-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
