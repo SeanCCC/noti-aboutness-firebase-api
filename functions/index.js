@@ -40,22 +40,22 @@ const panel = functions.https.onRequest((request, response) => {
 })
 
 // app apis
-const notiApp = express()
-notiApp.use(cors({ origin: true }))
-notiApp.use(express.json())
-notiApp.use(express.urlencoded({ extended: false }))
-notiApp.use(bodyParser.json())
-notiApp.use(bodyParser.urlencoded({ extended: true }))
+const appApp = express()
+appApp.use(cors({ origin: true }))
+appApp.use(express.json())
+appApp.use(express.urlencoded({ extended: false }))
+appApp.use(bodyParser.json())
+appApp.use(bodyParser.urlencoded({ extended: true }))
 
-const noti = functions.https.onRequest((request, response) => {
+const app = functions.https.onRequest((request, response) => {
   if (!request.path) {
     request.url = `/${request.url}`
   }
-  return notiApp(request, response)
+  return appApp(request, response)
 })
 
 module.exports = {
   site,
-  noti,
+  app,
   panel
 }

@@ -10,6 +10,9 @@
         ],
         "panel": [
           "panel-noti-aboutness"
+        ],
+        "app": [
+          "app-noti-aboutness"
         ]
       }
     }
