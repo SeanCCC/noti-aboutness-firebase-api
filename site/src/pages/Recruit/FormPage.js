@@ -264,7 +264,6 @@ export default class FormPage extends Component {
       }
       return _acu
     }, [])
-    console.log(getList)
     const payload = getList.reduce((acu, name) => {
       const cur = this.state[name].value
       acu[name] = cur
