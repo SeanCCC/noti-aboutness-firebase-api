@@ -4,6 +4,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const siteRoutes = require('./src/siteRoutes')
 const panelRoutes = require('./src/panelRoutes')
+const appRoutes = require('./src/appRoutes')
 
 // site apis
 const siteApp = express()
@@ -46,6 +47,8 @@ appApp.use(express.json())
 appApp.use(express.urlencoded({ extended: false }))
 appApp.use(bodyParser.json())
 appApp.use(bodyParser.urlencoded({ extended: true }))
+
+appApp.use('/', appRoutes)
 
 const app = functions.https.onRequest((request, response) => {
   if (!request.path) {

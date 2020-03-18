@@ -32,9 +32,9 @@ const fetchDB = async (refPath, orderByKey = true) => {
   return res.val()
 }
 
-const findDB = async (refPath, key, value) => {
+const findDB = async (refPath, attr, value) => {
   const ref = db.ref(refPath)
-  const res = await ref.orderByChild(key).equalTo(value).once('value')
+  const res = await ref.orderByChild(attr).equalTo(value).once('value')
   return res.val()
 }
 
