@@ -3,7 +3,7 @@ import 'semantic-ui-css/semantic.min.css'
 import './App.scss'
 import Recruit from './pages/Recruit'
 import Participant from './pages/Participant'
-import SignInScreen from './Auth'
+import Auth from './Auth'
 import {
   BrowserRouter as Router,
   Switch,
@@ -15,7 +15,7 @@ function App () {
   return (
     <Router>
       <div className="App">
-        <SignInScreen>
+        <Auth>
           <Switch>
             <Route path="/recruit" component={Recruit}/>
             <Route path="/participant" component={Participant}/>
@@ -23,7 +23,7 @@ function App () {
               <Redirect to='/recruit' />
             </Route>
           </Switch>
-        </SignInScreen>
+        </Auth>
       </div>
     </Router>
   )

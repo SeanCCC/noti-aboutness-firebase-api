@@ -16,5 +16,5 @@ export default function Recruit () {
   //     </Route>
   //   </Switch>
   // )
-  return <div>recruit</div>
+  return <div className="page">recruit</div>
 }

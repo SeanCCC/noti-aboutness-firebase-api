@@ -3,6 +3,15 @@ const router = express.Router()
 const { fetchDB, setDB } = require('../utils')
 const status = require('../status')
 
+const restructure = (objs) => {
+  return Object.keys(objs).map((uuid) => {
+    return {
+      uuid,
+      ...objs[uuid]
+    }
+  })
+}
+
 const moveCandidate = async (id) => {
   const candidateRes = await fetchDB(`candidate/${id}`)
   if (candidateRes === null) return false
@@ -25,9 +34,27 @@ router.post('/add', async (req, res) => {
   }
 })
 
-router.post('/', async (req, res) => {
+router.get('/participants', async (req, res) => {
   try {
+    const result = await fetchDB('participant')
+    if (result === null) return res.json([])
+    const data = restructure(result)
+    res.json(data)
   } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
+
+router.get('/candidates', async (req, res) => {
+  try {
+    const result = await fetchDB('candidate')
+    if (result === null) return res.json([])
+    const data = restructure(result)
+    res.json(data)
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
   }
 })
 
