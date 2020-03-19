@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, Component } from 'react'
 import { Button, Form, Message } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import firebase from 'firebase'
@@ -15,7 +15,7 @@ const config = {
 }
 firebase.initializeApp(config)
 
-export default class SignInScreen extends React.Component {
+export default class Auth extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -85,6 +85,6 @@ export default class SignInScreen extends React.Component {
   }
 }
 
-SignInScreen.propTypes = {
+Auth.propTypes = {
   children: PropTypes.node.isRequired
 }

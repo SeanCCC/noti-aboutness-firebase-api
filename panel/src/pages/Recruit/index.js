@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { Component } from 'react'
+import CandidateList from './CandidateList'
 import { mockCandidate, mockParticipant } from './mock'
 
 // import {
@@ -8,15 +9,10 @@ import { mockCandidate, mockParticipant } from './mock'
 //   Redirect
 // } from 'react-router-dom'
 
-export default function Recruit () {
-  // const match = useRouteMatch()
-  // return (
-  //   <Switch>
-  //     <Route path={`${match.path}/orientation`} component={checkId(Orientation)}/>
-  //     <Route path={match.path}>
-  //       <Redirect to={`${match.path}/orientation`} />
-  //     </Route>
-  //   </Switch>
-  // )
-  return <div className="page">recruit</div>
+export default class Recruit extends Component {
+  render () {
+    return <div className="page">
+      <CandidateList candidates={mockCandidate}/>
+    </div>
+  }
 }
