@@ -1,0 +1,68 @@
+const express = require('express')
+const router = express.Router()
+const status = require('../status')
+const { findDB, updateDB, pushDB } = require('../utils')
+
+const fetchDetailByEmail = async (email) => {
+  const participant = await findDB('participant', 'email', email)
+  if (participant === null) return null
+  const uuid = Object.keys(participant)[0]
+  return {
+    data: participant[uuid],
+    uuid
+  }
+}
+
+const fetchUUIDByDeviceId = async (deviceId) => {
+  const participant = await findDB('participant', 'deviceId', deviceId)
+  if (participant === null) return null
+  const uuid = Object.keys(participant)[0]
+  return uuid
+}
+
+router.post('/bind', async (req, res) => {
+  try {
+    const payload = req.body
+    const { email, deviceId } = payload
+    if (!email || !deviceId) return res.status(400).send('missing email or deviceId')
+    const participant = await fetchDetailByEmail(email)
+    if (participant === null) return res.status(404).send('participant not found')
+    const { data, uuid } = participant
+    if (data.deviceId !== null && data.deviceId !== undefined && data.status !== status.APP_VALID) return res.status(400).send('bound already')
+    else if (data.status !== status.CONSENT_VALID) return res.status(400).send('wrong status')
+    await updateDB(`participant/${uuid}`, { deviceId, status: status.APP_VALID })
+    res.json({ uuid })
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
+
+router.post('/notification', async (req, res) => {
+  try {
+    const payload = req.body
+    const { uuid, notification } = payload
+    if (!uuid || !notification) return res.status(400).send('missing uuid or notification')
+    await pushDB(`notification/${uuid}`, notification)
+    res.send('notification saved')
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
+
+router.get('/uuid', async (req, res) => {
+  try {
+    const payload = req.query
+    const { deviceId } = payload
+    if (!deviceId) return res.status(400).send('missing deviceId')
+    const uuid = await fetchUUIDByDeviceId(deviceId)
+    if (uuid === null) return res.status(404).send('participant not found')
+    res.json({ uuid })
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
+
+module.exports = router

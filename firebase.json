@@ -7,21 +7,46 @@
       "npm --prefix \"$RESOURCE_DIR\" run lint"
     ]
   },
-  "hosting": {
-    "public": "site/build",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "rewrites": [{
-      "source": "/apis/site/**", "function": "site"
+  "hosting": [
+    {
+      "target": "site",
+      "public": "site/build",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [{
+        "source": "/apis/site/**", "function": "site"
+      },{
+        "source": "/apis/noti/**", "function": "noti"
+      },{
+        "source": "**", "destination": "/index.html"
+      }]
     },{
-      "source": "/apis/panel/**", "function": "panel"
+      "target": "panel",
+      "public": "panel/build",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [{
+        "source": "/apis/panel/**", "function": "panel"
+      },{
+        "source": "**", "destination": "/index.html"
+      }]
     },{
-      "source": "/apis/noti/**", "function": "noti"
-    },{
-      "source": "**", "destination": "/index.html"
-    }]
-  }
+      "target": "app",
+      "public": "public",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [{
+        "source": "**", "function": "app"
+      }]
+    }
+  ]
 }

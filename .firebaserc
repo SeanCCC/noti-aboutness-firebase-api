@@ -1,5 +1,20 @@
 {
   "projects": {
     "default": "noti-aboutness-firebase-api"
+  },
+  "targets": {
+    "noti-aboutness-firebase-48728": {
+      "hosting": {
+        "site": [
+          "noti-aboutness-firebase-48728"
+        ],
+        "panel": [
+          "panel-noti-aboutness"
+        ],
+        "app": [
+          "app-noti-aboutness"
+        ]
+      }
+    }
   }
 }

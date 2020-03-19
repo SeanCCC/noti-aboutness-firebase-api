@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { Header, Embed, Segment, Checkbox, Button, Icon, Message } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
-// import { Link } from 'react-router-dom'
-// import axios from 'axios'
+import { ContactComp } from '../Contact'
 
 const consentFileLink = 'https://www.youtube.com/'
 
@@ -11,7 +10,8 @@ export default class Orientation extends Component {
     super(props)
     this.state = {
       confirm: false,
-      submitted: false
+      submitted: false,
+      loading: false
     }
     this.toggle = this.toggle.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
@@ -22,12 +22,18 @@ export default class Orientation extends Component {
     this.setState({ confirm: !confirm })
   }
 
-  onSubmit () {
+  async onSubmit () {
+    const { nextStep } = this.props
+    const { confirm } = this.state
     this.setState({ submitted: true })
+    if (!confirm) return
+    this.setState({ loading: true })
+    await nextStep()
+    this.setState({ loading: false })
   }
 
   render () {
-    const { confirm, submitted } = this.state
+    const { confirm, submitted, loading } = this.state
     return (
       <div className="page">
         <Header as='h2' textAlign="center">實驗說明影片</Header>
@@ -61,20 +67,14 @@ export default class Orientation extends Component {
           </Message>
         </Segment> : null}
         <Segment attached>
-          <Button fluid primary onClick={this.onSubmit} >下一步</Button>
+          <Button fluid primary onClick={this.onSubmit} loading={loading} >下一步</Button>
         </Segment>
-        <Segment>
-        研究計畫聯絡人<br/>
-張忠喬, 研究生<br/>
-國立交通大學資訊科學與工程研究所<br/>
-0975-068-858<br/>
-notiatmuilab@gmail.com<br/>
-        </Segment>
+        <ContactComp/>
       </div>
     )
   }
 }
 
 Orientation.propTypes = {
-  location: PropTypes.object
+  nextStep: PropTypes.func
 }

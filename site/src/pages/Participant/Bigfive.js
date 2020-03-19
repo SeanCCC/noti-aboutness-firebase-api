@@ -1,26 +1,22 @@
 import React, { Component } from 'react'
 import { Header, Segment, Button, Checkbox, Message } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
+import bigfiveForm from './bigfiveForm'
 // import { Link } from 'react-router-dom'
 // import axios from 'axios'
-
-const questionList = [
-  { text: 'test' },
-  { text: 'test' }
-]
 
 const likertScale = (text, no, value, onChange) => {
   return <div>
     {`${no + 1}. ${text}`}
     <div className="likert-scale">
-      <div className="align-center">非常不認同</div>
+      <div className="align-center">非常不精準</div>
       {[1, 2, 3, 4, 5].map((idx) => {
         return <div className="align-center" key={`${no}-${idx}`}>
           <div>{idx}</div>
           <Checkbox radio checked={value === idx} onChange={() => { onChange(no, idx) }} />
         </div>
       })}
-      <div className="align-center">非常認同</div>
+      <div className="align-center">非常精準</div>
     </div>
   </div>
 }
@@ -31,6 +27,7 @@ export default class Bigfive extends Component {
     this.state = {
       done: false,
       submitted: false,
+      loading: false,
       result: [],
       errorList: []
     }
@@ -48,7 +45,7 @@ export default class Bigfive extends Component {
 
   validate () {
     const { result } = this.state
-    const errorList = questionList.reduce((acu, cur, idx) => {
+    const errorList = bigfiveForm.reduce((acu, cur, idx) => {
       let _acu = [...acu]
       if (result[idx] === null || result[idx] === undefined) { _acu = [..._acu, idx] }
       return _acu
@@ -56,33 +53,42 @@ export default class Bigfive extends Component {
     return errorList
   }
 
-  onSubmit () {
+  async onSubmit () {
+    const { result } = this.state
     const errorList = this.validate()
     const done = errorList.length === 0
     this.setState({ submitted: true, errorList, done })
-    // if (!done) return
+    const { nextStep } = this.props
+    if (!done) return
+    this.setState({ loading: true })
+    await nextStep({ result })
+    this.setState({ loading: false })
   }
 
   render () {
-    const { result, done, submitted, errorList } = this.state
+    const { result, done, submitted, errorList, loading } = this.state
     const errorText = errorList.join(',')
     return (
       <div className="page">
         <Header as='h2' textAlign="center">五大人格量表</Header>
         <Segment attached>
-          五大人格量表解說
+          五請已目前一般狀況中的自己描述，而非希望在未來成為的自己。
+          請對照你所認識其他與你同性別且年紀相近的人，來描述你如實所見的自己。
+          你的回應將會被絕對保密，因此你可以放心坦白地作答。
+          請針對以下每個敘述指出對應的選項（1. 非常不精準 2. 有些不精準 3. 普通 4. 有些精準 5. 非常精準）
+          作為您對自己的描述
         </Segment>
         <Segment attached>
-          {questionList.map(({ text }, idx) => likertScale(text, idx, result[idx], this.onChange))}
+          {bigfiveForm.map(({ text }, idx) => likertScale(text, idx, result[idx], this.onChange))}
         </Segment>
         {submitted && !done ? <Segment attached>
           <Message negative>
             <Message.Header>量表尚未完成</Message.Header>
-            <p>請檢查第{errorText}題</p>
+            <p>{`請檢查第${errorText}題`}</p>
           </Message>
         </Segment> : null}
         <Segment attached>
-          <Button fluid primary onClick={this.onSubmit} >下一步</Button>
+          <Button fluid primary onClick={this.onSubmit} loading={loading} >下一步</Button>
         </Segment>
       </div>
     )
@@ -90,5 +96,5 @@ export default class Bigfive extends Component {
 }
 
 Bigfive.propTypes = {
-  location: PropTypes.object
+  nextStep: PropTypes.func
 }

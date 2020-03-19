@@ -2,59 +2,71 @@ import React, { Component } from 'react'
 import { Header, Form } from 'semantic-ui-react'
 import check from 'check-types'
 import axios from 'axios'
-import { genderOptions, boolOptions, androidSystemVersion, mobileOpitons, osOptions, cityOptions } from './formOptions'
+import { genderOptions, boolOptions, androidSystemVersion, mobileOpitons, osOptions, cityOptions, jobOptions, networkAccessOptions, networkLimit } from './formOptions'
 import { Redirect } from 'react-router-dom'
 const formContent = [
   {
     type: 'group',
     content: [{
       type: 'input',
-      label: '姓名',
+      label: '請輸入您的全名',
       name: 'name'
     }, {
       type: 'select',
-      label: '性別',
+      label: '您的性別是',
       name: 'gender',
       options: genderOptions
     }, {
       type: 'input',
-      label: '年齡',
+      label: '請問您目前幾歲',
       placeholder: '填入數字即可',
       name: 'age',
-      errorMsg: '輸入錯誤或不符合招募條件'
+      errorMsg: '輸入錯誤或不符合招募條件(20歲至60歲)'
+    }]
+  }, {
+    type: 'group',
+    content: [{
+      type: 'select',
+      label: '請輸入您的職業',
+      name: 'occupation',
+      options: jobOptions
+    }, {
+      type: 'select',
+      label: '請輸入您的所在縣市',
+      name: 'city',
+      options: cityOptions
     }]
   }, {
     type: 'group',
     content: [{
       type: 'input',
-      label: '職業',
-      name: 'occupation'
+      label: '請輸入您的電子郵件',
+      name: 'email'
     }, {
-      type: 'select',
-      label: '所在縣市',
-      name: 'city',
-      options: cityOptions
+      type: 'input',
+      label: '請出入您的手機號碼',
+      name: 'phoneNumber',
+      placeholder: '09XXXXXXXX'
     }]
-  }, {
-    type: 'input',
-    label: '電子郵件',
-    name: 'email'
-  }, {
-    type: 'input',
-    label: '手機號碼',
-    name: 'phoneNumber',
-    placeholder: '09XXXXXXXX'
+  },
+  {
+    type: 'select',
+    label: '請問您『目前』是否有與主持人（張永儒老師）有利害關係，例如：與主持人有課程或指導師生關係',
+    name: 'personOfInterest',
+    placeholder: '請選擇',
+    errorMsg: '輸入錯誤或不符合招募條件(不得有利害關係)',
+    options: boolOptions
   }, {
     type: 'group',
     content: [{
       type: 'select',
-      label: '手機品牌',
+      label: '請選擇您的手機品牌',
       name: 'phoneBrand',
       errorMsg: '該實驗目前不支援Android系統以外的手機系統',
       options: mobileOpitons
     }, {
       type: 'input',
-      label: '手機品牌名稱（如果上一題選其他才要填）',
+      label: '請輸入您的手機品牌名稱（如果上一題選其他才要填）',
       placeholder: '上一題選其他才要填',
       name: 'brandName'
     }]
@@ -62,13 +74,13 @@ const formContent = [
     type: 'group',
     content: [{
       type: 'select',
-      label: '手機系統',
+      label: '請選擇您的手機系統',
       errorMsg: '該實驗目前不支援Android系統以外的手機系統',
       name: 'phoneSystem',
       options: osOptions
     }, {
       type: 'select',
-      label: 'Android系統版本',
+      label: '請選擇您的手機系統版本',
       errorMsg: '該實驗目前不支援Android 4以下或非Android系統的手機',
       name: 'androidVersion',
       options: androidSystemVersion
@@ -77,79 +89,47 @@ const formContent = [
     type: 'group',
     content: [{
       type: 'select',
-      label: '是否有3G/4G方案',
+      label: '您搭配數據方案，每月數據限制是多少？',
       name: 'cellularAccess',
-      options: boolOptions
+      options: networkLimit
     }, {
       type: 'select',
-      label: '是否有網路吃到飽',
-      name: 'unlimitedCellular',
-      options: boolOptions
+      label: '請問您多常透過手機連到網路？',
+      name: 'onlineFrequency',
+      options: networkAccessOptions
     }]
   }
 ]
 
+const createDefaultState = () => {
+  return formContent.reduce((acu, cur) => {
+    const _acu = { ...acu }
+    const defaultValue = {
+      value: undefined,
+      valid: false
+    }
+    if (cur.type === 'group') {
+      cur.content.forEach(({ name }) => {
+        _acu[name] = defaultValue
+      })
+    } else {
+      _acu[cur.name] = defaultValue
+    }
+    return _acu
+  }, {})
+}
+
 export default class FormPage extends Component {
   constructor (props) {
     super(props)
+    const defaultState = createDefaultState()
     this.state = {
       submitted: false,
       repeat: false,
       uploading: false,
       error: false,
       accept: false,
-      name: {
-        value: undefined,
-        valid: false
-      },
-      gender: {
-        value: undefined,
-        valid: false
-      },
-      age: {
-        value: undefined,
-        valid: false
-      },
-      occupation: {
-        value: undefined,
-        valid: false
-      },
-      city: {
-        value: undefined,
-        valid: false
-      },
-      email: {
-        value: undefined,
-        valid: false
-      },
-      phoneNumber: {
-        value: undefined,
-        valid: false
-      },
-      phoneBrand: {
-        value: undefined,
-        valid: false
-      },
-      brandName: {
-        value: undefined,
-        valid: false
-      },
-      phoneSystem: {
-        value: undefined,
-        valid: false
-      },
-      androidVersion: {
-        value: undefined,
-        valid: false
-      },
-      cellularAccess: {
-        value: undefined,
-        valid: false
-      },
-      unlimitedCellular: {
-        value: undefined,
-        valid: false
-      }
+      ...defaultState
     }
     this.handleChange = this.handleChange.bind(this)
     this.checkVal = this.checkVal.bind(this)
@@ -163,16 +143,18 @@ export default class FormPage extends Component {
 
   checkVal (name) {
     let checkFunc = () => true
-    if (['name', 'occupation', 'email'].includes(name)) checkFunc = check.nonEmptyString
+    if (['name', 'email'].includes(name)) checkFunc = check.nonEmptyString
     else if (['age'].includes(name)) checkFunc = (input) => check.number(Number(input)) && Number(input) >= 20 && Number(input) <= 60
     else if (['phoneNumber'].includes(name)) checkFunc = (input) => check.match(input, /^09\d{8}$/)
     else if (['phoneSystem'].includes(name)) checkFunc = (input) => input === 'android'
     else if (['phoneBrand'].includes(name)) checkFunc = (input) => input !== 'apple' && check.not.undefined(input)
     else if (['androidVersion'].includes(name)) checkFunc = (input) => input !== 'notAndroid' && input !== '4' && check.not.undefined(input)
-    else if (['gender', 'city', 'cellularAccess', 'unlimitedCellular'].includes(name)) {
+    else if (['gender', 'city', 'occupation', 'cellularAccess', 'onlineFrequency'].includes(name)) {
       checkFunc = check.not.undefined
     } else if (['brandName'].includes(name)) {
       checkFunc = this.state.phoneBrand.value === 'other' ? check.nonEmptyString : () => true
+    } else if (['personOfInterest'].includes(name)) {
+      checkFunc = (input) => input === false
     } else return true
     const item = this.state[name]
     const valid = checkFunc(item.value)
@@ -242,7 +224,7 @@ export default class FormPage extends Component {
           placeholder={placeholder || label}
           name={name}
           error={!valid && submitted ? {
-            content: errorMsg || '尚未填入或內容錯誤',
+            content: errorMsg || '尚未選擇或內容錯誤',
             pointing: 'below'
           } : null}
           options={options}
@@ -271,7 +253,17 @@ export default class FormPage extends Component {
     const valid = this.checkForm()
     this.setState({ submitted: true })
     if (!valid) return
-    const getList = ['name', 'occupation', 'email', 'age', 'phoneNumber', 'gender', 'city', 'phoneBrand', 'phoneSystem', 'androidVersion', 'cellularAccess', 'unlimitedCellular', 'brandName']
+    const getList = formContent.reduce((acu, cur) => {
+      const _acu = [...acu]
+      if (cur.type === 'group') {
+        cur.content.forEach(item => {
+          _acu.push(item.name)
+        })
+      } else {
+        _acu.push(cur.name)
+      }
+      return _acu
+    }, [])
     const payload = getList.reduce((acu, name) => {
       const cur = this.state[name].value
       acu[name] = cur

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Header, Button, Segment } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
+import { ContactComp } from '../Contact'
 
 export default function Introduction () {
   return (
@@ -32,13 +33,7 @@ export default function Introduction () {
       </Segment>
       <Header textAlign="center" as='h2'>聯絡我們</Header>
       <Segment.Group attached>
-        <Segment>
-        研究計畫聯絡人<br/>
-張忠喬, 研究生<br/>
-國立交通大學資訊科學與工程研究所<br/>
-0975-068-858<br/>
-notiatmuilab@gmail.com<br/>
-        </Segment>
+        <ContactComp/>
         <Segment>
         研究計畫主持人<br/>
 張永儒, 助理教授<br/>

@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { Header, Segment, Dimmer, Loader } from 'semantic-ui-react'
+import { Dimmer, Loader } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import queryString from 'query-string'
-import { Link } from 'react-router-dom'
 import axios from 'axios'
+import { SuccessPage, RepeatPage, ErrorPage, FailPage } from './ResultPage'
 
 export default class MailCheckPage extends Component {
   constructor (props) {
@@ -53,50 +53,6 @@ function CheckingPage () {
       <Dimmer active inverted>
         <Loader inverted>驗證信箱中</Loader>
       </Dimmer>
-    </div>
-  )
-}
-
-export function SuccessPage () {
-  return (
-    <div className="page">
-      <Header textAlign="center" as='h2'>驗證成功</Header>
-      <Segment attached>
-          研究團隊將於短期內與您聯絡
-      </Segment>
-    </div>
-  )
-}
-
-export function FailPage () {
-  return (
-    <div className="page">
-      <Header textAlign="center" as='h2'>驗證失敗</Header>
-      <Segment attached>
-        表單尚未填寫，請<Link to="/recruit/form">填寫問卷</Link>
-      </Segment>
-    </div>
-  )
-}
-
-export function RepeatPage () {
-  return (
-    <div className="page">
-      <Header textAlign="center" as='h2'>驗證失敗</Header>
-      <Segment attached>
-          此信箱過去已驗證
-      </Segment>
-    </div>
-  )
-}
-
-export function ErrorPage () {
-  return (
-    <div className="page">
-      <Header textAlign="center" as='h2'>驗證失敗</Header>
-      <Segment attached>
-        出現未知的錯誤，研究團隊將儘速著手處理
-      </Segment>
     </div>
   )
 }
