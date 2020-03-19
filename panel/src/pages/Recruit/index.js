@@ -1,4 +1,6 @@
 import React from 'react'
+import { mockCandidate, mockParticipant } from './mock'
+
 // import {
 //   Switch,
 //   Route,
