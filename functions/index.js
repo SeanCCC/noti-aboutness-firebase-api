@@ -14,7 +14,7 @@ siteApp.use(express.urlencoded({ extended: false }))
 siteApp.use(bodyParser.json())
 siteApp.use(bodyParser.urlencoded({ extended: true }))
 
-siteApp.use('/apis/site', siteRoutes)
+siteApp.use('/apis', siteRoutes)
 
 const site = functions.https.onRequest((request, response) => {
   if (!request.path) {
@@ -31,7 +31,7 @@ panelApp.use(express.urlencoded({ extended: false }))
 panelApp.use(bodyParser.json())
 panelApp.use(bodyParser.urlencoded({ extended: true }))
 
-panelApp.use('/apis/panel', panelRoutes)
+panelApp.use('/apis', panelRoutes)
 
 const panel = functions.https.onRequest((request, response) => {
   if (!request.path) {

@@ -17,9 +17,7 @@
         "**/node_modules/**"
       ],
       "rewrites": [{
-        "source": "/apis/site/**", "function": "site"
-      },{
-        "source": "/apis/noti/**", "function": "noti"
+        "source": "/apis/**", "function": "site"
       },{
         "source": "**", "destination": "/index.html"
       }]
@@ -32,7 +30,7 @@
         "**/node_modules/**"
       ],
       "rewrites": [{
-        "source": "/apis/panel/**", "function": "panel"
+        "source": "/apis/**", "function": "panel"
       },{
         "source": "**", "destination": "/index.html"
       }]

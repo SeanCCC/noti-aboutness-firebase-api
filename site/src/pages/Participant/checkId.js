@@ -7,9 +7,8 @@ import { Redirect } from 'react-router-dom'
 import status from '../status'
 
 const statusMoveTable = [
-  { status: status.INIT, path: '/participant/orientation', api: '/apis/site/participant/done/video' },
-  { status: status.VIDEO_DONE, path: '/participant/bigfive', api: '/apis/site/participant/done/bigfive' },
-  { status: status.BIG_FIVE_DONE, path: '/participant/mailinfo', api: '/apis/site/participant/done/sendconsent' },
+  { status: status.INIT, path: '/participant/orientation', api: '/apis/participant/done/video' },
+  { status: status.VIDEO_DONE, path: '/participant/bigfive', api: '/apis/participant/done/sendconsent' },
   { status: status.CONSENT_SENT, path: '/participant/waiting' },
   { status: status.CONSENT_VALID, path: '/participant/instruction' },
   { status: status.READY, path: '/participant/ready' }
@@ -32,7 +31,7 @@ export const checkId = (WrappedComponent) => {
     async componentDidMount () {
       try {
         const { id } = queryString.parse(this.props.location.search)
-        const res = await axios.get(`/apis/site/participant/checkid?id=${id}`)
+        const res = await axios.get(`/apis/participant/checkid?id=${id}`)
         const { status } = res.data
         this.setState({ loading: false, authed: true, status })
       } catch (err) {
