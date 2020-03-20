@@ -35,6 +35,11 @@ const formContent = [
       label: '請輸入您的所在縣市',
       name: 'city',
       options: cityOptions
+    }, {
+      type: 'select',
+      label: '請問您接下來的一個月內是否有三天以上的旅遊計畫',
+      name: 'travelPlan',
+      options: boolOptions
     }]
   }, {
     type: 'group',
@@ -149,7 +154,7 @@ export default class FormPage extends Component {
     else if (['phoneSystem'].includes(name)) checkFunc = (input) => input === 'android'
     else if (['phoneBrand'].includes(name)) checkFunc = (input) => input !== 'apple' && check.not.undefined(input)
     else if (['androidVersion'].includes(name)) checkFunc = (input) => input !== 'notAndroid' && input !== '4' && check.not.undefined(input)
-    else if (['gender', 'city', 'occupation', 'cellularAccess', 'onlineFrequency'].includes(name)) {
+    else if (['gender', 'city', 'occupation', 'cellularAccess', 'onlineFrequency', 'travelPlan'].includes(name)) {
       checkFunc = check.not.undefined
     } else if (['brandName'].includes(name)) {
       checkFunc = this.state.phoneBrand.value === 'other' ? check.nonEmptyString : () => true
