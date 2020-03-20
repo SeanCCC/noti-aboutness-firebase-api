@@ -133,7 +133,6 @@ export const mockCandidate = [
     phoneBrand: 'samsung', // 3-1
     phoneNumber: '0975068858', // 5-2
     phoneSystem: 'android',
-    lastInvitationSent: 'Thu Mar 19 2020 15:11:08 GMT+0800 (Taipei Standard Time)', // 6
     timestamp: 'Thu Mar 19 2020 15:11:08 GMT+0800 (Taipei Standard Time)'
   }, {
     uuid: '-M2lcPXeEg8CXz9vFVO-',
@@ -151,8 +150,8 @@ export const mockCandidate = [
     phoneBrand: 'samsung',
     phoneNumber: '0975068858',
     phoneSystem: 'android',
-    lastInvitationSent: 'Thu Mar 19 2020 15:11:08 GMT+0800 (Taipei Standard Time)',
-    timestamp: 'Thu Mar 19 2020 15:11:08 GMT+0800 (Taipei Standard Time)'
+    lastInvitationSent: 'Thu Mar 20 2020 15:11:08 GMT+0800 (Taipei Standard Time)',
+    timestamp: 'Thu Mar 21 2020 15:11:08 GMT+0800 (Taipei Standard Time)'
   }, {
     uuid: '-M2lcPXeEg8CXz9vFVO-',
     age: '55',
@@ -169,7 +168,7 @@ export const mockCandidate = [
     phoneBrand: 'samsung',
     phoneNumber: '0975068858',
     phoneSystem: 'android',
-    lastInvitationSent: 'Thu Mar 19 2020 15:11:08 GMT+0800 (Taipei Standard Time)',
-    timestamp: 'Thu Mar 19 2020 15:11:08 GMT+0800 (Taipei Standard Time)'
+    lastInvitationSent: 'Thu Mar 19 2020 18:11:08 GMT-0500 (Coordinated Universal Time)',
+    timestamp: 'Thu Mar 19 2020 22:11:08 GMT+0800 (Taipei Standard Time)'
   }
 ]
