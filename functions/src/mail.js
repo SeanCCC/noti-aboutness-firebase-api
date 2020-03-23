@@ -1,4 +1,6 @@
 const nodemailer = require('nodemailer')
+const { fetchDB } = require('./utils')
+const { join } = require('path')
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -22,24 +24,33 @@ const sendEmailCheck = async (to, name, gender, id) => {
   await transporter.sendMail(config)
 }
 
-const sendAcceptMail = async (to, name, gender, id) => {
+const fetchEmailInfo = async (id, path) => {
+  const result = await fetchDB(join(path, id))
+  const { email, name, gender } = result
+  const info = { email, name, gender }
+  return info
+}
+
+const sendAcceptMail = async (id) => {
+  const { email, name, gender } = await fetchEmailInfo(id, 'candidate')
   const config = {
     from: 'MUILAB通知實驗研究團隊',
-    to: to,
+    to: email,
     subject: 'MUILAB通知實驗信箱驗證信',
     html: `<p>${name}${gender === 'male' ? '先生' : '小姐'}您好，感謝您願意參與此研究，<a href="https://notiaboutness.muilab.org/participant/orientation?id=${id}">此網站</a>會引導您完成知情同意流程，請您點擊並按照指引完成所有步驟。</p>`
   }
   await transporter.sendMail(config)
 }
 
-const sendDeclineMail = async (to, name, gender) => {
+const sendDeclineMail = async (id) => {
+  const { email, name, gender } = await fetchEmailInfo(id, 'candidate')
   const config = {
     from: 'MUILAB通知實驗研究團隊',
-    to: to,
+    to: email,
     subject: 'MUILAB通知實驗信箱驗證信',
     html: `<p>${name}${gender === 'male' ? '先生' : '小姐'}您好，非常感謝您對此研究有興趣，但為了維持樣本平衡，我們暫時無法將您納入此實驗。在未來如果需要您的協助，本團隊也將優先邀請您參與研究，感激不盡！</p>`
   }
   await transporter.sendMail(config)
 }
 
-module.exports = { sendEmailCheck }
+module.exports = { sendEmailCheck, sendAcceptMail, sendDeclineMail }
