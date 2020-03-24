@@ -14,7 +14,9 @@ class CandidateCell extends Component {
     super(props)
     this.state = {
       sendingAcceptMail: false,
+      acceptMailSent: false,
       sendingDeclineMail: false,
+      declineMailSent: false,
       error: false
     }
     this.sendAcceptMail = this.sendAcceptMail.bind(this)
@@ -23,10 +25,11 @@ class CandidateCell extends Component {
 
   async sendAcceptMail () {
     const { candidate } = this.props
-    const { uuid } = candidate
+    const { uid } = candidate
     this.setState({ sendingAcceptMail: true })
     try {
-      await axios.post('/apis/recruit/accept', { uuid })
+      await axios.post('/apis/recruit/accept', { uid })
+      this.setState({ acceptMailSent: true })
     } catch (e) {
       console.error(e)
     }
@@ -35,10 +38,11 @@ class CandidateCell extends Component {
 
   async sendDeclineMail () {
     const { candidate } = this.props
-    const { uuid } = candidate
+    const { uid } = candidate
     this.setState({ sendingDeclineMail: true })
     try {
-      await axios.post('/apis/recruit/decline', { uuid })
+      await axios.post('/apis/recruit/decline', { uid })
+      this.setState({ declineMailSent: true })
     } catch (e) {
       console.error(e)
       this.setState({ error: true })
@@ -48,7 +52,7 @@ class CandidateCell extends Component {
 
   render () {
     const { candidate: c } = this.props
-    const { sendingDeclineMail, sendingAcceptMail } = this.state
+    const { sendingDeclineMail, sendingAcceptMail, acceptMailSent, declineMailSent } = this.state
     const city = translate(cityOptions, c.city)
     const occupation = translate(jobOptions, c.occupation)
     const gender = translate(genderOptions, c.gender)
@@ -56,6 +60,27 @@ class CandidateCell extends Component {
     const cellularAccess = translate(networkLimit, c.cellularAccess)
     const onlineFrequency = translate(networkAccessOptions, c.onlineFrequency)
     const lastInvitationSent = !c.lastInvitationSent ? '未寄送' : moment(new Date(c.lastInvitationSent)).tz('Asia/Taipei').format('YYYY-MM-DD HH:mm')
+    const AcceptButton = acceptMailSent
+      ? <Button content="寄送成功" primary disabled/>
+      : <Button content="寄送邀請函" loading={sendingAcceptMail} primary disabled={sendingDeclineMail || declineMailSent} onClick={this.sendAcceptMail}/>
+    const DeclineButton = declineMailSent
+      ? <Button content="寄送成功" negative disabled/>
+      : <Modal
+        size="mini"
+        trigger={<Button content="寄送婉拒信" loading={sendingDeclineMail} negative disabled={sendingAcceptMail || acceptMailSent}/>}
+        header='確認'
+        content='確定要婉拒嘛？？要想清楚喔～～'
+        actions={['取消', { key: 'decline', content: '確定婉拒', positive: true, onClick: this.sendDeclineMail }]}
+      />
+    const ResendButton = acceptMailSent
+      ? <Button content="寄送成功" disabled/>
+      : <Modal
+        size="mini"
+        trigger={<Button content="重新寄送" loading={sendingAcceptMail} />}
+        header='確認'
+        content='確定要重新寄送嘛？'
+        actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: this.sendAcceptMail }]}
+      />
     return (
       <Table.Row>
         <Table.Cell>
@@ -81,15 +106,10 @@ class CandidateCell extends Component {
           {lastInvitationSent}<br/>
           {!c.lastInvitationSent
             ? <Fragment>
-              <Button content="寄送邀請函" loading={sendingAcceptMail} primary disabled={sendingDeclineMail} onClick={this.sendAcceptMail}/>
-              <Modal
-                trigger={<Button content="寄送婉拒信" loading={sendingDeclineMail} negative disabled={sendingAcceptMail}/>}
-                header='確認'
-                content='確定要婉拒嘛？？要想清楚喔～～'
-                actions={['取消', { key: 'decline', content: '確定婉拒', positive: true, onClick: this.sendDeclineMail }]}
-              />
+              {AcceptButton}
+              {DeclineButton}
             </Fragment>
-            : <Button content="重新寄送" loading={sendingAcceptMail} onClick={this.sendAcceptMail}/>}
+            : ResendButton}
         </Table.Cell>
       </Table.Row>)
   }

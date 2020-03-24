@@ -1,6 +1,6 @@
 export const mockParticipant = [
   {
-    uuid: '-M19fOjT-Bd4MoL6EhMs',
+    uid: '-M19fOjT-Bd4MoL6EhMs',
     age: '33',
     androidVersion: '6',
     cellularAccess: '250MB',
@@ -19,7 +19,7 @@ export const mockParticipant = [
     status: 'appValid',
     timestamp: 'Fri Feb 28 2020 15:23:17 GMT+0800 (Taipei Standard Time)'
   }, {
-    uuid: '-M19fOjT-Bd4MoL6EhMs',
+    uid: '-M19fOjT-Bd4MoL6EhMs',
     age: '33',
     androidVersion: '6',
     cellularAccess: '250MB',
@@ -38,7 +38,7 @@ export const mockParticipant = [
     status: 'appValid',
     timestamp: 'Fri Feb 28 2020 15:23:17 GMT+0800 (Taipei Standard Time)'
   }, {
-    uuid: '-M19fOjT-Bd4MoL6EhMs',
+    uid: '-M19fOjT-Bd4MoL6EhMs',
     age: '33',
     androidVersion: '6',
     cellularAccess: '250MB',
@@ -58,7 +58,7 @@ export const mockParticipant = [
     timestamp: 'Fri Feb 28 2020 15:23:17 GMT+0800 (Taipei Standard Time)'
   },
   {
-    uuid: '-M1jcOuXaSpSujBMpmvH',
+    uid: '-M1jcOuXaSpSujBMpmvH',
     age: '22',
     androidVersion: '8',
     cellularAccess: '250MB',
@@ -77,7 +77,7 @@ export const mockParticipant = [
     timestamp: 'Fri Mar 06 2020 11:36:11 GMT+0000 (Coordinated Universal Time)'
   },
   {
-    uuid: '-M1jcOuXaSpSujBMpmvH',
+    uid: '-M1jcOuXaSpSujBMpmvH',
     age: '22',
     androidVersion: '8',
     cellularAccess: '250MB',
@@ -96,7 +96,7 @@ export const mockParticipant = [
     timestamp: 'Fri Mar 06 2020 11:36:11 GMT+0000 (Coordinated Universal Time)'
   },
   {
-    uuid: '-M1jcOuXaSpSujBMpmvH',
+    uid: '-M1jcOuXaSpSujBMpmvH',
     age: '22',
     androidVersion: '8',
     cellularAccess: '250MB',
@@ -118,7 +118,7 @@ export const mockParticipant = [
 
 export const mockCandidate = [
   {
-    uuid: '-M2lcPXeEg8CXz9vFVO-',
+    uid: '-M2lcPXeEg8CXz9vFVO-',
     age: '55', // 2-2
     androidVersion: '7', // 3-2
     brandName: 'kkk',
@@ -135,7 +135,7 @@ export const mockCandidate = [
     phoneSystem: 'android',
     timestamp: 'Thu Mar 19 2020 15:11:08 GMT+0800 (Taipei Standard Time)'
   }, {
-    uuid: '-M2lcPXeEg8CXz9vFVO-',
+    uid: '-M2lcPXeEg8CXz9vFVO-',
     age: '55',
     androidVersion: '7',
     brandName: 'kkk',
@@ -153,7 +153,7 @@ export const mockCandidate = [
     lastInvitationSent: 'Thu Mar 20 2020 15:11:08 GMT+0800 (Taipei Standard Time)',
     timestamp: 'Thu Mar 21 2020 15:11:08 GMT+0800 (Taipei Standard Time)'
   }, {
-    uuid: '-M2lcPXeEg8CXz9vFVO-',
+    uid: '-M2lcPXeEg8CXz9vFVO-',
     age: '55',
     androidVersion: '7',
     brandName: 'kkk',

@@ -26,6 +26,16 @@ const pushDB = async (refPath, data) => {
   return res
 }
 
+const moveDB = async (src, dest, payload = {}) => {
+  const srcRes = await fetchDB(src)
+  if (srcRes === null) return false
+  const moveAsync = setDB(dest, { ...srcRes, ...payload })
+  const removeAsync = setDB(src, null)
+  await moveAsync
+  await removeAsync
+  return true
+}
+
 const fetchDB = async (refPath, orderByKey = true) => {
   const ref = orderByKey ? db.ref(refPath).orderByKey() : db.ref(refPath)
   const res = await ref.once('value')
@@ -38,4 +48,4 @@ const findDB = async (refPath, attr, value) => {
   return res.val()
 }
 
-module.exports = { setDB, pushDB, fetchDB, findDB, updateDB }
+module.exports = { setDB, pushDB, moveDB, fetchDB, findDB, updateDB }

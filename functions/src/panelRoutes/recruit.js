@@ -1,33 +1,23 @@
 const express = require('express')
 const router = express.Router()
-const { fetchDB, setDB, updateDB } = require('../utils')
+const { fetchDB, setDB, updateDB, moveDB } = require('../utils')
 const { sendAcceptMail, sendDeclineMail } = require('../mail')
 const status = require('../status')
 
 const restructure = (objs) => {
-  return Object.keys(objs).map((uuid) => {
+  return Object.keys(objs).map((uid) => {
     return {
-      uuid,
-      ...objs[uuid]
+      uid,
+      ...objs[uid]
     }
   })
-}
-
-const moveCandidate = async (uuid) => {
-  const candidateRes = await fetchDB(`candidate/${uuid}`)
-  if (candidateRes === null) return false
-  const moveAsync = setDB(`participant/${uuid}`, { ...candidateRes, status: status.INIT })
-  const removeAsync = setDB(`candidate/${uuid}`, null)
-  await moveAsync
-  await removeAsync
-  return true
 }
 
 router.post('/add', async (req, res) => {
   try {
     const payload = req.body
-    const { uuid } = payload
-    const success = await moveCandidate(uuid)
+    const { uid } = payload
+    const success = await moveDB(`candidate/${uid}`, `participant/${uid}`, { status: status.INIT })
     if (success === true) { res.send('success') } else res.status(400).send('not found')
   } catch (err) {
     console.error(err)
@@ -61,10 +51,10 @@ router.get('/candidates', async (req, res) => {
 
 router.post('/accept', async (req, res) => {
   try {
-    const { uuid } = req.body
-    if (!uuid) return res.status(400).send('missing uuid')
-    const mailAsync = sendAcceptMail(uuid)
-    const setAsync = updateDB(`candidate/${uuid}`, { lastInvitationSent: new Date().toString() })
+    const { uid } = req.body
+    if (!uid) return res.status(400).send('missing uid')
+    const mailAsync = sendAcceptMail(uid)
+    const setAsync = updateDB(`candidate/${uid}`, { lastInvitationSent: new Date().toString() })
     await setAsync
     await mailAsync
     res.send('success')
@@ -76,10 +66,12 @@ router.post('/accept', async (req, res) => {
 
 router.post('/decline', async (req, res) => {
   try {
-    const { uuid } = req.body
-    if (!uuid) return res.status(400).send('missing uuid')
-    const mailAsync = sendDeclineMail(uuid)
+    const { uid } = req.body
+    if (!uid) return res.status(400).send('missing uid')
+    const mailAsync = sendDeclineMail(uid)
+    const declineAsync = await moveDB(`candidate/${uid}`, `declined/${uid}`)
     await mailAsync
+    await declineAsync
     res.send('success')
   } catch (err) {
     console.error(err)
