@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { fetchDB, setDB, updateDB, moveDB } = require('../utils')
+const { fetchDB, updateDB, moveDB } = require('../utils')
 const { sendAcceptMail, sendDeclineMail } = require('../mail')
 const status = require('../status')
 
