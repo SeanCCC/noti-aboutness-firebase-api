@@ -2,14 +2,14 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Table, Button, Modal } from 'semantic-ui-react'
 import axios from 'axios'
-import { genderOptions, mobileOpitons, cityOptions, jobOptions, networkAccessOptions, networkLimit } from './formOptions'
+import { genderOptions, mobileOpitons, cityOptions, jobOptions, networkAccessOptions, networkLimit } from '../formOptions'
 import moment from 'moment-timezone'
 
 const translate = (options, value) => {
   return options.find(opt => opt.value === value).text
 }
 
-class CandidateCell extends Component {
+export default class CandidateCell extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -24,12 +24,12 @@ class CandidateCell extends Component {
   }
 
   async sendAcceptMail () {
-    const { candidate } = this.props
+    const { candidate, fetchCandidates } = this.props
     const { uid } = candidate
     this.setState({ sendingAcceptMail: true })
     try {
       await axios.post('/apis/recruit/accept', { uid })
-      this.setState({ acceptMailSent: true })
+      this.setState({ acceptMailSent: true }, fetchCandidates)
     } catch (e) {
       console.error(e)
     }
@@ -37,12 +37,12 @@ class CandidateCell extends Component {
   }
 
   async sendDeclineMail () {
-    const { candidate } = this.props
+    const { candidate, fetchCandidates } = this.props
     const { uid } = candidate
     this.setState({ sendingDeclineMail: true })
     try {
       await axios.post('/apis/recruit/decline', { uid })
-      this.setState({ declineMailSent: true })
+      this.setState({ declineMailSent: true }, fetchCandidates)
     } catch (e) {
       console.error(e)
       this.setState({ error: true })
@@ -116,28 +116,6 @@ class CandidateCell extends Component {
 }
 
 CandidateCell.propTypes = {
+  fetchCandidates: PropTypes.func,
   candidate: PropTypes.object
-}
-
-export default function CandidateList (props) {
-  const { candidates } = props
-  return <Table basic='very' celled collapsing>
-    <Table.Header>
-      <Table.Row>
-        <Table.HeaderCell>姓名</Table.HeaderCell>
-        <Table.HeaderCell>基本資料</Table.HeaderCell>
-        <Table.HeaderCell>手機品牌</Table.HeaderCell>
-        <Table.HeaderCell>手機網路</Table.HeaderCell>
-        <Table.HeaderCell>聯絡資訊</Table.HeaderCell>
-        <Table.HeaderCell>寄信情形</Table.HeaderCell>
-      </Table.Row>
-    </Table.Header>
-    <Table.Body>
-      {candidates.map((c, idx) => <CandidateCell candidate={c} key={idx}/>)}
-    </Table.Body>
-  </Table>
-}
-
-CandidateList.propTypes = {
-  candidates: PropTypes.array
 }

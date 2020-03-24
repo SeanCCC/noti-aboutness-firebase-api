@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import CandidateList from './CandidateList'
-import { mockCandidate, mockParticipant } from './mock'
 
 // import {
 //   Switch,
@@ -12,7 +11,7 @@ import { mockCandidate, mockParticipant } from './mock'
 export default class Recruit extends Component {
   render () {
     return <div className="page">
-      <CandidateList candidates={mockCandidate}/>
+      <CandidateList/>
     </div>
   }
 }
