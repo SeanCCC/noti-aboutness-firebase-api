@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { pushDB, findDB, fetchDB, setDB, moveDB } = require('../utils')
+const { pushDB, findDB, fetchDB, setDB } = require('../utils')
 const { sendEmailCheck } = require('../mail')
 
 const checkEmailRepeat = async (email) => {

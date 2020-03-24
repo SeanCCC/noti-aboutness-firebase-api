@@ -19,7 +19,7 @@ export default class MailCheckPage extends Component {
   async componentDidMount () {
     const { id } = queryString.parse(this.props.location.search)
     try {
-      await axios.get(`/apis/mailcheck?id=${id}`)
+      await axios.get(`/apis/form/mailcheck?id=${id}`)
       this.setState({ succeed: true, loading: false })
     } catch (err) {
       console.error(err)

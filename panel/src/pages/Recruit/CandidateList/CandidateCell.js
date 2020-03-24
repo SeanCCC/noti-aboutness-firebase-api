@@ -70,7 +70,7 @@ export default class CandidateCell extends Component {
         trigger={<Button content="寄送婉拒信" loading={sendingDeclineMail} negative disabled={sendingAcceptMail || acceptMailSent}/>}
         header='確認'
         content='確定要婉拒嘛？？要想清楚喔～～'
-        actions={['取消', { key: 'decline', content: '確定婉拒', positive: true, onClick: this.sendDeclineMail }]}
+        actions={['取消', { key: 'decline', content: '確定婉拒', negative: true, onClick: this.sendDeclineMail }]}
       />
     const ResendButton = acceptMailSent
       ? <Button content="寄送成功" disabled/>
