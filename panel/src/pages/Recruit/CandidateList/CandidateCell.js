@@ -89,6 +89,7 @@ export default class CandidateCell extends Component {
         <Table.Cell>
           {city} {occupation}<br/>
           {c.age}歲 {gender}<br/>
+          {c.travelPlan ? '近一個月有旅行計畫' : '無旅行計畫'}
         </Table.Cell>
         <Table.Cell>
           {brand}<br/>
