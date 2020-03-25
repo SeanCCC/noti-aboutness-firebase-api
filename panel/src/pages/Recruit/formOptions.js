@@ -20,7 +20,7 @@ const androidSystemVersion = [
 ]
 
 const mobileOpitons = [
-  { key: 'apple', text: '蘋果', value: 'apple' },
+  { key: 'apple', text: '蘋果', value: 'apple' },
   { key: 'samsung', text: '三星', value: 'samsung' },
   { key: 'oppo', text: 'OPPO', value: 'oppo' },
   { key: 'asus', text: '華碩', value: 'asus' },
