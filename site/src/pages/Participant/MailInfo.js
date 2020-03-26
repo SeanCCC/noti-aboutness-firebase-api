@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Header, Segment, Checkbox, Button, Icon, Message } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { ContactComp } from '../Contact'
+import LabMap from './LabMap'
 // import { Link } from 'react-router-dom'
 // import axios from 'axios'
 
@@ -51,10 +52,16 @@ export default class MailInfo extends Component {
           </a>
         </Segment>
         <Segment attached>
-          <Header as='h3' textAlign="center">同意書交付或寄出資訊</Header>
+          <Header as='h3' textAlign="center">同意書寄出資訊</Header>
         收件人：張忠喬 先生<br/>
         聯絡電話：0975-068-858<br/>
         地址：新竹市東區大學路1001號交通大學電子與資訊研究中心715室<br/>
+        </Segment>
+        <Segment attached>
+          <Header as='h3' textAlign="center">同意書交付資訊</Header>
+        位址：新竹市東區大學路1001號交通大學電子與資訊研究中心二樓33號信箱<br/>
+        地圖如下：
+          <LabMap/>
         </Segment>
         <Segment attached>
           <Checkbox

@@ -18,7 +18,7 @@ export default function Participant () {
     <Switch>
       <Route path={`${match.path}/orientation`} component={checkId(Orientation)}/>
       <Route path={`${match.path}/bigfive`} component={checkId(Bigfive)}/>
-      <Route path={`${match.path}/mailinfo`} component={checkId(MailInfo)}/>
+      <Route path={`${match.path}/mailinfo`} component={MailInfo}/>
       <Route path={`${match.path}/waiting`} component={checkId(WaitPage)}/>
       <Route path={`${match.path}/instruction`} component={checkId(Instruction)}/>
       <Route path={`${match.path}/ready`} component={checkId(ReadyPage)}/>
