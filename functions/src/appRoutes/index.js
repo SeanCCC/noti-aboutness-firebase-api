@@ -26,7 +26,7 @@ router.post('/bind', async (req, res) => {
     const { email, deviceId } = payload
     if (!email || !deviceId) return res.status(400).send('missing email or deviceId')
     const participant = await fetchDetailByEmail(email)
-    if (participant === null) return res.status(404).send('participant not found')
+    if (participant === null) return res.status(400).send('participant not found')
     const { data, uid } = participant
     if (data.deviceId !== null && data.deviceId !== undefined && data.status !== status.APP_VALID) return res.status(400).send('bound already')
     else if (data.status !== status.CONSENT_VALID) return res.status(400).send('wrong status')
