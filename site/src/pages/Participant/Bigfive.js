@@ -70,7 +70,7 @@ export default class Bigfive extends Component {
     const errorText = errorList.join(',')
     return (
       <div className="page">
-        <Header as='h2' textAlign="center">五大人格量表</Header>
+        <Header as='h2' textAlign="center">五大人格量表（約花費五分鐘）</Header>
         <Segment attached>
           五請已目前一般狀況中的自己描述，而非希望在未來成為的自己。
           請對照你所認識其他與你同性別且年紀相近的人，來描述你如實所見的自己。

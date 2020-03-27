@@ -8,7 +8,7 @@ import status from '../status'
 
 const statusMoveTable = [
   { status: status.INIT, path: '/participant/orientation', api: '/apis/participant/done/video' },
-  { status: status.VIDEO_DONE, path: '/participant/bigfive', api: '/apis/participant/done/sendconsent' },
+  { status: status.VIDEO_DONE, path: '/participant/mailinfo', api: '/apis/participant/done/sendconsent' },
   { status: status.CONSENT_SENT, path: '/participant/waiting' },
   { status: status.CONSENT_VALID, path: '/participant/instruction' },
   { status: status.READY, path: '/participant/ready' }
