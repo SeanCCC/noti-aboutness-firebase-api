@@ -74,6 +74,13 @@ const formContent = [
       label: '請輸入您的手機品牌名稱（如果上一題選其他才要填）',
       placeholder: '上一題選其他才要填',
       name: 'brandName'
+    },
+    {
+      type: 'select',
+      label: '請問你是否有使用智慧型手錶或手環？',
+      name: 'wearableDevice',
+      placeholder: '請選擇',
+      options: boolOptions
     }]
   }, {
     type: 'group',
@@ -154,7 +161,7 @@ export default class FormPage extends Component {
     else if (['phoneSystem'].includes(name)) checkFunc = (input) => input === 'android'
     else if (['phoneBrand'].includes(name)) checkFunc = (input) => input !== 'apple' && check.not.undefined(input)
     else if (['androidVersion'].includes(name)) checkFunc = (input) => input !== 'notAndroid' && input !== '4' && check.not.undefined(input)
-    else if (['gender', 'city', 'occupation', 'cellularAccess', 'onlineFrequency', 'travelPlan'].includes(name)) {
+    else if (['gender', 'city', 'occupation', 'cellularAccess', 'onlineFrequency', 'travelPlan', 'wearableDevice'].includes(name)) {
       checkFunc = check.not.undefined
     } else if (['brandName'].includes(name)) {
       checkFunc = this.state.phoneBrand.value === 'other' ? check.nonEmptyString : () => true
