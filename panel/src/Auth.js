@@ -2,6 +2,7 @@ import React, { Fragment, Component } from 'react'
 import { Button, Form, Message } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import firebase from 'firebase'
+// import axios from 'axios'
 
 const config = {
   apiKey: 'AIzaSyAFjPm3moByALBKFZjQw7-J1OKhuj64Chg',
@@ -34,7 +35,17 @@ export default class Auth extends Component {
   componentDidMount () {
     const that = this
     this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(
-      (user) => that.setState({ isSignedIn: !!user, error: false })
+      (user) => {
+        that.setState({ isSignedIn: !!user, error: false })
+        if (user) {
+          firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function (idToken) {
+            console.log({ idToken })
+            console.log(idToken === user.ma, idToken === user._lat)
+          })
+          console.log({ user })
+          // axios.defaults.headers.common.Authorization = `Bearer ${token}`
+        }
+      }
     )
   }
 
