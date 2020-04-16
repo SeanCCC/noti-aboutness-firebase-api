@@ -30,13 +30,16 @@ export default class PayMethod extends Component {
     const { setPayMethod, payMethod } = this.props
     return (
       <div className="page">
-        <Header as='h2' textAlign="center">領取報酬</Header>
+        <Header as='h2'
+          textAlign="center">領取報酬</Header>
         <Segment attached>
-          <Header as='h3' textAlign="center">說明</Header>
+          <Header as='h3'
+            textAlign="center">說明</Header>
         請選擇收款，然後點擊最底下『送出』
         </Segment>
         <Segment attached>
-          <Header as='h3' textAlign="center">交件方式選擇</Header>
+          <Header as='h3'
+            textAlign="center">交件方式選擇</Header>
           <Checkbox
             label='我想用街口支付領取報酬。'
             onChange={() => { setPayMethod('selfDeliver') }}
@@ -60,7 +63,10 @@ export default class PayMethod extends Component {
         </Segment>
 
         <Segment attached>
-          <Button fluid primary onClick={this.onSubmit} loading={loading} >送出</Button>
+          <Button fluid
+            primary
+            onClick={this.onSubmit}
+            loading={loading} >送出</Button>
         </Segment>
         <ContactComp/>
       </div>

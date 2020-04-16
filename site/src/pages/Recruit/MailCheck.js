@@ -50,7 +50,8 @@ MailCheckPage.propTypes = {
 function CheckingPage () {
   return (
     <div className="page">
-      <Dimmer active inverted>
+      <Dimmer active
+        inverted>
         <Loader inverted>驗證信箱中</Loader>
       </Dimmer>
     </div>

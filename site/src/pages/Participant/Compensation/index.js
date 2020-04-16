@@ -9,7 +9,8 @@ export default class Compensation extends Component {
     this.state = {
       mailMethod: null,
       payMethod: null,
-      step: 0
+      payInfo: {},
+      step: 1
     }
     this.setPayMethod = this.setPayMethod.bind(this)
     this.setMailMethod = this.setMailMethod.bind(this)
@@ -29,9 +30,17 @@ export default class Compensation extends Component {
   }
 
   render () {
-    const { mailMethod, payMethod, step } = this.state
-    if (step === 0) return <MailMethod setStep={this.setStep} setMailMethod={this.setMailMethod} mailMethod={mailMethod} />
-    else return <PayMethod setStep={this.setStep} setPayMethod={this.setPayMethod} payMethod={payMethod}/>
+    const { mailMethod, payMethod, step, payInfo } = this.state
+    if (step === 0) {
+      return <MailMethod setStep={this.setStep}
+        setMailMethod={this.setMailMethod}
+        mailMethod={mailMethod} />
+    } else {
+      return <PayMethod payInfo={payInfo}
+        setStep={this.setStep}
+        setPayMethod={this.setPayMethod}
+        payMethod={payMethod}/>
+    }
   }
 }
 
