@@ -84,3 +84,14 @@ export function FailPage () {
     </div>
   )
 }
+
+export function WaitForPaymentPage () {
+  return (
+    <div className="page">
+      <Header textAlign="center" as='h2'>感謝您對實驗的貢獻與合作</Header>
+      <Message positive>
+        研究團隊將在收到領據後將報酬以您選擇的方式，感謝您參與這項研究。
+      </Message>
+    </div>
+  )
+}

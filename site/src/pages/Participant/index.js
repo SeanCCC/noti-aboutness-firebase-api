@@ -8,6 +8,7 @@ import {
 import Orientation from './Orientation'
 import Bigfive from './Bigfive'
 import MailInfo from './MailInfo'
+import Compensation from './Compensation'
 import { WaitPage, ReadyPage } from './ResultPage'
 import Instruction from './Instruction'
 import { checkId } from './checkId'
@@ -22,6 +23,8 @@ export default function Participant () {
       <Route path={`${match.path}/waiting`} component={checkId(WaitPage)}/>
       <Route path={`${match.path}/instruction`} component={checkId(Instruction)}/>
       <Route path={`${match.path}/ready`} component={checkId(ReadyPage)}/>
+      <Route path={`${match.path}/interview`} component={() => (<div/>)}/>
+      <Route path={`${match.path}/compensation`} component={Compensation}/>
       <Route path={match.path}>
         <Redirect to={`${match.path}/orientation`} />
       </Route>
