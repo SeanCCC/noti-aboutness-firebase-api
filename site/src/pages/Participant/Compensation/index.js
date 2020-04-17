@@ -35,13 +35,14 @@ export default class Compensation extends Component {
   }
 
   render () {
-    const { mailMethod, step, payInfo } = this.state
+    const { payMethod, mailMethod, step, payInfo } = this.state
     if (step === 0) {
       return <MailMethod setStep={this.setStep}
         setMailMethod={this.setMailMethod}
         mailMethod={mailMethod} />
     } else {
       return <PayMethod payInfo={payInfo}
+        payMethod={payMethod}
         setStep={this.setStep}
         setPayMethod={this.setPayMethod}
       />
