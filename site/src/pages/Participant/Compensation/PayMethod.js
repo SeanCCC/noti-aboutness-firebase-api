@@ -18,7 +18,7 @@ export default class PayMethod extends Component {
       bankAccount: null,
       bankAccountValid: false,
       jkoAccount: null,
-      jkoValid: true,
+      jkoValid: false,
       linePayAccount: null,
       linePayValid: false
     }
@@ -37,17 +37,17 @@ export default class PayMethod extends Component {
     })
   }
 
-  checkVal (name) {
+  async checkVal (name) {
     const value = this.state[name]
     const valid = check.nonEmptyString(value)
     if (name === 'jkoAccount') {
-      this.setState({ jkoValid: valid })
+      await this.setState({ jkoValid: valid })
     } else if (name === 'linePayAccount') {
-      this.setState({ linePayValid: valid })
+      await this.setState({ linePayValid: valid })
     } else if (name === 'bankAccount') {
-      this.setState({ bankAccountValid: valid })
+      await this.setState({ bankAccountValid: valid })
     } else if (name === 'bankCode') {
-      this.setState({ bankCodeValid: valid })
+      await this.setState({ bankCodeValid: valid })
     }
     return valid
   }
@@ -60,18 +60,27 @@ export default class PayMethod extends Component {
 
   async onSubmit () {
     this.setState({ submitted: true })
-    const { setStep, payMethod } = this.props
+    const { setStep, payMethod, submitPayInfo } = this.props
     if (payMethod === null) return
-    ['jkoAccount', 'linePayAccount', 'bankAccount', 'bankCode'].forEach(name => {
-      this.checkVal(name)
-    })
+    await this.checkVal('jkoAccount')
+    await this.checkVal('linePayAccount')
+    await this.checkVal('bankAccount')
+    await this.checkVal('bankCode')
     const { jkoValid, linePayValid, bankAccountValid, bankCodeValid } = this.state
-    if (payMethod === 'bankAccount' && (!bankAccountValid || !bankCodeValid)) return
+    if (payMethod === 'bankTransfer' && (!bankAccountValid || !bankCodeValid)) return
     else if (payMethod === 'linePay' && !linePayValid) return
     else if (payMethod === 'jko' && !jkoValid) return
     setStep(2)
-    // this.setState({ uploading: true })
-    // this.setState({ uploading: false })
+    this.setState({ uploading: true })
+    const { bankAccount, bankCode, linePayAccount, jkoAccount } = this.state
+    if (payMethod === 'bankTransfer') {
+      await submitPayInfo({ bankAccount, bankCode })
+    } else if (payMethod === 'linePay') {
+      await submitPayInfo({ linePayAccount })
+    } else if (payMethod === 'jko') {
+      await submitPayInfo({ jkoAccount })
+    }
+    this.setState({ uploading: false })
   }
 
   render () {
@@ -148,6 +157,7 @@ export default class PayMethod extends Component {
 
 PayMethod.propTypes = {
   setPayMethod: PropTypes.func,
+  submitPayInfo: PropTypes.func,
   setStep: PropTypes.func,
   payMethod: PropTypes.oneOfType([null, PropTypes.string])
 }

@@ -249,7 +249,8 @@ export default class FormPage extends Component {
   renderGroup (item, idx) {
     const { content } = item
     return (
-      <Form.Group widths='equal' key={idx}>
+      <Form.Group widths='equal'
+        key={idx}>
         {content.map(item => this.renderItem(item))}
       </Form.Group>
     )
@@ -284,9 +285,7 @@ export default class FormPage extends Component {
     this.setState({ uploading: true })
     try {
       const res = await axios.post('/apis/form', payload)
-      this.setState({ uploading: false, accept: true })
-      if (res.status === 400) this.setState({ uploading: false, repeat: true })
-      else this.setState({ uploading: false, error: true })
+      if (res.status === 200) this.setState({ uploading: false, accept: true })
     } catch (err) {
       if (err.response && err.response.status === 400) this.setState({ uploading: false, repeat: true })
       else this.setState({ uploading: false, error: true })
@@ -304,10 +303,14 @@ export default class FormPage extends Component {
     }
     return (
       <div className="page">
-        <Header as='h2' textAlign="center">招募問卷</Header>
+        <Header as='h2'
+          textAlign="center">招募問卷</Header>
         <Form>
           {formContent.map(this.renderForm)}
-          <Form.Button fluid primary loading={uploading} onClick={this.onSubmit} >提交</Form.Button>
+          <Form.Button fluid
+            primary
+            loading={uploading}
+            onClick={this.onSubmit} >提交</Form.Button>
         </Form>
       </div>
     )
