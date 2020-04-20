@@ -24,8 +24,10 @@ export default class Recruit extends Component {
     this.fetchCandidates = this.fetchCandidates.bind(this)
   }
 
-  componentDidMount () {
-    // this.fetchCandidates()
+  async componentDidMount () {
+    this.setState({ loading: true })
+    await this.fetchCandidates()
+    this.setState({ loading: false })
   }
 
   async fetchCandidates () {

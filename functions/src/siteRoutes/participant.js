@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const { fetchDB, updateDB, setDB } = require('../utils')
+const { fetchDB, updateDB, setDB, moveDB } = require('../utils')
 const status = require('../status')
 
-const fetchIdDetail = async (id) => {
+const fetchParticipantDetailById = async (id) => {
   const result = await fetchDB(`participant/${id}`)
   return result
 }
@@ -17,7 +17,7 @@ router.get('/checkid', async (req, res) => {
   try {
     const payload = req.query
     const { id } = payload
-    const result = await fetchIdDetail(id)
+    const result = await fetchParticipantDetailById(id)
     if (result !== null) { res.json({ status: result.status }) } else res.status(401).send('unauthorized')
   } catch (err) {
     console.error(err)
@@ -53,6 +53,21 @@ router.post('/done/bigfive', async (req, res) => {
 })
 
 router.post('/done/sendconsent', async (req, res) => {
+  try {
+    const payload = req.body
+    const { id, mailMethod } = payload
+    const moveStatusAsync = moveStauts(id, status.CONSENT_SENT)
+    const setBigfiveAsync = updateDB(`participant/${id}`, { mailMethod })
+    await moveStatusAsync
+    await setBigfiveAsync
+    res.json({ status: status.CONSENT_SENT })
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
+
+router.post('/done/compensation', async (req, res) => {
   try {
     const payload = req.body
     const { id, mailMethod } = payload
