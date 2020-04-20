@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { Header, Segment, Checkbox, Button, Message } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
+import {
+  Redirect
+} from 'react-router-dom'
 import check from 'check-types'
 import { ContactComp } from '../../Contact'
 import { JkoSegment, LinePaySegment, BankTransferSegment } from './PaySegments'
@@ -60,7 +63,7 @@ export default class PayMethod extends Component {
 
   async onSubmit () {
     this.setState({ submitted: true })
-    const { setStep, payMethod, submitPayInfo } = this.props
+    const { payMethod, submitPayInfo } = this.props
     if (payMethod === null) return
     await this.checkVal('jkoAccount')
     await this.checkVal('linePayAccount')
@@ -70,7 +73,6 @@ export default class PayMethod extends Component {
     if (payMethod === 'bankTransfer' && (!bankAccountValid || !bankCodeValid)) return
     else if (payMethod === 'linePay' && !linePayValid) return
     else if (payMethod === 'jko' && !jkoValid) return
-    setStep(2)
     this.setState({ uploading: true })
     const { bankAccount, bankCode, linePayAccount, jkoAccount } = this.state
     if (payMethod === 'bankTransfer') {
@@ -94,7 +96,7 @@ export default class PayMethod extends Component {
           <Header as='h3'
             textAlign="center">說明</Header>
         1.請選擇收款方式，然後點擊最底下『送出』<br/>
-        2.在進行街口支付與LINE pay的付款時，我們會核對本名是否與報名表單填寫的一致。
+        2.在進行街口支付與LINE pay的付款時，我們會『核對本名是否與報名表單填寫的一致』。
         </Segment>
         <Segment attached>
           <Header as='h3'
@@ -147,7 +149,7 @@ export default class PayMethod extends Component {
           <Button fluid
             primary
             onClick={this.onSubmit}
-            uploading={uploading} >送出</Button>
+            loading={uploading} >送出</Button>
         </Segment>
         <ContactComp/>
       </div>
@@ -158,6 +160,5 @@ export default class PayMethod extends Component {
 PayMethod.propTypes = {
   setPayMethod: PropTypes.func,
   submitPayInfo: PropTypes.func,
-  setStep: PropTypes.func,
   payMethod: PropTypes.oneOfType([null, PropTypes.string])
 }

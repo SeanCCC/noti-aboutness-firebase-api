@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { Header, Segment, Checkbox, Button, Message, Image } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
+import {
+  Redirect
+} from 'react-router-dom'
 import { ContactComp } from '../../Contact'
 import LabMap from '../LabMap'
 
@@ -8,21 +11,25 @@ export default class MailMethod extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      submitted: false
+      submitted: false,
+      next: false
     }
     this.onNextStep = this.onNextStep.bind(this)
   }
 
   onNextStep () {
-    const { setStep, mailMethod } = this.props
+    const { mailMethod } = this.props
     this.setState({ submitted: true })
     if (mailMethod === null) return
-    setStep(1)
+    this.setState({ next: true })
   }
 
   render () {
-    const { submitted } = this.state
+    const { submitted, next } = this.state
     const { mailMethod, setMailMethod } = this.props
+    if (next) {
+      return <Redirect to={'/participant/compensation/choosepay'} />
+    }
     return (
       <div className="page">
         <Header as='h2'
@@ -101,6 +108,5 @@ export default class MailMethod extends Component {
 
 MailMethod.propTypes = {
   setMailMethod: PropTypes.func,
-  setStep: PropTypes.func,
   mailMethod: PropTypes.oneOfType([null, PropTypes.string])
 }
