@@ -18,7 +18,8 @@ const LabMap = compose(
   withScriptjs,
   withGoogleMap
 )(() => (
-  <GoogleMap defaultZoom={18} defaultCenter={{ lat: 24.786790, lng: 121.001758 }}>
+  <GoogleMap defaultZoom={18}
+    defaultCenter={{ lat: 24.786790, lng: 121.001758 }}>
     {<Marker position={{ lat: 24.786790, lng: 121.001758 }} />}
   </GoogleMap>
 ))

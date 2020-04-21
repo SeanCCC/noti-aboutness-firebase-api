@@ -35,7 +35,7 @@ export default class Compensation extends Component {
 
   async submitPayInfo (payInfo) {
     try {
-      const res = await axios.post('/apis/form', payInfo)
+      const res = await axios.post('/apis/participant/done/sendconsent', { payInfo })
       if (res.status === 200) this.setState({ accept: true })
     } catch (err) {
       if (err.response && err.response.status === 400) this.setState({ repeat: true })

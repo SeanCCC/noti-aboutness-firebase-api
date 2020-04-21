@@ -8,6 +8,11 @@ const fetchParticipantDetailById = async (id) => {
   return result
 }
 
+const fetchCandidateDetailById = async (id) => {
+  const result = await fetchDB(`candidate/${id}`)
+  return result
+}
+
 const moveStauts = async (id, status) => {
   const result = await updateDB(`participant/${id}`, { status })
   return result
@@ -18,7 +23,14 @@ router.get('/checkid', async (req, res) => {
     const payload = req.query
     const { id } = payload
     const result = await fetchParticipantDetailById(id)
-    if (result !== null) { res.json({ status: result.status }) } else res.status(401).send('unauthorized')
+    if (result !== null) { res.json({ status: result.status }) } else {
+      const candi = await fetchCandidateDetailById(id)
+      if (candi === null) res.status(400).send('not found')
+      else {
+        await moveDB(`candidate/${id}`, `participant/${id}`, { status: status.INIT })
+        res.json({ status: status.INIT })
+      }
+    }
   } catch (err) {
     console.error(err)
     res.status(500).send('error')
@@ -43,8 +55,7 @@ router.post('/done/bigfive', async (req, res) => {
     const { id, result } = payload
     const setBigfiveAsync = setDB(`bigfive/${id}`, result)
     const moveStatusAsync = moveStauts(id, status.BIG_FIVE_DONE)
-    await setBigfiveAsync
-    await moveStatusAsync
+    await Promise.all([moveStatusAsync, setBigfiveAsync])
     res.json({ status: status.BIG_FIVE_DONE })
   } catch (err) {
     console.error(err)
@@ -57,9 +68,8 @@ router.post('/done/sendconsent', async (req, res) => {
     const payload = req.body
     const { id, mailMethod } = payload
     const moveStatusAsync = moveStauts(id, status.CONSENT_SENT)
-    const setBigfiveAsync = updateDB(`participant/${id}`, { mailMethod })
-    await moveStatusAsync
-    await setBigfiveAsync
+    const setMailMethodAsync = updateDB(`participant/${id}`, { mailMethod })
+    await Promise.all([moveStatusAsync, setMailMethodAsync])
     res.json({ status: status.CONSENT_SENT })
   } catch (err) {
     console.error(err)
@@ -70,12 +80,15 @@ router.post('/done/sendconsent', async (req, res) => {
 router.post('/done/compensation', async (req, res) => {
   try {
     const payload = req.body
-    const { id, mailMethod } = payload
-    const moveStatusAsync = moveStauts(id, status.CONSENT_SENT)
-    const setBigfiveAsync = updateDB(`participant/${id}`, { mailMethod })
-    await moveStatusAsync
-    await setBigfiveAsync
-    res.json({ status: status.CONSENT_SENT })
+    const { id, payInfo } = payload
+    const result = await fetchParticipantDetailById(id)
+    if (result === null || result.status !== status.RESEARCH_DONE || result.payInfo !== undefined) {
+      return res.status(400).send('unauth')
+    }
+    const moveStatusAsync = moveStauts(id, status.PAYMENT_REQUIRED)
+    const setPayInfoAsync = updateDB(`participant/${id}`, { payInfo })
+    await Promise.all([moveStatusAsync, setPayInfoAsync])
+    res.json({ status: status.PAYMENT_REQUIRED })
   } catch (err) {
     console.error(err)
     res.status(500).send('error')
