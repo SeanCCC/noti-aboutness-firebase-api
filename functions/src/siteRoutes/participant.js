@@ -1,4 +1,8 @@
 const express = require('express')
+const Busboy = require('busboy')
+const path = require('path')
+const os = require('os')
+const fs = require('fs')
 const router = express.Router()
 const { fetchDB, updateDB, setDB, moveDB } = require('../utils')
 const status = require('../status')
@@ -77,18 +81,46 @@ router.post('/done/sendconsent', async (req, res) => {
   }
 })
 
+// https://stackoverflow.com/questions/47242340/how-to-perform-an-http-file-upload-using-express-on-cloud-functions-for-firebase
 router.post('/done/compensation', async (req, res) => {
   try {
     const payload = req.body
+    const busboy = new Busboy({ headers: req.headers })
+    // This object will accumulate all the uploaded files, keyed by their name
+    const uploads = {}
+
+    // This callback will be invoked for each file uploaded
+    busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
+      console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype)
+      file.on('data', function (data) {
+        console.log('File [' + fieldname + '] got ' + data.length + ' bytes')
+      })
+      file.on('end', function () {
+        console.log('File [' + fieldname + '] Finished')
+      })
+    })
+
+    // This callback will be invoked after all uploaded files are saved.
+    busboy.on('finish', () => {
+      console.log('Done parsing form!')
+      res.writeHead(303, { Connection: 'close', Location: '/' })
+      res.end()
+    })
+
+    // The raw bytes of the upload will be in req.rawBody.  Send it to busboy, and get
+    // a callback when it's finished.
+    busboy.end(req.rawBody)
     const { id, payInfo } = payload
-    const result = await fetchParticipantDetailById(id)
-    if (result === null || result.status !== status.RESEARCH_DONE || result.payInfo !== undefined) {
-      return res.status(400).send('unauth')
-    }
-    const moveStatusAsync = moveStauts(id, status.PAYMENT_REQUIRED)
-    const setPayInfoAsync = updateDB(`participant/${id}`, { payInfo })
-    await Promise.all([moveStatusAsync, setPayInfoAsync])
-    res.json({ status: status.PAYMENT_REQUIRED })
+    console.log(id)
+    // return res.json({ id })
+  //   const result = await fetchParticipantDetailById(id)
+  //   if (result === null || result.status !== status.RESEARCH_DONE || result.payInfo !== undefined) {
+  //     return res.status(400).send('unauth')
+  //   }
+  //   const moveStatusAsync = moveStauts(id, status.PAYMENT_REQUIRED)
+  //   const setPayInfoAsync = updateDB(`participant/${id}`, { payInfo })
+  //   await Promise.all([moveStatusAsync, setPayInfoAsync])
+  //   res.json({ status: status.PAYMENT_REQUIRED })
   } catch (err) {
     console.error(err)
     res.status(500).send('error')
