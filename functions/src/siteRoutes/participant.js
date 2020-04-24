@@ -1,10 +1,6 @@
 const express = require('express')
-const Busboy = require('busboy')
-const path = require('path')
-const os = require('os')
-const fs = require('fs')
 const router = express.Router()
-const { fetchDB, updateDB, setDB, moveDB } = require('../utils')
+const { fetchDB, updateDB, setDB, moveDB, busboyMiddleWare, uploadFile } = require('../utils')
 const status = require('../status')
 
 const fetchParticipantDetailById = async (id) => {
@@ -81,37 +77,14 @@ router.post('/done/sendconsent', async (req, res) => {
   }
 })
 
-// https://stackoverflow.com/questions/47242340/how-to-perform-an-http-file-upload-using-express-on-cloud-functions-for-firebase
-router.post('/done/compensation', async (req, res) => {
+router.post('/done/compensation', busboyMiddleWare, async (req, res) => {
   try {
     const payload = req.body
-    const busboy = new Busboy({ headers: req.headers })
-    // This object will accumulate all the uploaded files, keyed by their name
-    const uploads = {}
-
-    // This callback will be invoked for each file uploaded
-    busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
-      console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype)
-      file.on('data', function (data) {
-        console.log('File [' + fieldname + '] got ' + data.length + ' bytes')
-      })
-      file.on('end', function () {
-        console.log('File [' + fieldname + '] Finished')
-      })
-    })
-
-    // This callback will be invoked after all uploaded files are saved.
-    busboy.on('finish', () => {
-      console.log('Done parsing form!')
-      res.writeHead(303, { Connection: 'close', Location: '/' })
-      res.end()
-    })
-
-    // The raw bytes of the upload will be in req.rawBody.  Send it to busboy, and get
-    // a callback when it's finished.
-    busboy.end(req.rawBody)
+    const file = req.file
     const { id, payInfo } = payload
-    console.log(id)
+    const { uploadStream, mimetype } = file
+    uploadFile(uploadStream, 'passbook', id, mimetype)
+    res.json({ id, payInfo, file })
     // return res.json({ id })
   //   const result = await fetchParticipantDetailById(id)
   //   if (result === null || result.status !== status.RESEARCH_DONE || result.payInfo !== undefined) {
