@@ -307,6 +307,9 @@ export default class FormPage extends Component {
           textAlign="center">招募問卷</Header>
         <Form>
           {formContent.map(this.renderForm)}
+          <Header as='h3'
+            textAlign="center"
+          >請將notiatmuilab@gmail.com加入剛剛填寫的信箱的通訊錄中，以免漏收後續信件。</Header>
           <Form.Button fluid
             primary
             loading={uploading}
