@@ -37,10 +37,12 @@ export default class PayMethod extends Component {
   }
 
   async submitPayInfo (payInfo, payMethod, file) {
-    const { id } = this.props
+    const { id, setStatus } = this.props
     try {
       const res = await postFormData('/apis/participant/done/compensation', { ...payInfo, payMethod, uid: id }, file)
       if (res.status === 200) this.setState({ accept: true })
+      const newStatus = res.data.status
+      setStatus(newStatus)
     } catch (err) {
       if (err.response && err.response.status === 400) this.setState({ illegal: true })
       else this.setState({ error: true })
@@ -200,5 +202,6 @@ export default class PayMethod extends Component {
 }
 
 PayMethod.propTypes = {
-  id: PropTypes.string
+  id: PropTypes.string,
+  setStatus: PropTypes.func
 }

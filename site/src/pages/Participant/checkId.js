@@ -31,6 +31,7 @@ export const checkId = (WrappedComponent) => {
       }
       this.redirect = this.redirect.bind(this)
       this.nextStep = this.nextStep.bind(this)
+      this.setStatus = this.setStatus.bind(this)
     }
 
     async componentDidMount () {
@@ -60,6 +61,10 @@ export const checkId = (WrappedComponent) => {
       await this.setState({ status: newStatus })
     }
 
+    setStatus (status) {
+      this.setState({ status })
+    }
+
     redirect () {
       const { status } = this.state
       const { location } = this.props
@@ -84,7 +89,8 @@ export const checkId = (WrappedComponent) => {
       if (loading) return <LoadingPage text="載入中"/>
       else if (authed === true) {
         return this.redirect() || <WrappedComponent {...this.props}
-          nextStep={this.nextStep}/>
+          nextStep={this.nextStep}
+          setStatus={this.setStatus}/>
       } else if (authed === false) return <UnauthPage/>
       else return <ErrorPage/>
     }
