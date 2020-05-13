@@ -115,8 +115,8 @@ const compensationCheck = (req, res, next) => {
 router.post('/done/compensation', busboyMiddleWare, compensationCheck, async (req, res) => {
   try {
     const payload = req.body
-    const { id, payMethod } = payload
-    const result = await fetchParticipantDetailById(id)
+    const { uid, payMethod } = payload
+    const result = await fetchParticipantDetailById(uid)
     if (result === null || result.status !== status.SET_PAY_METHOD || result.payDetail !== undefined) {
       return res.status(400).send('unauth')
     }
@@ -124,7 +124,7 @@ router.post('/done/compensation', busboyMiddleWare, compensationCheck, async (re
     let payDetail = {}
     if (payMethod === 'bankTransfer') {
       const { bankAccount, bankCode } = payload
-      imgPath = await uploadFile(req, 'passbook', id)
+      imgPath = await uploadFile(req, 'passbook', uid)
       payDetail = { payMethod, imgPath, bankAccount, bankCode }
     } else if (payMethod === 'jko') {
       const { jkoAccount } = payload
@@ -133,8 +133,8 @@ router.post('/done/compensation', busboyMiddleWare, compensationCheck, async (re
       const { linePayAccount } = payload
       payDetail = { payMethod, linePayAccount }
     }
-    const setPayInfoAsync = updateDB(`participant/${id}`, { payDetail })
-    const moveStatusAsync = moveStauts(id, status.PAYMENT_REQUIRED)
+    const setPayInfoAsync = updateDB(`participant/${uid}`, { payDetail })
+    const moveStatusAsync = moveStauts(uid, status.PAYMENT_REQUIRED)
     await Promise.all([moveStatusAsync, setPayInfoAsync])
     res.json({ status: status.PAYMENT_REQUIRED })
   } catch (err) {
