@@ -1,4 +1,5 @@
 const express = require('express')
+const check = require('check-types')
 const router = express.Router()
 const { fetchDB, updateDB, setDB, moveDB, busboyMiddleWare, uploadFile } = require('../utils')
 const status = require('../status')
@@ -77,23 +78,65 @@ router.post('/done/sendconsent', async (req, res) => {
   }
 })
 
-router.post('/done/compensation', busboyMiddleWare, async (req, res) => {
+router.post('/done/receipt', async (req, res) => {
   try {
     const payload = req.body
-    const file = req.file
-    const { id, payInfo } = payload
-    const { uploadStream, mimetype } = file
-    uploadFile(uploadStream, 'passbook', id, mimetype)
-    res.json({ id, payInfo, file })
-    // return res.json({ id })
-  //   const result = await fetchParticipantDetailById(id)
-  //   if (result === null || result.status !== status.RESEARCH_DONE || result.payInfo !== undefined) {
-  //     return res.status(400).send('unauth')
-  //   }
-  //   const moveStatusAsync = moveStauts(id, status.PAYMENT_REQUIRED)
-  //   const setPayInfoAsync = updateDB(`participant/${id}`, { payInfo })
-  //   await Promise.all([moveStatusAsync, setPayInfoAsync])
-  //   res.json({ status: status.PAYMENT_REQUIRED })
+    const { id, mailMethod } = payload
+    const result = await fetchParticipantDetailById(id)
+    if (result === null || result.status !== status.SET_RECEIPT_MAIL_METHOD || result.receiptMailMethod !== undefined) {
+      return res.status(400).send('unauth')
+    }
+    const moveStatusAsync = moveStauts(id, status.SET_PAY_METHOD)
+    const setMailMAsync = updateDB(`participant/${id}`, { receiptMailMethod: mailMethod })
+    await Promise.all([moveStatusAsync, setMailMAsync])
+    res.json({ status: status.SET_PAY_METHOD })
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
+
+const compensationCheck = (req, res, next) => {
+  const payload = req.body
+  const { payMethod } = payload
+  if (payMethod === 'linePay') {
+    const { linePayAccount } = payload
+    if (!check.nonEmptyString(linePayAccount)) return res.status(400).send('invalid lineid')
+  } else if (payMethod === 'jko') {
+    const { jkoAccount } = payload
+    if (!check.nonEmptyString(jkoAccount)) return res.status(400).send('invalid jko account')
+  } else if (payMethod === 'bankTransfer') {
+    const { bankAccount, bankCode } = payload
+    if (!check.nonEmptyString(bankAccount) && !check.nonEmptyString(bankCode)) return res.status(400).send('invalid lineid')
+  } else return res.status(400).send('invalid pay method')
+  next()
+}
+
+router.post('/done/compensation', busboyMiddleWare, compensationCheck, async (req, res) => {
+  try {
+    const payload = req.body
+    const { id, payMethod } = payload
+    const result = await fetchParticipantDetailById(id)
+    if (result === null || result.status !== status.SET_PAY_METHOD || result.payDetail !== undefined) {
+      return res.status(400).send('unauth')
+    }
+    let imgPath = null
+    let payDetail = {}
+    if (payMethod === 'bankTransfer') {
+      const { bankAccount, bankCode } = payload
+      imgPath = await uploadFile(req, 'passbook', id)
+      payDetail = { payMethod, imgPath, bankAccount, bankCode }
+    } else if (payMethod === 'jko') {
+      const { jkoAccount } = payload
+      payDetail = { payMethod, jkoAccount }
+    } else if (payMethod === 'linePay') {
+      const { linePayAccount } = payload
+      payDetail = { payMethod, linePayAccount }
+    }
+    const setPayInfoAsync = updateDB(`participant/${id}`, { payDetail })
+    const moveStatusAsync = moveStauts(id, status.PAYMENT_REQUIRED)
+    await Promise.all([moveStatusAsync, setPayInfoAsync])
+    res.json({ status: status.PAYMENT_REQUIRED })
   } catch (err) {
     console.error(err)
     res.status(500).send('error')
