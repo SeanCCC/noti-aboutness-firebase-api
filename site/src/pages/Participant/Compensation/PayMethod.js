@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Header, Segment, Checkbox, Button, Message, Image } from 'semantic-ui-react'
+import { Header, Segment, Checkbox, Button, Message } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import check from 'check-types'
 import { ContactComp } from '../../Contact'
@@ -98,7 +98,7 @@ export default class PayMethod extends Component {
     await this.checkVal('bankAccount')
     await this.checkVal('bankCode')
     const { jkoValid, linePayValid, bankAccountValid, bankCodeValid } = this.state
-    if (payMethod === 'bankTransfer' && (!bankAccountValid || !bankCodeValid)) return
+    if (payMethod === 'bankTransfer' && (!bankAccountValid || !bankCodeValid || file === null)) return
     else if (payMethod === 'linePay' && !linePayValid) return
     else if (payMethod === 'jko' && !jkoValid) return
     this.setState({ uploading: true })
@@ -185,9 +185,8 @@ export default class PayMethod extends Component {
           uploading={uploading}
           onInputBlur={this.onInputBlur}
           onFileChange={this.onFileChange}
+          imageUrl={uri}
         /> : null }
-        {uri ? <Image fluid
-          src={uri}/> : null}
         <Segment attached>
           <Button fluid
             primary

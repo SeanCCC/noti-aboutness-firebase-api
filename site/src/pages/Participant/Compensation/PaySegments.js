@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { Header, Segment, Message, Form, Icon, Button } from 'semantic-ui-react'
+import { Image, Header, Segment, Message, Form, Icon, Button } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import ImageUploader from 'react-images-upload'
 
@@ -88,7 +88,18 @@ LinePaySegment.propTypes = {
   linePayAccount: PropTypes.oneOfType([null, PropTypes.string])
 }
 
-export const BankTransferSegment = ({ bankCode, bankAccount, uploading, submitted, bankAccountValid, bankCodeValid, handleChange, onInputBlur, onFileChange }) => {
+export const BankTransferSegment = ({
+  imageUrl,
+  bankCode,
+  bankAccount,
+  uploading,
+  submitted,
+  bankAccountValid,
+  bankCodeValid,
+  handleChange,
+  onInputBlur,
+  onFileChange
+}) => {
   return <Segment attached
     className="align-center">
     <Header as='h3'
@@ -125,6 +136,13 @@ export const BankTransferSegment = ({ bankCode, bankAccount, uploading, submitte
       onBlur={() => { onInputBlur('bankAccount') }}
     />
     <ImageUploadButton onFileChange={onFileChange}/>
+    {imageUrl ? <Image fluid
+      src={imageUrl}/> : null}
+    {submitted && imageUrl === null
+      ? <Message negative>
+        <Message.Header>請填寫選擇照片</Message.Header>
+      </Message>
+      : null}
     {submitted && (!bankAccountValid || !bankCodeValid)
       ? <Message negative>
         <Message.Header>請填寫代碼與帳號</Message.Header>
@@ -134,6 +152,7 @@ export const BankTransferSegment = ({ bankCode, bankAccount, uploading, submitte
 }
 
 BankTransferSegment.propTypes = {
+  imageUrl: PropTypes.string,
   bankAccountValid: PropTypes.bool,
   bankCodeValid: PropTypes.bool,
   handleChange: PropTypes.func,
@@ -152,8 +171,8 @@ const ImageUploadButton = ({ onFileChange }) => {
       label={null}
       singleImage
       onChange={onFileChange}
-      imgExtension={['.jpg', '.gif', '.png', '.gif']}
-      fileTypeError="檔案格式僅支援jpg,gif,png,gif"
+      imgExtension={['.jpg', '.jpeg', '.gif', '.png']}
+      fileTypeError="檔案格式僅支援jpg,jpeg,gif,png"
       fileSizeError="檔案過大"
       maxFileSize={5 * 1024 * 1024}
     />

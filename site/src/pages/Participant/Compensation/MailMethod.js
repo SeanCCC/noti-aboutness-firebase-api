@@ -94,7 +94,6 @@ export default class MailMethod extends Component {
             </Message>
             : null}
         </Segment>
-
         <Segment attached>
           <Button fluid
             primary
