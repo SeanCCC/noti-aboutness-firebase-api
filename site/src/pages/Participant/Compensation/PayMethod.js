@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { Header, Segment, Checkbox, Button, Message } from 'semantic-ui-react'
+import { Header, Segment, Checkbox, Button, Message, Image } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import check from 'check-types'
 import { ContactComp } from '../../Contact'
 import { JkoSegment, LinePaySegment, BankTransferSegment } from './PaySegments'
+import { postFormData, fileResizer } from './utils'
 
 export default class PayMethod extends Component {
   constructor (props) {
@@ -18,12 +19,44 @@ export default class PayMethod extends Component {
       jkoAccount: null,
       jkoValid: false,
       linePayAccount: null,
-      linePayValid: false
+      linePayValid: false,
+      payMethod: null,
+      illegal: false,
+      error: false,
+      accept: false,
+      file: null,
+      uri: null
     }
     this.handleChange = this.handleChange.bind(this)
     this.onInputBlur = this.onInputBlur.bind(this)
     this.checkVal = this.checkVal.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
+    this.setPayMethod = this.setPayMethod.bind(this)
+    this.submitPayInfo = this.submitPayInfo.bind(this)
+    this.onFileChange = this.onFileChange.bind(this)
+  }
+
+  async submitPayInfo (payInfo, payMethod, file) {
+    const { id } = this.props
+    try {
+      const res = await postFormData('/apis/participant/done/compensation', { ...payInfo, payMethod, uid: id }, file)
+      if (res.status === 200) this.setState({ accept: true })
+    } catch (err) {
+      if (err.response && err.response.status === 400) this.setState({ illegal: true })
+      else this.setState({ error: true })
+    }
+  }
+
+  async onFileChange (originFile) {
+    const result = await fileResizer(originFile[0])
+    const { file, uri } = result
+    this.setState({
+      file, uri
+    })
+  }
+
+  setPayMethod (value) {
+    this.setState({ payMethod: value })
   }
 
   handleChange (e, { name, value }) {
@@ -58,7 +91,7 @@ export default class PayMethod extends Component {
 
   async onSubmit () {
     this.setState({ submitted: true })
-    const { payMethod, submitPayInfo } = this.props
+    const { payMethod, file } = this.state
     if (payMethod === null) return
     await this.checkVal('jkoAccount')
     await this.checkVal('linePayAccount')
@@ -71,18 +104,30 @@ export default class PayMethod extends Component {
     this.setState({ uploading: true })
     const { bankAccount, bankCode, linePayAccount, jkoAccount } = this.state
     if (payMethod === 'bankTransfer') {
-      await submitPayInfo({ bankAccount, bankCode })
+      await this.submitPayInfo({ bankAccount, bankCode }, payMethod, file)
     } else if (payMethod === 'linePay') {
-      await submitPayInfo({ linePayAccount })
+      await this.submitPayInfo({ linePayAccount }, payMethod)
     } else if (payMethod === 'jko') {
-      await submitPayInfo({ jkoAccount })
+      await this.submitPayInfo({ jkoAccount }, payMethod)
     }
     this.setState({ uploading: false })
   }
 
   render () {
-    const { submitted, uploading, jkoValid, jkoAccount, linePayValid, linePayAccount, bankAccountValid, bankCodeValid, bankCode, bankAccount } = this.state
-    const { setPayMethod, payMethod } = this.props
+    const {
+      submitted,
+      uploading,
+      jkoValid,
+      jkoAccount,
+      linePayValid,
+      linePayAccount,
+      bankAccountValid,
+      bankCodeValid,
+      bankCode,
+      bankAccount,
+      payMethod,
+      uri
+    } = this.state
     return (
       <div className="page">
         <Header as='h2'
@@ -98,17 +143,17 @@ export default class PayMethod extends Component {
             textAlign="center">交件方式選擇</Header>
           <Checkbox
             label='我想用街口支付領取報酬。'
-            onChange={() => { setPayMethod('jko') }}
+            onChange={() => { this.setPayMethod('jko') }}
             checked={payMethod === 'jko'}
           />
           <Checkbox
             label='我想用LINE pay領取報酬。'
-            onChange={() => { setPayMethod('linePay') }}
+            onChange={() => { this.setPayMethod('linePay') }}
             checked={payMethod === 'linePay'}
           />
           <Checkbox
             label='我想用接收匯款的方式領取報酬。'
-            onChange={() => { setPayMethod('bankTransfer') }}
+            onChange={() => { this.setPayMethod('bankTransfer') }}
             checked={payMethod === 'bankTransfer'}
           />
           {submitted && payMethod === null
@@ -139,7 +184,10 @@ export default class PayMethod extends Component {
           submitted={submitted}
           uploading={uploading}
           onInputBlur={this.onInputBlur}
+          onFileChange={this.onFileChange}
         /> : null }
+        {uri ? <Image fluid
+          src={uri}/> : null}
         <Segment attached>
           <Button fluid
             primary
@@ -153,8 +201,5 @@ export default class PayMethod extends Component {
 }
 
 PayMethod.propTypes = {
-  setPayMethod: PropTypes.func,
-  submitPayInfo: PropTypes.func,
-  id: PropTypes.string,
-  payMethod: PropTypes.oneOfType([null, PropTypes.string])
+  id: PropTypes.string
 }

@@ -6,5 +6,8 @@ module.exports = {
                 'maximum': 1
             }
         ]
+    },
+    "env": {
+        "browser": true,
     }
 };

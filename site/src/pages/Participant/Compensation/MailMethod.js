@@ -8,26 +8,28 @@ export default class MailMethod extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      submitted: false,
-      next: false
+      mailMethod: null,
+      submitted: false
     }
     this.onNextStep = this.onNextStep.bind(this)
+    this.setMailMethod = this.setMailMethod.bind(this)
   }
 
   onNextStep () {
-    const { mailMethod, nextStep } = this.props
+    const { nextStep } = this.props
+    const { mailMethod } = this.state
     this.setState({ submitted: true })
     if (mailMethod === null) return
     nextStep({ mailMethod })
-    // this.setState({ next: true })
+  }
+
+  setMailMethod (value) {
+    this.setState({ mailMethod: value })
   }
 
   render () {
-    const { submitted, next } = this.state
-    const { mailMethod, setMailMethod, id } = this.props
-    // if (next) {
-    //   return <Redirect to={`/participant/compensation/choosepay?id=${id}`} />
-    // }
+    const { submitted, mailMethod } = this.state
+
     return (
       <div className="page">
         <Header as='h2'
@@ -73,17 +75,17 @@ export default class MailMethod extends Component {
             textAlign="center">交件方式選擇</Header>
           <Checkbox
             label='領據由本人交付至實驗室信箱。'
-            onChange={() => { setMailMethod('selfDeliver') }}
+            onChange={() => { this.setMailMethod('selfDeliver') }}
             checked={mailMethod === 'selfDeliver'}
           />
           <Checkbox
             label='領據以掛號方式寄出。'
-            onChange={() => { setMailMethod('registeredMail') }}
+            onChange={() => { this.setMailMethod('registeredMail') }}
             checked={mailMethod === 'registeredMail'}
           />
           <Checkbox
             label='領據以平信方式寄出。'
-            onChange={() => { setMailMethod('ordinaryMail') }}
+            onChange={() => { this.setMailMethod('ordinaryMail') }}
             checked={mailMethod === 'ordinaryMail'}
           />
           {submitted && mailMethod === null
@@ -105,8 +107,6 @@ export default class MailMethod extends Component {
 }
 
 MailMethod.propTypes = {
-  setMailMethod: PropTypes.func,
-  mailMethod: PropTypes.oneOfType([null, PropTypes.string]),
   id: PropTypes.string,
   nextStep: PropTypes.func
 }

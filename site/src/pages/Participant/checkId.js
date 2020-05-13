@@ -16,7 +16,7 @@ const statusMoveTable = [
   { status: status.RESEARCH_DONE, path: '/participant/complete' },
   { status: status.SET_RECEIPT_MAIL_METHOD, path: '/participant/compensation/choosemail', api: '/apis/participant/done/receipt' },
   { status: status.SET_PAY_METHOD, path: '/participant/compensation/choosepay' },
-  { status: status.PAYMENT_REQUIRED, path: '/participant/compensation/waitforpay' }
+  { status: status.PAYMENT_REQUIRED, path: '/participant/waitforpay' }
 ]
 
 export const checkId = (WrappedComponent) => {

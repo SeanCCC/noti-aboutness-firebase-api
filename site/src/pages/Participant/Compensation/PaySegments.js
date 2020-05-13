@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import { Header, Segment, Message, Form, Icon, Button } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
+import ImageUploader from 'react-images-upload'
 
 export const JkoSegment = ({ jkoAccount, uploading, submitted, jkoValid, handleChange, onInputBlur }) => {
   return <Fragment><Segment attached
@@ -87,7 +88,7 @@ LinePaySegment.propTypes = {
   linePayAccount: PropTypes.oneOfType([null, PropTypes.string])
 }
 
-export const BankTransferSegment = ({ bankCode, bankAccount, uploading, submitted, bankAccountValid, bankCodeValid, handleChange, onInputBlur }) => {
+export const BankTransferSegment = ({ bankCode, bankAccount, uploading, submitted, bankAccountValid, bankCodeValid, handleChange, onInputBlur, onFileChange }) => {
   return <Segment attached
     className="align-center">
     <Header as='h3'
@@ -123,12 +124,12 @@ export const BankTransferSegment = ({ bankCode, bankAccount, uploading, submitte
       onChange={handleChange}
       onBlur={() => { onInputBlur('bankAccount') }}
     />
+    <ImageUploadButton onFileChange={onFileChange}/>
     {submitted && (!bankAccountValid || !bankCodeValid)
       ? <Message negative>
         <Message.Header>請填寫代碼與帳號</Message.Header>
       </Message>
       : null}
-
   </Segment>
 }
 
@@ -140,5 +141,25 @@ BankTransferSegment.propTypes = {
   uploading: PropTypes.bool,
   onInputBlur: PropTypes.func,
   bankCode: PropTypes.oneOfType([null, PropTypes.string]),
-  bankAccount: PropTypes.oneOfType([null, PropTypes.string])
+  bankAccount: PropTypes.oneOfType([null, PropTypes.string]),
+  onFileChange: PropTypes.func
+}
+
+const ImageUploadButton = ({ onFileChange }) => {
+  return (
+    <ImageUploader
+      buttonText='請上傳存摺封面'
+      label={null}
+      singleImage
+      onChange={onFileChange}
+      imgExtension={['.jpg', '.gif', '.png', '.gif']}
+      fileTypeError="檔案格式僅支援jpg,gif,png,gif"
+      fileSizeError="檔案過大"
+      maxFileSize={5 * 1024 * 1024}
+    />
+  )
+}
+
+ImageUploadButton.propTypes = {
+  onFileChange: PropTypes.func
 }

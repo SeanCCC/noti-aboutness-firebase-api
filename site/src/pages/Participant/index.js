@@ -38,7 +38,7 @@ export default function Participant () {
       <Route path={`${match.path}/compensation`}
         component={checkId(Compensation)}/>
       <Route path={`${match.path}/waitforpay`}
-        component={WaitForPayPage}/>
+        component={checkId(WaitForPayPage)}/>
       <Route path={`${match.path}/error`}
         component={ErrorPage}/>
       <Route path={match.path}>
