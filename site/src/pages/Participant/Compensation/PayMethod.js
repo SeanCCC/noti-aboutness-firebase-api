@@ -138,7 +138,7 @@ export default class PayMethod extends Component {
           <Header as='h3'
             textAlign="center">說明</Header>
         1.請選擇收款方式，然後點擊最底下『送出』<br/>
-        2.在進行街口支付與LINE pay的付款時，我們會『核對本名是否與報名表單填寫的一致』。
+        2.在進行付款時，我們會『核對收款人本名是否與報名表單填寫的一致』。
         </Segment>
         <Segment attached>
           <Header as='h3'
