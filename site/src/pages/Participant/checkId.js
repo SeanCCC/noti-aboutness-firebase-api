@@ -11,7 +11,12 @@ const statusMoveTable = [
   { status: status.VIDEO_DONE, path: '/participant/mailinfo', api: '/apis/participant/done/sendconsent' },
   { status: status.CONSENT_SENT, path: '/participant/waiting' },
   { status: status.CONSENT_VALID, path: '/participant/instruction' },
-  { status: status.READY, path: '/participant/ready' }
+  { status: status.READY, path: '/participant/ready' },
+  { status: status.RESEARCH_RUNNING, path: '/participant/running' },
+  { status: status.RESEARCH_DONE, path: '/participant/complete' },
+  { status: status.SET_RECEIPT_MAIL_METHOD, path: '/participant/compensation/choosemail', api: '/apis/participant/done/receipt' },
+  { status: status.SET_PAY_METHOD, path: '/participant/compensation/choosepay' },
+  { status: status.PAYMENT_REQUIRED, path: '/participant/compensation/waitforpay' }
 ]
 
 export const checkId = (WrappedComponent) => {
@@ -68,14 +73,18 @@ export const checkId = (WrappedComponent) => {
         return <ErrorPage/>
       } else if (match.path === pathname) {
         return null
-      } else return <Redirect to={`${match.path}?id=${id}`}/>
+      } else {
+        const newPath = `${match.path}?id=${id}`
+        return <Redirect to={newPath}/>
+      }
     }
 
     render () {
       const { authed, loading } = this.state
       if (loading) return <LoadingPage text="載入中"/>
       else if (authed === true) {
-        return this.redirect() || <WrappedComponent nextStep={this.nextStep}/>
+        return this.redirect() || <WrappedComponent {...this.props}
+          nextStep={this.nextStep}/>
       } else if (authed === false) return <UnauthPage/>
       else return <ErrorPage/>
     }

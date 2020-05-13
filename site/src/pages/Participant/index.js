@@ -9,7 +9,7 @@ import Orientation from './Orientation'
 import Bigfive from './Bigfive'
 import MailInfo from './MailInfo'
 import Compensation from './Compensation'
-import { WaitPage, ReadyPage, WaitForPayPage, ErrorPage } from './ResultPage'
+import { WaitPage, ReadyPage, WaitForPayPage, ErrorPage, RunningPage, CompletePage } from './ResultPage'
 import Instruction from './Instruction'
 import { checkId } from './checkId'
 
@@ -29,10 +29,14 @@ export default function Participant () {
         component={checkId(Instruction)}/>
       <Route path={`${match.path}/ready`}
         component={checkId(ReadyPage)}/>
+      <Route path={`${match.path}/running`}
+        component={checkId(RunningPage)}/>
+      <Route path={`${match.path}/complete`}
+        component={checkId(CompletePage)}/>
       <Route path={`${match.path}/interview`}
         component={() => (<div/>)}/>
       <Route path={`${match.path}/compensation`}
-        component={Compensation}/>
+        component={checkId(Compensation)}/>
       <Route path={`${match.path}/waitforpay`}
         component={WaitForPayPage}/>
       <Route path={`${match.path}/error`}

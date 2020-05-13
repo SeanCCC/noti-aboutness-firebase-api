@@ -1,9 +1,31 @@
 const INIT = 'init'
+const BIG_FIVE_DONE = 'bigFiveDone'
 const VIDEO_DONE = 'videoDone'
 const CONSENT_SENT = 'consentSent'
 const CONSENT_VALID = 'consentValid'
 const APP_VALID = 'appValid'
 const READY = APP_VALID
-const BIG_FIVE_DONE = 'bigFiveDone'
+const RESEARCH_RUNNING = 'researchRunning'
+const RESEARCH_DONE = 'researchDone'
+const SET_RECEIPT_MAIL_METHOD = 'setReceiptMailMethod'
+const SET_PAY_METHOD = 'setPayMethod'
+const PAYMENT_REQUIRED = 'paymentRequired'
+const RECEIPT_VALID = 'receiptValid'
+const PAYMENT_DONE = 'paymentDone'
 
-export default { INIT, VIDEO_DONE, CONSENT_SENT, CONSENT_VALID, APP_VALID, READY, BIG_FIVE_DONE }
+export default {
+  INIT,
+  BIG_FIVE_DONE,
+  CONSENT_SENT,
+  CONSENT_VALID,
+  VIDEO_DONE,
+  APP_VALID,
+  READY,
+  RESEARCH_RUNNING,
+  RESEARCH_DONE,
+  SET_RECEIPT_MAIL_METHOD,
+  SET_PAY_METHOD,
+  PAYMENT_REQUIRED,
+  RECEIPT_VALID,
+  PAYMENT_DONE
+}

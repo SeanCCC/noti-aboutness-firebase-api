@@ -30,6 +30,32 @@ export function ReadyPage () {
   )
 }
 
+export function RunningPage () {
+  return (
+    <div className="page">
+      <Header textAlign="center"
+        as='h2'>感謝您的合作</Header>
+      <Message positive>
+        <Message.Header>實驗正在進行中。</Message.Header>
+      </Message>
+      <ContactComp/>
+    </div>
+  )
+}
+
+export function CompletePage () {
+  return (
+    <div className="page">
+      <Header textAlign="center"
+        as='h2'>感謝您的合作</Header>
+      <Message positive>
+        <Message.Header>您的實驗任務已經完成，團隊將在近期與您聯絡報酬事宜。</Message.Header>
+      </Message>
+      <ContactComp/>
+    </div>
+  )
+}
+
 export function WaitForPayPage () {
   return (
     <div className="page">

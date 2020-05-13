@@ -1,14 +1,9 @@
 import React, { Component } from 'react'
 import { Header, Segment, Checkbox, Button, Message } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
-import {
-  Redirect
-} from 'react-router-dom'
 import check from 'check-types'
 import { ContactComp } from '../../Contact'
 import { JkoSegment, LinePaySegment, BankTransferSegment } from './PaySegments'
-// import { Link } from 'react-router-dom'
-// import axios from 'axios'
 
 export default class PayMethod extends Component {
   constructor (props) {
@@ -160,5 +155,6 @@ export default class PayMethod extends Component {
 PayMethod.propTypes = {
   setPayMethod: PropTypes.func,
   submitPayInfo: PropTypes.func,
+  id: PropTypes.string,
   payMethod: PropTypes.oneOfType([null, PropTypes.string])
 }
