@@ -1,9 +1,8 @@
 import React from 'react'
-import { Header, Message, Dimmer, Loader } from 'semantic-ui-react'
+import { Header, Message, Dimmer, Loader, Segment } from 'semantic-ui-react'
 import { ContactComp } from '../Contact'
 import PropTypes from 'prop-types'
-// import queryString from 'query-string'
-// import { useLocation } from 'react-router-dom'
+import LabMap from './LabMap'
 
 export function WaitPage () {
   return (
@@ -107,4 +106,42 @@ export function LoadingPage ({ text }) {
 
 LoadingPage.propTypes = {
   text: PropTypes.string
+}
+
+export function InterviewAcceptPage () {
+  return <div className="page">
+    <Header textAlign="center"
+      as='h2'>感謝您接受邀請</Header>
+    <Message positive>
+      <Message.Header>您已接受訪談邀約，研究團隊將盡快與您聯繫。</Message.Header>
+    </Message>
+    <Segment attached>
+      <Header as='h3'
+        textAlign="center">實驗室位置</Header>
+        地址：新竹市東區大學路1001號交通大學電子與資訊研究中心715室<br/>
+      <LabMap/>
+    </Segment >
+    <ContactComp/>
+  </div>
+}
+
+export function InterviewSchedulePage ({ scheduleTime }) {
+  return <div className="page">
+    <Header textAlign="center"
+      as='h2'>感謝您接受邀請</Header>
+    <Message positive>
+      <Message.Header>您的訪談時間在{scheduleTime}，若須更改時間請提早聯絡研究團隊。</Message.Header>
+    </Message>
+    <Segment attached>
+      <Header as='h3'
+        textAlign="center">實驗室位置</Header>
+        地址：新竹市東區大學路1001號交通大學電子與資訊研究中心715室<br/>
+      <LabMap/>
+    </Segment >
+    <ContactComp/>
+  </div>
+}
+
+InterviewSchedulePage.propTypes = {
+  scheduleTime: PropTypes.string
 }

@@ -3,6 +3,7 @@ const check = require('check-types')
 const router = express.Router()
 const { fetchDB, updateDB, setDB, moveDB, busboyMiddleWare, uploadFile } = require('../utils')
 const status = require('../status')
+const { sendCompensationMail } = require('../mail')
 
 const fetchParticipantDetailById = async (id) => {
   const result = await fetchDB(`participant/${id}`)
@@ -24,7 +25,9 @@ router.get('/checkid', async (req, res) => {
     const payload = req.query
     const { id } = payload
     const result = await fetchParticipantDetailById(id)
-    if (result !== null) { res.json({ status: result.status }) } else {
+    if (result !== null) {
+      res.json({ status: result.status })
+    } else {
       const candi = await fetchCandidateDetailById(id)
       if (candi === null) res.status(400).send('not found')
       else {
@@ -143,10 +146,22 @@ router.post('/done/compensation', busboyMiddleWare, compensationCheck, async (re
   }
 })
 
-router.post('/', async (req, res) => {
+router.post('/done/interview', async (req, res) => {
   try {
+    const payload = req.body
+    const { id, rsvp } = payload
+    const nextStatus = rsvp ? status.INTERVIEW_ACCEPTED : status.SET_RECEIPT_MAIL_METHOD
+    const moveStatusAsync = moveStauts(id, nextStatus)
+    const setRSVPAsync = updateDB(`participant/${id}`, { rsvp })
+    if (rsvp) await Promise.all([moveStatusAsync, setRSVPAsync])
+    else {
+      const sendMailAsync = sendCompensationMail(id)
+      await Promise.all([moveStatusAsync, setRSVPAsync, sendMailAsync])
+    }
+    res.json({ status: nextStatus })
   } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
   }
 })
-
 module.exports = router

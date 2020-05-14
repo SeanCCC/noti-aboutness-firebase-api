@@ -12,6 +12,9 @@ const SET_PAY_METHOD = 'setPayMethod'
 const PAYMENT_REQUIRED = 'paymentRequired'
 const RECEIPT_VALID = 'receiptValid'
 const PAYMENT_DONE = 'paymentDone'
+const INTERVIEW_INVITED = 'interviewInvited'
+const INTERVIEW_ACCEPTED = 'interviewAccepted'
+const INTERVIEW_SCHEDULED = 'interviewScheduled'
 
 export default {
   INIT,
@@ -27,5 +30,8 @@ export default {
   SET_PAY_METHOD,
   PAYMENT_REQUIRED,
   RECEIPT_VALID,
-  PAYMENT_DONE
+  PAYMENT_DONE,
+  INTERVIEW_INVITED,
+  INTERVIEW_ACCEPTED,
+  INTERVIEW_SCHEDULED
 }

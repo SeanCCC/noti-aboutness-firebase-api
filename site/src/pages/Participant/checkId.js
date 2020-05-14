@@ -16,7 +16,10 @@ const statusMoveTable = [
   { status: status.RESEARCH_DONE, path: '/participant/complete' },
   { status: status.SET_RECEIPT_MAIL_METHOD, path: '/participant/compensation/choosemail', api: '/apis/participant/done/receipt' },
   { status: status.SET_PAY_METHOD, path: '/participant/compensation/choosepay' },
-  { status: status.PAYMENT_REQUIRED, path: '/participant/waitforpay' }
+  { status: status.PAYMENT_REQUIRED, path: '/participant/waitforpay' },
+  { status: status.INTERVIEW_INVITED, path: '/participant/interview/invitation' },
+  { status: status.INTERVIEW_ACCEPTED, path: '/participant/interview/accept' },
+  { status: status.INTERVIEW_SCHEDULED, path: '/participant/interview/schedule' }
 ]
 
 export const checkId = (WrappedComponent) => {
@@ -85,11 +88,12 @@ export const checkId = (WrappedComponent) => {
     }
 
     render () {
-      const { authed, loading } = this.state
+      const { authed, loading, status } = this.state
       if (loading) return <LoadingPage text="載入中"/>
       else if (authed === true) {
         return this.redirect() || <WrappedComponent {...this.props}
           nextStep={this.nextStep}
+          status={status}
           setStatus={this.setStatus}/>
       } else if (authed === false) return <UnauthPage/>
       else return <ErrorPage/>

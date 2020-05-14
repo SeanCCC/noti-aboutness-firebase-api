@@ -9,9 +9,10 @@ import Orientation from './Orientation'
 import Bigfive from './Bigfive'
 import MailInfo from './MailInfo'
 import Compensation from './Compensation'
-import { WaitPage, ReadyPage, WaitForPayPage, ErrorPage, RunningPage, CompletePage } from './ResultPage'
+import { InterviewSchedulePage, InterviewAcceptPage, WaitPage, ReadyPage, WaitForPayPage, ErrorPage, RunningPage, CompletePage } from './ResultPage'
 import Instruction from './Instruction'
 import { checkId } from './checkId'
+import Interview from './Interview'
 
 export default function Participant () {
   const match = useRouteMatch()
@@ -33,8 +34,12 @@ export default function Participant () {
         component={checkId(RunningPage)}/>
       <Route path={`${match.path}/complete`}
         component={checkId(CompletePage)}/>
-      <Route path={`${match.path}/interview`}
-        component={() => (<div/>)}/>
+      <Route path={`${match.path}/interview/invitation`}
+        component={checkId(Interview)}/>
+      <Route path={`${match.path}/interview/accept`}
+        component={checkId(InterviewAcceptPage)}/>
+      <Route path={`${match.path}/interview/schedule`}
+        component={checkId(InterviewSchedulePage)}/>
       <Route path={`${match.path}/compensation`}
         component={checkId(Compensation)}/>
       <Route path={`${match.path}/waitforpay`}
