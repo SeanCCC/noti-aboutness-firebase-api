@@ -67,7 +67,7 @@ const cityOptions = [
 
 const jobOptions = [
   { key: 'student', text: '學生', value: 'student' },
-  { key: 'publick', text: '軍公教', value: 'publick' },
+  { key: 'public', text: '軍公教', value: 'public' },
   { key: 'service', text: '服務業', value: 'service' },
   { key: 'tech', text: '資訊科技業', value: 'tech' },
   { key: 'media', text: '大眾傳播業', value: 'media' },

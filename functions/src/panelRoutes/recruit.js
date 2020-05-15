@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { fetchDB, updateDB, moveDB } = require('../utils')
+const moment = require('moment-timezone')
 const { sendAcceptMail, sendDeclineMail } = require('../mail')
 const status = require('../status')
 
@@ -54,7 +55,7 @@ router.post('/accept', async (req, res) => {
     const { uid } = req.body
     if (!uid) return res.status(400).send('missing uid')
     const mailAsync = sendAcceptMail(uid)
-    const setAsync = updateDB(`candidate/${uid}`, { lastInvitationSent: new Date().toString() })
+    const setAsync = updateDB(`candidate/${uid}`, { lastInvitationSent: moment().tz('Asia/Taipei') })
     await setAsync
     await mailAsync
     res.send('success')

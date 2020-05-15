@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const status = require('../status')
 const check = require('check-types')
+const moment = require('moment-timezone')
 const { findDB, updateDB, pushDB } = require('../utils')
 
 const fetchDetailByEmail = async (email) => {
@@ -32,7 +33,9 @@ router.post('/bind', async (req, res) => {
     if (check.not.assigned(data.deviceId) && data.status !== status.BIG_FIVE_DONE) {
       return res.status(400).send('bound already')
     }
-    await updateDB(`participant/${uid}`, { deviceId, status: status.APP_VALID })
+    moment.locale('zh-tw')
+    const startDate = moment().tz('Asia/Taipei').add(1, 'days').format('L')
+    await updateDB(`participant/${uid}`, { deviceId, status: status.APP_VALID, startDate })
     res.json({ uid })
   } catch (err) {
     console.error(err)

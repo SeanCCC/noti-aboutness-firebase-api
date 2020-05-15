@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { pushDB, findDB, fetchDB, setDB } = require('../utils')
 const { sendEmailCheck } = require('../mail')
+const moment = require('moment-timezone')
 
 const checkEmailRepeat = async (email) => {
   const candidateAsync = findDB('candidate', 'email', email)
@@ -39,7 +40,7 @@ router.post('/', async (req, res) => {
     const emailRepeat = await checkEmailRepeat(email)
     if (emailRepeat) return res.status(400).send('repeated')
     const timestamp = new Date()
-    const newRef = await pushDB('submitted', { ...payload, timestamp: timestamp.toString() })
+    const newRef = await pushDB('submitted', { ...payload, timestamp: moment().tz('Asia/Taipei').format() })
     const id = newRef.key
     await sendEmailCheck(email, name, gender, id)
     res.send('success')
