@@ -1,24 +1,18 @@
 const express = require('express')
-const check = require('check-types')
 const router = express.Router()
-const { fetchDB, updateDB, setDB, moveDB, busboyMiddleWare, uploadFile } = require('../utils')
+const {
+  fetchParticipantDetailById,
+  fetchCandidateDetailById,
+  updateDB,
+  setDB,
+  moveDB,
+  busboyMiddleWare,
+  uploadFile,
+  moveStauts
+} = require('../utils')
+const validators = require('./validators')
 const status = require('../status')
 const { sendCompensationMail } = require('../mail')
-
-const fetchParticipantDetailById = async (id) => {
-  const result = await fetchDB(`participant/${id}`)
-  return result
-}
-
-const fetchCandidateDetailById = async (id) => {
-  const result = await fetchDB(`candidate/${id}`)
-  return result
-}
-
-const moveStauts = async (id, status) => {
-  const result = await updateDB(`participant/${id}`, { status })
-  return result
-}
 
 router.get('/checkid', async (req, res) => {
   try {
@@ -41,7 +35,7 @@ router.get('/checkid', async (req, res) => {
   }
 })
 
-router.post('/done/video', async (req, res) => {
+router.post('/done/video', validators.video, async (req, res) => {
   try {
     const payload = req.body
     const { id } = payload
@@ -67,7 +61,7 @@ router.post('/done/bigfive', async (req, res) => {
   }
 })
 
-router.post('/done/sendconsent', async (req, res) => {
+router.post('/done/sendconsent', validators.sendConsent, async (req, res) => {
   try {
     const payload = req.body
     const { id, mailMethod } = payload
@@ -81,14 +75,10 @@ router.post('/done/sendconsent', async (req, res) => {
   }
 })
 
-router.post('/done/receipt', async (req, res) => {
+router.post('/done/receipt', validators.receipt, async (req, res) => {
   try {
     const payload = req.body
     const { id, mailMethod } = payload
-    const result = await fetchParticipantDetailById(id)
-    if (result === null || result.status !== status.SET_RECEIPT_MAIL_METHOD || result.receiptMailMethod !== undefined) {
-      return res.status(400).send('unauth')
-    }
     const moveStatusAsync = moveStauts(id, status.SET_PAY_METHOD)
     const setMailMAsync = updateDB(`participant/${id}`, { receiptMailMethod: mailMethod })
     await Promise.all([moveStatusAsync, setMailMAsync])
@@ -99,23 +89,7 @@ router.post('/done/receipt', async (req, res) => {
   }
 })
 
-const compensationCheck = (req, res, next) => {
-  const payload = req.body
-  const { payMethod } = payload
-  if (payMethod === 'linePay') {
-    const { linePayAccount } = payload
-    if (!check.nonEmptyString(linePayAccount)) return res.status(400).send('invalid lineid')
-  } else if (payMethod === 'jko') {
-    const { jkoAccount } = payload
-    if (!check.nonEmptyString(jkoAccount)) return res.status(400).send('invalid jko account')
-  } else if (payMethod === 'bankTransfer') {
-    const { bankAccount, bankCode } = payload
-    if (!check.nonEmptyString(bankAccount) && !check.nonEmptyString(bankCode)) return res.status(400).send('invalid lineid')
-  } else return res.status(400).send('invalid pay method')
-  next()
-}
-
-router.post('/done/compensation', busboyMiddleWare, compensationCheck, async (req, res) => {
+router.post('/done/compensation', busboyMiddleWare, validators.compensation, async (req, res) => {
   try {
     const payload = req.body
     const { uid, payMethod } = payload
@@ -146,7 +120,7 @@ router.post('/done/compensation', busboyMiddleWare, compensationCheck, async (re
   }
 })
 
-router.post('/done/interview', async (req, res) => {
+router.post('/done/interview', validators.interviewDone, async (req, res) => {
   try {
     const payload = req.body
     const { id, rsvp } = payload

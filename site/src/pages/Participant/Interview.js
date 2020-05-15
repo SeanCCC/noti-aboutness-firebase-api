@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Header, Segment, Checkbox, Button, Message } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
+import { Redirect } from 'react-router-dom'
 import { ContactComp } from '../Contact'
 import LabMap from './LabMap'
 
@@ -26,12 +27,20 @@ export default class Interview extends Component {
     const { nextStep } = this.props
     if (rsvp === null) return
     this.setState({ loading: true })
-    await nextStep({ rsvp })
-    this.setState({ loading: false })
+    try {
+      await nextStep({ rsvp })
+      this.setState({ loading: false })
+    } catch (err) {
+      this.setState({ error: true })
+      console.error(err)
+    }
   }
 
   render () {
-    const { rsvp, submitted, loading } = this.state
+    const { rsvp, submitted, loading, error } = this.state
+    if (error) {
+      return <Redirect to='/participant/error' />
+    }
     return (
       <div className="page">
         <Header as='h2'
@@ -71,6 +80,7 @@ export default class Interview extends Component {
           <Button fluid
             primary
             onClick={this.onSubmit}
+            disabled={loading}
             loading={loading} >送出回覆</Button>
         </Segment>
         <Segment attached>

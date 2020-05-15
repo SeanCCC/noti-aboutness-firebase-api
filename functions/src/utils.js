@@ -10,6 +10,8 @@ admin.initializeApp({
 
 var db = admin.database()
 
+const bucket = admin.storage().bucket()
+
 const setDB = async (refPath, data) => {
   const ref = db.ref(refPath)
   const res = await ref.set(data)
@@ -70,8 +72,6 @@ const busboyMiddleWare = (req, res, next) => {
   busboy.end(req.rawBody)
 }
 
-const bucket = admin.storage().bucket()
-
 function uploadFile (req, prefix, filename) {
   return new Promise((resolve, reject) => {
     try {
@@ -111,6 +111,18 @@ function uploadFile (req, prefix, filename) {
   })
 }
 
+function fetchParticipantDetailById (id) {
+  return fetchDB(`participant/${id}`)
+}
+function fetchCandidateDetailById (id) {
+  return fetchDB(`candidate/${id}`)
+}
+
+const moveStauts = async (id, status) => {
+  const result = await updateDB(`participant/${id}`, { status })
+  return result
+}
+
 module.exports = {
   busboyMiddleWare,
   uploadFile,
@@ -119,5 +131,8 @@ module.exports = {
   moveDB,
   fetchDB,
   findDB,
-  updateDB
+  updateDB,
+  fetchParticipantDetailById,
+  fetchCandidateDetailById,
+  moveStauts
 }

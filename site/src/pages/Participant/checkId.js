@@ -17,7 +17,7 @@ const statusMoveTable = [
   { status: status.SET_RECEIPT_MAIL_METHOD, path: '/participant/compensation/choosemail', api: '/apis/participant/done/receipt' },
   { status: status.SET_PAY_METHOD, path: '/participant/compensation/choosepay' },
   { status: status.PAYMENT_REQUIRED, path: '/participant/waitforpay' },
-  { status: status.INTERVIEW_INVITED, path: '/participant/interview/invitation' },
+  { status: status.INTERVIEW_INVITED, path: '/participant/interview/invitation', api: '/apis/participant/done/interview' },
   { status: status.INTERVIEW_ACCEPTED, path: '/participant/interview/accept' },
   { status: status.INTERVIEW_SCHEDULED, path: '/participant/interview/schedule' }
 ]
