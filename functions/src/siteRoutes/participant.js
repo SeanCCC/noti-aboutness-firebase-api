@@ -47,7 +47,7 @@ router.post('/done/video', validators.video, async (req, res) => {
   }
 })
 
-router.post('/done/bigfive', async (req, res) => {
+router.post('/done/bigfive', validators.bigfive, async (req, res) => {
   try {
     const payload = req.body
     const { id, result } = payload

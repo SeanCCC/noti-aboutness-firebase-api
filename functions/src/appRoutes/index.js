@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const status = require('../status')
+const check = require('check-types')
 const { findDB, updateDB, pushDB } = require('../utils')
 
 const fetchDetailByEmail = async (email) => {
@@ -24,12 +25,13 @@ router.post('/bind', async (req, res) => {
   try {
     const payload = req.body
     const { email, deviceId } = payload
-    if (!email || !deviceId) return res.status(400).send('missing email or deviceId')
+    if (check.not.assigned(email) && check.not.assigned(deviceId)) return res.status(400).send('missing email or deviceId')
     const participant = await fetchDetailByEmail(email)
-    if (participant === null) return res.status(400).send('participant not found')
+    if (check.null(participant)) return res.status(400).send('participant not found')
     const { data, uid } = participant
-    if (data.deviceId !== null && data.deviceId !== undefined && data.status !== status.APP_VALID) return res.status(400).send('bound already')
-    else if (data.status !== status.CONSENT_VALID) return res.status(400).send('wrong status')
+    if (check.not.assigned(data.deviceId) && data.status !== status.BIG_FIVE_DONE) {
+      return res.status(400).send('bound already')
+    }
     await updateDB(`participant/${uid}`, { deviceId, status: status.APP_VALID })
     res.json({ uid })
   } catch (err) {

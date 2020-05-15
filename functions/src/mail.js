@@ -36,7 +36,7 @@ const sendAcceptMail = async (id) => {
   const config = {
     from: 'MUILAB通知實驗研究團隊',
     to: email,
-    subject: 'MUILAB通知實驗信箱驗證信',
+    subject: 'MUILAB通知實驗-信箱驗證信',
     html: `<p>${name}${gender === 'male' ? '先生' : '小姐'}您好，感謝您願意參與此研究，<a href="https://notiaboutness.muilab.org/participant/orientation?id=${id}">此網站</a>會引導您完成知情同意流程，請您點擊並按照指引完成所有步驟。</p>`
   }
   return transporter.sendMail(config)
