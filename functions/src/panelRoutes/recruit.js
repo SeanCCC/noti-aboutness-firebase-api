@@ -55,7 +55,7 @@ router.post('/accept', async (req, res) => {
     const { uid } = req.body
     if (!uid) return res.status(400).send('missing uid')
     const mailAsync = sendAcceptMail(uid)
-    const setAsync = updateDB(`candidate/${uid}`, { lastInvitationSent: moment().tz('Asia/Taipei') })
+    const setAsync = updateDB(`candidate/${uid}`, { lastInvitationSent: moment().tz('Asia/Taipei').format() })
     await setAsync
     await mailAsync
     res.send('success')
