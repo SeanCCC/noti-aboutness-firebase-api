@@ -39,7 +39,6 @@ router.post('/', async (req, res) => {
     // check email repeated
     const emailRepeat = await checkEmailRepeat(email)
     if (emailRepeat) return res.status(400).send('repeated')
-    const timestamp = new Date()
     const newRef = await pushDB('submitted', { ...payload, timestamp: moment().tz('Asia/Taipei').format() })
     const id = newRef.key
     await sendEmailCheck(email, name, gender, id)
