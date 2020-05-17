@@ -26,7 +26,8 @@ export default function Recruit () {
       <Route path={`${match.path}/mail`}>
         <EmailCheckPage />
       </Route>
-      <Route path={`${match.path}/mailcheck`} component={MailCheckPage}/>
+      <Route path={`${match.path}/mailcheck`}
+        component={MailCheckPage}/>
       <Route path={`${match.path}/return`}>
         <ReturnPage />
       </Route>

@@ -1,6 +1,6 @@
 const express = require('express')
-const participantRoute = require('./participant')
+const participantRoute = require('./recruit')
 const router = express.Router()
 
-router.use('/participant', participantRoute)
+router.use('/recruit', participantRoute)
 module.exports = router

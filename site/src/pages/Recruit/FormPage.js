@@ -35,6 +35,11 @@ const formContent = [
       label: '請輸入您的所在縣市',
       name: 'city',
       options: cityOptions
+    }, {
+      type: 'select',
+      label: '請問您接下來的一個月內是否有三天以上的旅遊計畫',
+      name: 'travelPlan',
+      options: boolOptions
     }]
   }, {
     type: 'group',
@@ -69,6 +74,13 @@ const formContent = [
       label: '請輸入您的手機品牌名稱（如果上一題選其他才要填）',
       placeholder: '上一題選其他才要填',
       name: 'brandName'
+    },
+    {
+      type: 'select',
+      label: '請問你是否有使用智慧型手錶或手環？',
+      name: 'wearableDevice',
+      placeholder: '請選擇',
+      options: boolOptions
     }]
   }, {
     type: 'group',
@@ -149,7 +161,7 @@ export default class FormPage extends Component {
     else if (['phoneSystem'].includes(name)) checkFunc = (input) => input === 'android'
     else if (['phoneBrand'].includes(name)) checkFunc = (input) => input !== 'apple' && check.not.undefined(input)
     else if (['androidVersion'].includes(name)) checkFunc = (input) => input !== 'notAndroid' && input !== '4' && check.not.undefined(input)
-    else if (['gender', 'city', 'occupation', 'cellularAccess', 'onlineFrequency'].includes(name)) {
+    else if (['gender', 'city', 'occupation', 'cellularAccess', 'onlineFrequency', 'travelPlan', 'wearableDevice'].includes(name)) {
       checkFunc = check.not.undefined
     } else if (['brandName'].includes(name)) {
       checkFunc = this.state.phoneBrand.value === 'other' ? check.nonEmptyString : () => true
@@ -237,7 +249,8 @@ export default class FormPage extends Component {
   renderGroup (item, idx) {
     const { content } = item
     return (
-      <Form.Group widths='equal' key={idx}>
+      <Form.Group widths='equal'
+        key={idx}>
         {content.map(item => this.renderItem(item))}
       </Form.Group>
     )
@@ -271,10 +284,8 @@ export default class FormPage extends Component {
     }, {})
     this.setState({ uploading: true })
     try {
-      const res = await axios.post('/apis/site/form', payload)
-      this.setState({ uploading: false, accept: true })
-      if (res.status === 400) this.setState({ uploading: false, repeat: true })
-      else this.setState({ uploading: false, error: true })
+      const res = await axios.post('/apis/form', payload)
+      if (res.status === 200) this.setState({ uploading: false, accept: true })
     } catch (err) {
       if (err.response && err.response.status === 400) this.setState({ uploading: false, repeat: true })
       else this.setState({ uploading: false, error: true })
@@ -292,10 +303,17 @@ export default class FormPage extends Component {
     }
     return (
       <div className="page">
-        <Header as='h2' textAlign="center">招募問卷</Header>
+        <Header as='h2'
+          textAlign="center">招募問卷</Header>
         <Form>
           {formContent.map(this.renderForm)}
-          <Form.Button fluid primary loading={uploading} onClick={this.onSubmit} >提交</Form.Button>
+          <Header as='h3'
+            textAlign="center"
+          >請將notiatmuilab@gmail.com加入剛剛填寫的信箱的通訊錄中，以免漏收後續信件。</Header>
+          <Form.Button fluid
+            primary
+            loading={uploading}
+            onClick={this.onSubmit} >提交</Form.Button>
         </Form>
       </div>
     )

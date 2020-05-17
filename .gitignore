@@ -62,5 +62,6 @@ typings/
 
 serviceAccountKey.json
 
-/\.firebase/*
 /\.vscode/*
+
+/\.firebase/*

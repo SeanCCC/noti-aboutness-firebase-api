@@ -7,12 +7,20 @@ import { Redirect } from 'react-router-dom'
 import status from '../status'
 
 const statusMoveTable = [
-  { status: status.INIT, path: '/participant/orientation', api: '/apis/site/participant/done/video' },
-  { status: status.VIDEO_DONE, path: '/participant/bigfive', api: '/apis/site/participant/done/bigfive' },
-  { status: status.BIG_FIVE_DONE, path: '/participant/mailinfo', api: '/apis/site/participant/done/sendconsent' },
+  { status: status.INIT, path: '/participant/orientation', api: '/apis/participant/done/video' },
+  { status: status.VIDEO_DONE, path: '/participant/mailinfo', api: '/apis/participant/done/sendconsent' },
   { status: status.CONSENT_SENT, path: '/participant/waiting' },
-  { status: status.CONSENT_VALID, path: '/participant/instruction' },
-  { status: status.READY, path: '/participant/ready' }
+  { status: status.CONSENT_VALID, path: '/participant/bigfive', api: '/apis/participant/done/bigfive' },
+  { status: status.BIG_FIVE_DONE, path: '/participant/instruction' },
+  { status: status.READY, path: '/participant/ready' },
+  { status: status.RESEARCH_RUNNING, path: '/participant/running' },
+  { status: status.RESEARCH_DONE, path: '/participant/complete' },
+  { status: status.SET_RECEIPT_MAIL_METHOD, path: '/participant/compensation/choosemail', api: '/apis/participant/done/receipt' },
+  { status: status.SET_PAY_METHOD, path: '/participant/compensation/choosepay' },
+  { status: status.PAYMENT_REQUIRED, path: '/participant/waitforpay' },
+  { status: status.INTERVIEW_INVITED, path: '/participant/interview/invitation', api: '/apis/participant/done/interview' },
+  { status: status.INTERVIEW_ACCEPTED, path: '/participant/interview/accept' },
+  { status: status.INTERVIEW_SCHEDULED, path: '/participant/interview/schedule' }
 ]
 
 export const checkId = (WrappedComponent) => {
@@ -27,12 +35,13 @@ export const checkId = (WrappedComponent) => {
       }
       this.redirect = this.redirect.bind(this)
       this.nextStep = this.nextStep.bind(this)
+      this.setStatus = this.setStatus.bind(this)
     }
 
     async componentDidMount () {
       try {
         const { id } = queryString.parse(this.props.location.search)
-        const res = await axios.get(`/apis/site/participant/checkid?id=${id}`)
+        const res = await axios.get(`/apis/participant/checkid?id=${id}`)
         const { status } = res.data
         this.setState({ loading: false, authed: true, status })
       } catch (err) {
@@ -56,6 +65,10 @@ export const checkId = (WrappedComponent) => {
       await this.setState({ status: newStatus })
     }
 
+    setStatus (status) {
+      this.setState({ status })
+    }
+
     redirect () {
       const { status } = this.state
       const { location } = this.props
@@ -69,14 +82,20 @@ export const checkId = (WrappedComponent) => {
         return <ErrorPage/>
       } else if (match.path === pathname) {
         return null
-      } else return <Redirect to={`${match.path}?id=${id}`}/>
+      } else {
+        const newPath = `${match.path}?id=${id}`
+        return <Redirect to={newPath}/>
+      }
     }
 
     render () {
-      const { authed, loading } = this.state
+      const { authed, loading, status } = this.state
       if (loading) return <LoadingPage text="載入中"/>
       else if (authed === true) {
-        return this.redirect() || <WrappedComponent nextStep={this.nextStep}/>
+        return this.redirect() || <WrappedComponent {...this.props}
+          nextStep={this.nextStep}
+          status={status}
+          setStatus={this.setStatus}/>
       } else if (authed === false) return <UnauthPage/>
       else return <ErrorPage/>
     }

@@ -38,6 +38,16 @@
   display: grid;
 }
 
+.align-horizental {
+  display: grid;
+  justify-content: center;
+}
+
 .short-padded {
   padding: 8px
+}
+
+img.max-width-400 {
+  width: 100%;
+  max-width: 400px;
 }

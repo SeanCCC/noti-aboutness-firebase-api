@@ -19,7 +19,7 @@ export default class MailCheckPage extends Component {
   async componentDidMount () {
     const { id } = queryString.parse(this.props.location.search)
     try {
-      await axios.get(`/apis/site/form/mailcheck?id=${id}`)
+      await axios.get(`/apis/form/mailcheck?id=${id}`)
       this.setState({ succeed: true, loading: false })
     } catch (err) {
       console.error(err)
@@ -50,7 +50,8 @@ MailCheckPage.propTypes = {
 function CheckingPage () {
   return (
     <div className="page">
-      <Dimmer active inverted>
+      <Dimmer active
+        inverted>
         <Loader inverted>驗證信箱中</Loader>
       </Dimmer>
     </div>
