@@ -30,8 +30,11 @@ router.post('/bind', async (req, res) => {
     const participant = await fetchDetailByEmail(email)
     if (check.null(participant)) return res.status(400).send('participant not found')
     const { data, uid } = participant
-    if (check.not.assigned(data.deviceId) && data.status !== status.BIG_FIVE_DONE) {
+    if (check.assigned(data.deviceId)) {
       return res.status(400).send('bound already')
+    }
+    if (data.status !== status.BIG_FIVE_DONE) {
+      return res.status(400).send('wrong status')
     }
     moment.locale('zh-tw')
     const startDate = moment().tz('Asia/Taipei').add(1, 'days').format('L')
