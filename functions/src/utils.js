@@ -118,9 +118,8 @@ function fetchCandidateDetailById (id) {
   return fetchDB(`candidate/${id}`)
 }
 
-const moveStauts = async (id, status) => {
-  const result = await updateDB(`participant/${id}`, { status })
-  return result
+const moveStauts = (id, status) => {
+  return updateDB(`participant/${id}`, { status })
 }
 
 module.exports = {

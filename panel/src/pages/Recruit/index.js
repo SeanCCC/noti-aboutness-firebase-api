@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import CandidateList from './CandidateList'
 import { Accordion, Icon, Header } from 'semantic-ui-react'
-import { mockCandidate } from './mock'
-import LoadingPage from './LoadingPage'
+import LoadingPage from '../LoadingPage'
 import axios from 'axios'
 
 // import {
@@ -17,17 +16,15 @@ export default class Recruit extends Component {
     super(props)
     this.state = {
       activeIndex: [],
-      candidates: mockCandidate,
+      candidates: [],
       loading: false
     }
     this.handleClick = this.handleClick.bind(this)
     this.fetchCandidates = this.fetchCandidates.bind(this)
   }
 
-  async componentDidMount () {
-    this.setState({ loading: true })
-    await this.fetchCandidates()
-    this.setState({ loading: false })
+  componentDidMount () {
+    this.fetchCandidates()
   }
 
   async fetchCandidates () {

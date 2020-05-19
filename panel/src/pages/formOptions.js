@@ -96,4 +96,21 @@ const networkLimit = [
   { key: 'unlimmited', text: '無限制', value: 'unlimmited' }
 ]
 
-export { genderOptions, boolOptions, androidSystemVersion, mobileOpitons, osOptions, cityOptions, jobOptions, networkAccessOptions, networkLimit }
+const mailMethodOptions = [
+  { text: '自行送交', value: 'selfDeliver' },
+  { text: '掛號信', value: 'registeredMail' },
+  { text: '平信', value: 'ordinaryMail' }
+]
+
+export {
+  genderOptions,
+  boolOptions,
+  androidSystemVersion,
+  mobileOpitons,
+  osOptions,
+  cityOptions,
+  jobOptions,
+  networkAccessOptions,
+  networkLimit,
+  mailMethodOptions
+}

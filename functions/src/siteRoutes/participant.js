@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const moment = require('moment-timezone')
 const {
   fetchParticipantDetailById,
   fetchCandidateDetailById,
@@ -66,7 +67,7 @@ router.post('/done/sendconsent', validators.sendConsent, async (req, res) => {
     const payload = req.body
     const { id, mailMethod } = payload
     const moveStatusAsync = moveStauts(id, status.CONSENT_SENT)
-    const setMailMethodAsync = updateDB(`participant/${id}`, { mailMethod })
+    const setMailMethodAsync = updateDB(`participant/${id}`, { mailMethod, consentSentTime: moment().tz('Asia/Taipei').format() })
     await Promise.all([moveStatusAsync, setMailMethodAsync])
     res.json({ status: status.CONSENT_SENT })
   } catch (err) {

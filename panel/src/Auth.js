@@ -38,11 +38,7 @@ export default class Auth extends Component {
       (user) => {
         that.setState({ isSignedIn: !!user, error: false })
         if (user) {
-          firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function (idToken) {
-            console.log({ idToken })
-            console.log(idToken === user.ma, idToken === user._lat)
-          })
-          console.log({ user })
+          firebase.auth().currentUser.getIdToken(/* forceRefresh */ true)
           // axios.defaults.headers.common.Authorization = `Bearer ${token}`
         }
       }
@@ -65,7 +61,6 @@ export default class Auth extends Component {
   }
 
   handleChange (e, { name, value }) {
-    // const { submitted } = this.state
     this.setState({ [name]: value })
   }
 

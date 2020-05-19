@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Table, Button, Modal } from 'semantic-ui-react'
 import axios from 'axios'
-import { genderOptions, mobileOpitons, cityOptions, jobOptions, networkAccessOptions, networkLimit } from '../formOptions'
+import { genderOptions, mobileOpitons, cityOptions, jobOptions, networkAccessOptions, networkLimit } from '../../formOptions'
 import moment from 'moment-timezone'
 
 const translate = (options, value) => {
