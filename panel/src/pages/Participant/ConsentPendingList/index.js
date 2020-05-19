@@ -13,6 +13,7 @@ export default class ConsentPendingList extends Component {
     super(props)
     this.state = {
       participants: [],
+      numberContent: [],
       loading: false
     }
     this.fetchConsentPending = this.fetchConsentPending.bind(this)
