@@ -39,9 +39,9 @@ export default class ConsentPendingList extends Component {
       .length
     const consentPending = participants.length
     const content = [
-      { value: consentSent3DCount, label: '送出後已過三日', dangerous: true },
-      { value: consentSentCount, label: '已經送出', warning: true },
-      { value: consentPending, label: '總人數', warning: true }
+      { value: consentSent3DCount, label: '送出後已過三日', dangerous: consentSent3DCount > 0 },
+      { value: consentSentCount, label: '已經送出', warning: consentSentCount > 0 },
+      { value: consentPending, label: '總人數' }
     ]
     this.setState({ numberContent: content })
   }
