@@ -41,8 +41,17 @@
   padding: 8px
 }
 
+.short-marginned {
+  margin: 8px
+}
+
 .login-status {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.numbers {
+  display: flex;
+  align-items: center;
 }
