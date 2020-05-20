@@ -7,6 +7,7 @@ import ConsentPendingCell from './ConsentPendingCell'
 import LoadingPage from '../../LoadingPage'
 import Numbers from '../../Numbers'
 import moment from 'moment-timezone'
+import { dbRef } from '../../util'
 
 export default class ConsentPendingList extends Component {
   constructor (props) {
@@ -14,14 +15,19 @@ export default class ConsentPendingList extends Component {
     this.state = {
       participants: [],
       numberContent: [],
-      loading: false
+      loading: true
     }
-    this.fetchConsentPending = this.fetchConsentPending.bind(this)
     this.createNumbers = this.createNumbers.bind(this)
+    this.updateParticipants = this.updateParticipants.bind(this)
   }
 
   componentDidMount () {
-    this.fetchConsentPending()
+    dbRef('participant', this.updateParticipants,
+      (d) => [status.INIT, status.VIDEO_DONE, status.CONSENT_SENT].includes(d.status))
+  }
+
+  updateParticipants (participants) {
+    this.setState({ participants, loading: false }, this.createNumbers)
   }
 
   createNumbers () {
@@ -47,21 +53,9 @@ export default class ConsentPendingList extends Component {
     this.setState({ numberContent: content })
   }
 
-  async fetchConsentPending () {
-    try {
-      this.setState({ loading: true })
-      const res = await axios.get('/apis/participant/consent/pending')
-      const participants = res.data
-      this.setState({ participants, loading: false }, this.createNumbers)
-    } catch (err) {
-      console.error(err)
-    }
-  }
-
   async acceptConsent (uid) {
     try {
       await axios.post('/apis/participant/consent/accept', { uid })
-      await this.fetchConsentPending()
     } catch (err) {
       console.error(err)
     }

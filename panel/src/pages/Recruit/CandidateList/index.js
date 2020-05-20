@@ -4,7 +4,7 @@ import { Table } from 'semantic-ui-react'
 import CandidateCell from './CandidateCell'
 
 export default function CandidateList (props) {
-  const { candidates, fetchCandidates } = props
+  const { candidates } = props
   return <Table basic='very' celled collapsing>
     <Table.Header>
       <Table.Row>
@@ -17,12 +17,11 @@ export default function CandidateList (props) {
       </Table.Row>
     </Table.Header>
     <Table.Body>
-      {candidates.map((c, idx) => <CandidateCell fetchCandidates={fetchCandidates} candidate={c} key={idx}/>)}
+      {candidates.map((c, idx) => <CandidateCell candidate={c} key={idx}/>)}
     </Table.Body>
   </Table>
 }
 
 CandidateList.propTypes = {
-  candidates: PropTypes.array,
-  fetchCandidates: PropTypes.func
+  candidates: PropTypes.array
 }

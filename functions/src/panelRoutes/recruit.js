@@ -1,18 +1,18 @@
 const express = require('express')
 const router = express.Router()
-const { fetchDB, updateDB, moveDB } = require('../utils')
+const { updateDB, moveDB } = require('../utils')
 const moment = require('moment-timezone')
 const { sendAcceptMail, sendDeclineMail } = require('../mail')
 const status = require('../status')
 
-const restructure = (objs) => {
-  return Object.keys(objs).map((uid) => {
-    return {
-      uid,
-      ...objs[uid]
-    }
-  })
-}
+// const restructure = (objs) => {
+//   return Object.keys(objs).map((uid) => {
+//     return {
+//       uid,
+//       ...objs[uid]
+//     }
+//   })
+// }
 
 router.post('/add', async (req, res) => {
   try {
@@ -26,29 +26,17 @@ router.post('/add', async (req, res) => {
   }
 })
 
-router.get('/participants', async (req, res) => {
-  try {
-    const result = await fetchDB('participant')
-    if (result === null) return res.json([])
-    const data = restructure(result)
-    res.json(data)
-  } catch (err) {
-    console.error(err)
-    res.status(500).send('error')
-  }
-})
-
-router.get('/candidates', async (req, res) => {
-  try {
-    const result = await fetchDB('candidate')
-    if (result === null) return res.json([])
-    const data = restructure(result)
-    res.json(data)
-  } catch (err) {
-    console.error(err)
-    res.status(500).send('error')
-  }
-})
+// router.get('/candidates', async (req, res) => {
+//   try {
+//     const result = await fetchDB('candidate')
+//     if (result === null) return res.json([])
+//     const data = restructure(result)
+//     res.json(data)
+//   } catch (err) {
+//     console.error(err)
+//     res.status(500).send('error')
+//   }
+// })
 
 router.post('/accept', async (req, res) => {
   try {

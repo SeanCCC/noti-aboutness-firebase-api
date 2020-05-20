@@ -24,12 +24,12 @@ export default class CandidateCell extends Component {
   }
 
   async sendAcceptMail () {
-    const { candidate, fetchCandidates } = this.props
+    const { candidate } = this.props
     const { uid } = candidate
     this.setState({ sendingAcceptMail: true })
     try {
       await axios.post('/apis/recruit/accept', { uid })
-      this.setState({ acceptMailSent: true }, fetchCandidates)
+      this.setState({ acceptMailSent: true })
     } catch (e) {
       console.error(e)
     }
@@ -37,12 +37,12 @@ export default class CandidateCell extends Component {
   }
 
   async sendDeclineMail () {
-    const { candidate, fetchCandidates } = this.props
+    const { candidate } = this.props
     const { uid } = candidate
     this.setState({ sendingDeclineMail: true })
     try {
       await axios.post('/apis/recruit/decline', { uid })
-      this.setState({ declineMailSent: true }, fetchCandidates)
+      this.setState({ declineMailSent: true })
     } catch (e) {
       console.error(e)
       this.setState({ error: true })
@@ -117,6 +117,5 @@ export default class CandidateCell extends Component {
 }
 
 CandidateCell.propTypes = {
-  fetchCandidates: PropTypes.func,
   candidate: PropTypes.object
 }

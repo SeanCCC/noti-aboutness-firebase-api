@@ -1,20 +1,7 @@
 import React, { Fragment, Component } from 'react'
 import { Button, Form, Message } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
-import firebase from 'firebase'
-// import axios from 'axios'
-
-const config = {
-  apiKey: 'AIzaSyAFjPm3moByALBKFZjQw7-J1OKhuj64Chg',
-  authDomain: 'noti-aboutness-firebase-48728.firebaseapp.com',
-  databaseURL: 'https://noti-aboutness-firebase-48728.firebaseio.com',
-  projectId: 'noti-aboutness-firebase-48728',
-  storageBucket: 'noti-aboutness-firebase-48728.appspot.com',
-  messagingSenderId: '565872836833',
-  appId: '1:565872836833:web:799242f1c774cda9daf7a0',
-  measurementId: 'G-Z3H54HV5DM'
-}
-firebase.initializeApp(config)
+import { firebaseAuth } from './firebaseInit.js'
 
 export default class Auth extends Component {
   constructor (props) {
@@ -34,11 +21,11 @@ export default class Auth extends Component {
   // Listen to the Firebase Auth state and set the local state.
   componentDidMount () {
     const that = this
-    this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(
+    this.unregisterAuthObserver = firebaseAuth.onAuthStateChanged(
       (user) => {
         that.setState({ isSignedIn: !!user, error: false })
         if (user) {
-          firebase.auth().currentUser.getIdToken(/* forceRefresh */ true)
+          firebaseAuth.currentUser.getIdToken(/* forceRefresh */ true)
           // axios.defaults.headers.common.Authorization = `Bearer ${token}`
         }
       }
@@ -53,7 +40,7 @@ export default class Auth extends Component {
   handleLogin () {
     const { password, email } = this.state
     const that = this
-    firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
+    firebaseAuth.signInWithEmailAndPassword(email, password).catch(function (error) {
       const errorMessage = error.message
       that.setState({ errorMessage, error: true })
     })
@@ -82,8 +69,8 @@ export default class Auth extends Component {
     return (
       <Fragment>
         <div className="login-status">
-          <div>目前登入的帳號為 {firebase.auth().currentUser.email}</div>
-          <Button onClick={() => firebase.auth().signOut()}>登出</Button>
+          <div>目前登入的帳號為 {firebaseAuth.currentUser.email}</div>
+          <Button onClick={() => firebaseAuth.signOut()}>登出</Button>
         </div>
         {this.props.children}
       </Fragment>

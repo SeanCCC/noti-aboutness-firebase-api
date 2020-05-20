@@ -2,14 +2,7 @@ import React, { Component } from 'react'
 import CandidateList from './CandidateList'
 import { Accordion, Icon, Header } from 'semantic-ui-react'
 import LoadingPage from '../LoadingPage'
-import axios from 'axios'
-
-// import {
-//   Switch,
-//   Route,
-//   useRouteMatch,
-//   Redirect
-// } from 'react-router-dom'
+import { dbRef } from '../util'
 
 export default class Recruit extends Component {
   constructor (props) {
@@ -17,21 +10,18 @@ export default class Recruit extends Component {
     this.state = {
       activeIndex: [],
       candidates: [],
-      loading: false
+      loading: true
     }
     this.handleClick = this.handleClick.bind(this)
-    this.fetchCandidates = this.fetchCandidates.bind(this)
+    this.updateCandidates = this.updateCandidates.bind(this)
   }
 
   componentDidMount () {
-    this.fetchCandidates()
+    dbRef('candidate', this.updateCandidates)
   }
 
-  async fetchCandidates () {
-    this.setState({ loading: true })
-    const res = await axios.get('/apis/recruit/candidates')
-    const candidates = res.data
-    this.setState({ candidates, loading: false })
+  updateCandidates (candidates) {
+    this.setState({ loading: false, candidates })
   }
 
   handleClick (e, titleProps) {
@@ -62,7 +52,7 @@ export default class Recruit extends Component {
           <Header as="h3"><Icon name='dropdown' />候選名單({candidates.length})</Header>
         </Accordion.Title>
         <Accordion.Content active={activeIndex.includes(0)}>
-          <CandidateList candidates={candidates} fetchCandidates={this.fetchCandidates}/>
+          <CandidateList candidates={candidates} />
         </Accordion.Content>
 
       </Accordion>
