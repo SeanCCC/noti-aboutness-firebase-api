@@ -37,8 +37,8 @@ router.post('/bind', async (req, res) => {
       return res.status(400).send('wrong status')
     }
     moment.locale('zh-tw')
-    const startDate = moment().tz('Asia/Taipei').add(1, 'days').format('L')
-    await updateDB(`participant/${uid}`, { deviceId, status: status.APP_VALID, startDate })
+    const researchStartDate = moment().tz('Asia/Taipei').add(1, 'days').format('L')
+    await updateDB(`participant/${uid}`, { deviceId, status: status.APP_VALID, researchStartDate })
     res.json({ uid })
   } catch (err) {
     console.error(err)

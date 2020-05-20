@@ -84,6 +84,7 @@ export default class PrepareParticipant extends Component {
     } = this.state
     if (loading) return <LoadingPage/>
     return <div className="page">
+      <Header as="h1">實驗前準備</Header>
       <div className="numbers">
         <Header as="h3">等待同意書</Header>
         <Numbers content={numberContent} />

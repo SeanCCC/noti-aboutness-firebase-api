@@ -16,10 +16,18 @@ export default class ConsentPendingCell extends Component {
     this.state = {
       acceptingConsent: false
     }
+    this.sendAcceptMail = this.sendAcceptMail.bind(this)
+  }
+
+  async sendAcceptMail () {
+    const { participant, acceptConsent } = this.props
+    this.setState({ acceptingConsent: true })
+    await acceptConsent(participant.uid)
+    this.setState({ acceptingConsent: false })
   }
 
   render () {
-    const { participant: p, acceptConsent } = this.props
+    const { participant: p } = this.props
     const { acceptingConsent } = this.state
     const mailMethod = translate(mailMethodOptions, p.mailMethod, '未送出')
     const consentSentTime = !p.consentSentTime ? '未送出' : moment(new Date(p.consentSentTime)).tz('Asia/Taipei').format('YYYY-MM-DD HH:mm')
@@ -44,7 +52,7 @@ export default class ConsentPendingCell extends Component {
               trigger={<Button content="確認同意書" loading={acceptingConsent} primary />}
               header='確認同意書有效'
               content='資料是否有填寫完整？'
-              actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: acceptConsent }]}
+              actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: this.sendAcceptMail }]}
             />
             : null}
         </Table.Cell>
