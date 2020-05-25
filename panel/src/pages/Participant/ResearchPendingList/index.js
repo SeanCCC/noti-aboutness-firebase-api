@@ -20,7 +20,7 @@ export default class ResearchPendingList extends Component {
         <Table.Row>
           <Table.HeaderCell>姓名</Table.HeaderCell>
           <Table.HeaderCell>是否完成五大人格</Table.HeaderCell>
-          <Table.HeaderCell>是否已經綁定手機</Table.HeaderCell>
+          <Table.HeaderCell>是否完成App設定</Table.HeaderCell>
           <Table.HeaderCell>實驗開始時間</Table.HeaderCell>
           <Table.HeaderCell>動作</Table.HeaderCell>
         </Table.Row>

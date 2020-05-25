@@ -6,6 +6,7 @@ import LoadingPage from '../LoadingPage'
 import Numbers from '../Numbers'
 import moment from 'moment-timezone'
 import ConsentPendingList from './ConsentPendingList'
+import ResearchPendingList from './ResearchPendingList'
 import { dbRef } from '../util'
 
 export default class PrepareParticipant extends Component {
@@ -13,13 +14,15 @@ export default class PrepareParticipant extends Component {
     super(props)
     this.state = {
       consentPendingParticipants: [],
-      numberContent: [],
+      researchPendingParticipants: [],
+      consentPendingNumber: [],
       activeIndex: [],
       loading: true
     }
     this.createPrepareNumber = this.createPrepareNumber.bind(this)
     this.updateParticipants = this.updateParticipants.bind(this)
     this.handleAccordionClick = this.handleAccordionClick.bind(this)
+    this.createrResearchPendingNumber = this.createrResearchPendingNumber.bind(this)
   }
 
   componentDidMount () {
@@ -42,14 +45,18 @@ export default class PrepareParticipant extends Component {
   updateParticipants (participants) {
     const consentPendingParticipants =
       participants.filter((d) => [status.INIT, status.VIDEO_DONE, status.CONSENT_SENT].includes(d.status))
+    const researchPendingParticipants =
+      participants.filter((d) => [status.CONSENT_VALID, status.BIG_FIVE_DONE, status.APP_VALID].includes(d.status))
     this.setState({
       consentPendingParticipants,
+      researchPendingParticipants,
       loading: false
     }, this.createNumbers)
   }
 
   createNumbers () {
     this.createPrepareNumber()
+    this.createrResearchPendingNumber()
   }
 
   createPrepareNumber () {
@@ -72,14 +79,29 @@ export default class PrepareParticipant extends Component {
       { value: consentSentCount, label: '已經送出', warning: consentSentCount > 0 },
       { value: consentPending, label: '總人數' }
     ]
-    this.setState({ numberContent: content })
+    this.setState({ consentPendingNumber: content })
+  }
+
+  createrResearchPendingNumber () {
+    const { researchPendingParticipants } = this.state
+    const yetConfigAppCount = researchPendingParticipants
+      .filter((p) => p.status !== status.APP_VALID)
+      .length
+    const researchPending = researchPendingParticipants.length
+    const content = [
+      { value: yetConfigAppCount, label: '尚未設定App' },
+      { value: researchPending, label: '總人數' }
+    ]
+    this.setState({ researchPendingNumber: content })
   }
 
   render () {
     const {
       loading,
-      numberContent,
+      consentPendingNumber,
+      researchPendingNumber,
       consentPendingParticipants,
+      researchPendingParticipants,
       activeIndex
     } = this.state
     if (loading) return <LoadingPage/>
@@ -87,7 +109,11 @@ export default class PrepareParticipant extends Component {
       <Header as="h1">實驗前準備</Header>
       <div className="numbers">
         <Header as="h3">等待同意書</Header>
-        <Numbers content={numberContent} />
+        <Numbers content={consentPendingNumber} />
+      </div>
+      <div className="numbers">
+        <Header as="h3">尚未設定App</Header>
+        <Numbers content={researchPendingNumber} />
       </div>
       <Accordion fluid styled className="short-marginned">
         <Accordion.Title
@@ -101,6 +127,19 @@ export default class PrepareParticipant extends Component {
         <Accordion.Content active={activeIndex.includes(0)}>
           <ConsentPendingList
             participants={consentPendingParticipants}
+          />
+        </Accordion.Content>
+        <Accordion.Title
+          size="x-large"
+          active={activeIndex === 1}
+          index={1}
+          onClick={this.handleAccordionClick}
+        >
+          <Header as="h3"><Icon name='dropdown' />正在準備實驗({researchPendingParticipants.length})</Header>
+        </Accordion.Title>
+        <Accordion.Content active={activeIndex.includes(1)}>
+          <ResearchPendingList
+            participants={researchPendingParticipants}
           />
         </Accordion.Content>
       </Accordion>

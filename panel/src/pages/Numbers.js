@@ -8,7 +8,7 @@ const Numbers = ({ content = [] }) => (
       let color
       if (dangerous) color = 'red'
       else if (warning) color = 'orange'
-      return <Statistic color={color} size="large" key={idx} >
+      return <Statistic color={color} size="mini" key={idx} >
         <Statistic.Value>{value}</Statistic.Value>
         <Statistic.Label>{label}</Statistic.Label>
       </Statistic>

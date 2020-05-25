@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Table, Modal, Button } from 'semantic-ui-react'
 import status from '../../status'
@@ -37,14 +37,19 @@ export default class ResearchPendingCell extends Component {
           {p.researchStartDate}
         </Table.Cell>
         <Table.Cell>
-          {p.status === status.APP_VALID
-            ? <Modal
-              size="mini"
-              trigger={<Button content="確認同意書" loading={sendingReminder} primary />}
-              header='確認同意書有效'
-              content='資料是否有填寫完整？'
-              actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: this.sendReminder }]}
-            />
+
+          {p.status !== status.APP_VALID
+            ? <Fragment>
+            上次寄信：<br/>
+              {p.preResearchReminderSent || '無'} <br/>
+              <Modal
+                size="mini"
+                trigger={<Button content="寄出同意信" loading={sendingReminder} primary />}
+                header='是否寄出同意信'
+                content=''
+                actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: this.sendReminder }]}
+              />
+            </Fragment>
             : null}
         </Table.Cell>
       </Table.Row>)

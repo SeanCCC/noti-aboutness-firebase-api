@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const { moveStauts } = require('../utils')
+const moment = require('moment-timezone')
+const { moveStauts, updateDB } = require('../utils')
 const { sendPreResearchRemind, sendConsentAcceptMail } = require('../mail')
 const status = require('../status')
 
@@ -46,6 +47,7 @@ router.post('/preResearchRemind', async (req, res) => {
     const payload = req.body
     const { uid } = payload
     await sendPreResearchRemind(uid)
+    await updateDB(`candidate/${uid}`, { preResearchReminderSent: moment().tz('Asia/Taipei').format() })
     res.send('success')
   } catch (err) {
     console.error(err)
