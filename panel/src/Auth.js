@@ -56,7 +56,7 @@ export default class Auth extends Component {
     if (!isSignedIn) {
       return (
         <div>
-          <p>Please sign-in:</p>
+          <p>請登入:</p>
           <Form.Input fluid name="email" label='Email' onChange={this.handleChange}/>
           <Form.Input fluid name="password" label='Password' type='password' onChange={this.handleChange} />
           <Button onClick={this.handleLogin}>登入</Button>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { withRouter } from 'react-router'
 import { Redirect } from 'react-router-dom'
 import { Icon, Menu, Sidebar } from 'semantic-ui-react'
 
@@ -14,7 +15,6 @@ class SidebarComp extends Component {
   }
 
   setNextPath (nextPath) {
-    console.log({ nextPath })
     this.setState({ nextPath })
   }
 
@@ -37,7 +37,6 @@ class SidebarComp extends Component {
           as={Menu}
           animation='push'
           icon='labeled'
-          inverted
           vertical
           visible
           width='thin'
@@ -52,7 +51,7 @@ class SidebarComp extends Component {
             候選人面板
           </Menu.Item>
           <Menu.Item as='a' onClick={
-            () => this.setNextPath('/prepare')
+            () => this.setNextPath('/participant/prepare')
           }>
             研究前面板
           </Menu.Item>
@@ -63,7 +62,7 @@ class SidebarComp extends Component {
             研究後面板
           </Menu.Item>
         </Sidebar>
-        <Sidebar.Pusher dimmed>
+        <Sidebar.Pusher>
           {this.props.children}
         </Sidebar.Pusher>
       </Sidebar.Pushable>
@@ -77,4 +76,4 @@ SidebarComp.propTypes = {
   visible: PropTypes.bool
 }
 
-export default SidebarComp
+export default withRouter(SidebarComp)

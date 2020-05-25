@@ -17,17 +17,17 @@ function App () {
     <Router>
       <div className="App">
         <Auth>
-          <Switch>
-            <Route path="/recruit">
-              <SidebarComp>
+          <SidebarComp>
+            <Switch>
+              <Route path="/recruit">
                 <Recruit/>
-              </SidebarComp>
-            </Route>
-            <Route path="/participant" component={Participant}/>
-            <Route path="/">
-              <Redirect to='/recruit' />
-            </Route>
-          </Switch>
+              </Route>
+              <Route path="/participant" component={Participant}/>
+              <Route path="/">
+                <Redirect to='/recruit' />
+              </Route>
+            </Switch>
+          </SidebarComp>
         </Auth>
       </div>
     </Router>
