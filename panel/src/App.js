@@ -1,4 +1,6 @@
 import React from 'react'
+import { Provider } from 'react-redux'
+import store from './redux/store'
 import 'semantic-ui-css/semantic.min.css'
 import './App.scss'
 import Recruit from './pages/Recruit'
@@ -17,17 +19,19 @@ function App () {
     <Router>
       <div className="App">
         <Auth>
-          <SidebarComp>
-            <Switch>
-              <Route path="/recruit">
-                <Recruit/>
-              </Route>
-              <Route path="/participant" component={Participant}/>
-              <Route path="/">
-                <Redirect to='/recruit' />
-              </Route>
-            </Switch>
-          </SidebarComp>
+          <Provider store={store}>
+            <SidebarComp>
+              <Switch>
+                <Route path="/recruit">
+                  <Recruit test={1}/>
+                </Route>
+                <Route path="/participant" component={Participant}/>
+                <Route path="/">
+                  <Redirect to='/recruit' />
+                </Route>
+              </Switch>
+            </SidebarComp>
+          </Provider>
         </Auth>
       </div>
     </Router>

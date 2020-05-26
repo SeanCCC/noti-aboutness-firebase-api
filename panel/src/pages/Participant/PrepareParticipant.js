@@ -1,28 +1,23 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { Accordion, Header, Icon } from 'semantic-ui-react'
-import status from '../status'
 import LoadingPage from '../LoadingPage'
 import Numbers from '../Numbers'
-import moment from 'moment-timezone'
 import ConsentPendingList from './ConsentPendingList'
 import ResearchPendingList from './ResearchPendingList'
 import { dbRef } from '../util'
+import { updateParticipants } from '../../redux/actions'
 
-export default class PrepareParticipant extends Component {
+class PrepareParticipant extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      consentPendingParticipants: [],
-      researchPendingParticipants: [],
-      consentPendingNumber: [],
       activeIndex: [],
       loading: true
     }
-    this.createPrepareNumber = this.createPrepareNumber.bind(this)
     this.updateParticipants = this.updateParticipants.bind(this)
     this.handleAccordionClick = this.handleAccordionClick.bind(this)
-    this.createrResearchPendingNumber = this.createrResearchPendingNumber.bind(this)
   }
 
   componentDidMount () {
@@ -43,67 +38,20 @@ export default class PrepareParticipant extends Component {
   }
 
   updateParticipants (participants) {
-    const consentPendingParticipants =
-      participants.filter((d) => [status.INIT, status.VIDEO_DONE, status.CONSENT_SENT].includes(d.status))
-    const researchPendingParticipants =
-      participants.filter((d) => [status.CONSENT_VALID, status.BIG_FIVE_DONE, status.APP_VALID].includes(d.status))
+    this.props.updateParticipants({ participants })
     this.setState({
-      consentPendingParticipants,
-      researchPendingParticipants,
       loading: false
-    }, this.createNumbers)
-  }
-
-  createNumbers () {
-    this.createPrepareNumber()
-    this.createrResearchPendingNumber()
-  }
-
-  createPrepareNumber () {
-    const { consentPendingParticipants } = this.state
-    const consentSentCount = consentPendingParticipants
-      .filter((p) => p.status === status.CONSENT_SENT)
-      .length
-    const now = moment()
-    const consentSent3DCount = consentPendingParticipants
-      .filter((p) => {
-        const then = moment(p.consentSentTime)
-        const ms = now.diff(then)
-        const hours = moment.duration(ms).asHours()
-        return p.status === status.CONSENT_SENT && hours > 3 * 24
-      })
-      .length
-    const consentPending = consentPendingParticipants.length
-    const content = [
-      { value: consentSent3DCount, label: '送出後已過三日', dangerous: consentSent3DCount > 0 },
-      { value: consentSentCount, label: '已經送出', warning: consentSentCount > 0 },
-      { value: consentPending, label: '總人數' }
-    ]
-    this.setState({ consentPendingNumber: content })
-  }
-
-  createrResearchPendingNumber () {
-    const { researchPendingParticipants } = this.state
-    const yetConfigAppCount = researchPendingParticipants
-      .filter((p) => p.status !== status.APP_VALID)
-      .length
-    const researchPending = researchPendingParticipants.length
-    const content = [
-      { value: yetConfigAppCount, label: '尚未設定App' },
-      { value: researchPending, label: '總人數' }
-    ]
-    this.setState({ researchPendingNumber: content })
+    })
   }
 
   render () {
+    const { loading, activeIndex } = this.state
     const {
-      loading,
       consentPendingNumber,
       researchPendingNumber,
       consentPendingParticipants,
-      researchPendingParticipants,
-      activeIndex
-    } = this.state
+      researchPendingParticipants
+    } = this.props
     if (loading) return <LoadingPage/>
     return <div className="page">
       <Header as="h1">實驗前準備</Header>
@@ -148,5 +96,18 @@ export default class PrepareParticipant extends Component {
 }
 
 PrepareParticipant.propTypes = {
-  fetchParticipants: PropTypes.func
+  updateParticipants: PropTypes.func,
+  consentPendingParticipants: PropTypes.array,
+  researchPendingParticipants: PropTypes.array,
+  consentPendingNumber: PropTypes.array,
+  researchPendingNumber: PropTypes.array
 }
+
+const mapStateToProps = (state) => ({
+  consentPendingParticipants: state.consentPendingParticipants,
+  researchPendingParticipants: state.researchPendingParticipants,
+  consentPendingNumber: state.consentPendingNumber,
+  researchPendingNumber: state.researchPendingNumber
+})
+
+export default connect(mapStateToProps, { updateParticipants })(PrepareParticipant)

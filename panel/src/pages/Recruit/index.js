@@ -1,15 +1,17 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import CandidateList from './CandidateList'
+import { connect } from 'react-redux'
 import { Accordion, Icon, Header } from 'semantic-ui-react'
 import LoadingPage from '../LoadingPage'
 import { dbRef } from '../util'
+import { updateCandidates } from '../../redux/actions'
 
-export default class Recruit extends Component {
+class Recruit extends Component {
   constructor (props) {
     super(props)
     this.state = {
       activeIndex: [],
-      candidates: [],
       loading: true
     }
     this.handleClick = this.handleClick.bind(this)
@@ -22,6 +24,7 @@ export default class Recruit extends Component {
 
   updateCandidates (candidates) {
     this.setState({ loading: false, candidates })
+    this.props.updateCandidates({ candidates })
   }
 
   handleClick (e, titleProps) {
@@ -39,7 +42,8 @@ export default class Recruit extends Component {
   }
 
   render () {
-    const { activeIndex, loading, candidates } = this.state
+    const { activeIndex, loading } = this.state
+    const { candidates } = this.props
     if (loading) return <LoadingPage/>
     return <div className="page">
       <Accordion fluid styled>
@@ -60,3 +64,14 @@ export default class Recruit extends Component {
     </div>
   }
 }
+
+const mapStateToProps = (state) => ({
+  candidates: state.candidates
+})
+
+Recruit.propTypes = {
+  updateCandidates: PropTypes.func,
+  candidates: PropTypes.array
+}
+
+export default connect(mapStateToProps, { updateCandidates })(Recruit)
