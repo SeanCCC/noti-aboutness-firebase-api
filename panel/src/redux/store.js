@@ -6,7 +6,9 @@ const initState = {
   consentPendingNumber: [],
   researchPendingNumber: [],
   candidates: [],
-  candidatesNumber: []
+  candidatesNumber: [],
+  researchDoneParticipants: [],
+  researchDoneNumber: []
 }
 
 const reducer = (state = initState, action) => {

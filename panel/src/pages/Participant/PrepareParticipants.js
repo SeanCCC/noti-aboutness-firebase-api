@@ -7,7 +7,7 @@ import Numbers from '../Numbers'
 import ConsentPendingList from './ConsentPendingList'
 import ResearchPendingList from './ResearchPendingList'
 
-class PrepareParticipant extends Component {
+class PrepareParticipants extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -81,8 +81,7 @@ class PrepareParticipant extends Component {
   }
 }
 
-PrepareParticipant.propTypes = {
-  updateParticipants: PropTypes.func,
+PrepareParticipants.propTypes = {
   consentPendingParticipants: PropTypes.array,
   researchPendingParticipants: PropTypes.array,
   consentPendingNumber: PropTypes.array,
@@ -96,4 +95,4 @@ const mapStateToProps = (state) => ({
   researchPendingNumber: state.researchPendingNumber
 })
 
-export default connect(mapStateToProps)(PrepareParticipant)
+export default connect(mapStateToProps)(PrepareParticipants)

@@ -60,7 +60,6 @@ class Recruit extends Component {
 }
 
 Recruit.propTypes = {
-  updateCandidates: PropTypes.func,
   candidatesNumber: PropTypes.array,
   candidates: PropTypes.array
 }

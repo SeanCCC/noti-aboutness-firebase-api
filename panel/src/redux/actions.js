@@ -55,7 +55,7 @@ function createPrepareNumber (consentPendingParticipants) {
   ]
 }
 
-function createrResearchPendingNumber (researchPendingParticipants) {
+function createResearchPendingNumber (researchPendingParticipants) {
   const yetConfigAppCount = researchPendingParticipants
     .filter((p) => p.status !== status.APP_VALID)
     .length
@@ -66,21 +66,37 @@ function createrResearchPendingNumber (researchPendingParticipants) {
   ]
 }
 
+function createResearchDoneNumber (researchDoneParticipants) {
+  const yetConfigAppCount = researchDoneParticipants
+    .filter((p) => p.status !== status.APP_VALID)
+    .length
+  const researchDoneCount = researchDoneParticipants.length
+  return [
+    { value: yetConfigAppCount, label: '尚未設定App' },
+    { value: researchDoneCount, label: '總人數' }
+  ]
+}
+
 export const updateParticipants = payload => {
   const { participants } = payload
   const consentPendingParticipants =
-      participants.filter((d) => [status.INIT, status.VIDEO_DONE, status.CONSENT_SENT].includes(d.status))
+    participants.filter((d) => [status.INIT, status.VIDEO_DONE, status.CONSENT_SENT].includes(d.status))
+  const researchDoneParticipants =
+    participants.filter((d) => [status.RESEARCH_DONE].includes(d.status))
   const researchPendingParticipants =
-      participants.filter((d) => [status.CONSENT_VALID, status.BIG_FIVE_DONE, status.APP_VALID].includes(d.status))
+    participants.filter((d) => [status.CONSENT_VALID, status.BIG_FIVE_DONE, status.APP_VALID].includes(d.status))
   const consentPendingNumber = createPrepareNumber(consentPendingParticipants)
-  const researchPendingNumber = createrResearchPendingNumber(researchPendingParticipants)
+  const researchPendingNumber = createResearchPendingNumber(researchPendingParticipants)
+  const researchDoneNumber = createResearchDoneNumber(researchDoneParticipants)
   return {
     type: 'UPDATE_PARTICIPANTS',
     payload: {
       consentPendingParticipants,
       researchPendingParticipants,
       consentPendingNumber,
-      researchPendingNumber
+      researchPendingNumber,
+      researchDoneParticipants,
+      researchDoneNumber
     }
   }
 }
