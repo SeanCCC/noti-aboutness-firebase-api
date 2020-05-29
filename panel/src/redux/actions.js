@@ -1,10 +1,39 @@
 import status from '../pages/status'
 import moment from 'moment-timezone'
 
-export const updateCandidates = payload => ({
-  type: 'UPDATE_CANDIDATES',
-  payload
-})
+function createCandidatesNumber (candidates) {
+  const mailYetSent = candidates
+    .filter((c) => c.lastInvitationSent === undefined)
+    .length
+  const now = moment()
+  const mailSent3DCount = candidates
+    .filter((p) => {
+      const then = moment(p.lastInvitationSent)
+      const ms = now.diff(then)
+      const hours = moment.duration(ms).asHours()
+      console.log(hours)
+      return hours > 3 * 24
+    })
+    .length
+  const candidatesCount = candidates.length
+  return [
+    { value: mailYetSent, label: '尚未回應', dangerous: mailYetSent > 0 },
+    { value: mailSent3DCount, label: '送出後已過三日', warning: mailSent3DCount > 0 },
+    { value: candidatesCount, label: '總人數' }
+  ]
+}
+
+export const updateCandidates = payload => {
+  const { candidates } = payload
+  const candidatesNumber = createCandidatesNumber(candidates)
+  return {
+    type: 'UPDATE_CANDIDATES',
+    payload: {
+      candidates,
+      candidatesNumber
+    }
+  }
+}
 
 function createPrepareNumber (consentPendingParticipants) {
   const consentSentCount = consentPendingParticipants

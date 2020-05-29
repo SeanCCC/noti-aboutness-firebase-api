@@ -53,13 +53,13 @@ class SidebarComp extends Component {
           <Menu.Item as='a' onClick={
             () => this.setNextPath('/participant/prepare')
           }>
-            研究前面板
+            實驗前面板
           </Menu.Item>
           <Menu.Item as='a'>
-            研究中面板
+            實驗中面板
           </Menu.Item>
           <Menu.Item as='a'>
-            研究後面板
+            實驗後面板
           </Menu.Item>
         </Sidebar>
         <Sidebar.Pusher>

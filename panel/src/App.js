@@ -22,9 +22,7 @@ function App () {
           <Provider store={store}>
             <SidebarComp>
               <Switch>
-                <Route path="/recruit">
-                  <Recruit test={1}/>
-                </Route>
+                <Route path="/recruit" component={Recruit}/>
                 <Route path="/participant" component={Participant}/>
                 <Route path="/">
                   <Redirect to='/recruit' />

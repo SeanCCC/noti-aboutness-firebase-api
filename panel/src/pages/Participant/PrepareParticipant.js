@@ -54,13 +54,13 @@ class PrepareParticipant extends Component {
     } = this.props
     if (loading) return <LoadingPage/>
     return <div className="page">
-      <Header as="h1">實驗前準備</Header>
+      <Header as="h1">實驗前面板</Header>
       <div className="numbers">
         <Header as="h3">等待同意書</Header>
         <Numbers content={consentPendingNumber} />
       </div>
       <div className="numbers">
-        <Header as="h3">尚未設定App</Header>
+        <Header as="h3">正在準備實驗</Header>
         <Numbers content={researchPendingNumber} />
       </div>
       <Accordion fluid styled className="short-marginned">

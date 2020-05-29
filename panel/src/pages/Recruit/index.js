@@ -6,6 +6,7 @@ import { Accordion, Icon, Header } from 'semantic-ui-react'
 import LoadingPage from '../LoadingPage'
 import { dbRef } from '../util'
 import { updateCandidates } from '../../redux/actions'
+import Numbers from '../Numbers'
 
 class Recruit extends Component {
   constructor (props) {
@@ -43,9 +44,14 @@ class Recruit extends Component {
 
   render () {
     const { activeIndex, loading } = this.state
-    const { candidates } = this.props
+    const { candidates, candidatesNumber } = this.props
     if (loading) return <LoadingPage/>
     return <div className="page">
+      <Header as="h1">候選人面板</Header>
+      <div className="numbers">
+        <Header as="h3">候選名單</Header>
+        <Numbers content={candidatesNumber} />
+      </div>
       <Accordion fluid styled>
         <Accordion.Title
           size="x-large"
@@ -65,13 +71,15 @@ class Recruit extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  candidates: state.candidates
-})
-
 Recruit.propTypes = {
   updateCandidates: PropTypes.func,
+  candidatesNumber: PropTypes.array,
   candidates: PropTypes.array
 }
+
+const mapStateToProps = (state) => ({
+  candidates: state.candidates,
+  candidatesNumber: state.candidatesNumber
+})
 
 export default connect(mapStateToProps, { updateCandidates })(Recruit)
