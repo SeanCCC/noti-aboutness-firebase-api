@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import CandidateList from './CandidateList'
 import { connect } from 'react-redux'
-import { Accordion, Icon, Header } from 'semantic-ui-react'
+import { Accordion, Icon, Header, Button } from 'semantic-ui-react'
 import LoadingPage from '../LoadingPage'
 import Numbers from '../Numbers'
 
@@ -52,9 +52,8 @@ class Recruit extends Component {
         <Accordion.Content active={activeIndex.includes(0)}>
           <CandidateList candidates={candidates} />
         </Accordion.Content>
-
       </Accordion>
-
+      <Button/>
     </div>
   }
 }
