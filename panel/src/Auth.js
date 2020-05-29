@@ -1,9 +1,26 @@
 import React, { Fragment, Component } from 'react'
 import { Button, Form, Message } from 'semantic-ui-react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { firebaseAuth } from './firebaseInit.js'
+import { firebaseAuth, firebaseDB } from './firebaseInit.js'
+import { updateParticipants, updateCandidates } from './redux/actions'
 
-export default class Auth extends Component {
+const restructure = (objs) => {
+  return Object.keys(objs).map((uid) => {
+    return {
+      uid,
+      ...objs[uid]
+    }
+  })
+}
+
+const dbRef = (colloection, cb, filterFunc = () => true) =>
+  firebaseDB.ref(colloection).on('value', function (snapshot) {
+    const data = restructure(snapshot.val()).filter(filterFunc)
+    cb(data)
+  })
+
+class Auth extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -16,6 +33,8 @@ export default class Auth extends Component {
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleLogin = this.handleLogin.bind(this)
+    this.updateParticipants = this.updateParticipants.bind(this)
+    this.updateCandidates = this.updateCandidates.bind(this)
   }
 
   // Listen to the Firebase Auth state and set the local state.
@@ -25,11 +44,24 @@ export default class Auth extends Component {
       (user) => {
         that.setState({ isSignedIn: !!user, error: false })
         if (user) {
-          firebaseAuth.currentUser.getIdToken(/* forceRefresh */ true)
-          // axios.defaults.headers.common.Authorization = `Bearer ${token}`
+          firebaseAuth.currentUser.getIdToken(true)
+          dbRef('participant', this.updateParticipants)
+          dbRef('candidate', this.updateCandidates)
         }
       }
     )
+  }
+
+  updateCandidates (candidates) {
+    this.setState({ loading: false, candidates })
+    this.props.updateCandidates({ candidates })
+  }
+
+  updateParticipants (participants) {
+    this.props.updateParticipants({ participants })
+    this.setState({
+      loading: false
+    })
   }
 
   // Make sure we un-register Firebase observers when the component unmounts.
@@ -79,5 +111,9 @@ export default class Auth extends Component {
 }
 
 Auth.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  updateParticipants: PropTypes.func,
+  updateCandidates: PropTypes.func
 }
+
+export default connect(null, { updateParticipants, updateCandidates })(Auth)

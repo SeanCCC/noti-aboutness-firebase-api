@@ -18,8 +18,8 @@ function App () {
   return (
     <Router>
       <div className="App">
-        <Auth>
-          <Provider store={store}>
+        <Provider store={store}>
+          <Auth>
             <SidebarComp>
               <Switch>
                 <Route path="/recruit" component={Recruit}/>
@@ -29,8 +29,8 @@ function App () {
                 </Route>
               </Switch>
             </SidebarComp>
-          </Provider>
-        </Auth>
+          </Auth>
+        </Provider>
       </div>
     </Router>
   )

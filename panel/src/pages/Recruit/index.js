@@ -4,8 +4,6 @@ import CandidateList from './CandidateList'
 import { connect } from 'react-redux'
 import { Accordion, Icon, Header } from 'semantic-ui-react'
 import LoadingPage from '../LoadingPage'
-import { dbRef } from '../util'
-import { updateCandidates } from '../../redux/actions'
 import Numbers from '../Numbers'
 
 class Recruit extends Component {
@@ -13,19 +11,9 @@ class Recruit extends Component {
     super(props)
     this.state = {
       activeIndex: [],
-      loading: true
+      loading: false
     }
     this.handleClick = this.handleClick.bind(this)
-    this.updateCandidates = this.updateCandidates.bind(this)
-  }
-
-  componentDidMount () {
-    dbRef('candidate', this.updateCandidates)
-  }
-
-  updateCandidates (candidates) {
-    this.setState({ loading: false, candidates })
-    this.props.updateCandidates({ candidates })
   }
 
   handleClick (e, titleProps) {
@@ -82,4 +70,4 @@ const mapStateToProps = (state) => ({
   candidatesNumber: state.candidatesNumber
 })
 
-export default connect(mapStateToProps, { updateCandidates })(Recruit)
+export default connect(mapStateToProps)(Recruit)

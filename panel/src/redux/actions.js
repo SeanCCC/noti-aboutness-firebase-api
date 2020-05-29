@@ -11,7 +11,6 @@ function createCandidatesNumber (candidates) {
       const then = moment(p.lastInvitationSent)
       const ms = now.diff(then)
       const hours = moment.duration(ms).asHours()
-      console.log(hours)
       return hours > 3 * 24
     })
     .length

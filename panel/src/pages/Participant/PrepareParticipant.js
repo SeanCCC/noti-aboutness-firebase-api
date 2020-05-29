@@ -6,22 +6,15 @@ import LoadingPage from '../LoadingPage'
 import Numbers from '../Numbers'
 import ConsentPendingList from './ConsentPendingList'
 import ResearchPendingList from './ResearchPendingList'
-import { dbRef } from '../util'
-import { updateParticipants } from '../../redux/actions'
 
 class PrepareParticipant extends Component {
   constructor (props) {
     super(props)
     this.state = {
       activeIndex: [],
-      loading: true
+      loading: false
     }
-    this.updateParticipants = this.updateParticipants.bind(this)
     this.handleAccordionClick = this.handleAccordionClick.bind(this)
-  }
-
-  componentDidMount () {
-    dbRef('participant', this.updateParticipants)
   }
 
   handleAccordionClick (e, titleProps) {
@@ -35,13 +28,6 @@ class PrepareParticipant extends Component {
       newIndex = [...activeIndex, index]
     }
     this.setState({ activeIndex: newIndex })
-  }
-
-  updateParticipants (participants) {
-    this.props.updateParticipants({ participants })
-    this.setState({
-      loading: false
-    })
   }
 
   render () {
@@ -110,4 +96,4 @@ const mapStateToProps = (state) => ({
   researchPendingNumber: state.researchPendingNumber
 })
 
-export default connect(mapStateToProps, { updateParticipants })(PrepareParticipant)
+export default connect(mapStateToProps)(PrepareParticipant)
