@@ -53,15 +53,11 @@ class Auth extends Component {
   }
 
   updateCandidates (candidates) {
-    this.setState({ loading: false, candidates })
     this.props.updateCandidates({ candidates })
   }
 
   updateParticipants (participants) {
     this.props.updateParticipants({ participants })
-    this.setState({
-      loading: false
-    })
   }
 
   // Make sure we un-register Firebase observers when the component unmounts.
