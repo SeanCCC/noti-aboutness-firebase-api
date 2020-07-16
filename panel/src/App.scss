@@ -8,7 +8,7 @@
   display: flex;
   padding: 16px;
   flex-direction: column;
-  width: 100%;
+  width: calc(100% - 148px);
 }
 
 .submit-button{
@@ -28,7 +28,7 @@
   display: grid;
   grid-template-columns: auto 1fr 1fr 1fr 1fr 1fr auto;
   grid-column-gap: 4px;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 }
 
 .align-center{
@@ -54,4 +54,76 @@
 .numbers {
   display: flex;
   align-items: center;
+}
+
+.block-chart {
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 16px;
+  grid-template-columns: repeat(8, 60px);
+
+}
+
+.block-chart .date-block {
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 4px;
+  grid-template-rows: repeat(9, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+  .date {
+    grid-column: 1/4;
+  }
+}
+
+.color-info{
+  display: grid;
+  grid-template-columns: repeat(10, 16px 1fr);
+  grid-auto-flow: column;
+  grid-column-gap: 8px;
+}
+
+.block {
+  $lv0: #EAF2F8;
+  $lv1: #AED6F1;
+  $lv2: #A9CCE3;
+  $lv3: #7FB3D5;
+  $lv4: #5499C7;
+  $lv5: #2980B9;
+  $lv6: #2471A3;
+  $lv7: #1F618D;
+  $lv8: #1A5276;
+  $lv9: #154360;
+  $none: #616A6B;
+  width: 16px;
+  height: 16px;
+  &.lv0{
+    background-color: $lv0;
+  }
+  &.lv1{
+    background-color: $lv1;
+  }
+  &.lv2{
+    background-color: $lv2;
+  }
+  &.lv3{
+    background-color: $lv3;
+  }
+  &.lv4{
+    background-color: $lv4;
+  }
+  &.lv5{
+    background-color: $lv5;
+  }
+  &.lv6{
+    background-color: $lv6;
+  }
+  &.lv7{
+    background-color: $lv7;
+  }
+  &.lv8{
+    background-color: $lv8;
+  }
+  &.lv9{
+    background-color: $lv9;
+  }
 }

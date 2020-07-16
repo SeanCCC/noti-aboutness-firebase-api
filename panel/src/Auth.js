@@ -6,6 +6,7 @@ import { firebaseAuth, firebaseDB } from './firebaseInit.js'
 import { updateParticipants, updateCandidates } from './redux/actions'
 
 const restructure = (objs) => {
+  if (!objs) return []
   return Object.keys(objs).map((uid) => {
     return {
       uid,

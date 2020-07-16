@@ -55,7 +55,9 @@ class SidebarComp extends Component {
           }>
             實驗前面板
           </Menu.Item>
-          <Menu.Item as='a'>
+          <Menu.Item as='a' onClick={
+            () => this.setNextPath('/participant/ongoing')
+          }>
             實驗中面板
           </Menu.Item>
           <Menu.Item as='a' onClick={
