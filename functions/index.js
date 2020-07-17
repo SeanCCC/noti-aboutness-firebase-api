@@ -4,6 +4,7 @@ const express = require('express')
 const siteRoutes = require('./src/siteRoutes')
 const panelRoutes = require('./src/panelRoutes')
 const appRoutes = require('./src/appRoutes')
+const { countNotifications } = require('./src/rtdbTriggers/notification')
 
 // site apis
 const siteApp = express()
@@ -47,8 +48,14 @@ const app = functions.https.onRequest((request, response) => {
   return appApp(request, response)
 })
 
+// rtdb triggers
+const onNotificationAdded = functions.database
+  .ref('/notification/{userId}')
+  .onWrite(countNotifications)
+
 module.exports = {
   site,
   app,
-  panel
+  panel,
+  onNotificationAdded
 }

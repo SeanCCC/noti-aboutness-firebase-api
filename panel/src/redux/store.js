@@ -81,11 +81,11 @@ const mockOngoing = [{
     { date: '2020/9/11', hour: 22, amount: 7 },
     { date: '2020/9/11', hour: 23, amount: 5 }
   ],
-  notiDistDaily: [{ date: '2020/9/9', amount: 5 },
+  formDistDaily: [{ date: '2020/9/9', amount: 5 },
     { date: '2020/9/10', amount: 3 },
     { date: '2020/9/11', amount: 2 },
     { date: '2020/9/12', amount: 6 }],
-  formDistDaily: [{ date: '2020/9/9', amount: 52 },
+  notiDistDaily: [{ date: '2020/9/9', amount: 52 },
     { date: '2020/9/10', amount: 35 },
     { date: '2020/9/11', amount: 65 },
     { date: '2020/9/12', amount: 53 },
