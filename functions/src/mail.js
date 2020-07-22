@@ -8,9 +8,9 @@ const transporter = nodemailer.createTransport({
   auth: {
     type: 'OAuth2',
     user: 'notiatmuilab@gmail.com',
-    clientId: '565872836833-65pu6hjk8ro591l2a3kp2leun7omqtqm.apps.googleusercontent.com',
-    clientSecret: 'D0BlAebCEWqXUa2sIGIi-e-s',
-    refreshToken: '1//04L8W328tcK3ACgYIARAAGAQSNwF-L9IrGL_iahZCsKcR6x5DMyXMJkuIVji8DFd268AwAJ3Z6U3Gh7QUkmVSlKPMwMQmN3cA7g4'
+    clientId: '217090144295-pt9048452rmom8aq5721oo7ak83cbah0.apps.googleusercontent.com',
+    clientSecret: 'ysWBMCIJTlI64Siftk0eBS9H',
+    refreshToken: '1//04KDiWhXPct-rCgYIARAAGAQSNwF-L9Ircq9bTxvI28GkSaqEyUGqcIF1t2B_bzLg5NonsQrrO_7_avAK16WcNNEmxhwJLS2heRQ'
   }
 })
 
