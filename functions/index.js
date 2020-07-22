@@ -51,7 +51,7 @@ const app = functions.https.onRequest((request, response) => {
 // rtdb triggers
 const onNotificationAdded = functions.database
   .ref('/notification/{userId}')
-  .onWrite(countNotifications)
+  .onUpdate(countNotifications)
 
 module.exports = {
   site,

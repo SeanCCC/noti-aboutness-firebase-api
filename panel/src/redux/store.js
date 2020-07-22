@@ -4,9 +4,9 @@ const mockOngoing = [{
   uid: 'ad2sfsas',
   email: 'sean831004@hotmail.com',
   name: 'Sean Chang',
+  ExperimentStartDate: '2020/09/09',
   meanNoti: 3,
   meanForm: 4,
-  ExperimentStartDate: '2020/9/9',
   notiDistHourly: [
     { date: '2020/9/9', hour: 0, amount: 0 },
     { date: '2020/9/9', hour: 1, amount: 7 },

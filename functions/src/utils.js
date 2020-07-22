@@ -133,5 +133,6 @@ module.exports = {
   updateDB,
   fetchParticipantDetailById,
   fetchCandidateDetailById,
-  moveStauts
+  moveStauts,
+  db
 }
