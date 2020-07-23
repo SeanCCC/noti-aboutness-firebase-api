@@ -18,7 +18,7 @@ const countNotifications = (change, context) => {
     const notiDistHourly = currentValue || []
     addedTimes.forEach(t => {
       const hour = parseFloat(t.format('HH'))
-      const date = t.format('l')
+      const date = t.format('YYYY-MM-DD')
       const idx = notiDistHourly.findIndex(d => d.date === date && d.hour === hour)
       if (idx === -1) notiDistHourly[notiDistHourly.length] = { date, hour, amount: 1 }
       else notiDistHourly[idx].amount = notiDistHourly[idx].amount + 1
