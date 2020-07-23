@@ -4,7 +4,7 @@ const express = require('express')
 const siteRoutes = require('./src/siteRoutes')
 const panelRoutes = require('./src/panelRoutes')
 const appRoutes = require('./src/appRoutes')
-const { countNotifications } = require('./src/rtdbTriggers/notification')
+const { countNotifications, dailyRecordFunction } = require('./src/triggers')
 
 // site apis
 const siteApp = express()
@@ -53,9 +53,15 @@ const onNotificationAdded = functions.database
   .ref('/notification/{userId}')
   .onUpdate(countNotifications)
 
+// cronjob
+const dailyRecord = functions.pubsub.schedule('30 8 * * *') // running at every 8 am
+  .timeZone('Asia/Taipei')
+  .onRun(dailyRecordFunction)
+
 module.exports = {
   site,
   app,
   panel,
-  onNotificationAdded
+  onNotificationAdded,
+  dailyRecord
 }
