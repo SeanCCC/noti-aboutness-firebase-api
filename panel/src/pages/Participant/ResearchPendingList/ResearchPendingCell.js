@@ -28,7 +28,7 @@ export default class ResearchPendingCell extends Component {
           {p.name}
         </Table.Cell>
         <Table.Cell>
-          {p.status === status.BIG_FIVE_DONE ? '是' : '否'}
+          {p.status === status.BIG_FIVE_DONE || p.status === status.APP_VALID ? '是' : '否'}
         </Table.Cell>
         <Table.Cell>
           {p.deviceId !== undefined ? '是' : '否'}
@@ -44,8 +44,8 @@ export default class ResearchPendingCell extends Component {
               {p.preResearchReminderSent || '無'} <br/>
               <Modal
                 size="mini"
-                trigger={<Button content="寄出同意信" loading={sendingReminder} primary />}
-                header='是否寄出同意信'
+                trigger={<Button content="寄出提醒信" loading={sendingReminder} primary />}
+                header='是否寄出提醒信'
                 content=''
                 actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: this.sendReminder }]}
               />

@@ -6,7 +6,8 @@ import { genderOptions, mobileOpitons, cityOptions, jobOptions, networkAccessOpt
 import moment from 'moment-timezone'
 
 const translate = (options, value) => {
-  return options.find(opt => opt.value === value).text
+  const opt = options.find(opt => opt.value === value)
+  return opt ? opt.text : 'N/A'
 }
 
 export default class CandidateCell extends Component {
