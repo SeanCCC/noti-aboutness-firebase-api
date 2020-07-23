@@ -4,12 +4,13 @@ import PropTypes from 'prop-types'
 import { Table, Modal, Button, Header } from 'semantic-ui-react'
 import BlockChart from './BlockChart'
 
-const DetailModal = ({ p }) => {
-  return <Modal
-    size="fullscreen"
-    trigger={<Button content="更多資訊" primary />}
-  >
-    <Modal.Content scrolling>
+class ModalComponent extends Component {
+  render () {
+    const { p } = this.props
+    const { record } = this.state
+    console.log(p)
+    if (!record) return <div>N/A</div>
+    return <Modal.Content scrolling>
       <Modal.Description>
         <Header as="h2">{`${p.name}的更多資訊`}</Header>
         <Header as="h3">問卷分佈</Header>
@@ -37,11 +38,12 @@ const DetailModal = ({ p }) => {
         </ResponsiveContainer>
       </Modal.Description>
     </Modal.Content>
-  </Modal>
+  }
 }
 
-DetailModal.propTypes = {
-  p: PropTypes.object
+ModalComponent.propTypes = {
+  p: PropTypes.object,
+  uploadRecord: PropTypes.object
 }
 
 export default class ResearchOngoingCell extends Component {
@@ -75,10 +77,15 @@ export default class ResearchOngoingCell extends Component {
           {p.meanForm}
         </Table.Cell>
         <Table.Cell>
-          {p.ExperimentStartDate}
+          {p.researchStartDate}
         </Table.Cell>
         <Table.Cell>
-          <DetailModal p={p}/>
+          <Modal
+            size="fullscreen"
+            trigger={<Button content="更多資訊" primary />}
+          >
+            <ModalComponent p={p}/>
+          </Modal>
         </Table.Cell>
       </Table.Row>)
   }

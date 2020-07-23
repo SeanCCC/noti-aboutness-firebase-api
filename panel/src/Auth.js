@@ -3,7 +3,7 @@ import { Button, Form, Message } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { firebaseAuth, firebaseDB } from './firebaseInit.js'
-import { updateParticipants, updateCandidates } from './redux/actions'
+import { updateParticipants, updateCandidates, updateUploadRecord } from './redux/actions'
 
 const restructure = (objs) => {
   if (!objs) return []
@@ -36,6 +36,7 @@ class Auth extends Component {
     this.handleLogin = this.handleLogin.bind(this)
     this.updateParticipants = this.updateParticipants.bind(this)
     this.updateCandidates = this.updateCandidates.bind(this)
+    this.updateUploadRecord = this.updateUploadRecord.bind(this)
   }
 
   // Listen to the Firebase Auth state and set the local state.
@@ -48,9 +49,14 @@ class Auth extends Component {
           firebaseAuth.currentUser.getIdToken(true)
           dbRef('participant', this.updateParticipants)
           dbRef('candidate', this.updateCandidates)
+          dbRef('uploadRecord', this.updateUploadRecord)
         }
       }
     )
+  }
+
+  updateUploadRecord (records) {
+    this.props.updateUploadRecord({ records })
   }
 
   updateCandidates (candidates) {
@@ -110,7 +116,8 @@ class Auth extends Component {
 Auth.propTypes = {
   children: PropTypes.node.isRequired,
   updateParticipants: PropTypes.func,
-  updateCandidates: PropTypes.func
+  updateCandidates: PropTypes.func,
+  updateUploadRecord: PropTypes.func
 }
 
-export default connect(null, { updateParticipants, updateCandidates })(Auth)
+export default connect(null, { updateParticipants, updateCandidates, updateUploadRecord })(Auth)

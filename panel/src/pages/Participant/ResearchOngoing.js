@@ -17,8 +17,7 @@ class ResearchOngoing extends Component {
   render () {
     const { loading } = this.state
     const {
-      // researchDoneNumber,
-      researchOngoingParticipants
+      researchRunningParticipants
     } = this.props
     if (loading) return <LoadingPage/>
     return <div className="page">
@@ -28,19 +27,19 @@ class ResearchOngoing extends Component {
         <Numbers content={researchDoneNumber} />
       </div> */}
       <ResearchOngoingList
-        participants={researchOngoingParticipants}
+        participants={researchRunningParticipants}
       />
     </div>
   }
 }
 
 ResearchOngoing.propTypes = {
-  researchOngoingParticipants: PropTypes.array,
+  researchRunningParticipants: PropTypes.array,
   researchOngoingNumber: PropTypes.array
 }
 
 const mapStateToProps = (state) => ({
-  researchOngoingParticipants: state.researchOngoingParticipants,
+  researchRunningParticipants: state.researchRunningParticipants,
   researchOngoingNumber: state.researchOngoingNumber
 })
 

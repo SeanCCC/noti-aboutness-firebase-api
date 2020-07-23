@@ -1,5 +1,6 @@
 import status from '../pages/status'
 import moment from 'moment-timezone'
+import { firebaseDB } from '../firebaseInit'
 
 function createCandidatesNumber (candidates) {
   const mailYetSent = candidates
@@ -81,6 +82,8 @@ export const updateParticipants = payload => {
   const { participants } = payload
   const consentPendingParticipants =
     participants.filter((d) => [status.INIT, status.VIDEO_DONE, status.CONSENT_SENT].includes(d.status))
+  const researchRunningParticipants =
+    participants.filter((d) => [status.RESEARCH_RUNNING].includes(d.status))
   const researchDoneParticipants =
     participants.filter((d) => [status.RESEARCH_DONE].includes(d.status))
   const researchPendingParticipants =
@@ -93,10 +96,20 @@ export const updateParticipants = payload => {
     payload: {
       consentPendingParticipants,
       researchPendingParticipants,
+      researchRunningParticipants,
       consentPendingNumber,
       researchPendingNumber,
       researchDoneParticipants,
       researchDoneNumber
+    }
+  }
+}
+
+export const updateUploadRecord = (uploadRecord) => {
+  return {
+    type: 'UPDATE_UPLOAD_RECORD',
+    payload: {
+      uploadRecord
     }
   }
 }
