@@ -5,7 +5,7 @@ const { db } = require('../utils')
 const countNotifications = (change, context) => {
   const data = change.after.val()
   const path = context.params
-  const uid = path.userId
+  const { uid } = path
   const totalCount = change.after.numChildren()
   const previousCount = change.before.numChildren()
   const addedTimes = _.chain(data)
@@ -27,4 +27,19 @@ const countNotifications = (change, context) => {
   })
 }
 
-module.exports = { countNotifications }
+const countESM = (snapshot, context) => {
+  const time = snapshot.val()
+  const path = context.params
+  const { uid } = path
+  const date = moment.tz(time, 'Asia/Taipei').format('YYYY-MM-DD')
+  const recordRef = db.ref(`uploadRecord/${uid}/esmDistDaily`)
+  return recordRef.transaction(function (currentValue) {
+    const esmDistDaily = currentValue || []
+    const idx = esmDistDaily.findIndex(d => d.date === date)
+    if (idx === -1) esmDistDaily[esmDistDaily.length] = { date, amount: 1 }
+    else esmDistDaily[idx].amount = esmDistDaily[idx].amount + 1
+    return esmDistDaily
+  })
+}
+
+module.exports = { countNotifications, countESM }

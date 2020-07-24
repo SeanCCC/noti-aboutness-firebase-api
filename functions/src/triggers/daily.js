@@ -17,7 +17,14 @@ const dailyRecordFunction = async () => {
       }, [])
       .sortBy((r) => { return new Date(r.date) })
       .value()
-    return { ...p, notiDistDaily }
+    const totalNotiCount = notiDistDaily.reduce((acc, { amount }) => acc + amount, 0)
+    const totalEsmCount = p.esmDistDaily
+      .filter(d => {
+        const date = moment(d.date, 'YYYY-MM-DD').tz('Asia/Taipei')
+        return !date.isAfter(yesterday)
+      })
+      .reduce((acc, { amount }) => acc + amount, 0)
+    return { ...p, notiDistDaily, totalNotiCount, totalEsmCount }
   })
   await updateDB('/uploadRecord', result)
   return null

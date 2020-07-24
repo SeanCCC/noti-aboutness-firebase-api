@@ -4,7 +4,7 @@ const express = require('express')
 const siteRoutes = require('./src/siteRoutes')
 const panelRoutes = require('./src/panelRoutes')
 const appRoutes = require('./src/appRoutes')
-const { countNotifications, dailyRecordFunction } = require('./src/triggers')
+const { countNotifications, dailyRecordFunction, countESM } = require('./src/triggers')
 
 // site apis
 const siteApp = express()
@@ -50,8 +50,12 @@ const app = functions.https.onRequest((request, response) => {
 
 // rtdb triggers
 const onNotificationAdded = functions.database
-  .ref('/notification/{userId}')
+  .ref('/notification/{uid}')
   .onUpdate(countNotifications)
+
+const onQuestionnaireAdded = functions.database
+  .ref('/questionnaire/{uid}/{qid}/longTime')
+  .onCreate(countESM)
 
 // cronjob
 const dailyRecord = functions.pubsub.schedule('30 8 * * *') // running at every 8 am
@@ -63,5 +67,6 @@ module.exports = {
   app,
   panel,
   onNotificationAdded,
+  onQuestionnaireAdded,
   dailyRecord
 }
