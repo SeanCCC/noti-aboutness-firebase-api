@@ -38,7 +38,8 @@ const countESM = (snapshot, context) => {
     const idx = esmDistDaily.findIndex(d => d.date === date)
     if (idx === -1) esmDistDaily[esmDistDaily.length] = { date, amount: 1 }
     else esmDistDaily[idx].amount = esmDistDaily[idx].amount + 1
-    return esmDistDaily
+    const result = _.sortBy(esmDistDaily, (r) => { return new Date(r.date) })
+    return result
   })
 }
 
