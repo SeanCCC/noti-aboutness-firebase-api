@@ -18,7 +18,7 @@ const dailyRecordFunction = async () => {
       .sortBy((r) => { return new Date(r.date) })
       .value()
     const totalNotiCount = notiDistDaily.reduce((acc, { amount }) => acc + amount, 0)
-    const totalEsmCount = p.esmDistDaily
+    const totalEsmCount = !p.esmDistDaily ? {} : p.esmDistDaily
       .filter(d => {
         const date = moment(d.date, 'YYYY-MM-DD').tz('Asia/Taipei')
         return !date.isAfter(yesterday)
