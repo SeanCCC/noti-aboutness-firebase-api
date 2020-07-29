@@ -60,18 +60,18 @@
   display: grid;
   grid-auto-flow: column;
   grid-gap: 16px;
-  grid-template-columns: repeat(8, 60px);
+  grid-template-columns: repeat(auto-fill, 60px);;
 
 }
 
 .block-chart .date-block {
   display: grid;
   grid-auto-flow: column;
-  grid-gap: 4px;
   grid-template-rows: repeat(9, 1fr);
   grid-template-columns: repeat(3, 1fr);
   .date {
     grid-column: 1/4;
+    justify-self: center;
   }
 }
 
@@ -85,14 +85,12 @@
 .block {
   $lv0: #EAF2F8;
   $lv1: #AED6F1;
-  $lv2: #A9CCE3;
-  $lv3: #7FB3D5;
-  $lv4: #5499C7;
-  $lv5: #2980B9;
-  $lv6: #2471A3;
-  $lv7: #1F618D;
-  $lv8: #1A5276;
-  $lv9: #154360;
+  $lv2: #7FB3D5;
+  $lv3: #2980B9;
+  $lv4: #2471A3;
+  $lv5: #1F618D;
+  $lv6: #1A5276;
+  $lv7: #154360;
   $none: #616A6B;
   width: 16px;
   height: 16px;
@@ -109,7 +107,7 @@
     background-color: $lv3;
   }
   &.lv4{
-    background-color: $lv4;
+    background-color: $lv5;
   }
   &.lv5{
     background-color: $lv5;
@@ -120,10 +118,27 @@
   &.lv7{
     background-color: $lv7;
   }
-  &.lv8{
-    background-color: $lv8;
-  }
-  &.lv9{
-    background-color: $lv9;
-  }
+}
+
+.tooltip {
+  position: relative;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  background: white;
+  border: black 1px solid;
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -60px;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
 }

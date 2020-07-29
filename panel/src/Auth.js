@@ -15,7 +15,7 @@ const restructure = (objs) => {
   })
 }
 
-const dbRef = (colloection, cb, filterFunc = () => true) =>
+const dbRefArray = (colloection, cb, filterFunc = () => true) =>
   firebaseDB.ref(colloection).on('value', function (snapshot) {
     const data = restructure(snapshot.val()).filter(filterFunc)
     cb(data)
@@ -34,9 +34,6 @@ class Auth extends Component {
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleLogin = this.handleLogin.bind(this)
-    this.updateParticipants = this.updateParticipants.bind(this)
-    this.updateCandidates = this.updateCandidates.bind(this)
-    this.updateUploadRecord = this.updateUploadRecord.bind(this)
   }
 
   // Listen to the Firebase Auth state and set the local state.
@@ -47,24 +44,12 @@ class Auth extends Component {
         that.setState({ isSignedIn: !!user, error: false })
         if (user) {
           firebaseAuth.currentUser.getIdToken(true)
-          dbRef('participant', this.updateParticipants)
-          dbRef('candidate', this.updateCandidates)
-          dbRef('uploadRecord', this.updateUploadRecord)
+          dbRefArray('participant', this.props.updateParticipants)
+          dbRefArray('candidate', this.props.updateCandidates)
+          dbRefArray('uploadRecord', this.props.updateUploadRecord)
         }
       }
     )
-  }
-
-  updateUploadRecord (records) {
-    this.props.updateUploadRecord({ records })
-  }
-
-  updateCandidates (candidates) {
-    this.props.updateCandidates({ candidates })
-  }
-
-  updateParticipants (participants) {
-    this.props.updateParticipants({ participants })
   }
 
   // Make sure we un-register Firebase observers when the component unmounts.

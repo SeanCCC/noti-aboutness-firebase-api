@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
+import moment from 'moment-timezone'
 import _ from 'lodash'
 
 const Block = ({ level }) => {
@@ -13,11 +14,17 @@ Block.propTypes = {
 const DateChart = ({ data, date }) => {
   const levelData = data.map(d => {
     const level = Math.ceil(d.amount / 3)
-    return { ...d, level: Math.min(9, level) }
+    return { ...d, level: Math.min(7, level) }
   })
+  const shoutDate = moment(date, 'YYYY-MM-DD').tz('Asia/Taipei').format('MM/DD')
   return <div className="date-block">
-    <div className="date">{date}</div>
-    {levelData.map((d, idx) => <Block level={d.level} key={`${date}-${idx}`}/>)}
+    <div className="date">{shoutDate}</div>
+    {levelData.map((d, idx) =>
+      <div className="tooltip" key={`${date}-${idx}`}>
+        <span className="tooltiptext">{shoutDate} {d.hour}:00 {d.amount}個</span>
+        <Block level={d.level} />
+      </div>
+    )}
   </div>
 }
 
@@ -35,9 +42,7 @@ const ColorInfo = () => {
     <Block level={4} /> 10~12
     <Block level={5} /> 13~15
     <Block level={6} /> 16~18
-    <Block level={7} /> 19~21
-    <Block level={8} /> 22~24
-    <Block level={9} /> 25~
+    <Block level={7} /> 19~
   </div>
 }
 

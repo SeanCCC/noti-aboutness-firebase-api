@@ -1,7 +1,6 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Table, Modal, Button } from 'semantic-ui-react'
-import status from '../../status'
+import { Table } from 'semantic-ui-react'
 
 export default class ResearchPendingCell extends Component {
   constructor (props) {
