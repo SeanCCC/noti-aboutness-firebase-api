@@ -41,7 +41,7 @@ export default class ResearchPendingCell extends Component {
           {p.status !== status.APP_VALID
             ? <Fragment>
             上次寄信：<br/>
-              {p.researchReminderSent || '無'} <br/>
+              {p.preResearchReminderSent || '無'} <br/>
               <Modal
                 size="mini"
                 trigger={<Button content="寄出提醒信" loading={sendingReminder} disabled={sendingReminder} primary />}

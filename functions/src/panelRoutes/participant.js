@@ -2,17 +2,13 @@ const express = require('express')
 const router = express.Router()
 const moment = require('moment-timezone')
 const { moveStauts, updateDB } = require('../utils')
-const { sendPreResearchRemind, sendConsentAcceptMail, sendResearchRemind } = require('../mail')
+const {
+  sendPreResearchRemind,
+  sendConsentAcceptMail,
+  sendResearchRemind,
+  sendConsentRemind
+} = require('../mail')
 const status = require('../status')
-
-// const restructure = (objs) => {
-//   return Object.keys(objs).map((uid) => {
-//     return {
-//       uid,
-//       ...objs[uid]
-//     }
-//   })
-// }
 
 router.post('/consent/accept', async (req, res) => {
   try {
@@ -27,20 +23,18 @@ router.post('/consent/accept', async (req, res) => {
   }
 })
 
-// router.get('/consent/pending', async (req, res) => {
-//   try {
-//     const result = await fetchDB('participant')
-//     if (result === null) return res.json([])
-//     const data = restructure(result)
-//     const consentpending = data
-//       .filter((d) => [status.INIT, status.VIDEO_DONE, status.CONSENT_SENT].includes(d.status))
-//       .map(({ uid, status, mailMethod, consentSentTime, name }) => ({ uid, status, mailMethod, consentSentTime, name }))
-//     res.json(consentpending)
-//   } catch (err) {
-//     console.error(err)
-//     res.status(500).send('error')
-//   }
-// })
+router.post('/consent/remind', async (req, res) => {
+  try {
+    const payload = req.body
+    const { uid } = payload
+    await sendConsentRemind(uid)
+    await updateDB(`participant/${uid}`, { consentReminderSent: moment().tz('Asia/Taipei').format() })
+    res.send('success')
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
 
 router.post('/preResearchRemind', async (req, res) => {
   try {

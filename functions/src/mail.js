@@ -80,7 +80,7 @@ const sendPreResearchRemind = async (id) => {
   const config = {
     from: 'MUILAB通知實驗研究團隊',
     to: email,
-    subject: 'MUILAB通知實驗-提醒信',
+    subject: 'MUILAB通知實驗-實驗前提醒信',
     html: `<p>${name}${gender === 'male' ? '先生' : '小姐'}您好，<br/>我們發現您在同階段停留了一段時間，如果有任何疑問歡迎您直接聯絡研究團隊，<br/>感激不盡！</p>`
   }
   return transporter.sendMail(config)
@@ -101,8 +101,19 @@ const sendResearchRemind = async (id) => {
   const config = {
     from: 'MUILAB通知實驗研究團隊',
     to: email,
-    subject: 'MUILAB通知實驗-提醒信',
+    subject: 'MUILAB通知實驗-實驗中提醒信',
     html: `<p>${name}${gender === 'male' ? '先生' : '小姐'}您好，<br/>我們發現您的實驗狀態異常，請確認App是否有正常運作，並持續投入實驗，<br/>感激不盡！</p>`
+  }
+  return transporter.sendMail(config)
+}
+
+const sendConsentRemind = async (id) => {
+  const { email, name, gender } = await fetchEmailInfo(id, 'participant')
+  const config = {
+    from: 'MUILAB通知實驗研究團隊',
+    to: email,
+    subject: 'MUILAB通知實驗-同意書提交提醒信',
+    html: `<p>${name}${gender === 'male' ? '先生' : '小姐'}您好，<br/>我們發現您尚未完成同意書的寄出回報，希望您盡早寄出並從此<a href="https://notiaboutness.muilab.org/participant/instruction?id=${id}">網站</a>回報，<br/>感激不盡！</p>`
   }
   return transporter.sendMail(config)
 }
@@ -115,5 +126,6 @@ module.exports = {
   sendCompensationMail,
   sendPreResearchRemind,
   sendConsentAcceptMail,
-  sendResearchRemind
+  sendResearchRemind,
+  sendConsentRemind
 }

@@ -13,6 +13,14 @@ export default class ConsentPendingList extends Component {
     }
   }
 
+  async sendReminderMail (uid) {
+    try {
+      await axios.post('/apis/participant/consent/remind', { uid })
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   render () {
     const { participants } = this.props
     return <Table basic='very' celled collapsing>
@@ -28,6 +36,7 @@ export default class ConsentPendingList extends Component {
       <Table.Body>
         {participants.map((p, idx) => <ConsentPendingCell
           acceptConsent={() => this.acceptConsent(p.uid)}
+          sendReminderMail={() => this.sendReminderMail(p.uid)}
           participant={p}
           key={idx}/>)}
       </Table.Body>
