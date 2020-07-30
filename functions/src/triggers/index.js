@@ -1,7 +1,6 @@
-const { dailyRecordFunction } = require('./daily')
-const { countNotifications, countESM } = require('./rtdb')
+const daily = require('./daily')
+const rtdb = require('./rtdb')
 module.exports = {
-  dailyRecordFunction,
-  countNotifications,
-  countESM
+  ...daily,
+  ...rtdb
 }

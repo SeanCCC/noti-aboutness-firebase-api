@@ -4,7 +4,7 @@ const express = require('express')
 const siteRoutes = require('./src/siteRoutes')
 const panelRoutes = require('./src/panelRoutes')
 const appRoutes = require('./src/appRoutes')
-const { countNotifications, dailyRecordFunction, countESM } = require('./src/triggers')
+const { countNotifications, dailyRecordFunction, countESM, researchStarter } = require('./src/triggers')
 
 // site apis
 const siteApp = express()
@@ -62,11 +62,16 @@ const dailyRecord = functions.pubsub.schedule('30 8 * * *') // running at every 
   .timeZone('Asia/Taipei')
   .onRun(dailyRecordFunction)
 
+const startResearch = functions.pubsub.schedule('0 0 * * *') // running at every 8 am
+  .timeZone('Asia/Taipei')
+  .onRun(researchStarter)
+
 module.exports = {
   site,
   app,
   panel,
   onNotificationAdded,
   onQuestionnaireAdded,
-  dailyRecord
+  dailyRecord,
+  startResearch
 }

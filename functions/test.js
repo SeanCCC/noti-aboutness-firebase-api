@@ -1,2 +1,2 @@
-const { dailyRecordFunction } = require('./src/triggers')
-dailyRecordFunction()
+const { researchStarter } = require('./src/triggers')
+researchStarter()
