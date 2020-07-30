@@ -9,7 +9,7 @@ import ResearchOngoingCell from './ResearchOngoingCell'
 class ResearchPendingList extends Component {
   async sendReminderMail (uid) {
     try {
-      await axios.post('/apis/participant/preResearchRemind', { uid })
+      await axios.post('/apis/participant/researchRemind', { uid })
     } catch (err) {
       console.error(err)
     }

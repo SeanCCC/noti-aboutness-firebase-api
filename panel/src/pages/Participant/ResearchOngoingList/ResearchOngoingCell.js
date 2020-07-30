@@ -46,7 +46,7 @@ class ResearchOngoingCell extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      // sendingReminder: false
+      sendingReminder: false
     }
     this.sendReminder = this.sendReminder.bind(this)
   }
@@ -60,6 +60,7 @@ class ResearchOngoingCell extends Component {
 
   render () {
     const { participant: p, record = {} } = this.props
+    const { sendingReminder } = this.state
     return (
       <Table.Row>
         <Table.Cell>
@@ -81,6 +82,14 @@ class ResearchOngoingCell extends Component {
           >
             <ModalComponent p={p} record={record}/>
           </Modal>
+          <Modal
+            size="mini"
+            trigger={<Button content="寄出提醒信" loading={sendingReminder} disabled={sendingReminder} primary />}
+            header='是否寄出提醒信'
+            content='寄太多信會變成騷擾，務必先確認寄信頻率'
+            actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: this.sendReminder }]}
+          />
+          <br/>上次寄信：{p.researchReminderSent || '無'}
         </Table.Cell>
       </Table.Row>)
   }

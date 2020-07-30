@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const moment = require('moment-timezone')
 const { moveStauts, updateDB } = require('../utils')
-const { sendPreResearchRemind, sendConsentAcceptMail } = require('../mail')
+const { sendPreResearchRemind, sendConsentAcceptMail, sendResearchRemind } = require('../mail')
 const status = require('../status')
 
 // const restructure = (objs) => {
@@ -47,7 +47,20 @@ router.post('/preResearchRemind', async (req, res) => {
     const payload = req.body
     const { uid } = payload
     await sendPreResearchRemind(uid)
-    await updateDB(`candidate/${uid}`, { preResearchReminderSent: moment().tz('Asia/Taipei').format() })
+    await updateDB(`participant/${uid}`, { preResearchReminderSent: moment().tz('Asia/Taipei').format() })
+    res.send('success')
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
+
+router.post('/researchRemind', async (req, res) => {
+  try {
+    const payload = req.body
+    const { uid } = payload
+    await sendResearchRemind(uid)
+    await updateDB(`participant/${uid}`, { researchReminderSent: moment().tz('Asia/Taipei').format() })
     res.send('success')
   } catch (err) {
     console.error(err)

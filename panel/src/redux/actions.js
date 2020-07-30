@@ -169,17 +169,40 @@ const completeRecord = (record) => {
   }
 }
 
+function createResearchRunningNumber (uploadRecord) {
+  const yesterday = moment().tz('Asia/Taipei').subtract(1, 'days').format('YYYY-MM-DD')
+  const noYesterdayNoti = _.filter(uploadRecord, (r) => {
+    const { notiDistDaily } = r
+    if (!notiDistDaily) return true
+    const yesterdayNoti = notiDistDaily.find(d => d.date === yesterday)
+    if (!yesterdayNoti) return false
+    if (yesterdayNoti.amount === 0) return true
+    return false
+  }).length
+  const lowEsmCount = _.filter(uploadRecord, (r) => {
+    const { meanEsmCount } = r
+    if (meanEsmCount === null) return false
+    return meanEsmCount < 3
+  }).length
+  return [
+    { value: noYesterdayNoti, label: '昨日無上傳通知', dangerous: noYesterdayNoti > 0 },
+    { value: lowEsmCount, label: 'esm填寫量少', warning: lowEsmCount > 0 }
+  ]
+}
+
 export const updateUploadRecord = (uploadRecord) => {
-  const _uploadRecord = uploadRecord
+  let _uploadRecord = uploadRecord
     .map(completeRecord)
-    .reduce((acu, cur) => {
-      acu[cur.uid] = cur
-      return acu
-    }, {})
+  const researchRunningNumber = createResearchRunningNumber(_uploadRecord)
+  _uploadRecord = _uploadRecord.reduce((acu, cur) => {
+    acu[cur.uid] = cur
+    return acu
+  }, {})
   return {
     type: 'UPDATE_UPLOAD_RECORD',
     payload: {
-      uploadRecord: _uploadRecord
+      uploadRecord: _uploadRecord,
+      researchRunningNumber
     }
   }
 }

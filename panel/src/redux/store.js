@@ -4,14 +4,14 @@ const initState = {
   consentPendingParticipants: [],
   researchPendingParticipants: [],
   researchRunningParticipants: [],
+  uploadRecord: {},
+  researchRunningNumber: [],
   consentPendingNumber: [],
   researchPendingNumber: [],
   candidates: [],
   candidatesNumber: [],
   researchDoneParticipants: [],
-  researchDoneNumber: [],
-  researchOngoingNumber: [],
-  uploadRecord: {}
+  researchDoneNumber: []
 }
 
 const reducer = (state = initState, action) => {

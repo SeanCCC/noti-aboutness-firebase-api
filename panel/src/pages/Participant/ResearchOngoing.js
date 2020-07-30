@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Header } from 'semantic-ui-react'
 import LoadingPage from '../LoadingPage'
 import ResearchOngoingList from './ResearchOngoingList'
+import Numbers from '../Numbers'
 
 class ResearchOngoing extends Component {
   constructor (props) {
@@ -16,15 +17,16 @@ class ResearchOngoing extends Component {
   render () {
     const { loading } = this.state
     const {
-      researchRunningParticipants
+      researchRunningParticipants,
+      researchRunningNumber
     } = this.props
     if (loading) return <LoadingPage/>
     return <div className="page">
       <Header as="h1">實驗中面板</Header>
-      {/* <div className="numbers">
-        <Header as="h3">尚未寄信</Header>
-        <Numbers content={researchDoneNumber} />
-      </div> */}
+      <div className="numbers">
+        <Header as="h3">數值異常</Header>
+        <Numbers content={researchRunningNumber} />
+      </div>
       <ResearchOngoingList
         participants={researchRunningParticipants}
       />
@@ -34,12 +36,14 @@ class ResearchOngoing extends Component {
 
 ResearchOngoing.propTypes = {
   researchRunningParticipants: PropTypes.array,
-  researchOngoingNumber: PropTypes.array
+  researchOngoingNumber: PropTypes.array,
+  researchRunningNumber: PropTypes.array
 }
 
 const mapStateToProps = (state) => ({
   researchRunningParticipants: state.researchRunningParticipants,
-  researchOngoingNumber: state.researchOngoingNumber
+  researchOngoingNumber: state.researchOngoingNumber,
+  researchRunningNumber: state.researchRunningNumber
 })
 
 export default connect(mapStateToProps)(ResearchOngoing)

@@ -49,7 +49,7 @@ export default class ConsentPendingCell extends Component {
           {p.status === status.CONSENT_SENT
             ? <Modal
               size="mini"
-              trigger={<Button content="確認同意書" loading={acceptingConsent} primary />}
+              trigger={<Button content="確認同意書" loading={acceptingConsent} disabled={acceptingConsent} primary />}
               header='確認同意書有效'
               content='資料是否有填寫完整？'
               actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: this.sendAcceptMail }]}
