@@ -6,12 +6,14 @@ const status = require('../status')
 const dailyRecordFunction = async () => {
   const yesterday = moment().subtract(1, 'days').tz('Asia/Taipei').format('YYYY-MM-DDT00:00:00+08:00')
   const uploadRecord = await fetchDB('/uploadRecord')
-  const result = _.mapValues(uploadRecord, (p) => {
+  const result = _.mapValues(uploadRecord, (p, uid) => {
     if (!p.notiDistHourly) return p
     const notiDistDaily = _.chain(p.notiDistHourly)
       .groupBy('date')
       .reduce((acu, value, key) => {
         const date = moment(key, 'YYYY-MM-DD').tz('Asia/Taipei')
+        console.log(uid)
+        console.log(date.format('YYYY-MM-DD'), yesterday, date.isAfter(yesterday))
         if (date.isAfter(yesterday)) return acu
         const amount = value.reduce((acc, { amount }) => acc + amount, 0)
         return [...acu, { date: key, amount }]

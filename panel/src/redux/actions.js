@@ -1,4 +1,5 @@
 import status from '../pages/status'
+
 import moment from 'moment-timezone'
 import _ from 'lodash'
 
@@ -138,7 +139,14 @@ const completeHourly = (notiDistHourly = [], daysBetween = []) => {
 }
 
 const completeRecord = (record) => {
-  const { researchStartDate, esmDistDaily, notiDistDaily, notiDistHourly } = record
+  const {
+    researchStartDate,
+    esmDistDaily,
+    notiDistDaily,
+    notiDistHourly,
+    totalEsmCount,
+    totalNotiCount
+  } = record
   const today = moment().tz('Asia/Taipei').startOf('day')
   const startDay = moment.tz(researchStartDate, 'YYYY-MM-DD', 'Asia/Taipei')
   const ms = today.diff(startDay)
@@ -149,16 +157,25 @@ const completeRecord = (record) => {
   const _dayly =
     completeDaily(esmDistDaily, notiDistDaily, daysBetween)
   const _notiDistHourly = completeHourly(notiDistHourly, daysBetween)
+  const meanEsmCount = dnum <= 1 ? null : _.round(totalEsmCount / (dnum - 1), 2)
+  const meanNotiCount = dnum <= 1 ? null : _.round(totalNotiCount / (dnum - 1), 2)
   return {
     ...record,
     esmDistDaily: _dayly.esmDistDaily,
     notiDistDaily: _dayly.notiDistDaily,
-    notiDistHourly: _notiDistHourly
+    notiDistHourly: _notiDistHourly,
+    meanEsmCount,
+    meanNotiCount
   }
 }
 
 export const updateUploadRecord = (uploadRecord) => {
-  const _uploadRecord = uploadRecord.map(completeRecord)
+  const _uploadRecord = uploadRecord
+    .map(completeRecord)
+    .reduce((acu, cur) => {
+      acu[cur.uid] = cur
+      return acu
+    }, {})
   return {
     type: 'UPDATE_UPLOAD_RECORD',
     payload: {

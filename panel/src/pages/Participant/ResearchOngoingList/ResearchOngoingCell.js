@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import { Table, Modal, Button, Header } from 'semantic-ui-react'
 import BlockChart from './BlockChart'
 
@@ -60,18 +59,17 @@ class ResearchOngoingCell extends Component {
   }
 
   render () {
-    const { participant: p, uploadRecord } = this.props
-    const record = uploadRecord.find(r => r.uid === p.uid)
+    const { participant: p, record = {} } = this.props
     return (
       <Table.Row>
         <Table.Cell>
           {p.name}
         </Table.Cell>
         <Table.Cell>
-          {p.meanNoti}
+          {record.meanNotiCount || 'N/A'}
         </Table.Cell>
         <Table.Cell>
-          {p.meanForm}
+          {record.meanEsmCount || 'N/A'}
         </Table.Cell>
         <Table.Cell>
           {p.researchStartDate}
@@ -91,11 +89,7 @@ class ResearchOngoingCell extends Component {
 ResearchOngoingCell.propTypes = {
   sendReminderMail: PropTypes.func,
   participant: PropTypes.object,
-  uploadRecord: PropTypes.array
+  record: PropTypes.object
 }
 
-const mapStateToProps = (state) => ({
-  uploadRecord: state.uploadRecord
-})
-
-export default connect(mapStateToProps)(ResearchOngoingCell)
+export default ResearchOngoingCell

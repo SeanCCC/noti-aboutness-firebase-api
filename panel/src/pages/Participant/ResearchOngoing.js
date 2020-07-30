@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Accordion, Header, Icon } from 'semantic-ui-react'
+import { Header } from 'semantic-ui-react'
 import LoadingPage from '../LoadingPage'
-import Numbers from '../Numbers'
 import ResearchOngoingList from './ResearchOngoingList'
 
 class ResearchOngoing extends Component {

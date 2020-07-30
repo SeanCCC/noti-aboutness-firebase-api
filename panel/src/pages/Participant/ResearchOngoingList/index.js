@@ -2,10 +2,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Table } from 'semantic-ui-react'
+import { connect } from 'react-redux'
 import axios from 'axios'
 import ResearchOngoingCell from './ResearchOngoingCell'
 
-export default class ResearchPendingList extends Component {
+class ResearchPendingList extends Component {
   async sendReminderMail (uid) {
     try {
       await axios.post('/apis/participant/preResearchRemind', { uid })
@@ -15,7 +16,7 @@ export default class ResearchPendingList extends Component {
   }
 
   render () {
-    const { participants } = this.props
+    const { participants, uploadRecord } = this.props
     return <Table basic='very' celled collapsing>
       <Table.Header>
         <Table.Row>
@@ -30,12 +31,20 @@ export default class ResearchPendingList extends Component {
         {participants.map((p, idx) => <ResearchOngoingCell
           sendReminderMail={this.sendReminderMail}
           participant={p}
+          record={uploadRecord[p.uid]}
           key={idx}/>)}
       </Table.Body>
     </Table>
   }
 }
 
+const mapStateToProps = (state) => ({
+  uploadRecord: state.uploadRecord
+})
+
 ResearchPendingList.propTypes = {
-  participants: PropTypes.array
+  participants: PropTypes.array,
+  uploadRecord: PropTypes.object
 }
+
+export default connect(mapStateToProps)(ResearchPendingList)

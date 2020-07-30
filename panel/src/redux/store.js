@@ -11,7 +11,7 @@ const initState = {
   researchDoneParticipants: [],
   researchDoneNumber: [],
   researchOngoingNumber: [],
-  uploadRecord: []
+  uploadRecord: {}
 }
 
 const reducer = (state = initState, action) => {
