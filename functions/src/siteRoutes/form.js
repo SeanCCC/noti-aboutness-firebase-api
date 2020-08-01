@@ -5,23 +5,29 @@ const { sendEmailCheck } = require('../mail')
 const moment = require('moment-timezone')
 
 const checkEmailRepeat = async (email) => {
-  const candidateAsync = findDB('candidate', 'email', email)
-  const participantAsync = findDB('participant', 'email', email)
-  const candidateRes = await candidateAsync
-  const participantRes = await participantAsync
-  return candidateRes !== null || participantRes !== null
+  const asyncList = ['candidate', 'participant', 'declined'].map((v) => findDB(v, 'email', email))
+  const resultList = await Promise.all(asyncList)
+  return resultList.find((v) => v !== null)
+}
+
+const checkIdRepeat = async (id) => {
+  const asyncList = ['candidate', 'participant', 'declined'].map((v) => fetchDB(`${v}/${id}`))
+  const resultList = await Promise.all(asyncList)
+  return resultList.find((v) => v !== null)
 }
 
 router.get('/mailcheck', async (req, res) => {
   try {
     const payload = req.query
     const { id } = payload
-    const result = await fetchDB(`submitted/${id}`)
-    if (result === null) return res.status(400).send('no record')
-    const { email } = result
+    const checkIdResult = await checkIdRepeat(id)
+    if (checkIdResult) return res.status(400).send('repeated')
+    const checkSubmitResult = await fetchDB(`submitted/${id}`)
+    if (checkSubmitResult === null) return res.status(400).send('no record')
+    const { email } = checkSubmitResult
     const emailRepeat = await checkEmailRepeat(email)
     if (emailRepeat) return res.status(400).send('repeated')
-    const moveAsync = setDB(`candidate/${id}`, { ...result })
+    const moveAsync = setDB(`candidate/${id}`, { ...checkSubmitResult })
     const removeAsync = setDB(`submitted/${id}`, null)
     await moveAsync
     await removeAsync
