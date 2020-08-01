@@ -11,10 +11,10 @@ const dailyRecordFunction = async () => {
     const notiDistDaily = _.chain(p.notiDistHourly)
       .groupBy('date')
       .reduce((acu, value, key) => {
-        const date = moment(key, 'YYYY-MM-DDT00:00:00+08:00').tz('Asia/Taipei')
+        const date = moment(key, 'YYYY-MM-DD').tz('Asia/Taipei')
         console.log(uid)
-        console.log(date.format('YYYY-MM-DDT00:00:00+08:00'), yesterday, date.isAfter(yesterday))
-        if (date.isAfter(yesterday)) return acu
+        console.log(date.format('YYYY-MM-DDT00:00:00+08:00'), yesterday, date.isSameOrBefore(yesterday))
+        if (date.isSameOrBefore(yesterday)) return acu
         const amount = value.reduce((acc, { amount }) => acc + amount, 0)
         return [...acu, { date: key, amount }]
       }, [])
