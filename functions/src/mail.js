@@ -113,7 +113,40 @@ const sendConsentRemind = async (id) => {
     from: 'MUILAB通知實驗研究團隊',
     to: email,
     subject: 'MUILAB通知實驗-同意書提交提醒信',
-    html: `<p>${name}${gender === 'male' ? '先生' : '小姐'}您好，<br/>我們發現您尚未完成同意書的寄出回報，希望您盡早寄出並從此<a href="https://notiaboutness.muilab.org/participant/instruction?id=${id}">網站</a>回報，<br/>感激不盡！</p>`
+    html: `<p>${name}${gender === 'male' ? '先生' : '小姐'}您好，<br/>我們發現您尚未完成同意書的寄出回報，希望您盡早寄出並從<a href="https://notiaboutness.muilab.org/participant/instruction?id=${id}">此網站</a>回報，<br/>感激不盡！</p>`
+  }
+  return transporter.sendMail(config)
+}
+
+const askPaymentMail = async (id) => {
+  const { email, name, gender } = await fetchEmailInfo(id, 'participant')
+  const config = {
+    from: 'MUILAB通知實驗研究團隊',
+    to: email,
+    subject: 'MUILAB通知實驗-報酬收取流程',
+    html: `<p>${name}${gender === 'male' ? '先生' : '小姐'}您好，<br/>感謝您完成此實驗，希望依照<a href="https://notiaboutness.muilab.org/participant/compensation/choosemail?id=${id}">此網站</a>步驟領取報酬，<br/>感激不盡！</p>`
+  }
+  return transporter.sendMail(config)
+}
+
+const sendReceiptRemind = async (id) => {
+  const { email, name, gender } = await fetchEmailInfo(id, 'participant')
+  const config = {
+    from: 'MUILAB通知實驗研究團隊',
+    to: email,
+    subject: 'MUILAB通知實驗-領據提交提醒信',
+    html: `<p>${name}${gender === 'male' ? '先生' : '小姐'}您好，<br/>我們發現您尚未完成領據的寄出回報，希望您盡早寄出並從<a href="https://notiaboutness.muilab.org/participant/compensation/choosemail?id=${id}">此網站</a>回報，<br/>感激不盡！</p>`
+  }
+  return transporter.sendMail(config)
+}
+
+const sendPayMethodRemind = async (id) => {
+  const { email, name, gender } = await fetchEmailInfo(id, 'participant')
+  const config = {
+    from: 'MUILAB通知實驗研究團隊',
+    to: email,
+    subject: 'MUILAB通知實驗-報酬領取方法設定提醒信',
+    html: `<p>${name}${gender === 'male' ? '先生' : '小姐'}您好，<br/>我們發現您尚未設定報酬的領取方法，希望您盡早從<a href="https://notiaboutness.muilab.org/participant/compensation/choosepay?id=${id}">此網站</a>選擇領取方法，<br/>感激不盡！</p>`
   }
   return transporter.sendMail(config)
 }
@@ -127,5 +160,8 @@ module.exports = {
   sendPreResearchRemind,
   sendConsentAcceptMail,
   sendResearchRemind,
-  sendConsentRemind
+  sendConsentRemind,
+  askPaymentMail,
+  sendReceiptRemind,
+  sendPayMethodRemind
 }

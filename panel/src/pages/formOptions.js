@@ -102,6 +102,12 @@ const mailMethodOptions = [
   { text: '平信', value: 'ordinaryMail' }
 ]
 
+const payMethodOptions = [
+  { text: '街口支付', value: 'jko' },
+  { text: 'LinePay', value: 'linePay' },
+  { text: '銀行轉帳', value: 'bankTransfer' }
+]
+
 export {
   genderOptions,
   boolOptions,
@@ -112,5 +118,6 @@ export {
   jobOptions,
   networkAccessOptions,
   networkLimit,
-  mailMethodOptions
+  mailMethodOptions,
+  payMethodOptions
 }

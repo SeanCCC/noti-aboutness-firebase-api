@@ -6,7 +6,10 @@ const {
   sendPreResearchRemind,
   sendConsentAcceptMail,
   sendResearchRemind,
-  sendConsentRemind
+  sendConsentRemind,
+  askPaymentMail,
+  sendReceiptRemind,
+  sendPayMethodRemind
 } = require('../mail')
 const status = require('../status')
 
@@ -55,6 +58,64 @@ router.post('/researchRemind', async (req, res) => {
     const { uid } = payload
     await sendResearchRemind(uid)
     await updateDB(`participant/${uid}`, { researchReminderSent: moment().tz('Asia/Taipei').format() })
+    res.send('success')
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
+
+router.post('/receipt/remind', async (req, res) => {
+  try {
+    const payload = req.body
+    const { uid } = payload
+    await sendReceiptRemind(uid)
+    await updateDB(`participant/${uid}`, { receiptReminderSent: moment().tz('Asia/Taipei').format() })
+    res.send('success')
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
+
+router.post('/paymethod/remind', async (req, res) => {
+  try {
+    const payload = req.body
+    const { uid } = payload
+    await sendPayMethodRemind(uid)
+    await updateDB(`participant/${uid}`, { payMethodReminderSent: moment().tz('Asia/Taipei').format() })
+    res.send('success')
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
+
+// router.post('/interview/invite', async (req, res) => {
+//   try {
+//     const payload = req.body
+//     const { uid } = payload
+//     await sendResearchRemind(uid)
+//     await updateDB(`participant/${uid}`, {
+//       status: status.INTERVIEW_INVITED,
+//       interviewInviteTime: moment().tz('Asia/Taipei').format()
+//     })
+//     res.send('success')
+//   } catch (err) {
+//     console.error(err)
+//     res.status(500).send('error')
+//   }
+// })
+
+router.post('/payment/ask', async (req, res) => {
+  try {
+    const payload = req.body
+    const { uid } = payload
+    await askPaymentMail(uid)
+    await updateDB(`participant/${uid}`, {
+      status: status.SET_RECEIPT_MAIL_METHOD,
+      askPaymentTime: moment().tz('Asia/Taipei').format()
+    })
     res.send('success')
   } catch (err) {
     console.error(err)

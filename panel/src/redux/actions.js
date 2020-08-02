@@ -86,7 +86,11 @@ export const updateParticipants = payload => {
   const researchRunningParticipants =
     participants.filter((d) => [status.RESEARCH_RUNNING].includes(d.status))
   const researchDoneParticipants =
-    participants.filter((d) => [status.RESEARCH_DONE].includes(d.status))
+    participants.filter((d) => [status.RESEARCH_DONE, status.SET_RECEIPT_MAIL_METHOD,
+      status.SET_PAY_METHOD, status.PAYMENT_REQUIRED, status.PAYMENT_DONE,
+      status.INTERVIEW_INVITED, status.INTERVIEW_ACCEPTED, status.INTERVIEW_SCHEDULED,
+      status.ALL_DONE].includes(d.status))
+  console.log({ researchDoneParticipants })
   const researchPendingParticipants =
     participants.filter((d) => [status.CONSENT_VALID, status.BIG_FIVE_DONE, status.APP_VALID].includes(d.status))
   const consentPendingNumber = createPrepareNumber(consentPendingParticipants)

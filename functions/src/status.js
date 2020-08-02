@@ -10,11 +10,11 @@ const RESEARCH_DONE = 'researchDone'
 const SET_RECEIPT_MAIL_METHOD = 'setReceiptMailMethod'
 const SET_PAY_METHOD = 'setPayMethod'
 const PAYMENT_REQUIRED = 'paymentRequired'
-const RECEIPT_VALID = 'receiptValid'
 const PAYMENT_DONE = 'paymentDone'
 const INTERVIEW_INVITED = 'interviewInvited'
 const INTERVIEW_ACCEPTED = 'interviewAccepted'
 const INTERVIEW_SCHEDULED = 'interviewScheduled'
+const ALL_DONE = 'allDone'
 
 module.exports = {
   INIT,
@@ -29,9 +29,9 @@ module.exports = {
   SET_RECEIPT_MAIL_METHOD,
   SET_PAY_METHOD,
   PAYMENT_REQUIRED,
-  RECEIPT_VALID,
   PAYMENT_DONE,
   INTERVIEW_INVITED,
   INTERVIEW_ACCEPTED,
-  INTERVIEW_SCHEDULED
+  INTERVIEW_SCHEDULED,
+  ALL_DONE
 }

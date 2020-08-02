@@ -81,7 +81,10 @@ router.post('/done/receipt', validators.receipt, async (req, res) => {
     const payload = req.body
     const { id, mailMethod } = payload
     const moveStatusAsync = moveStauts(id, status.SET_PAY_METHOD)
-    const setMailMAsync = updateDB(`participant/${id}`, { receiptMailMethod: mailMethod })
+    const setMailMAsync = updateDB(`participant/${id}`, {
+      receiptMailMethod: mailMethod,
+      receiptMailTime: moment().tz('Asia/Taipei').format()
+    })
     await Promise.all([moveStatusAsync, setMailMAsync])
     res.json({ status: status.SET_PAY_METHOD })
   } catch (err) {
