@@ -96,16 +96,12 @@ router.post('/done/receipt', validators.receipt, async (req, res) => {
 router.post('/done/compensation', busboyMiddleWare, validators.compensation, async (req, res) => {
   try {
     const payload = req.body
-    const { uid, payMethod } = payload
-    const result = await fetchParticipantDetailById(uid)
-    if (result === null || result.status !== status.SET_PAY_METHOD || result.payDetail !== undefined) {
-      return res.status(400).send('unauth')
-    }
+    const { id, payMethod } = payload
     let imgPath = null
     let payDetail = {}
     if (payMethod === 'bankTransfer') {
       const { bankAccount, bankCode } = payload
-      imgPath = await uploadFile(req, 'passbook', uid)
+      imgPath = await uploadFile(req, 'passbook', id)
       payDetail = { payMethod, imgPath, bankAccount, bankCode }
     } else if (payMethod === 'jko') {
       const { jkoAccount } = payload
@@ -114,9 +110,10 @@ router.post('/done/compensation', busboyMiddleWare, validators.compensation, asy
       const { linePayAccount } = payload
       payDetail = { payMethod, linePayAccount }
     }
-    const setPayInfoAsync = updateDB(`participant/${uid}`, { payDetail })
-    const moveStatusAsync = moveStauts(uid, status.PAYMENT_REQUIRED)
-    await Promise.all([moveStatusAsync, setPayInfoAsync])
+    await updateDB(`participant/${id}`, {
+      payDetail,
+      status: status.PAYMENT_REQUIRED
+    })
     res.json({ status: status.PAYMENT_REQUIRED })
   } catch (err) {
     console.error(err)

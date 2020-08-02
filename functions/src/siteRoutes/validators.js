@@ -8,6 +8,7 @@ const validator = (bodyValidator = () => true, userValidator = () => true, valid
   const { id } = payload
   if (check.not.nonEmptyString(id)) return res.status(400).send('invalid id')
   const result = await fetchParticipantDetailById(id)
+  console.log({ result })
   if (result === null || result.status !== validStatus || !userValidator(result)) {
     return res.status(400).send('unauth')
   }
@@ -29,8 +30,8 @@ const compensation = validator(({ payMethod, linePayAccount, jkoAccount, bankAcc
   } else if (payMethod === 'bankTransfer') {
     return check.nonEmptyString(bankAccount) && check.nonEmptyString(bankCode)
   } else return false
-}, ({ payMethod }) => {
-  return check.undefined(payMethod)
+}, ({ payDetail }) => {
+  return check.undefined(payDetail)
 }, status.SET_PAY_METHOD)
 
 const receipt = validator(({ mailMethod }) => {

@@ -46,7 +46,7 @@ export default class ConsentPendingCell extends Component {
 
   render () {
     const { participant: p } = this.props
-    const { payDetail } = []
+    const { payDetail } = p
     const { paymentCompleting, sendingReceiptReminder, sendingPayMethodReminder } = this.state
     const mailMethod = translate(mailMethodOptions, p.receiptMailMethod, '未送出')
     const receiptMailTime = !p.receiptMailTime ? '未送出' : moment(new Date(p.receiptMailTime)).tz('Asia/Taipei').format('YYYY-MM-DD HH:mm')

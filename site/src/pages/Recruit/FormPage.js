@@ -313,6 +313,7 @@ export default class FormPage extends Component {
           <Form.Button fluid
             primary
             loading={uploading}
+            disabled={uploading}
             onClick={this.onSubmit} >提交</Form.Button>
         </Form>
       </div>
