@@ -36,11 +36,15 @@ export default class Orientation extends Component {
     const { confirm, submitted, loading } = this.state
     return (
       <div className="page">
-        <Header as='h2' textAlign="center">實驗說明影片</Header>
+        <Header as='h2'
+          textAlign="center">實驗說明影片</Header>
         <Segment attached>
           我們將在這個影片中詳細說明實驗內容、實驗流程與參與者研究說明書的所有內容，如果有任何不解，歡迎聯絡實驗團隊（頁底有聯絡資訊）。請務必看完這個影片並詳讀參與者研究說明書以了解實驗參與者的權利與義務。看完後請勾選下方勾選框。
-          <a target="_blank" href={consentFileLink} rel='noreferrer noopener'>
-            <Button fluid primary >
+          <a target="_blank"
+            href={consentFileLink}
+            rel='noreferrer noopener'>
+            <Button fluid
+              primary >
               <Icon name='file pdf'/>
             下載參與者研究說明書
             </Button>
@@ -67,7 +71,11 @@ export default class Orientation extends Component {
           </Message>
         </Segment> : null}
         <Segment attached>
-          <Button fluid primary onClick={this.onSubmit} loading={loading} >下一步</Button>
+          <Button fluid
+            primary
+            onClick={this.onSubmit}
+            loading={loading}
+            disabled={loading} >下一步</Button>
         </Segment>
         <ContactComp/>
       </div>

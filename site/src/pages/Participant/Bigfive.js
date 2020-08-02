@@ -95,7 +95,8 @@ export default class Bigfive extends Component {
           <Button fluid
             primary
             onClick={this.onSubmit}
-            loading={loading} >下一步</Button>
+            loading={loading}
+            disabled={loading} >下一步</Button>
         </Segment>
       </div>
     )

@@ -35,8 +35,8 @@ const compensation = validator(({ payMethod, linePayAccount, jkoAccount, bankAcc
 
 const receipt = validator(({ mailMethod }) => {
   return check.nonEmptyString(mailMethod)
-}, ({ mailMethod }) => {
-  return check.undefined(mailMethod)
+}, ({ receiptMailMethod }) => {
+  return check.undefined(receiptMailMethod)
 }, status.SET_RECEIPT_MAIL_METHOD)
 
 const sendConsent = validator(({ mailMethod }) => {

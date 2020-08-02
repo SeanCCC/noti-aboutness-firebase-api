@@ -112,7 +112,8 @@ export default class MailInfo extends Component {
           <Button fluid
             primary
             onClick={this.onSubmit}
-            loading={loading} >我已寄出或交付同意書</Button>
+            loading={loading}
+            disabled={loading} >我已寄出或交付同意書</Button>
         </Segment>
         <ContactComp/>
       </div>

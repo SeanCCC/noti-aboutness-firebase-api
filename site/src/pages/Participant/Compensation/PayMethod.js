@@ -39,7 +39,7 @@ export default class PayMethod extends Component {
   async submitPayInfo (payInfo, payMethod, file) {
     const { id, setStatus } = this.props
     try {
-      const res = await postFormData('/apis/participant/done/compensation', { ...payInfo, payMethod, uid: id }, file)
+      const res = await postFormData('/apis/participant/done/compensation', { ...payInfo, payMethod, id }, file)
       if (res.status === 200) this.setState({ accept: true })
       const newStatus = res.data.status
       setStatus(newStatus)
@@ -193,7 +193,8 @@ export default class PayMethod extends Component {
           <Button fluid
             primary
             onClick={this.onSubmit}
-            loading={uploading} >送出</Button>
+            loading={uploading}
+            disabled={uploading} >送出</Button>
         </Segment>
         <ContactComp/>
       </div>
