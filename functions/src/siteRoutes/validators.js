@@ -8,7 +8,6 @@ const validator = (bodyValidator = () => true, userValidator = () => true, valid
   const { id } = payload
   if (check.not.nonEmptyString(id)) return res.status(400).send('invalid id')
   const result = await fetchParticipantDetailById(id)
-  console.log({ result })
   if (result === null || result.status !== validStatus || !userValidator(result)) {
     return res.status(400).send('unauth')
   }

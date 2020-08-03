@@ -1,33 +1,116 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component, Fragment, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Table, Button, Modal } from 'semantic-ui-react'
+import { Table, Button, Modal, Header, Image } from 'semantic-ui-react'
 import status from '../../status'
 import { mailMethodOptions, payMethodOptions } from '../../formOptions'
 import moment from 'moment-timezone'
+import { firebaseStorage } from '../../../firebaseInit'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 
 const translate = (options, value, defaultValue) => {
   if (defaultValue !== undefined && value === undefined) return defaultValue
   return options.find(opt => opt.value === value).text
 }
 
+const ConfirmModalComponent = (props) => {
+  const [paymentCompleting, setPaymentCompleting] = useState(false)
+  const [payDate, setPayDate] = useState(
+    new Date(moment().tz('Asia/Taipei').format())
+  )
+  const { p } = props
+  const Completepayment = async () => {
+    setPaymentCompleting(true)
+    await props.Completepayment(p.uid, payDate)
+    setPaymentCompleting(false)
+  }
+  return <Modal.Content scrolling>
+    <Modal.Description>
+      <Header as="h2">{`確認${p.name}的支付時間`}</Header>
+      支付時間: <DatePicker
+        selected={payDate}
+        onChange={date => setPayDate(date)}
+        showTimeSelect
+        disabled={paymentCompleting}
+        timeIntervals={1}
+        dateFormat="yyyy MM dd h:mm aa"
+      />
+    </Modal.Description>
+    <Modal
+      size="mini"
+      trigger={<Button content="支付完成" loading={paymentCompleting} disabled={paymentCompleting} primary />}
+      header='確認支付完成嗎?'
+      content='記得小心確認有轉帳給對的人喔'
+      actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: Completepayment }]}
+    />
+  </Modal.Content>
+}
+
+ConfirmModalComponent.propTypes = {
+  p: PropTypes.object,
+  Completepayment: PropTypes.func
+}
+
+const InfoModalComponent = (props) => {
+  const { p, passbook } = props
+  if (!p.payDetail) return <div>N/A</div>
+  const { payDetail } = p
+  const payMethod = translate(payMethodOptions, payDetail.payMethod, '未設定')
+  return <Modal.Content scrolling>
+    <Modal.Description>
+      <Header as="h2">{`${p.name}的支付資訊`}</Header>
+
+      支付方式:{payMethod}
+      {
+        payDetail.payMethod === 'linePay'
+          ? `LinePay帳號:${payDetail.linePayAccount}`
+          : null
+      }
+      {
+        payDetail.payMethod === 'bankTransfer'
+          ? <div>
+            銀行帳號:{payDetail.bankAccount}
+            <br/>
+            銀行代號:{payDetail.bankCode}
+            <Image src={passbook} size="large"/>
+          </div>
+          : null
+      }
+      {
+        payDetail.payMethod === 'jko'
+          ? `街口帳號:${payDetail.jkoAccount}`
+          : null
+      }
+    </Modal.Description>
+  </Modal.Content>
+}
+
+InfoModalComponent.propTypes = {
+  p: PropTypes.object,
+  passbook: PropTypes.string
+}
+
 export default class ConsentPendingCell extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      paymentCompleting: false,
       sendingReceiptReminder: false,
-      sendingPayMethodReminder: false
+      sendingPayMethodReminder: false,
+      passbook: null
     }
-    this.paymentCompleted = this.paymentCompleted.bind(this)
     this.sendReceiptReminder = this.sendReceiptReminder.bind(this)
     this.sendPayMethodReminder = this.sendPayMethodReminder.bind(this)
   }
 
-  async paymentCompleted () {
-    const { participant, paymentCompleted } = this.props
-    this.setState({ paymentCompleting: true })
-    await paymentCompleted(participant.uid)
-    this.setState({ paymentCompleting: false })
+  async componentDidMount () {
+    const { participant } = this.props
+    const { payDetail } = participant
+    if (participant.status === status.PAYMENT_REQUIRED &&
+      payDetail.payMethod === 'bankTransfer') {
+      const storageRef = firebaseStorage.ref()
+      const passbook = await storageRef.child(payDetail.imgPath).getDownloadURL()
+      this.setState({ passbook })
+    }
   }
 
   async sendReceiptReminder () {
@@ -45,9 +128,10 @@ export default class ConsentPendingCell extends Component {
   }
 
   render () {
-    const { participant: p } = this.props
+    const { passbook } = this.state
+    const { participant: p, Completepayment } = this.props
     const { payDetail } = p
-    const { paymentCompleting, sendingReceiptReminder, sendingPayMethodReminder } = this.state
+    const { sendingReceiptReminder, sendingPayMethodReminder } = this.state
     const mailMethod = translate(mailMethodOptions, p.receiptMailMethod, '未送出')
     const receiptMailTime = !p.receiptMailTime ? '未送出' : moment(new Date(p.receiptMailTime)).tz('Asia/Taipei').format('YYYY-MM-DD HH:mm')
     return (
@@ -86,13 +170,19 @@ export default class ConsentPendingCell extends Component {
             <br/>上次寄信：{p.payMethodReminderSent || '無'}</Fragment>
             : null}
           {p.status === status.PAYMENT_REQUIRED
-            ? <Modal
+            ? <Fragment><Modal
+              size="fullscreen"
+              trigger={<Button content="支付資訊" primary />}
+            >
+              <InfoModalComponent p={p} passbook={passbook}/>
+            </Modal>
+            <Modal
               size="mini"
-              trigger={<Button content="支付完成" loading={paymentCompleting} disabled={paymentCompleting} primary />}
-              header='確認支付完成嗎?'
-              content='記得小心確認有轉帳給對的人喔'
-              actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: this.paymentCompleted }]}
-            />
+              trigger={<Button content="支付完成" primary />}
+            >
+              <ConfirmModalComponent p={p} Completepayment={Completepayment}/>
+            </Modal>
+            </Fragment>
             : null}
         </Table.Cell>
       </Table.Row>)
@@ -100,7 +190,7 @@ export default class ConsentPendingCell extends Component {
 }
 
 ConsentPendingCell.propTypes = {
-  paymentCompleted: PropTypes.func,
+  Completepayment: PropTypes.func,
   sendReceiptReminder: PropTypes.func,
   sendPayMethodReminder: PropTypes.func,
   participant: PropTypes.object

@@ -151,6 +151,22 @@ const sendPayMethodRemind = async (id) => {
   return transporter.sendMail(config)
 }
 
+const sendPayCompleteMail = async (id) => {
+  const { email, name, gender, payDetail } = await fetchEmailInfo(id, 'participant')
+  const { payMethod } = payDetail
+  let payInfo = ''
+  if (payMethod === 'bankTransfer') payInfo = '帳號末五碼:07085<br/>銀行代號:808 玉山銀行<br/>支付時間:xxxx'
+  else if (payMethod === 'jko') payInfo = '名稱:Sean<br/>街口帳戶末五碼:00841<br/>支付時間:xxxx'
+  else if (payMethod === 'linePay') payInfo = '帳號末五碼:07085<br/>銀行代號:808 玉山銀行<br/>支付時間:xxxx'
+  const config = {
+    from: 'MUILAB通知實驗研究團隊',
+    to: email,
+    subject: 'MUILAB通知實驗-報酬領取方法設定提醒信',
+    html: `<p>${name}${gender === 'male' ? '先生' : '小姐'}您好，<br/>我們已完成報酬xxx元的支付，以下是我們的支付資訊<br/>${payInfo}<br/>，若有問題請務必聯絡我們。<br/>到此步驟，您已完成所有實驗步驟，再次感謝您的餐與！</p>`
+  }
+  return transporter.sendMail(config)
+}
+
 module.exports = {
   sendEmailCheck,
   sendAcceptMail,
@@ -163,5 +179,6 @@ module.exports = {
   sendConsentRemind,
   askPaymentMail,
   sendReceiptRemind,
-  sendPayMethodRemind
+  sendPayMethodRemind,
+  sendPayCompleteMail
 }

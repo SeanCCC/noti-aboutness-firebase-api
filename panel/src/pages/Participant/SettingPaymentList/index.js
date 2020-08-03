@@ -1,13 +1,20 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Table } from 'semantic-ui-react'
+import moment from 'moment-timezone'
 import axios from 'axios'
 import SettingPaymentCell from './SettingPaymentCell'
 
+function sleep (ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
 export default class SettingPaymentList extends Component {
-  async paymentCompleted (uid) {
+  async Completepayment (uid, date) {
+    const payDate = moment(date).tz('Asia/Taipei').format('YYYY-MM-DD HH:mm:ss')
+    await sleep(1000)
     try {
-      await axios.post('/apis/participant/payment/done', { uid })
+      await axios.post('/apis/participant/payment/done', { uid, payDate })
     } catch (err) {
       console.error(err)
     }
@@ -43,7 +50,7 @@ export default class SettingPaymentList extends Component {
       </Table.Header>
       <Table.Body>
         {participants.map((p, idx) => <SettingPaymentCell
-          paymentCompleted={() => this.paymentCompleted(p.uid)}
+          Completepayment={this.Completepayment}
           sendReceiptReminder={() => this.sendReceiptReminder(p.uid)}
           sendPayMethodReminder={() => this.sendPayMethodReminder(p.uid)}
           participant={p}
