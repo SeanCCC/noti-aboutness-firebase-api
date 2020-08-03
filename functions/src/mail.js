@@ -26,9 +26,7 @@ const sendEmailCheck = (to, name, gender, id) => {
 
 const fetchEmailInfo = async (id, path) => {
   const result = await fetchDB(join(path, id))
-  const { email, name, gender } = result
-  const info = { email, name, gender }
-  return info
+  return result
 }
 
 const sendAcceptMail = async (id) => {
@@ -151,13 +149,13 @@ const sendPayMethodRemind = async (id) => {
   return transporter.sendMail(config)
 }
 
-const sendPayCompleteMail = async (id) => {
+const sendPayCompleteMail = async (id, payDate) => {
   const { email, name, gender, payDetail } = await fetchEmailInfo(id, 'participant')
   const { payMethod } = payDetail
   let payInfo = ''
-  if (payMethod === 'bankTransfer') payInfo = '帳號末五碼:07085<br/>銀行代號:808 玉山銀行<br/>支付時間:xxxx'
-  else if (payMethod === 'jko') payInfo = '名稱:Sean<br/>街口帳戶末五碼:00841<br/>支付時間:xxxx'
-  else if (payMethod === 'linePay') payInfo = '帳號末五碼:07085<br/>銀行代號:808 玉山銀行<br/>支付時間:xxxx'
+  if (payMethod === 'bankTransfer') payInfo = `帳號末五碼:07085<br/>銀行代號:808 玉山銀行<br/>支付時間:${payDate}`
+  else if (payMethod === 'jko') payInfo = `名稱:Sean<br/>街口帳戶末五碼:00841<br/>支付時間:${payDate}`
+  else if (payMethod === 'linePay') payInfo = `名稱:張忠喬 Sean<br/>支付時間:${payDate}`
   const config = {
     from: 'MUILAB通知實驗研究團隊',
     to: email,

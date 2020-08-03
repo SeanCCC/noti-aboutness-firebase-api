@@ -9,7 +9,8 @@ const {
   sendConsentRemind,
   askPaymentMail,
   sendReceiptRemind,
-  sendPayMethodRemind
+  sendPayMethodRemind,
+  sendPayCompleteMail
 } = require('../mail')
 const status = require('../status')
 
@@ -115,6 +116,22 @@ router.post('/payment/ask', async (req, res) => {
     await updateDB(`participant/${uid}`, {
       status: status.SET_RECEIPT_MAIL_METHOD,
       askPaymentTime: moment().tz('Asia/Taipei').format()
+    })
+    res.send('success')
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
+
+router.post('/payment/done', async (req, res) => {
+  try {
+    const payload = req.body
+    const { uid, payDate } = payload
+    await sendPayCompleteMail(uid, payDate)
+    await updateDB(`participant/${uid}`, {
+      status: status.PAYMENT_DONE,
+      payDate
     })
     res.send('success')
   } catch (err) {
