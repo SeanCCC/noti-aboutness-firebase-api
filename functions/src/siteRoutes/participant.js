@@ -66,9 +66,11 @@ router.post('/done/sendconsent', validators.sendConsent, async (req, res) => {
   try {
     const payload = req.body
     const { id, mailMethod } = payload
-    const moveStatusAsync = moveStauts(id, status.CONSENT_SENT)
-    const setMailMethodAsync = updateDB(`participant/${id}`, { mailMethod, consentSentTime: moment().tz('Asia/Taipei').format() })
-    await Promise.all([moveStatusAsync, setMailMethodAsync])
+    await updateDB(`participant/${id}`, {
+      mailMethod,
+      consentSentTime: moment().tz('Asia/Taipei').format(),
+      status: status.CONSENT_SENT
+    })
     res.json({ status: status.CONSENT_SENT })
   } catch (err) {
     console.error(err)
@@ -80,12 +82,11 @@ router.post('/done/receipt', validators.receipt, async (req, res) => {
   try {
     const payload = req.body
     const { id, mailMethod } = payload
-    const moveStatusAsync = moveStauts(id, status.SET_PAY_METHOD)
-    const setMailMAsync = updateDB(`participant/${id}`, {
+    await updateDB(`participant/${id}`, {
       receiptMailMethod: mailMethod,
-      receiptMailTime: moment().tz('Asia/Taipei').format()
+      receiptMailTime: moment().tz('Asia/Taipei').format(),
+      status: status.SET_PAY_METHOD
     })
-    await Promise.all([moveStatusAsync, setMailMAsync])
     res.json({ status: status.SET_PAY_METHOD })
   } catch (err) {
     console.error(err)
@@ -126,13 +127,11 @@ router.post('/done/interview', validators.interviewDone, async (req, res) => {
     const payload = req.body
     const { id, rsvp } = payload
     const nextStatus = rsvp ? status.INTERVIEW_ACCEPTED : status.SET_RECEIPT_MAIL_METHOD
-    const moveStatusAsync = moveStauts(id, nextStatus)
-    const setRSVPAsync = updateDB(`participant/${id}`, { rsvp })
-    if (rsvp) await Promise.all([moveStatusAsync, setRSVPAsync])
-    else {
-      const sendMailAsync = sendCompensationMail(id)
-      await Promise.all([moveStatusAsync, setRSVPAsync, sendMailAsync])
-    }
+    await updateDB(`participant/${id}`, {
+      rsvp,
+      status: nextStatus
+    })
+    if (!rsvp) await sendCompensationMail(id)
     res.json({ status: nextStatus })
   } catch (err) {
     console.error(err)
