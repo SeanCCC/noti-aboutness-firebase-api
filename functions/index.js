@@ -50,15 +50,15 @@ const app = functions.https.onRequest((request, response) => {
 
 // rtdb triggers
 const onNotificationAdded = functions.database
-  .ref('/notification/{uid}')
-  .onUpdate(countNotifications)
+  .ref('/notification/{uid}/{nid}/time')
+  .onCreate(countNotifications)
 
 const onQuestionnaireAdded = functions.database
   .ref('/questionnaire/{uid}/{qid}/longTime')
   .onCreate(countESM)
 
 // cronjob
-const dailyRecord = functions.pubsub.schedule('15 10 * * *') // running at every 8 am
+const dailyRecord = functions.pubsub.schedule('0 8 * * *') // running at every 8 am
   .timeZone('Asia/Taipei')
   .onRun(dailyRecordFunction)
 
