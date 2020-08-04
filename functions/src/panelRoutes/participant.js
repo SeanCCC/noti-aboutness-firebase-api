@@ -99,7 +99,8 @@ router.post('/paymethod/remind', async (req, res) => {
 //     await sendResearchRemind(uid)
 //     await updateDB(`participant/${uid}`, {
 //       status: status.INTERVIEW_INVITED,
-//       interviewInviteTime: moment().tz('Asia/Taipei').format()
+//       interviewInviteTime: moment().tz('Asia/Taipei').format(),
+//       lastStatusChanged: moment().tz('Asia/Taipei').format()
 //     })
 //     res.send('success')
 //   } catch (err) {
@@ -115,7 +116,8 @@ router.post('/payment/ask', async (req, res) => {
     await askPaymentMail(uid)
     await updateDB(`participant/${uid}`, {
       status: status.SET_RECEIPT_MAIL_METHOD,
-      askPaymentTime: moment().tz('Asia/Taipei').format()
+      askPaymentTime: moment().tz('Asia/Taipei').format(),
+      lastStatusChanged: moment().tz('Asia/Taipei').format()
     })
     res.send('success')
   } catch (err) {
@@ -131,7 +133,8 @@ router.post('/payment/done', async (req, res) => {
     await sendPayCompleteMail(uid, payDate)
     await updateDB(`participant/${uid}`, {
       status: status.PAYMENT_DONE,
-      payDate
+      payDate,
+      lastStatusChanged: moment().tz('Asia/Taipei').format()
     })
     res.send('success')
   } catch (err) {

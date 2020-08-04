@@ -26,7 +26,10 @@ router.get('/checkid', async (req, res) => {
       const candi = await fetchCandidateDetailById(id)
       if (candi === null) res.status(400).send('not found')
       else {
-        await moveDB(`candidate/${id}`, `participant/${id}`, { status: status.INIT })
+        await moveDB(`candidate/${id}`, `participant/${id}`, {
+          status: status.INIT,
+          lastStatusChanged: moment().tz('Asia/Taipei').format()
+        })
         res.json({ status: status.INIT })
       }
     }
@@ -69,7 +72,8 @@ router.post('/done/sendconsent', validators.sendConsent, async (req, res) => {
     await updateDB(`participant/${id}`, {
       mailMethod,
       consentSentTime: moment().tz('Asia/Taipei').format(),
-      status: status.CONSENT_SENT
+      status: status.CONSENT_SENT,
+      lastStatusChanged: moment().tz('Asia/Taipei').format()
     })
     res.json({ status: status.CONSENT_SENT })
   } catch (err) {
@@ -85,7 +89,8 @@ router.post('/done/receipt', validators.receipt, async (req, res) => {
     await updateDB(`participant/${id}`, {
       receiptMailMethod: mailMethod,
       receiptMailTime: moment().tz('Asia/Taipei').format(),
-      status: status.SET_PAY_METHOD
+      status: status.SET_PAY_METHOD,
+      lastStatusChanged: moment().tz('Asia/Taipei').format()
     })
     res.json({ status: status.SET_PAY_METHOD })
   } catch (err) {
@@ -113,7 +118,8 @@ router.post('/done/compensation', busboyMiddleWare, validators.compensation, asy
     }
     await updateDB(`participant/${id}`, {
       payDetail,
-      status: status.PAYMENT_REQUIRED
+      status: status.PAYMENT_REQUIRED,
+      lastStatusChanged: moment().tz('Asia/Taipei').format()
     })
     res.json({ status: status.PAYMENT_REQUIRED })
   } catch (err) {
@@ -129,7 +135,8 @@ router.post('/done/interview', validators.interviewDone, async (req, res) => {
     const nextStatus = rsvp ? status.INTERVIEW_ACCEPTED : status.SET_RECEIPT_MAIL_METHOD
     await updateDB(`participant/${id}`, {
       rsvp,
-      status: nextStatus
+      status: nextStatus,
+      lastStatusChanged: moment().tz('Asia/Taipei').format()
     })
     if (!rsvp) await sendCompensationMail(id)
     res.json({ status: nextStatus })

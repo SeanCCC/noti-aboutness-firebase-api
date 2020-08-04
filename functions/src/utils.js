@@ -1,6 +1,7 @@
 const admin = require('firebase-admin')
 const serviceAccount = require('../serviceAccountKey')
 const Busboy = require('busboy')
+const moment = require('moment-timezone')
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -119,7 +120,10 @@ function fetchCandidateDetailById (id) {
 }
 
 const moveStauts = (id, status) => {
-  return updateDB(`participant/${id}`, { status })
+  return updateDB(`participant/${id}`, {
+    status,
+    lastStatusChanged: moment().tz('Asia/Taipei').format()
+  })
 }
 
 module.exports = {
