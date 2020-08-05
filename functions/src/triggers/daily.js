@@ -14,7 +14,7 @@ const dailyRecordFunction = async () => {
         const date = moment(key, 'YYYY-MM-DD').tz('Asia/Taipei')
         console.log(uid)
         console.log(date.format(), yesterday, date.isSameOrBefore(yesterday))
-        if (date.isSameOrBefore(yesterday)) return acu
+        if (date.isAfter(yesterday)) return acu
         const amount = value.reduce((acc, { amount }) => acc + amount, 0)
         return [...acu, { date: key, amount }]
       }, [])

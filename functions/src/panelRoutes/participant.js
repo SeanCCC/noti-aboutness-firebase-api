@@ -11,7 +11,10 @@ const {
   sendReceiptRemind,
   sendPayMethodRemind,
   sendPayCompleteMail,
-  sendInterviewInvitation
+  sendInterviewInvitation,
+  sendInterviewInviteReminder,
+  sendInterviewSchedule,
+  sendInterviewCancel
 } = require('../mail')
 const status = require('../status')
 
@@ -93,6 +96,41 @@ router.post('/paymethod/remind', async (req, res) => {
   }
 })
 
+router.post('/payment/ask', async (req, res) => {
+  try {
+    const payload = req.body
+    const now = moment().tz('Asia/Taipei').format()
+    const { uid } = payload
+    await askPaymentMail(uid)
+    await updateDB(`participant/${uid}`, {
+      status: status.SET_RECEIPT_MAIL_METHOD,
+      askPaymentTime: now,
+      lastStatusChanged: now
+    })
+    res.send('success')
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
+
+router.post('/payment/done', async (req, res) => {
+  try {
+    const payload = req.body
+    const { uid, payDate } = payload
+    await sendPayCompleteMail(uid, payDate)
+    await updateDB(`participant/${uid}`, {
+      status: status.ALL_DONE,
+      payDate,
+      lastStatusChanged: moment().tz('Asia/Taipei').format()
+    })
+    res.send('success')
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
+
 router.post('/interview/invite', async (req, res) => {
   try {
     const now = moment().tz('Asia/Taipei').format()
@@ -111,15 +149,66 @@ router.post('/interview/invite', async (req, res) => {
   }
 })
 
-router.post('/payment/ask', async (req, res) => {
+router.post('/interview/remind', async (req, res) => {
   try {
+    const now = moment().tz('Asia/Taipei').format()
     const payload = req.body
     const { uid } = payload
-    await askPaymentMail(uid)
+    await sendInterviewInviteReminder(uid)
+    await updateDB(`participant/${uid}`, {
+      interviewInviteRemindTime: now
+    })
+    res.send('success')
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
+
+router.post('/interview/schedule', async (req, res) => {
+  try {
+    const now = moment().tz('Asia/Taipei').format()
+    const payload = req.body
+    const { uid, interviewScheduleTime } = payload
+    await sendInterviewSchedule(uid, interviewScheduleTime)
+    await updateDB(`participant/${uid}`, {
+      status: status.INTERVIEW_SCHEDULED,
+      interviewScheduleTime,
+      lastStatusChanged: now
+    })
+    res.send('success')
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
+
+router.post('/interview/finish', async (req, res) => {
+  try {
+    const now = moment().tz('Asia/Taipei').format()
+    const payload = req.body
+    const { uid } = payload
+    await updateDB(`participant/${uid}`, {
+      status: status.ALL_DONE,
+      lastStatusChanged: now
+    })
+    res.send('success')
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
+
+router.post('/interview/cancel', async (req, res) => {
+  try {
+    const now = moment().tz('Asia/Taipei').format()
+    const payload = req.body
+    const { uid } = payload
+    await sendInterviewCancel(uid)
     await updateDB(`participant/${uid}`, {
       status: status.SET_RECEIPT_MAIL_METHOD,
-      askPaymentTime: moment().tz('Asia/Taipei').format(),
-      lastStatusChanged: moment().tz('Asia/Taipei').format()
+      askPaymentTime: now,
+      lastStatusChanged: now
     })
     res.send('success')
   } catch (err) {
@@ -127,22 +216,4 @@ router.post('/payment/ask', async (req, res) => {
     res.status(500).send('error')
   }
 })
-
-router.post('/payment/done', async (req, res) => {
-  try {
-    const payload = req.body
-    const { uid, payDate } = payload
-    await sendPayCompleteMail(uid, payDate)
-    await updateDB(`participant/${uid}`, {
-      status: status.PAYMENT_DONE,
-      payDate,
-      lastStatusChanged: moment().tz('Asia/Taipei').format()
-    })
-    res.send('success')
-  } catch (err) {
-    console.error(err)
-    res.status(500).send('error')
-  }
-})
-
 module.exports = router

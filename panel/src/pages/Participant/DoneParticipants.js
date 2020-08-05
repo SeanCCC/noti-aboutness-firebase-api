@@ -5,10 +5,10 @@ import { Accordion, Header, Icon } from 'semantic-ui-react'
 import LoadingPage from '../LoadingPage'
 // import Numbers from '../Numbers'
 import status from '../status'
-import ConsentPendingList from './ConsentPendingList'
 import PayOrInviteList from './PayOrInviteList'
 import SettingPaymentList from './SettingPaymentList'
 import InterviewInviteList from './InterviewInviteList'
+import AllDoneList from './AllDoneList'
 
 class DoneParticipants extends Component {
   constructor (props) {
@@ -43,7 +43,7 @@ class DoneParticipants extends Component {
     const payOrInvite = researchDoneParticipants.filter(p => p.status === status.RESEARCH_DONE)
     const Inverviewees = researchDoneParticipants.filter(p => [status.INTERVIEW_ACCEPTED, status.INTERVIEW_INVITED, status.INTERVIEW_SCHEDULED].includes(p.status))
     const settingPayment = researchDoneParticipants.filter(p => [status.SET_RECEIPT_MAIL_METHOD, status.SET_PAY_METHOD, status.PAYMENT_REQUIRED].includes(p.status))
-    const allDone = researchDoneParticipants.filter(p => [status.PAYMENT_DONE].includes(p.status))
+    const allDone = researchDoneParticipants.filter(p => [status.ALL_DONE].includes(p.status))
     return <div className="page">
       <Header as="h1">實驗後面板</Header>
       {/* <div className="numbers">
@@ -99,7 +99,7 @@ class DoneParticipants extends Component {
           <Header as="h3"><Icon name='dropdown' />全程完成({allDone.length})</Header>
         </Accordion.Title>
         <Accordion.Content active={activeIndex.includes(3)}>
-          <ConsentPendingList
+          <AllDoneList
             participants={allDone}
           />
         </Accordion.Content>

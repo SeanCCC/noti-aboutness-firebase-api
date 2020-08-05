@@ -106,7 +106,7 @@ export default class InterviewInviteCell extends Component {
                 content='寄太多信會變成騷擾，務必先確認寄信頻率'
                 actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: this.sendReminder }]}
               />
-              <br/>上次寄提醒信：{p.consentReminderSent || '無'}
+              <br/>上次寄提醒信：{p.interviewInviteRemindTime || '無'}
             </Fragment> : null}
           {p.status === status.INTERVIEW_ACCEPTED
             ? <Modal

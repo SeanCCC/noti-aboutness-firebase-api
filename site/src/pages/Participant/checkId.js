@@ -20,7 +20,8 @@ const statusMoveTable = [
   { status: status.PAYMENT_REQUIRED, path: '/participant/waitforpay' },
   { status: status.INTERVIEW_INVITED, path: '/participant/interview/invitation', api: '/apis/participant/done/interview' },
   { status: status.INTERVIEW_ACCEPTED, path: '/participant/interview/accept' },
-  { status: status.INTERVIEW_SCHEDULED, path: '/participant/interview/schedule' }
+  { status: status.INTERVIEW_SCHEDULED, path: '/participant/interview/schedule' },
+  { status: status.ALL_DONE, path: '/participant/done' }
 ]
 
 export const checkId = (WrappedComponent) => {

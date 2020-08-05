@@ -145,3 +145,14 @@ export function InterviewSchedulePage ({ scheduleTime }) {
 InterviewSchedulePage.propTypes = {
   scheduleTime: PropTypes.string
 }
+
+export function ResearchDonePage () {
+  return <div className="page">
+    <Header textAlign="center"
+      as='h2'>感謝您的參與</Header>
+    <Message positive>
+      <Message.Header>您的所有研究流程已經完成，感謝您的參與，未來研究若有繼續招人，也希望您能推薦給朋友。</Message.Header>
+    </Message>
+    <ContactComp/>
+  </div>
+}

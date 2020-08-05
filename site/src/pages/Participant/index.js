@@ -9,7 +9,16 @@ import Orientation from './Orientation'
 import Bigfive from './Bigfive'
 import MailInfo from './MailInfo'
 import Compensation from './Compensation'
-import { InterviewSchedulePage, InterviewAcceptPage, WaitPage, ReadyPage, WaitForPayPage, ErrorPage, RunningPage, CompletePage } from './ResultPage'
+import {
+  InterviewSchedulePage,
+  InterviewAcceptPage,
+  WaitPage, ReadyPage,
+  WaitForPayPage,
+  ErrorPage,
+  RunningPage,
+  CompletePage,
+  ResearchDonePage
+} from './ResultPage'
 import Instruction from './Instruction'
 import { checkId } from './checkId'
 import Interview from './Interview'
@@ -44,6 +53,8 @@ export default function Participant () {
         component={checkId(Compensation)}/>
       <Route path={`${match.path}/waitforpay`}
         component={checkId(WaitForPayPage)}/>
+      <Route path={`${match.path}/done`}
+        component={checkId(ResearchDonePage)}/>
       <Route path={`${match.path}/error`}
         component={ErrorPage}/>
       <Route path={match.path}>

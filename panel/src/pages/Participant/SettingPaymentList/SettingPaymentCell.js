@@ -60,8 +60,8 @@ const InfoModalComponent = (props) => {
   return <Modal.Content scrolling>
     <Modal.Description>
       <Header as="h2">{`${p.name}的支付資訊`}</Header>
-
-      支付方式:{payMethod}
+      姓名:{p.name}<br/>
+      支付方式:{payMethod}<br/>
       {
         payDetail.payMethod === 'linePay'
           ? `LinePay帳號:${payDetail.linePayAccount}`
@@ -172,7 +172,7 @@ export default class ConsentPendingCell extends Component {
             : null}
           {p.status === status.PAYMENT_REQUIRED
             ? <Fragment><Modal
-              size="fullscreen"
+              size="massive"
               trigger={<Button content="支付資訊" primary />}
             >
               <InfoModalComponent p={p} passbook={passbook}/>
