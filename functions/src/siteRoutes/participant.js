@@ -130,13 +130,15 @@ router.post('/done/compensation', busboyMiddleWare, validators.compensation, asy
 
 router.post('/done/interview', validators.interviewDone, async (req, res) => {
   try {
+    const now = moment().tz('Asia/Taipei').format()
     const payload = req.body
     const { id, rsvp } = payload
     const nextStatus = rsvp ? status.INTERVIEW_ACCEPTED : status.SET_RECEIPT_MAIL_METHOD
     await updateDB(`participant/${id}`, {
       rsvp,
       status: nextStatus,
-      lastStatusChanged: moment().tz('Asia/Taipei').format()
+      lastStatusChanged: now,
+      interviewAcceptTime: rsvp ? now : undefined
     })
     if (!rsvp) await sendCompensationMail(id)
     res.json({ status: nextStatus })

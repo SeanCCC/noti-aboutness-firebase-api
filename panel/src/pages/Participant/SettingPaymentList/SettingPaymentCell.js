@@ -19,9 +19,10 @@ const ConfirmModalComponent = (props) => {
     new Date(moment().tz('Asia/Taipei').format())
   )
   const { p } = props
-  const Completepayment = async () => {
+  const completePayment = async () => {
     setPaymentCompleting(true)
-    await props.Completepayment(p.uid, payDate)
+    const tzTime = moment(payDate).tz('Asia/Taipei').format()
+    await props.completePayment(p.uid, tzTime)
     setPaymentCompleting(false)
   }
   return <Modal.Content scrolling>
@@ -41,14 +42,14 @@ const ConfirmModalComponent = (props) => {
       trigger={<Button content="支付完成" loading={paymentCompleting} disabled={paymentCompleting} primary />}
       header='確認支付完成嗎?'
       content='記得小心確認有轉帳給對的人喔'
-      actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: Completepayment }]}
+      actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: completePayment }]}
     />
   </Modal.Content>
 }
 
 ConfirmModalComponent.propTypes = {
   p: PropTypes.object,
-  Completepayment: PropTypes.func
+  completePayment: PropTypes.func
 }
 
 const InfoModalComponent = (props) => {
@@ -129,7 +130,7 @@ export default class ConsentPendingCell extends Component {
 
   render () {
     const { passbook } = this.state
-    const { participant: p, Completepayment } = this.props
+    const { participant: p, completePayment } = this.props
     const { payDetail } = p
     const { sendingReceiptReminder, sendingPayMethodReminder } = this.state
     const mailMethod = translate(mailMethodOptions, p.receiptMailMethod, '未送出')
@@ -180,7 +181,7 @@ export default class ConsentPendingCell extends Component {
               size="mini"
               trigger={<Button content="支付完成" primary />}
             >
-              <ConfirmModalComponent p={p} Completepayment={Completepayment}/>
+              <ConfirmModalComponent p={p} completePayment={completePayment}/>
             </Modal>
             </Fragment>
             : null}
@@ -190,7 +191,7 @@ export default class ConsentPendingCell extends Component {
 }
 
 ConsentPendingCell.propTypes = {
-  Completepayment: PropTypes.func,
+  completePayment: PropTypes.func,
   sendReceiptReminder: PropTypes.func,
   sendPayMethodReminder: PropTypes.func,
   participant: PropTypes.object

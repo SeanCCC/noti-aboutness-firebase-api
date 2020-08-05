@@ -34,7 +34,7 @@ const sendAcceptMail = async (id) => {
   const config = {
     from: 'MUILAB通知實驗研究團隊',
     to: email,
-    subject: 'MUILAB通知實驗-信箱驗證信',
+    subject: 'MUILAB通知實驗',
     html: `<p>${name}${gender === 'male' ? '先生' : '小姐'}您好，感謝您願意參與此研究，<a href="https://notiaboutness.muilab.org/participant/orientation?id=${id}">此網站</a>會引導您完成知情同意流程，請您點擊並按照指引完成所有步驟。</p>`
   }
   return transporter.sendMail(config)
@@ -56,8 +56,8 @@ const sendInterviewInvitation = async (id) => {
   const config = {
     from: 'MUILAB通知實驗研究團隊',
     to: email,
-    subject: 'MUILAB通知實驗-訪談邀約',
-    html: `<p>${name}${gender === 'male' ? '先生' : '小姐'}您好，<br/>在檢視您提供的寶貴資訊後，我們希望邀請您進行訪談。這是<a href="https://notiaboutness.muilab.org/participant/interview/invitation?id=${id}">邀請函</a>，期待您的回應。</p>`
+    subject: 'MUILAB通知實驗-訪談邀約與報酬領取',
+    html: `<p>${name}${gender === 'male' ? '先生' : '小姐'}您好，<br/>在檢視您提供的寶貴資訊後，我們希望邀請您進行訪談。<br/>若您願意接受訪談，研究團隊將提供300元的車馬費。<br/>實驗的報酬也會在訪談當天以現金一併付清。<br/>這是<a href="https://notiaboutness.muilab.org/participant/interview/invitation?id=${id}">邀請函</a>，期待您的回應。</p>`
   }
   return transporter.sendMail(config)
 }

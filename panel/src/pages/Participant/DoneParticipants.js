@@ -8,6 +8,7 @@ import status from '../status'
 import ConsentPendingList from './ConsentPendingList'
 import PayOrInviteList from './PayOrInviteList'
 import SettingPaymentList from './SettingPaymentList'
+import InterviewInviteList from './InterviewInviteList'
 
 class DoneParticipants extends Component {
   constructor (props) {
@@ -72,7 +73,7 @@ class DoneParticipants extends Component {
           <Header as="h3"><Icon name='dropdown' />訪談相關名單({Inverviewees.length})</Header>
         </Accordion.Title>
         <Accordion.Content active={activeIndex.includes(1)}>
-          <ConsentPendingList
+          <InterviewInviteList
             participants={Inverviewees}
           />
         </Accordion.Content>

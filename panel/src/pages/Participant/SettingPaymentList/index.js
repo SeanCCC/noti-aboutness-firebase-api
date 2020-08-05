@@ -10,7 +10,7 @@ function sleep (ms) {
 }
 
 export default class SettingPaymentList extends Component {
-  async Completepayment (uid, date) {
+  async completePayment (uid, date) {
     const payDate = moment(date).tz('Asia/Taipei').format('YYYY-MM-DD HH:mm:ss')
     await sleep(1000)
     try {
@@ -50,7 +50,7 @@ export default class SettingPaymentList extends Component {
       </Table.Header>
       <Table.Body>
         {participants.map((p, idx) => <SettingPaymentCell
-          Completepayment={this.Completepayment}
+          completePayment={this.completePayment}
           sendReceiptReminder={() => this.sendReceiptReminder(p.uid)}
           sendPayMethodReminder={() => this.sendPayMethodReminder(p.uid)}
           participant={p}

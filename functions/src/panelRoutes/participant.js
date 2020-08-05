@@ -10,7 +10,8 @@ const {
   askPaymentMail,
   sendReceiptRemind,
   sendPayMethodRemind,
-  sendPayCompleteMail
+  sendPayCompleteMail,
+  sendInterviewInvitation
 } = require('../mail')
 const status = require('../status')
 
@@ -92,22 +93,23 @@ router.post('/paymethod/remind', async (req, res) => {
   }
 })
 
-// router.post('/interview/invite', async (req, res) => {
-//   try {
-//     const payload = req.body
-//     const { uid } = payload
-//     await sendResearchRemind(uid)
-//     await updateDB(`participant/${uid}`, {
-//       status: status.INTERVIEW_INVITED,
-//       interviewInviteTime: moment().tz('Asia/Taipei').format(),
-//       lastStatusChanged: moment().tz('Asia/Taipei').format()
-//     })
-//     res.send('success')
-//   } catch (err) {
-//     console.error(err)
-//     res.status(500).send('error')
-//   }
-// })
+router.post('/interview/invite', async (req, res) => {
+  try {
+    const now = moment().tz('Asia/Taipei').format()
+    const payload = req.body
+    const { uid } = payload
+    await sendInterviewInvitation(uid)
+    await updateDB(`participant/${uid}`, {
+      status: status.INTERVIEW_INVITED,
+      interviewInviteTime: now,
+      lastStatusChanged: now
+    })
+    res.send('success')
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
 
 router.post('/payment/ask', async (req, res) => {
   try {
