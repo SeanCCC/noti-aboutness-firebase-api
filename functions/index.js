@@ -61,7 +61,7 @@ const onQuestionnaireAdded = functions.database
   .onCreate(countESM)
 
 // cronjob
-const dailyRecord = functions.pubsub.schedule('0 8 * * *') // running at every 8 am
+const dailyRecord = functions.pubsub.schedule('0 5 * * *') // running at every 8 am
   .timeZone('Asia/Taipei')
   .onRun(dailyRecordFunction)
 

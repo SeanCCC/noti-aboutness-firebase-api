@@ -2,9 +2,19 @@ const _ = require('lodash')
 const moment = require('moment-timezone')
 const { fetchDB, updateDB, findDB } = require('../utils')
 const status = require('../status')
+const { sendResearchEndNotice } = require('../mail')
+
+const setResearchDone = async (uid, compensation) => {
+  await updateDB(`participant/${uid}`, {
+    compensation,
+    status: status.RESEARCH_DONE
+  })
+  await sendResearchEndNotice(uid)
+}
 
 const dailyRecordFunction = async () => {
   const yesterday = moment().startOf('day').subtract(1, 'days').tz('Asia/Taipei').format()
+  const now = moment().tz('Asia/Taipei')
   const uploadRecord = await fetchDB('/uploadRecord')
   const result = _.mapValues(uploadRecord, (p, uid) => {
     if (!p.notiDistHourly) return p
@@ -12,8 +22,6 @@ const dailyRecordFunction = async () => {
       .groupBy('date')
       .reduce((acu, value, key) => {
         const date = moment(key, 'YYYY-MM-DD').tz('Asia/Taipei')
-        console.log(uid)
-        console.log(date.format(), yesterday, date.isSameOrBefore(yesterday))
         if (date.isAfter(yesterday)) return acu
         const amount = value.reduce((acc, { amount }) => acc + amount, 0)
         return [...acu, { date: key, amount }]
@@ -29,7 +37,22 @@ const dailyRecordFunction = async () => {
       .reduce((acc, { amount }) => acc + amount, 0)
     return { ...p, notiDistDaily, totalNotiCount, totalEsmCount }
   })
-  return updateDB('/uploadRecord', result)
+  const researchDoneList = _.chain(result)
+    .mapValues((r, uid) => {
+      return { ...r, uid }
+    })
+    .filter(r => {
+      const then = moment(r.researchStartDate)
+      const ms = now.diff(then)
+      const days = moment.duration(ms).asDays()
+      return days >= 14 // && r.totalEsmCount >= 42
+    })
+    .map((r) => {
+      const compensation = 1550 + Math.max(0, r.totalEsmCount - 70) * 20
+      return setResearchDone(r.uid, compensation)
+    })
+    .value()
+  return Promise.all([updateDB('/uploadRecord', result), ...researchDoneList])
 }
 
 const researchStarter = async () => {

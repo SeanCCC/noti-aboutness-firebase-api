@@ -141,7 +141,7 @@ const sendPayMethodRemind = async (id) => {
 }
 
 const sendPayCompleteMail = async (id, payDate) => {
-  const { email, name, gender, payDetail } = await fetchEmailInfo(id, 'participant')
+  const { email, name, gender, payDetail, compensation } = await fetchEmailInfo(id, 'participant')
   const { payMethod } = payDetail
   let payInfo = ''
   if (payMethod === 'bankTransfer') payInfo = `支付方式:轉帳<br/>帳號末五碼:07085<br/>銀行代號:808 玉山銀行<br/>支付時間:${payDate}`
@@ -151,7 +151,7 @@ const sendPayCompleteMail = async (id, payDate) => {
     from: 'MUILAB通知實驗研究團隊',
     to: email,
     subject: 'MUILAB通知實驗-付款完成通知信',
-    html: `<p>${name}${gender === 'male' ? '先生' : '小姐'}您好，<br/>我們已完成報酬xxx元的支付，以下是我們的支付資訊<br/>${payInfo}<br/>，若有問題請務必聯絡我們。<br/>到此步驟，您已完成所有實驗步驟，再次感謝您的餐與！</p>`
+    html: `<p>${name}${gender === 'male' ? '先生' : '小姐'}您好，<br/>我們已完成報酬${compensation}元的支付，以下是我們的支付資訊<br/>${payInfo}<br/>，若有問題請務必聯絡我們。<br/>到此步驟，您已完成所有實驗步驟，再次感謝您的餐與！</p>`
   }
   return transporter.sendMail(config)
 }
@@ -206,6 +206,18 @@ const sendInterviewCancel = async (id) => {
   }
   return transporter.sendMail(config)
 }
+
+const sendResearchEndNotice = async (id) => {
+  const { email, name, gender } = await fetchEmailInfo(id, 'participant')
+  const config = {
+    from: 'MUILAB通知實驗研究團隊',
+    to: email,
+    subject: 'MUILAB通知實驗-實驗結束通知',
+    html: `<p>${name}${gender === 'male' ? '先生' : '小姐'}您好，<br/>您的實驗任務已經完成，團隊將在近期與您聯絡報酬事宜。<br/>您可以放心移除研究App，感激不盡</p>`
+  }
+  return transporter.sendMail(config)
+}
+
 module.exports = {
   sendEmailCheck,
   sendAcceptMail,
@@ -222,5 +234,6 @@ module.exports = {
   sendInterviewInvitation,
   sendInterviewInviteReminder,
   sendInterviewSchedule,
-  sendInterviewCancel
+  sendInterviewCancel,
+  sendResearchEndNotice
 }
