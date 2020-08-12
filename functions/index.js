@@ -8,6 +8,7 @@ const { countNotifications, dailyRecordFunction, countESM, researchStarter } = r
 
 // site apis
 const siteApp = express()
+siteApp.disable('etag')
 siteApp.use(cors({ origin: true }))
 siteApp.use(express.json())
 siteApp.use(express.urlencoded({ extended: false }))
@@ -22,6 +23,7 @@ const site = functions.https.onRequest((request, response) => {
 
 // panel apis
 const panelApp = express()
+panelApp.disable('etag')
 panelApp.use(cors({ origin: true }))
 panelApp.use(express.json())
 panelApp.use(express.urlencoded({ extended: false }))
@@ -36,6 +38,7 @@ const panel = functions.https.onRequest((request, response) => {
 
 // app apis
 const appApp = express()
+appApp.disable('etag')
 appApp.use(cors({ origin: true }))
 appApp.use(express.json())
 appApp.use(express.urlencoded({ extended: false }))

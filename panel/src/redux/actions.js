@@ -1,5 +1,4 @@
 import status from '../pages/status'
-
 import moment from 'moment-timezone'
 import _ from 'lodash'
 
@@ -69,13 +68,56 @@ function createResearchPendingNumber (researchPendingParticipants) {
 }
 
 function createResearchDoneNumber (researchDoneParticipants) {
-  const yetConfigAppCount = researchDoneParticipants
-    .filter((p) => p.status !== status.APP_VALID)
+  const now = moment().tz('Asia/Taipei')
+  const yetInviteOrPay = researchDoneParticipants
+    .filter((p) => p.status === status.RESEARCH_DONE)
     .length
-  const researchDoneCount = researchDoneParticipants.length
+  const notResponding = researchDoneParticipants
+    .filter((p) => {
+      if (p.status !== status.INTERVIEW_INVITED) return false
+      const time = p.interviewInviteRemindTime || p.interviewInviteTime
+      const then = moment(time)
+      const ms = now.diff(then)
+      const hours = moment.duration(ms).asHours()
+      return hours > 3 * 24
+    })
+    .length
+  const notScheduled = researchDoneParticipants
+    .filter((p) => {
+      if (p.status !== status.INTERVIEW_ACCEPTED) return false
+      return !p.interviewScheduleTime
+    })
+    .length
+  const notSendingReceipt = researchDoneParticipants
+    .filter((p) => {
+      if (p.status !== status.SET_RECEIPT_MAIL_METHOD) return false
+      const time = p.receiptReminderSent || p.askPaymentTime
+      const then = moment(time)
+      const ms = now.diff(then)
+      const hours = moment.duration(ms).asHours()
+      return hours > 3 * 24
+    })
+    .length
+  const notSettingPayMethod = researchDoneParticipants
+    .filter((p) => {
+      if (p.status !== status.SET_PAY_METHOD) return false
+      const time = p.payMethodReminderSent || p.lastStatusChanged
+      const then = moment(time)
+      const ms = now.diff(then)
+      const hours = moment.duration(ms).asHours()
+      return hours > 3 * 24
+    })
+    .length
+  const yetPay = researchDoneParticipants
+    .filter((p) => p.status === status.PAYMENT_REQUIRED)
+    .length
   return [
-    { value: yetConfigAppCount, label: '尚未設定App' },
-    { value: researchDoneCount, label: '總人數' }
+    { value: yetInviteOrPay, label: '尚未邀請訪談或付款', dangerous: yetInviteOrPay > 0 },
+    { value: notResponding, label: '三天未回覆邀約', warning: notResponding > 0 },
+    { value: notScheduled, label: '尚未安排訪談', dangerous: notScheduled > 0 },
+    { value: notSendingReceipt, label: '領據三天未寄出', warning: notSendingReceipt > 0 },
+    { value: notSettingPayMethod, label: '支付方法三天未設定', warning: notSettingPayMethod > 0 },
+    { value: yetPay, label: '尚未支付', dangerous: yetPay > 0 }
   ]
 }
 

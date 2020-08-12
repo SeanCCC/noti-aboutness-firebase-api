@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Accordion, Header, Icon } from 'semantic-ui-react'
 import LoadingPage from '../LoadingPage'
-// import Numbers from '../Numbers'
+import Numbers from '../Numbers'
 import status from '../status'
 import PayOrInviteList from './PayOrInviteList'
 import SettingPaymentList from './SettingPaymentList'
@@ -36,7 +36,7 @@ class DoneParticipants extends Component {
   render () {
     const { loading, activeIndex } = this.state
     const {
-      // researchDoneNumber,
+      researchDoneNumber,
       researchDoneParticipants
     } = this.props
     if (loading) return <LoadingPage/>
@@ -46,10 +46,10 @@ class DoneParticipants extends Component {
     const allDone = researchDoneParticipants.filter(p => [status.ALL_DONE].includes(p.status))
     return <div className="page">
       <Header as="h1">實驗後面板</Header>
-      {/* <div className="numbers">
-        <Header as="h3">帶</Header>
+      <div className="numbers">
+        <Header as="h3">訪談與報酬</Header>
         <Numbers content={researchDoneNumber} />
-      </div> */}
+      </div>
       <Accordion fluid styled className="short-marginned">
         <Accordion.Title
           size="x-large"

@@ -1,14 +1,6 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Table, Button, Modal } from 'semantic-ui-react'
-import status from '../../status'
-import { mailMethodOptions } from '../../formOptions'
-import moment from 'moment-timezone'
-
-const translate = (options, value, defaultValue) => {
-  if (defaultValue !== undefined && value === undefined) return defaultValue
-  return options.find(opt => opt.value === value).text
-}
+import { Table } from 'semantic-ui-react'
 
 export default class AllDoneCell extends Component {
   constructor (props) {
