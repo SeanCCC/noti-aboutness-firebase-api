@@ -5,9 +5,12 @@ const status = require('../status')
 const { sendResearchEndNotice } = require('../mail')
 
 const setResearchDone = async (uid, compensation) => {
+  const now = moment().tz('Asia/Taipei').format()
   await updateDB(`participant/${uid}`, {
     compensation,
-    status: status.RESEARCH_DONE
+    status: status.RESEARCH_DONE,
+    lastStatusChanged: now,
+    researchEndDate: moment().startOf('day').subtract(1, 'days').tz('Asia/Taipei').format('YYYY-MM-DD')
   })
   await sendResearchEndNotice(uid)
 }
