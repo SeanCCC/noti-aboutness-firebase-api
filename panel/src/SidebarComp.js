@@ -41,7 +41,8 @@ class SidebarComp extends Component {
           visible
           width='thin'
         >
-          <Menu.Item as='a' >
+          <Menu.Item as='a' onClick={
+            () => this.setNextPath('/home') } >
             <Icon name='home' />
             主面板
           </Menu.Item>

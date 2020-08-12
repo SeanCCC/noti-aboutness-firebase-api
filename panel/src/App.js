@@ -7,6 +7,7 @@ import Recruit from './pages/Recruit'
 import Participant from './pages/Participant'
 import SidebarComp from './SidebarComp'
 import Auth from './Auth'
+import Home from './pages/Home'
 import {
   BrowserRouter as Router,
   Switch,
@@ -22,6 +23,7 @@ function App () {
           <Auth>
             <SidebarComp>
               <Switch>
+                <Route path="/home" component={Home}/>
                 <Route path="/recruit" component={Recruit}/>
                 <Route path="/participant" component={Participant}/>
                 <Route path="/">

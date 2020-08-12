@@ -52,15 +52,14 @@
 }
 
 .numbers {
-  display: flex;
-  align-items: center;
+  padding: 16px 0px
 }
 
 .block-chart {
   display: grid;
   grid-auto-flow: column;
   grid-gap: 16px;
-  grid-template-columns: repeat(auto-fill, 60px);;
+  grid-template-columns: repeat(auto-fill, 60px);
 
 }
 
@@ -141,4 +140,11 @@
 
 .tooltip:hover .tooltiptext {
   visibility: visible;
+}
+
+.ui.statistics {
+  display: grid;
+  margin: 1em -1.5em -1em;
+  grid-auto-flow: column;
+  grid-template-columns: repeat(auto-fill, 120px);
 }
