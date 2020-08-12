@@ -26,6 +26,7 @@ router.post('/bind', async (req, res) => {
   try {
     const payload = req.body
     const { email, deviceId } = payload
+    console.log({ email, deviceId })
     if (check.not.assigned(email) && check.not.assigned(deviceId)) return res.status(400).send('missing email or deviceId')
     const participant = await fetchDetailByEmail(email)
     if (check.null(participant)) return res.status(400).send('participant not found')
