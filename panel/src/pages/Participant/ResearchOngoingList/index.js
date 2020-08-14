@@ -17,6 +17,7 @@ class ResearchPendingList extends Component {
 
   render () {
     const { participants, uploadRecord } = this.props
+    // console.log({ hightlightList })
     return <Table basic='very' celled collapsing>
       <Table.Header>
         <Table.Row>
@@ -39,12 +40,14 @@ class ResearchPendingList extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  uploadRecord: state.uploadRecord
+  uploadRecord: state.uploadRecord,
+  researchRunningNumber: state.researchRunningNumber
 })
 
 ResearchPendingList.propTypes = {
   participants: PropTypes.array,
-  uploadRecord: PropTypes.object
+  uploadRecord: PropTypes.object,
+  researchRunningNumber: PropTypes.array
 }
 
 export default connect(mapStateToProps)(ResearchPendingList)

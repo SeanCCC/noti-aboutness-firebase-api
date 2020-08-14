@@ -32,13 +32,13 @@ class Recruit extends Component {
 
   render () {
     const { activeIndex, loading } = this.state
-    const { candidates, candidatesNumber } = this.props
+    const { candidates } = this.props
     if (loading) return <LoadingPage/>
     return <div className="page">
       <Header as="h1">候選人面板</Header>
       <div className="numbers">
         <Header as="h3">候選名單</Header>
-        <Numbers content={candidatesNumber} />
+        <Numbers numberName='candidatesNumber' />
       </div>
       <Accordion fluid styled>
         <Accordion.Title
@@ -60,13 +60,11 @@ class Recruit extends Component {
 }
 
 Recruit.propTypes = {
-  candidatesNumber: PropTypes.array,
   candidates: PropTypes.array
 }
 
 const mapStateToProps = (state) => ({
-  candidates: state.candidates,
-  candidatesNumber: state.candidatesNumber
+  candidates: state.candidates
 })
 
 export default connect(mapStateToProps)(Recruit)

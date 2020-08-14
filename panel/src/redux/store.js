@@ -5,13 +5,16 @@ const initState = {
   researchPendingParticipants: [],
   researchRunningParticipants: [],
   uploadRecord: {},
+  candidates: [],
+  researchDoneParticipants: [],
   researchRunningNumber: [],
   consentPendingNumber: [],
   researchPendingNumber: [],
-  candidates: [],
   candidatesNumber: [],
-  researchDoneParticipants: [],
-  researchDoneNumber: []
+  researchDoneNumber: [],
+  highlightList: [],
+  highlightKey: null,
+  highlightIdx: null
 }
 
 const reducer = (state = initState, action) => {
@@ -33,6 +36,26 @@ const reducer = (state = initState, action) => {
       return {
         ...state,
         ...payload
+      }
+    }
+    case 'SET_NUMBER_HIGHTLIGHT': {
+      const { key, idx } = payload
+      console.log({ key, idx })
+      if (state.highlightKey === key && state.highlightIdx === idx) {
+        return {
+          ...state,
+          hightlightList: [],
+          highlightKey: null,
+          highlightIdx: null
+        }
+      }
+      const number = state[key][idx]
+      const hightlightList = number.payload.map(p => p.uid)
+      return {
+        ...state,
+        hightlightList,
+        highlightKey: key,
+        highlightIdx: idx
       }
     }
     default:

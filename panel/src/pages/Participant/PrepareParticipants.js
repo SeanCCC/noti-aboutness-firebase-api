@@ -33,8 +33,6 @@ class PrepareParticipants extends Component {
   render () {
     const { loading, activeIndex } = this.state
     const {
-      consentPendingNumber,
-      researchPendingNumber,
       consentPendingParticipants,
       researchPendingParticipants
     } = this.props
@@ -43,11 +41,11 @@ class PrepareParticipants extends Component {
       <Header as="h1">實驗前面板</Header>
       <div className="numbers">
         <Header as="h3">等待同意書</Header>
-        <Numbers content={consentPendingNumber} />
+        <Numbers numberName='consentPendingNumber' />
       </div>
       <div className="numbers">
         <Header as="h3">正在準備實驗</Header>
-        <Numbers content={researchPendingNumber} />
+        <Numbers numberName='researchPendingNumber' />
       </div>
       <Accordion fluid styled className="short-marginned">
         <Accordion.Title
@@ -83,16 +81,12 @@ class PrepareParticipants extends Component {
 
 PrepareParticipants.propTypes = {
   consentPendingParticipants: PropTypes.array,
-  researchPendingParticipants: PropTypes.array,
-  consentPendingNumber: PropTypes.array,
-  researchPendingNumber: PropTypes.array
+  researchPendingParticipants: PropTypes.array
 }
 
 const mapStateToProps = (state) => ({
   consentPendingParticipants: state.consentPendingParticipants,
-  researchPendingParticipants: state.researchPendingParticipants,
-  consentPendingNumber: state.consentPendingNumber,
-  researchPendingNumber: state.researchPendingNumber
+  researchPendingParticipants: state.researchPendingParticipants
 })
 
 export default connect(mapStateToProps)(PrepareParticipants)

@@ -5,7 +5,6 @@ import _ from 'lodash'
 function createCandidatesNumber (candidates) {
   const mailYetSent = candidates
     .filter((c) => c.lastInvitationSent === undefined)
-    .length
   const now = moment()
   const mailSent3DCount = candidates
     .filter((p) => {
@@ -14,12 +13,11 @@ function createCandidatesNumber (candidates) {
       const hours = moment.duration(ms).asHours()
       return hours > 3 * 24
     })
-    .length
-  const candidatesCount = candidates.length
+  const candidatesCount = candidates
   return [
-    { value: mailYetSent, label: '尚未回應', dangerous: mailYetSent > 0 },
-    { value: mailSent3DCount, label: '送出後已過三日', warning: mailSent3DCount > 0 },
-    { value: candidatesCount, label: '總人數' }
+    { value: mailYetSent.length, label: '尚未回應', dangerous: mailYetSent.length > 0, payload: mailYetSent },
+    { value: mailSent3DCount.length, label: '送出後已過三日', warning: mailSent3DCount.length > 0, payload: mailSent3DCount },
+    { value: candidatesCount.length, label: '總人數', payload: candidatesCount }
   ]
 }
 
@@ -36,34 +34,31 @@ export const updateCandidates = payload => {
 }
 
 function createPrepareNumber (consentPendingParticipants) {
-  const consentSentCount = consentPendingParticipants
+  const consentSent = consentPendingParticipants
     .filter((p) => p.status === status.CONSENT_SENT)
-    .length
   const now = moment()
-  const consentSent3DCount = consentPendingParticipants
+  const consentSent3D = consentPendingParticipants
     .filter((p) => {
       const then = moment(p.consentSentTime)
       const ms = now.diff(then)
       const hours = moment.duration(ms).asHours()
       return p.status === status.CONSENT_SENT && hours > 3 * 24
     })
-    .length
-  const consentPending = consentPendingParticipants.length
+  const consentPending = consentPendingParticipants
   return [
-    { value: consentSent3DCount, label: '送出後已過三日', dangerous: consentSent3DCount > 0 },
-    { value: consentSentCount, label: '已經送出', warning: consentSentCount > 0 },
-    { value: consentPending, label: '總人數' }
+    { value: consentSent3D.length, label: '送出後已過三日', dangerous: consentSent3D.length > 0, payload: consentSent3D },
+    { value: consentSent.length, label: '已經送出', warning: consentSent.length > 0, payload: consentSent },
+    { value: consentPending.length, label: '總人數', payload: consentPending }
   ]
 }
 
 function createResearchPendingNumber (researchPendingParticipants) {
   const yetConfigAppCount = researchPendingParticipants
     .filter((p) => p.status !== status.APP_VALID)
-    .length
-  const researchPending = researchPendingParticipants.length
+  const researchPending = researchPendingParticipants
   return [
-    { value: yetConfigAppCount, label: '尚未設定App' },
-    { value: researchPending, label: '總人數' }
+    { value: yetConfigAppCount.length, label: '尚未設定App', payload: yetConfigAppCount },
+    { value: researchPending.length, label: '總人數', payload: researchPending }
   ]
 }
 
@@ -71,7 +66,6 @@ function createResearchDoneNumber (researchDoneParticipants) {
   const now = moment().tz('Asia/Taipei')
   const yetInviteOrPay = researchDoneParticipants
     .filter((p) => p.status === status.RESEARCH_DONE)
-    .length
   const notResponding = researchDoneParticipants
     .filter((p) => {
       if (p.status !== status.INTERVIEW_INVITED) return false
@@ -81,13 +75,11 @@ function createResearchDoneNumber (researchDoneParticipants) {
       const hours = moment.duration(ms).asHours()
       return hours > 3 * 24
     })
-    .length
   const notScheduled = researchDoneParticipants
     .filter((p) => {
       if (p.status !== status.INTERVIEW_ACCEPTED) return false
       return !p.interviewScheduleTime
     })
-    .length
   const notSendingReceipt = researchDoneParticipants
     .filter((p) => {
       if (p.status !== status.SET_RECEIPT_MAIL_METHOD) return false
@@ -97,7 +89,6 @@ function createResearchDoneNumber (researchDoneParticipants) {
       const hours = moment.duration(ms).asHours()
       return hours > 3 * 24
     })
-    .length
   const notSettingPayMethod = researchDoneParticipants
     .filter((p) => {
       if (p.status !== status.SET_PAY_METHOD) return false
@@ -107,17 +98,15 @@ function createResearchDoneNumber (researchDoneParticipants) {
       const hours = moment.duration(ms).asHours()
       return hours > 3 * 24
     })
-    .length
   const yetPay = researchDoneParticipants
     .filter((p) => p.status === status.PAYMENT_REQUIRED)
-    .length
   return [
-    { value: yetInviteOrPay, label: '尚未邀請訪談或付款', dangerous: yetInviteOrPay > 0 },
-    { value: notResponding, label: '三天未回覆邀約', warning: notResponding > 0 },
-    { value: notScheduled, label: '尚未安排訪談', dangerous: notScheduled > 0 },
-    { value: notSendingReceipt, label: '領據三天未寄出', warning: notSendingReceipt > 0 },
-    { value: notSettingPayMethod, label: '支付方法三天未設定', warning: notSettingPayMethod > 0 },
-    { value: yetPay, label: '尚未支付', dangerous: yetPay > 0 }
+    { value: yetInviteOrPay.length, label: '尚未邀請訪談或付款', dangerous: yetInviteOrPay.length > 0, payload: yetInviteOrPay },
+    { value: notResponding.length, label: '三天未回覆邀約', warning: notResponding.length > 0, payload: notResponding },
+    { value: notScheduled.length, label: '尚未安排訪談', dangerous: notScheduled.length > 0, payload: notScheduled },
+    { value: notSendingReceipt.length, label: '領據三天未寄出', warning: notSendingReceipt.length > 0, payload: notSendingReceipt },
+    { value: notSettingPayMethod.length, label: '支付方法三天未設定', warning: notSettingPayMethod.length > 0, payload: notSettingPayMethod },
+    { value: yetPay.length, label: '尚未支付', dangerous: yetPay.length > 0, payload: yetPay }
   ]
 }
 
@@ -223,15 +212,15 @@ function createResearchRunningNumber (uploadRecord) {
     if (!yesterdayNoti) return false
     if (yesterdayNoti.amount === 0) return true
     return false
-  }).length
+  })
   const lowEsmCount = _.filter(uploadRecord, (r) => {
     const { meanEsmCount } = r
     if (meanEsmCount === null) return false
     return meanEsmCount < 3
-  }).length
+  })
   return [
-    { value: noYesterdayNoti, label: '昨日無上傳通知', dangerous: noYesterdayNoti > 0 },
-    { value: lowEsmCount, label: 'esm填寫量少', warning: lowEsmCount > 0 }
+    { value: noYesterdayNoti.length, label: '昨日無上傳通知', dangerous: noYesterdayNoti.length > 0, payload: noYesterdayNoti },
+    { value: lowEsmCount.length, label: 'esm填寫量少', warning: lowEsmCount.length > 0, payload: lowEsmCount }
   ]
 }
 
@@ -249,5 +238,12 @@ export const updateUploadRecord = (uploadRecord) => {
       uploadRecord: _uploadRecord,
       researchRunningNumber
     }
+  }
+}
+
+export const setNumberHightlight = (key, idx) => {
+  return {
+    type: 'SET_NUMBER_HIGHTLIGHT',
+    payload: { key, idx }
   }
 }

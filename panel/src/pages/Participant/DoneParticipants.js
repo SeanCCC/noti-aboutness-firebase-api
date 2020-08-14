@@ -36,7 +36,6 @@ class DoneParticipants extends Component {
   render () {
     const { loading, activeIndex } = this.state
     const {
-      researchDoneNumber,
       researchDoneParticipants
     } = this.props
     if (loading) return <LoadingPage/>
@@ -48,7 +47,7 @@ class DoneParticipants extends Component {
       <Header as="h1">實驗後面板</Header>
       <div className="numbers">
         <Header as="h3">訪談與報酬</Header>
-        <Numbers content={researchDoneNumber} />
+        <Numbers numberName='researchDoneNumber' />
       </div>
       <Accordion fluid styled className="short-marginned">
         <Accordion.Title
@@ -109,13 +108,11 @@ class DoneParticipants extends Component {
 }
 
 DoneParticipants.propTypes = {
-  researchDoneParticipants: PropTypes.array,
-  researchDoneNumber: PropTypes.array
+  researchDoneParticipants: PropTypes.array
 }
 
 const mapStateToProps = (state) => ({
-  researchDoneParticipants: state.researchDoneParticipants,
-  researchDoneNumber: state.researchDoneNumber
+  researchDoneParticipants: state.researchDoneParticipants
 })
 
 export default connect(mapStateToProps)(DoneParticipants)
