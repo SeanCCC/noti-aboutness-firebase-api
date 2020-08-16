@@ -61,6 +61,7 @@ const InfoModalComponent = (props) => {
     <Modal.Description>
       <Header as="h2">{`${p.name}的支付資訊`}</Header>
       姓名:{p.name}<br/>
+      報酬金額:{p.compensation}元<br/>
       支付方式:{payMethod}<br/>
       {
         payDetail.payMethod === 'linePay'
@@ -148,6 +149,9 @@ export default class ConsentPendingCell extends Component {
         </Table.Cell>
         <Table.Cell>
           {!payDetail ? '未設定' : translate(payMethodOptions, payDetail.payMethod, '未設定')}
+        </Table.Cell>
+        <Table.Cell>
+          {p.compensation + '元' || 'N/A'}
         </Table.Cell>
         <Table.Cell>
           {p.status === status.SET_RECEIPT_MAIL_METHOD

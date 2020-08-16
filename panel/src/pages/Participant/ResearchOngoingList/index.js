@@ -16,8 +16,8 @@ class ResearchPendingList extends Component {
   }
 
   render () {
-    const { participants, uploadRecord } = this.props
-    // console.log({ hightlightList })
+    const { participants, uploadRecord, highlightList } = this.props
+    console.log({ participants })
     return <Table basic='very' celled collapsing>
       <Table.Header>
         <Table.Row>
@@ -29,11 +29,15 @@ class ResearchPendingList extends Component {
         </Table.Row>
       </Table.Header>
       <Table.Body>
-        {participants.map((p, idx) => <ResearchOngoingCell
-          sendReminderMail={this.sendReminderMail}
-          participant={p}
-          record={uploadRecord[p.uid]}
-          key={idx}/>)}
+        {participants.map((p, idx) => {
+          console.log(highlightList.findIndex(uid => uid === p.uid))
+          return <ResearchOngoingCell
+            highlight={highlightList.findIndex(uid => uid === p.uid) > -1 }
+            sendReminderMail={this.sendReminderMail}
+            participant={p}
+            record={uploadRecord[p.uid]}
+            key={idx}/>
+        })}
       </Table.Body>
     </Table>
   }
@@ -41,13 +45,15 @@ class ResearchPendingList extends Component {
 
 const mapStateToProps = (state) => ({
   uploadRecord: state.uploadRecord,
-  researchRunningNumber: state.researchRunningNumber
+  researchRunningNumber: state.researchRunningNumber,
+  highlightList: state.highlightList
 })
 
 ResearchPendingList.propTypes = {
   participants: PropTypes.array,
   uploadRecord: PropTypes.object,
-  researchRunningNumber: PropTypes.array
+  researchRunningNumber: PropTypes.array,
+  highlightList: PropTypes.array
 }
 
 export default connect(mapStateToProps)(ResearchPendingList)

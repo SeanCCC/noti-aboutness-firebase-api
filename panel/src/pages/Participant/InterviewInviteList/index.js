@@ -46,6 +46,7 @@ export default class InterviewInviteList extends Component {
           <Table.HeaderCell>邀請時間</Table.HeaderCell>
           <Table.HeaderCell>接受時間</Table.HeaderCell>
           <Table.HeaderCell>訪談時間</Table.HeaderCell>
+          <Table.HeaderCell>報酬金額</Table.HeaderCell>
           <Table.HeaderCell>動作</Table.HeaderCell>
         </Table.Row>
       </Table.Header>

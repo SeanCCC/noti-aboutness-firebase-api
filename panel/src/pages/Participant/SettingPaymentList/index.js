@@ -45,6 +45,7 @@ export default class SettingPaymentList extends Component {
           <Table.HeaderCell>領據寄送方法</Table.HeaderCell>
           <Table.HeaderCell>領據寄送時間</Table.HeaderCell>
           <Table.HeaderCell>支付工具</Table.HeaderCell>
+          <Table.HeaderCell>報酬金額</Table.HeaderCell>
           <Table.HeaderCell>動作</Table.HeaderCell>
         </Table.Row>
       </Table.Header>

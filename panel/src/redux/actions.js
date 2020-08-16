@@ -119,8 +119,7 @@ export const updateParticipants = payload => {
   const researchDoneParticipants =
     participants.filter((d) => [status.RESEARCH_DONE, status.SET_RECEIPT_MAIL_METHOD,
       status.SET_PAY_METHOD, status.PAYMENT_REQUIRED, status.PAYMENT_DONE,
-      status.INTERVIEW_INVITED, status.INTERVIEW_ACCEPTED, status.INTERVIEW_SCHEDULED,
-      status.ALL_DONE].includes(d.status))
+      status.INTERVIEW_INVITED, status.INTERVIEW_ACCEPTED, status.INTERVIEW_SCHEDULED].includes(d.status))
   const researchPendingParticipants =
     participants.filter((d) => [status.CONSENT_VALID, status.BIG_FIVE_DONE, status.APP_VALID].includes(d.status))
   const consentPendingNumber = createPrepareNumber(consentPendingParticipants)
@@ -245,5 +244,14 @@ export const setNumberHightlight = (key, idx) => {
   return {
     type: 'SET_NUMBER_HIGHTLIGHT',
     payload: { key, idx }
+  }
+}
+
+export const updateDone = (doneParticipants) => {
+  return {
+    type: 'UPDATE_DONE_PARTICIPANTS',
+    payload: {
+      doneParticipants
+    }
   }
 }

@@ -97,6 +97,9 @@ export default class InterviewInviteCell extends Component {
           {p.interviewScheduleTime || '尚未安排時間'}
         </Table.Cell>
         <Table.Cell>
+          {p.compensation + 300 + '元' || 'N/A'}
+        </Table.Cell>
+        <Table.Cell>
           {p.status === status.INTERVIEW_INVITED
             ? <Fragment>
               <Modal
@@ -121,7 +124,7 @@ export default class InterviewInviteCell extends Component {
               size="mini"
               trigger={<Button content="完成訪談並支付報酬" loading={finishingInterview} disabled={finishingInterview} primary />}
               header='完成訪談並支付報酬'
-              content='檢查是否完成支付與簽名領據，也要記得額外支出300元車馬費。'
+              content='檢查是否完成支付與簽名領據'
               actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: this.finishInterview }]}
             />
             : null}

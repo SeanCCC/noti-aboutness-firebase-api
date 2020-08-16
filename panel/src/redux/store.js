@@ -14,7 +14,8 @@ const initState = {
   researchDoneNumber: [],
   highlightList: [],
   highlightKey: null,
-  highlightIdx: null
+  highlightIdx: null,
+  doneParticipants: []
 }
 
 const reducer = (state = initState, action) => {
@@ -38,9 +39,14 @@ const reducer = (state = initState, action) => {
         ...payload
       }
     }
+    case 'UPDATE_DONE_PARTICIPANTS': {
+      return {
+        ...state,
+        ...payload
+      }
+    }
     case 'SET_NUMBER_HIGHTLIGHT': {
       const { key, idx } = payload
-      console.log({ key, idx })
       if (state.highlightKey === key && state.highlightIdx === idx) {
         return {
           ...state,
@@ -51,6 +57,7 @@ const reducer = (state = initState, action) => {
       }
       const number = state[key][idx]
       const hightlightList = number.payload.map(p => p.uid)
+      console.log({ hightlightList })
       return {
         ...state,
         hightlightList,

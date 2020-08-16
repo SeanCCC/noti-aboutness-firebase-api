@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const moment = require('moment-timezone')
-const { moveStauts, updateDB } = require('../utils')
+const { moveStauts, updateDB, fetchDB, moveDB } = require('../utils')
 const {
   sendPreResearchRemind,
   sendConsentAcceptMail,
@@ -119,7 +119,7 @@ router.post('/payment/done', async (req, res) => {
     const payload = req.body
     const { uid, payDate } = payload
     await sendPayCompleteMail(uid, payDate)
-    await updateDB(`participant/${uid}`, {
+    await moveDB(`participant/${uid}`, `done/${uid}`, {
       status: status.ALL_DONE,
       payDate,
       lastStatusChanged: moment().tz('Asia/Taipei').format()
@@ -185,12 +185,17 @@ router.post('/interview/schedule', async (req, res) => {
 
 router.post('/interview/finish', async (req, res) => {
   try {
+    const payDate = moment().tz('Asia/Taipei').format('YYYY-MM-DD HH:mm:ss')
     const now = moment().tz('Asia/Taipei').format()
     const payload = req.body
     const { uid } = payload
-    await updateDB(`participant/${uid}`, {
+    const p = await fetchDB(`participant/${uid}`)
+    await moveDB(`participant/${uid}`, `done/${uid}`, {
       status: status.ALL_DONE,
-      lastStatusChanged: now
+      lastStatusChanged: now,
+      payDate,
+      payMethod: 'inPerson',
+      compensation: p.compensation + 300
     })
     res.send('success')
   } catch (err) {

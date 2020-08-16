@@ -185,7 +185,7 @@ const sendInterviewSchedule = async (id, interviewScheduleTime) => {
     from: 'MUILAB通知實驗研究團隊',
     to: email,
     subject: 'MUILAB通知實驗-訪談安排通知',
-    html: `<p>${name}${gender === 'male' ? '先生' : '小姐'}您好，<br/>已將您的訪談安排在${readableTime}，<br/>地點為交通大學電子資訊中心715實驗室，期待與您相見。</p>`
+    html: `<p>${name}${gender === 'male' ? '先生' : '小姐'}您好，<br/>已將您的訪談安排在${readableTime}，<br/>地點為交通大學電子資訊中心715實驗室，<br/>訪談與支付流程會在90分鐘內結束，<br/>期待與您相見。</p>`
   }
   return transporter.sendMail(config)
 }

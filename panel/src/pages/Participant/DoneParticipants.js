@@ -36,13 +36,13 @@ class DoneParticipants extends Component {
   render () {
     const { loading, activeIndex } = this.state
     const {
-      researchDoneParticipants
+      researchDoneParticipants,
+      doneParticipants
     } = this.props
     if (loading) return <LoadingPage/>
     const payOrInvite = researchDoneParticipants.filter(p => p.status === status.RESEARCH_DONE)
     const Inverviewees = researchDoneParticipants.filter(p => [status.INTERVIEW_ACCEPTED, status.INTERVIEW_INVITED, status.INTERVIEW_SCHEDULED].includes(p.status))
     const settingPayment = researchDoneParticipants.filter(p => [status.SET_RECEIPT_MAIL_METHOD, status.SET_PAY_METHOD, status.PAYMENT_REQUIRED].includes(p.status))
-    const allDone = researchDoneParticipants.filter(p => [status.ALL_DONE].includes(p.status))
     return <div className="page">
       <Header as="h1">實驗後面板</Header>
       <div className="numbers">
@@ -95,11 +95,11 @@ class DoneParticipants extends Component {
           index={3}
           onClick={this.handleAccordionClick}
         >
-          <Header as="h3"><Icon name='dropdown' />全程完成({allDone.length})</Header>
+          <Header as="h3"><Icon name='dropdown' />全程完成({doneParticipants.length})</Header>
         </Accordion.Title>
         <Accordion.Content active={activeIndex.includes(3)}>
           <AllDoneList
-            participants={allDone}
+            participants={doneParticipants}
           />
         </Accordion.Content>
       </Accordion>
@@ -108,11 +108,13 @@ class DoneParticipants extends Component {
 }
 
 DoneParticipants.propTypes = {
-  researchDoneParticipants: PropTypes.array
+  researchDoneParticipants: PropTypes.array,
+  doneParticipants: PropTypes.array
 }
 
 const mapStateToProps = (state) => ({
-  researchDoneParticipants: state.researchDoneParticipants
+  researchDoneParticipants: state.researchDoneParticipants,
+  doneParticipants: state.doneParticipants
 })
 
 export default connect(mapStateToProps)(DoneParticipants)
