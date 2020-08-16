@@ -45,7 +45,10 @@ router.post('/bind', async (req, res) => {
       researchStartDate,
       lastStatusChanged: moment().tz('Asia/Taipei').format()
     })
-    const asyncU = updateDB(`uploadRecord/${uid}`, { researchStartDate })
+    const asyncU = updateDB(`uploadRecord/${uid}`, {
+      researchStartDate,
+      active: true
+    })
     await Promise.all([asyncP, asyncU])
     res.json({ uid })
   } catch (err) {

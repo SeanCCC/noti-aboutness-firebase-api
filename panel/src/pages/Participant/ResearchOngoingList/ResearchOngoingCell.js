@@ -59,11 +59,11 @@ class ResearchOngoingCell extends Component {
   }
 
   render () {
-    const { participant: p, record = {}, highlight } = this.props
+    const { participant: p, record = {}, highlightMode } = this.props
     const { sendingReminder } = this.state
-    console.log({ highlight })
+    console.log({ highlightMode })
     return (
-      <Table.Row warning={highlight}>
+      <Table.Row >
         <Table.Cell>
           {p.name}
         </Table.Cell>
@@ -100,7 +100,7 @@ ResearchOngoingCell.propTypes = {
   sendReminderMail: PropTypes.func,
   participant: PropTypes.object,
   record: PropTypes.object,
-  highlight: PropTypes.bool
+  highlightMode: PropTypes.string
 }
 
 export default ResearchOngoingCell

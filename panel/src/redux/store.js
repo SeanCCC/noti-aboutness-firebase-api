@@ -12,9 +12,10 @@ const initState = {
   researchPendingNumber: [],
   candidatesNumber: [],
   researchDoneNumber: [],
-  highlightList: [],
+  hightlightHashTable: {},
   highlightKey: null,
   highlightIdx: null,
+  highlightMode: null,
   doneParticipants: []
 }
 
@@ -50,19 +51,25 @@ const reducer = (state = initState, action) => {
       if (state.highlightKey === key && state.highlightIdx === idx) {
         return {
           ...state,
-          hightlightList: [],
+          hightlightHashTable: {},
           highlightKey: null,
-          highlightIdx: null
+          highlightIdx: null,
+          highlightMode: null
         }
       }
       const number = state[key][idx]
-      const hightlightList = number.payload.map(p => p.uid)
-      console.log({ hightlightList })
+      const hightlightHashTable = number.payload
+        .reduce((acc, cur) => {
+          acc[cur.uid] = true
+          return acc
+        }, {})
+      const highlightMode = number.dangerous ? 'dangerous' : number.warning ? 'warning' : null
       return {
         ...state,
-        hightlightList,
+        hightlightHashTable,
         highlightKey: key,
-        highlightIdx: idx
+        highlightIdx: idx,
+        highlightMode
       }
     }
     default:

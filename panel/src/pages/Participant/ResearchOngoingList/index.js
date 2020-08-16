@@ -5,6 +5,7 @@ import { Table } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import ResearchOngoingCell from './ResearchOngoingCell'
+import HighlightTableBody from '../../HighlightTableBody'
 
 class ResearchPendingList extends Component {
   async sendReminderMail (uid) {
@@ -16,8 +17,7 @@ class ResearchPendingList extends Component {
   }
 
   render () {
-    const { participants, uploadRecord, highlightList } = this.props
-    console.log({ participants })
+    const { participants, uploadRecord } = this.props
     return <Table basic='very' celled collapsing>
       <Table.Header>
         <Table.Row>
@@ -28,17 +28,18 @@ class ResearchPendingList extends Component {
           <Table.HeaderCell>動作</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
-      <Table.Body>
-        {participants.map((p, idx) => {
-          console.log(highlightList.findIndex(uid => uid === p.uid))
-          return <ResearchOngoingCell
-            highlight={highlightList.findIndex(uid => uid === p.uid) > -1 }
-            sendReminderMail={this.sendReminderMail}
-            participant={p}
-            record={uploadRecord[p.uid]}
-            key={idx}/>
-        })}
-      </Table.Body>
+      <HighlightTableBody
+        Cell={ResearchOngoingCell}
+        participants={participants}
+        porpMapper={
+          (p) => {
+            return {
+              sendReminderMail: this.sendReminderMail,
+              participant: p,
+              record: uploadRecord[p.uid]
+            }
+          }
+        }/>
     </Table>
   }
 }
@@ -52,8 +53,7 @@ const mapStateToProps = (state) => ({
 ResearchPendingList.propTypes = {
   participants: PropTypes.array,
   uploadRecord: PropTypes.object,
-  researchRunningNumber: PropTypes.array,
-  highlightList: PropTypes.array
+  researchRunningNumber: PropTypes.array
 }
 
 export default connect(mapStateToProps)(ResearchPendingList)

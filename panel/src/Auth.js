@@ -47,7 +47,7 @@ class Auth extends Component {
           dbRefArray('participant', this.props.updateParticipants)
           dbRefArray('candidate', this.props.updateCandidates)
           dbRefArray('uploadRecord', this.props.updateUploadRecord)
-          dbRefArray('done', this.props.updateDone)
+          dbRefArray('done', this.props.updateDone, p => p.actvie)
         }
       }
     )
