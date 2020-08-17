@@ -41,7 +41,7 @@ export default class ConsentPendingCell extends Component {
     const mailMethod = translate(mailMethodOptions, p.mailMethod, '未送出')
     const consentSentTime = !p.consentSentTime ? '未送出' : moment(new Date(p.consentSentTime)).tz('Asia/Taipei').format('YYYY-MM-DD HH:mm')
     return (
-      <Table.Row>
+      <Fragment>
         <Table.Cell>
           {p.name}
         </Table.Cell>
@@ -74,7 +74,7 @@ export default class ConsentPendingCell extends Component {
               <br/>上次寄提醒信：{p.consentReminderSent || '無'}
             </Fragment>}
         </Table.Cell>
-      </Table.Row>)
+      </Fragment>)
   }
 }
 

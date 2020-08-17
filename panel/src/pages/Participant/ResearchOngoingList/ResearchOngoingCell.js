@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import PropTypes from 'prop-types'
 import { Table, Modal, Button, Header } from 'semantic-ui-react'
@@ -59,11 +59,10 @@ class ResearchOngoingCell extends Component {
   }
 
   render () {
-    const { participant: p, record = {}, highlightMode } = this.props
+    const { participant: p, record = {} } = this.props
     const { sendingReminder } = this.state
-    const highlight = { warning: highlightMode === 'warning', negative: highlightMode === 'dangerous' }
     return (
-      <Table.Row {...highlight} >
+      <Fragment >
         <Table.Cell>
           {p.name}
         </Table.Cell>
@@ -92,15 +91,14 @@ class ResearchOngoingCell extends Component {
           />
           <br/>上次寄信：{p.researchReminderSent || '無'}
         </Table.Cell>
-      </Table.Row>)
+      </Fragment>)
   }
 }
 
 ResearchOngoingCell.propTypes = {
   sendReminderMail: PropTypes.func,
   participant: PropTypes.object,
-  record: PropTypes.object,
-  highlightMode: PropTypes.string
+  record: PropTypes.object
 }
 
 export default ResearchOngoingCell

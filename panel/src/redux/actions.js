@@ -226,7 +226,6 @@ function createResearchRunningNumber (uploadRecord) {
 export const updateUploadRecord = (uploadRecord) => {
   let _uploadRecord = uploadRecord
     .map(completeRecord)
-  console.log({ uploadRecord })
   const researchRunningNumber = createResearchRunningNumber(_uploadRecord)
   _uploadRecord = _uploadRecord.reduce((acu, cur) => {
     acu[cur.uid] = cur

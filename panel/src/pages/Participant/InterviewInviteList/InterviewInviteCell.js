@@ -83,7 +83,7 @@ export default class InterviewInviteCell extends Component {
     const { participant: p, scheduleInterview } = this.props
     const { sendingReminder, finishingInterview, cancelingInterview } = this.state
     return (
-      <Table.Row>
+      <Fragment>
         <Table.Cell>
           {p.name}
         </Table.Cell>
@@ -136,7 +136,7 @@ export default class InterviewInviteCell extends Component {
             actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: this.cancelInterview }]}
           />
         </Table.Cell>
-      </Table.Row>)
+      </Fragment>)
   }
 }
 

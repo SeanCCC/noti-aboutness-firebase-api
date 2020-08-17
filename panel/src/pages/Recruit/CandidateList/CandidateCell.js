@@ -83,7 +83,7 @@ export default class CandidateCell extends Component {
         actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: this.sendAcceptMail }]}
       />
     return (
-      <Table.Row>
+      <Fragment>
         <Table.Cell>
           {c.name}
         </Table.Cell>
@@ -113,7 +113,7 @@ export default class CandidateCell extends Component {
             </Fragment>
             : ResendButton}
         </Table.Cell>
-      </Table.Row>)
+      </Fragment>)
   }
 }
 

@@ -4,6 +4,7 @@ import { Table } from 'semantic-ui-react'
 import moment from 'moment-timezone'
 import axios from 'axios'
 import SettingPaymentCell from './SettingPaymentCell'
+import HighlightTableBody from '../../HighlightTableBody'
 
 function sleep (ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
@@ -49,14 +50,19 @@ export default class SettingPaymentList extends Component {
           <Table.HeaderCell>動作</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
-      <Table.Body>
-        {participants.map((p, idx) => <SettingPaymentCell
-          completePayment={this.completePayment}
-          sendReceiptReminder={() => this.sendReceiptReminder(p.uid)}
-          sendPayMethodReminder={() => this.sendPayMethodReminder(p.uid)}
-          participant={p}
-          key={idx}/>)}
-      </Table.Body>
+      <HighlightTableBody
+        Cell={SettingPaymentCell}
+        participants={participants}
+        porpMapper={
+          (p) => {
+            return {
+              completePayment: this.completePayment,
+              sendReceiptReminder: () => this.sendReceiptReminder(p.uid),
+              sendPayMethodReminder: () => this.sendPayMethodReminder(p.uid),
+              participant: p
+            }
+          }
+        }/>
     </Table>
   }
 }

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Table } from 'semantic-ui-react'
 import axios from 'axios'
 import ConsentPendingCell from './ConsentPendingCell'
+import HighlightTableBody from '../../HighlightTableBody'
 
 export default class ConsentPendingList extends Component {
   async acceptConsent (uid) {
@@ -33,13 +34,18 @@ export default class ConsentPendingList extends Component {
           <Table.HeaderCell>動作</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
-      <Table.Body>
-        {participants.map((p, idx) => <ConsentPendingCell
-          acceptConsent={() => this.acceptConsent(p.uid)}
-          sendReminderMail={() => this.sendReminderMail(p.uid)}
-          participant={p}
-          key={idx}/>)}
-      </Table.Body>
+      <HighlightTableBody
+        Cell={ConsentPendingCell}
+        participants={participants}
+        porpMapper={
+          (p) => {
+            return {
+              acceptConsent: () => this.acceptConsent(p.uid),
+              sendReminderMail: () => this.sendReminderMail(p.uid),
+              participant: p
+            }
+          }
+        }/>
     </Table>
   }
 }

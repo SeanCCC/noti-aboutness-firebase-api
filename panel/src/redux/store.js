@@ -63,7 +63,7 @@ const reducer = (state = initState, action) => {
           acc[cur.uid] = true
           return acc
         }, {})
-      const highlightMode = number.dangerous ? 'dangerous' : number.warning ? 'warning' : null
+      const highlightMode = number.dangerous ? 'dangerous' : number.warning ? 'warning' : 'active'
       return {
         ...state,
         hightlightHashTable,

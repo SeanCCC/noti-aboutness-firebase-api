@@ -137,7 +137,7 @@ export default class ConsentPendingCell extends Component {
     const mailMethod = translate(mailMethodOptions, p.receiptMailMethod, '未送出')
     const receiptMailTime = !p.receiptMailTime ? '未送出' : moment(new Date(p.receiptMailTime)).tz('Asia/Taipei').format('YYYY-MM-DD HH:mm')
     return (
-      <Table.Row>
+      <Fragment>
         <Table.Cell>
           {p.name}
         </Table.Cell>
@@ -190,7 +190,7 @@ export default class ConsentPendingCell extends Component {
             </Fragment>
             : null}
         </Table.Cell>
-      </Table.Row>)
+      </Fragment>)
   }
 }
 

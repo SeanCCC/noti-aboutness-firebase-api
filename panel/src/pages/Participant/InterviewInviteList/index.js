@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Table } from 'semantic-ui-react'
 import axios from 'axios'
 import InterviewInviteCell from './InterviewInviteCell'
+import HighlightTableBody from '../../HighlightTableBody'
 
 export default class InterviewInviteList extends Component {
   async scheduleInterview (uid, interviewScheduleTime) {
@@ -50,15 +51,20 @@ export default class InterviewInviteList extends Component {
           <Table.HeaderCell>動作</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
-      <Table.Body>
-        {participants.map((p, idx) => <InterviewInviteCell
-          scheduleInterview={this.scheduleInterview}
-          sendReminderMail={this.sendReminderMail}
-          finishInterview={this.finishInterview}
-          cancelInterview={this.cancelInterview}
-          participant={p}
-          key={idx}/>)}
-      </Table.Body>
+      <HighlightTableBody
+        Cell={InterviewInviteCell}
+        participants={participants}
+        porpMapper={
+          (p) => {
+            return {
+              scheduleInterview: this.scheduleInterview,
+              sendReminderMail: this.sendReminderMail,
+              finishInterview: this.finishInterview,
+              cancelInterview: this.cancelInterview,
+              participant: p
+            }
+          }
+        }/>
     </Table>
   }
 }

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Table } from 'semantic-ui-react'
 import axios from 'axios'
 import PayOrInviteCell from './PayOrInviteCell'
+import HighlightTableBody from '../../HighlightTableBody'
 
 export default class PayOrInviteList extends Component {
   async inviteInterview (uid) {
@@ -32,13 +33,18 @@ export default class PayOrInviteList extends Component {
           <Table.HeaderCell>動作</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
-      <Table.Body>
-        {participants.map((p, idx) => <PayOrInviteCell
-          askAboutPayment={() => this.askAboutPayment(p.uid)}
-          inviteInterview={() => this.inviteInterview(p.uid)}
-          participant={p}
-          key={idx}/>)}
-      </Table.Body>
+      <HighlightTableBody
+        Cell={PayOrInviteCell}
+        participants={participants}
+        porpMapper={
+          (p) => {
+            return {
+              askAboutPayment: () => this.askAboutPayment(p.uid),
+              inviteInterview: () => this.inviteInterview(p.uid),
+              participant: p
+            }
+          }
+        }/>
     </Table>
   }
 }

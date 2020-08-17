@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Table } from 'semantic-ui-react'
 
@@ -22,7 +22,7 @@ export default class ResearchPendingCell extends Component {
     // const { sendingReminder } = this.state
     const { participant: p } = this.props
     return (
-      <Table.Row>
+      <Fragment>
         <Table.Cell>
           {p.name}
         </Table.Cell>
@@ -35,7 +35,7 @@ export default class ResearchPendingCell extends Component {
         <Table.Cell>
           123
         </Table.Cell>
-      </Table.Row>)
+      </Fragment>)
   }
 }
 

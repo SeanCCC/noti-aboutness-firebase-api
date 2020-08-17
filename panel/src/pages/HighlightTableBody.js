@@ -5,13 +5,19 @@ import { connect } from 'react-redux'
 
 const HighlightTableBody = (props) => {
   const { participants, Cell, porpMapper, highlightMode, hightlightHashTable } = props
-  console.log({ highlightMode, hightlightHashTable })
   return <Table.Body>
     {
-      participants.map((p, idx) => <Cell
-        {...porpMapper(p)}
-        highlightMode={hightlightHashTable[p.uid] ? highlightMode : null}
-        key={idx}/>)
+      participants.map((p, idx) => {
+        const _highlightMode = hightlightHashTable[p.uid] ? highlightMode : null
+        return <Table.Row
+          warning={_highlightMode === 'warning'}
+          negative={_highlightMode === 'dangerous'}
+          active={_highlightMode === 'active'}
+          key={idx}
+        >
+          <Cell {...porpMapper(p)} />
+        </Table.Row>
+      })
     }
   </Table.Body>
 }

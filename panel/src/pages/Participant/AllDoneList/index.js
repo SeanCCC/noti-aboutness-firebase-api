@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Table } from 'semantic-ui-react'
 import AllDoneCell from './AllDoneCell'
+import HighlightTableBody from '../../HighlightTableBody'
 
 const AllDoneList = (props) => {
   const { participants } = props
@@ -12,11 +13,16 @@ const AllDoneList = (props) => {
         <Table.HeaderCell>結束時間</Table.HeaderCell>
       </Table.Row>
     </Table.Header>
-    <Table.Body>
-      {participants.map((p, idx) => <AllDoneCell
-        participant={p}
-        key={idx}/>)}
-    </Table.Body>
+    <HighlightTableBody
+      Cell={AllDoneCell}
+      participants={participants}
+      porpMapper={
+        (p) => {
+          return {
+            participant: p
+          }
+        }
+      }/>
   </Table>
 }
 

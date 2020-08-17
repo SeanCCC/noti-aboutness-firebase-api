@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Table } from 'semantic-ui-react'
 import axios from 'axios'
 import ResearchPendingCell from './ResearchPendingCell'
+import HighlightTableBody from '../../HighlightTableBody'
 
 export default class ResearchPendingList extends Component {
   async sendReminderMail (uid) {
@@ -25,12 +26,17 @@ export default class ResearchPendingList extends Component {
           <Table.HeaderCell>動作</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
-      <Table.Body>
-        {participants.map((p, idx) => <ResearchPendingCell
-          sendReminderMail={this.sendReminderMail}
-          participant={p}
-          key={idx}/>)}
-      </Table.Body>
+      <HighlightTableBody
+        Cell={ResearchPendingCell}
+        participants={participants}
+        porpMapper={
+          (p) => {
+            return {
+              sendReminderMail: this.sendReminderMail,
+              participant: p
+            }
+          }
+        }/>
     </Table>
   }
 }

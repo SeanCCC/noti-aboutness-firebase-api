@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Table, Button, Modal } from 'semantic-ui-react'
 import { mailMethodOptions } from '../../formOptions'
@@ -40,7 +40,7 @@ export default class PayorInviteCell extends Component {
     const mailMethod = translate(mailMethodOptions, p.mailMethod, '未送出')
     const consentSentTime = !p.consentSentTime ? '未送出' : moment(new Date(p.consentSentTime)).tz('Asia/Taipei').format('YYYY-MM-DD HH:mm')
     return (
-      <Table.Row>
+      <Fragment>
         <Table.Cell>
           {p.name}
         </Table.Cell>
@@ -67,7 +67,7 @@ export default class PayorInviteCell extends Component {
             actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: this.inviteInterview }]}
           />
         </Table.Cell>
-      </Table.Row>)
+      </Fragment>)
   }
 }
 

@@ -23,7 +23,7 @@ export default class ResearchPendingCell extends Component {
     const { sendingReminder } = this.state
     const { participant: p } = this.props
     return (
-      <Table.Row>
+      <Fragment>
         <Table.Cell>
           {p.name}
         </Table.Cell>
@@ -52,7 +52,7 @@ export default class ResearchPendingCell extends Component {
             </Fragment>
             : null}
         </Table.Cell>
-      </Table.Row>)
+      </Fragment>)
   }
 }
 

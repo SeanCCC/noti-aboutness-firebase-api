@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Table } from 'semantic-ui-react'
 import CandidateCell from './CandidateCell'
+import HighlightTableBody from '../../HighlightTableBody'
 
 export default function CandidateList (props) {
   const { candidates } = props
@@ -16,9 +17,16 @@ export default function CandidateList (props) {
         <Table.HeaderCell>寄信情形</Table.HeaderCell>
       </Table.Row>
     </Table.Header>
-    <Table.Body>
-      {candidates.map((c, idx) => <CandidateCell candidate={c} key={idx}/>)}
-    </Table.Body>
+    <HighlightTableBody
+      Cell={CandidateCell}
+      participants={candidates}
+      porpMapper={
+        (c) => {
+          return {
+            candidate: c
+          }
+        }
+      }/>
   </Table>
 }
 
