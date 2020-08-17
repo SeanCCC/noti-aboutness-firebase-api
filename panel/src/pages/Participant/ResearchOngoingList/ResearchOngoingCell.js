@@ -61,9 +61,9 @@ class ResearchOngoingCell extends Component {
   render () {
     const { participant: p, record = {}, highlightMode } = this.props
     const { sendingReminder } = this.state
-    console.log({ highlightMode })
+    const highlight = { warning: highlightMode === 'warning', negative: highlightMode === 'dangerous' }
     return (
-      <Table.Row >
+      <Table.Row {...highlight} >
         <Table.Cell>
           {p.name}
         </Table.Cell>

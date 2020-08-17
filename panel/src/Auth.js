@@ -46,8 +46,8 @@ class Auth extends Component {
           firebaseAuth.currentUser.getIdToken(true)
           dbRefArray('participant', this.props.updateParticipants)
           dbRefArray('candidate', this.props.updateCandidates)
-          dbRefArray('uploadRecord', this.props.updateUploadRecord)
-          dbRefArray('done', this.props.updateDone, p => p.actvie)
+          dbRefArray('uploadRecord', this.props.updateUploadRecord, r => r.active)
+          dbRefArray('done', this.props.updateDone)
         }
       }
     )
