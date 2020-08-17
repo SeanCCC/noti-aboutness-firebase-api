@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Table } from 'semantic-ui-react'
 
@@ -30,14 +30,14 @@ export default class AllDoneCell extends Component {
   render () {
     const { participant: p } = this.props
     return (
-      <Table.Row>
+      <Fragment>
         <Table.Cell>
           {p.name}
         </Table.Cell>
         <Table.Cell>
           {p.lastStatusChanged}
         </Table.Cell>
-      </Table.Row>)
+      </Fragment>)
   }
 }
 

@@ -6,7 +6,7 @@ import HighlightTableBody from '../../HighlightTableBody'
 
 export default function CandidateList (props) {
   const { candidates } = props
-  return <Table basic='very' celled collapsing>
+  return <Table basic='very' celled >
     <Table.Header>
       <Table.Row>
         <Table.HeaderCell>姓名</Table.HeaderCell>

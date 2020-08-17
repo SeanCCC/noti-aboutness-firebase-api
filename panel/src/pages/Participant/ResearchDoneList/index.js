@@ -16,7 +16,7 @@ export default class ResearchDoneList extends Component {
 
   render () {
     const { participants } = this.props
-    return <Table basic='very' celled collapsing>
+    return <Table basic='very' celled >
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>姓名</Table.HeaderCell>

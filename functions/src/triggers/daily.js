@@ -19,8 +19,8 @@ const dailyRecordFunction = async () => {
   const yesterday = moment().startOf('day').subtract(1, 'days').tz('Asia/Taipei').format()
   const now = moment().tz('Asia/Taipei')
   const uploadRecord = await fetchDB('/uploadRecord')
-  const result = _.mapValues(uploadRecord, (p, uid) => {
-    if (!p.notiDistHourly) return p
+  const result = _.mapValues(uploadRecord, (p) => {
+    if (!p.notiDistHourly || !p.active) return p
     const notiDistDaily = _.chain(p.notiDistHourly)
       .groupBy('date')
       .reduce((acu, value, key) => {
@@ -45,6 +45,7 @@ const dailyRecordFunction = async () => {
       return { ...r, uid }
     })
     .filter(r => {
+      if (!r.active) return false
       const then = moment(r.researchStartDate)
       const ms = now.diff(then)
       const days = moment.duration(ms).asDays()
