@@ -61,6 +61,14 @@ const formContent = [
     placeholder: '請選擇',
     errorMsg: '輸入錯誤或不符合招募條件(不得有利害關係)',
     options: boolOptions
+  },
+  {
+    type: 'select',
+    label: '我了解通知內容對此研究是很重要的，因此可能需要關閉隱藏通知內容的功能與facebook messanger聊天大頭貼的功能。',
+    name: 'needToClose',
+    placeholder: '請選擇',
+    errorMsg: '請理解通知內容對實驗過程是很重要的，並且我們不會向任何人洩漏通知資訊，也會進行去連結。',
+    options: boolOptions
   }, {
     type: 'group',
     content: [{
@@ -167,6 +175,8 @@ export default class FormPage extends Component {
       checkFunc = this.state.phoneBrand.value === 'other' ? check.nonEmptyString : () => true
     } else if (['personOfInterest'].includes(name)) {
       checkFunc = (input) => input === false
+    } else if (['needToClose'].includes(name)) {
+      checkFunc = (input) => input === true
     } else return true
     const item = this.state[name]
     const valid = checkFunc(item.value)
