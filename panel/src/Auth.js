@@ -44,10 +44,10 @@ class Auth extends Component {
         that.setState({ isSignedIn: !!user, error: false })
         if (user) {
           firebaseAuth.currentUser.getIdToken(true)
-          dbRefArray('participant', this.props.updateParticipants)
-          dbRefArray('candidate', this.props.updateCandidates)
           dbRefArray('uploadRecord', this.props.updateUploadRecord, r => r.active)
           dbRefArray('done', this.props.updateDone)
+          dbRefArray('participant', this.props.updateParticipants)
+          dbRefArray('candidate', this.props.updateCandidates)
         }
       }
     )
