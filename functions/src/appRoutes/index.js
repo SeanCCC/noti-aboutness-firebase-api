@@ -31,8 +31,12 @@ router.post('/bind', async (req, res) => {
     const participant = await fetchDetailByEmail(email)
     if (check.null(participant)) return res.status(400).send('participant not found')
     const { data, uid } = participant
-    if (check.assigned(data.deviceId)) {
-      return res.status(400).send('bound already')
+    if (check.assigned(data.deviceId) &&
+     [status.APP_VALID, status.RESEARCH_RUNNING].includes(data.status)) {
+      if (data.deviceId !== deviceId) {
+        await updateDB(`participant/${uid}`, { deviceId })
+      }
+      return res.json({ uid })
     }
     if (data.status !== status.BIG_FIVE_DONE) {
       return res.status(400).send('wrong status')

@@ -20,10 +20,8 @@ const countNotifications = (snapshot, context) => {
 }
 
 const countESM = (snapshot, context) => {
-  const time = snapshot.val()
   const path = context.params
-  const { uid } = path
-  const date = moment.tz(time, 'Asia/Taipei').format('YYYY-MM-DD')
+  const { uid, date } = path
   const recordRef = db.ref(`uploadRecord/${uid}/esmDistDaily`)
   return recordRef.transaction(function (currentValue) {
     const esmDistDaily = currentValue || []
