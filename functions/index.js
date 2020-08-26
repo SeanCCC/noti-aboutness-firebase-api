@@ -57,7 +57,7 @@ const onNotificationAdded = functions.database
   .onCreate(countNotifications)
 
 const onQuestionnaireAdded = functions.database
-  .ref('/questionnaire/{uid}/{date}/{qid}/drmtime')
+  .ref('/questionnaire/{uid}/{date}/{qid}')
   .onCreate(countESM)
 
 // cronjob

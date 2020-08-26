@@ -79,9 +79,10 @@ router.post('/notification', async (req, res) => {
 router.post('/questionnaire', async (req, res) => {
   try {
     const payload = req.body
-    const { uid, questionnaire } = payload
+    const { uid, questionnaire, time } = payload
     if (!uid || !questionnaire) return res.status(400).send('missing uid or questionnaire')
-    await pushDB(`questionnaire/${uid}`, questionnaire)
+    const date = moment(time).format('YYYY-MM-DD')
+    await pushDB(`questionnaire/${uid}/${date}`, questionnaire)
     res.send('questionnaire saved')
   } catch (err) {
     console.error(err)
