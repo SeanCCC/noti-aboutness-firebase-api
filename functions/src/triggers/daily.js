@@ -32,7 +32,7 @@ const dailyRecordFunction = async () => {
       .sortBy((r) => { return new Date(r.date) })
       .value()
     const totalNotiCount = notiDistDaily.reduce((acc, { amount }) => acc + amount, 0)
-    const totalEsmCount = !p.esmDistDaily ? {} : p.esmDistDaily
+    const totalEsmCount = !p.esmDistDaily ? 0 : p.esmDistDaily
       .filter(d => {
         const date = moment(d.date, 'YYYY-MM-DD').tz('Asia/Taipei')
         return !date.isAfter(yesterday)
@@ -49,10 +49,11 @@ const dailyRecordFunction = async () => {
       const then = moment(r.researchStartDate)
       const ms = now.diff(then)
       const days = moment.duration(ms).asDays()
-      return days >= 14 // && r.totalEsmCount >= 42
+      return days >= 14 && r.totalEsmCount >= 42
     })
     .map((r) => {
       const compensation = 1550 + Math.max(0, r.totalEsmCount - 70) * 20
+      console.log(compensation)
       return setResearchDone(r.uid, compensation)
     })
     .value()
