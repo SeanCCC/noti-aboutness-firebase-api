@@ -58,7 +58,7 @@ const onNotificationAdded = functions.database
 
 const onQuestionnaireAdded = functions.database
   .ref('/questionnaire/{uid}/{date}/{qid}')
-  .onCreate(countESM)
+  .onUpdate(countESM)
 
 // cronjob
 const dailyRecord = functions.pubsub.schedule('0 5 * * *') // running at every 8 am
