@@ -61,8 +61,8 @@ const addCatDistGeneral = async (notification, appTable) => {
     })
 }
 
-const countESM = async (snapshot, context) => {
-  const esm = snapshot.val()
+const countESM = async (change, context) => {
+  const esm = change.after.val()
   const { drmtime, notificationId } = esm
   if (!drmtime) return null
   const path = context.params

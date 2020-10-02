@@ -15,6 +15,7 @@
   "dependencies": {
     "busboy": "^0.3.1",
     "check-types": "^11.1.2",
+    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "firebase-admin": "^8.11.0",
