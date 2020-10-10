@@ -96,7 +96,7 @@ router.get('/uid', async (req, res) => {
     const { deviceId } = payload
     if (!deviceId) return res.status(400).send('missing deviceId')
     const uid = await fetchUIDByDeviceId(deviceId)
-    if (uid === null) return res.status(404).send('participant not found')
+    if (uid === null) return res.status(400).send('participant not found')
     res.json({ uid })
   } catch (err) {
     console.error(err)

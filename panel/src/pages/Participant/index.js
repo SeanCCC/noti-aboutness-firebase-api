@@ -17,7 +17,7 @@ export default function Participant () {
       <Route path={`${match.path}/done`} component={DoneParticipants}/>
       <Route path={`${match.path}/ongoing`} component={ResearchOngoing}/>
       <Route path={match.path}>
-        <Redirect to={`${match.path}/prepare`} />
+        <Redirect to={`${match.path}/home`} />
       </Route>
     </Switch>
   )
