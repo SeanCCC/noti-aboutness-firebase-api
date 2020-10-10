@@ -16,7 +16,8 @@ const androidSystemVersion = [
   { key: '7', text: '7.x.x', value: '7' },
   { key: '8', text: '8.x.x', value: '8' },
   { key: '9', text: '9.x.x', value: '9' },
-  { key: '10', text: '10.x.x', value: '10' }
+  { key: '10', text: '10.x.x', value: '10' },
+  { key: '11', text: '11.x.x', value: '11' }
 ]
 
 const mobileOpitons = [
