@@ -10,6 +10,7 @@ const setResearchDone = async (uid, compensation) => {
     compensation,
     status: status.RESEARCH_DONE,
     lastStatusChanged: now,
+    // next line may need change
     researchEndDate: moment().startOf('day').subtract(1, 'days').tz('Asia/Taipei').format('YYYY-MM-DD')
   })
   await sendResearchEndNotice(uid)

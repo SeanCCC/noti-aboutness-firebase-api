@@ -227,4 +227,40 @@ router.post('/interview/cancel', async (req, res) => {
     res.status(500).send('error')
   }
 })
+
+router.post('/research/start', async (req, res) => {
+  try {
+    const today = moment().tz('Asia/Taipei').format('YYYY-MM-DD')
+    const payload = req.body
+    const { uid } = payload
+    await updateDB(`participant/${uid}`, {
+      status: status.RESEARCH_RUNNING,
+      researchStartDate: today
+    })
+    await updateDB(`uploadRecord/${uid}`, {
+      researchStartDate: today
+    })
+    res.send('success')
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
+
+router.post('/research/done', async (req, res) => {
+  try {
+    const today = moment().tz('Asia/Taipei').format('YYYY-MM-DD')
+    const payload = req.body
+    const { uid } = payload
+    await updateDB(`participant/${uid}`, {
+      compensation: 1550,
+      status: status.RESEARCH_DONE,
+      lastStatusChanged: today
+    })
+    res.send('success')
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
 module.exports = router

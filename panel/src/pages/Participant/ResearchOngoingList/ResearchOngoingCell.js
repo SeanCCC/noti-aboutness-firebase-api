@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import PropTypes from 'prop-types'
 import { Table, Modal, Button, Header } from 'semantic-ui-react'
+import axios from 'axios'
 import BlockChart from './BlockChart'
 
 const ModalComponent = (props) => {
@@ -49,6 +50,7 @@ class ResearchOngoingCell extends Component {
       sendingReminder: false
     }
     this.sendReminder = this.sendReminder.bind(this)
+    this.endResearch = this.endResearch.bind(this)
   }
 
   async sendReminder () {
@@ -56,6 +58,14 @@ class ResearchOngoingCell extends Component {
     this.setState({ sendingReminder: true })
     await sendReminderMail(participant.uid)
     this.setState({ sendingReminder: false })
+  }
+
+  async endResearch (uid) {
+    try {
+      await axios.post('/apis/participant/research/done', { uid })
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   render () {
@@ -88,6 +98,13 @@ class ResearchOngoingCell extends Component {
             header='是否寄出提醒信'
             content='寄太多信會變成騷擾，務必先確認寄信頻率'
             actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: this.sendReminder }]}
+          />
+          <Modal
+            size="mini"
+            trigger={<Button content="結束實驗" />}
+            header='是否結束實驗'
+            content='這是測試功能'
+            actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: () => this.endResearch(p.uid) }]}
           />
           <br/>上次寄信：{p.researchReminderSent || '無'}
         </Table.Cell>

@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Table, Modal, Button } from 'semantic-ui-react'
+import axios from 'axios'
 import status from '../../status'
 
 export default class ResearchPendingCell extends Component {
@@ -10,6 +11,7 @@ export default class ResearchPendingCell extends Component {
       sendingReminder: false
     }
     this.sendReminder = this.sendReminder.bind(this)
+    this.startResearch = this.startResearch.bind(this)
   }
 
   async sendReminder () {
@@ -17,6 +19,14 @@ export default class ResearchPendingCell extends Component {
     this.setState({ sendingReminder: true })
     await sendReminderMail(participant.uid)
     this.setState({ sendingReminder: false })
+  }
+
+  async startResearch (uid) {
+    try {
+      await axios.post('/apis/participant/research/start', { uid })
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   render () {
@@ -51,6 +61,13 @@ export default class ResearchPendingCell extends Component {
               />
             </Fragment>
             : null}
+          <Modal
+            size="mini"
+            trigger={<Button content="直接進入實驗" />}
+            header='是否直接進入實驗'
+            content='這是測試功能'
+            actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: () => this.startResearch(p.uid) }]}
+          />
         </Table.Cell>
       </Fragment>)
   }
