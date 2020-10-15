@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const moment = require('moment-timezone')
-const { moveStauts, updateDB, fetchDB, moveDB } = require('../utils')
+const { moveStauts, updateDB, fetchDB, moveDB, pushDB } = require('../utils')
 const {
   sendPreResearchRemind,
   sendConsentAcceptMail,
@@ -263,4 +263,17 @@ router.post('/research/done', async (req, res) => {
     res.status(500).send('error')
   }
 })
+
+router.post('/research/add', async (req, res) => {
+  try {
+    const payload = req.body
+    const result = payload
+    await pushDB('participant', result)
+    res.send('success')
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
+
 module.exports = router

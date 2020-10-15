@@ -64,7 +64,7 @@ const formContent = [
   },
   {
     type: 'select',
-    label: '我了解通知內容對此研究是很重要的，因此可能需要關閉隱藏通知內容的功能與facebook messanger聊天大頭貼的功能。',
+    label: '我了解通知內容對此研究是很重要的，因此可能需要facebook messanger聊天漂浮頭貼的功能。',
     name: 'needToClose',
     placeholder: '請選擇',
     errorMsg: '請理解通知內容對實驗過程是很重要的，並且我們不會向任何人洩漏通知資訊，也會進行去連結。',

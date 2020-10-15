@@ -47,6 +47,10 @@ class SidebarComp extends Component {
             主面板
           </Menu.Item>
           <Menu.Item as='a' onClick={
+            () => this.setNextPath('/tools') } >
+            測試工具
+          </Menu.Item>
+          <Menu.Item as='a' onClick={
             () => this.setNextPath('/recruit')
           }>
             候選人面板

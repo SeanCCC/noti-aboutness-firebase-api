@@ -5,7 +5,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "check-types": "^11.1.2",
-    "firebase": "^7.14.5",
+    "firebase": "^7.23.0",
     "lodash": "^4.17.19",
     "moment-timezone": "^0.5.28",
     "node-sass": "^4.14.1",
@@ -17,7 +17,7 @@
     "react-firebaseui": "^4.1.0",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "^3.4.0",
+    "react-scripts": "^3.4.3",
     "recharts": "^1.8.5",
     "redux": "^4.0.5",
     "semantic-ui-css": "^2.4.1",

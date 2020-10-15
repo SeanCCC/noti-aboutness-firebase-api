@@ -61,13 +61,14 @@ export default class ResearchPendingCell extends Component {
               />
             </Fragment>
             : null}
-          <Modal
-            size="mini"
-            trigger={<Button content="直接進入實驗" />}
-            header='是否直接進入實驗'
-            content='這是測試功能'
-            actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: () => this.startResearch(p.uid) }]}
-          />
+          {p.status === status.APP_VALID
+            ? <Modal
+              size="mini"
+              trigger={<Button content="直接進入實驗" />}
+              header='是否直接進入實驗'
+              content='這是測試功能'
+              actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: () => this.startResearch(p.uid) }]}
+            /> : null}
         </Table.Cell>
       </Fragment>)
   }
