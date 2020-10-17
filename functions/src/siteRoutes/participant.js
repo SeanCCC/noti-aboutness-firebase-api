@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const moment = require('moment-timezone')
+const _ = require('lodash')
 const {
   fetchParticipantDetailById,
   fetchCandidateDetailById,
@@ -149,12 +150,37 @@ router.post('/done/interview', validators.interviewDone, async (req, res) => {
   }
 })
 
+const completeDaily = (esmDistDaily = [], daysBetween = []) => {
+  let _esmDistDaily = [...esmDistDaily]
+  daysBetween.forEach(date => {
+    if (_esmDistDaily.find(dist => dist.date === date) === undefined) {
+      _esmDistDaily.push({ date, amount: 0 })
+    }
+  })
+  _esmDistDaily = _.sortBy(_esmDistDaily, r => new Date(r.date))
+  return _esmDistDaily
+}
+
 router.get('/score', async (req, res) => {
   try {
     const payload = req.query
     const { id } = payload
-    const esmDistDaily = await fetchDB(`uploadRecord/${id}/esmDistDaily`)
-    res.json({ esmDistDaily: esmDistDaily || [] })
+    const [esmDistDaily, researchStartDate] = await Promise.all([
+      fetchDB(`uploadRecord/${id}/esmDistDaily`),
+      fetchDB(`uploadRecord/${id}/researchStartDate`)
+    ])
+    if (!esmDistDaily || !researchStartDate) return res.json({ esmDistDaily: [] })
+    const today = moment().tz('Asia/Taipei').startOf('day')
+    const startDay = moment.tz(researchStartDate, 'YYYY-MM-DD', 'Asia/Taipei')
+    const ms = today.diff(startDay)
+    const dnum = moment.duration(ms).asDays() + 1
+    const daysBetween = [...Array(dnum).keys()].map(
+      n => moment(startDay).add(n, 'days').format('YYYY-MM-DD')
+    )
+    const _dayly = completeDaily(esmDistDaily, daysBetween).reverse()
+    const totalEsm = esmDistDaily.reduce((acu, cur) => cur.amount + acu, 0)
+    const avgEsm = _.round(totalEsm / dnum, 2)
+    res.json({ esmDistDaily: _dayly, totalEsm, avgEsm, dnum })
   } catch (err) {
     console.error(err)
     res.status(500).send('error')

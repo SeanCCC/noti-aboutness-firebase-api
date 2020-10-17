@@ -13,7 +13,7 @@ const statusMoveTable = [
   { status: status.CONSENT_VALID, path: '/participant/bigfive', api: '/apis/participant/done/bigfive' },
   { status: status.BIG_FIVE_DONE, path: '/participant/instruction' },
   { status: status.READY, path: '/participant/ready' },
-  { status: status.RESEARCH_RUNNING, path: '/participant/running' },
+  { status: status.RESEARCH_RUNNING, path: '/participant/score' },
   { status: status.RESEARCH_DONE, path: '/participant/complete' },
   { status: status.SET_RECEIPT_MAIL_METHOD, path: '/participant/compensation/choosemail', api: '/apis/participant/done/receipt' },
   { status: status.SET_PAY_METHOD, path: '/participant/compensation/choosepay' },

@@ -9,6 +9,7 @@ import Orientation from './Orientation'
 import Bigfive from './Bigfive'
 import MailInfo from './MailInfo'
 import Compensation from './Compensation'
+import ScorePage from './ScorePage'
 import {
   InterviewSchedulePage,
   InterviewAcceptPage,
@@ -55,6 +56,8 @@ export default function Participant () {
         component={checkId(WaitForPayPage)}/>
       <Route path={`${match.path}/done`}
         component={checkId(ResearchDonePage)}/>
+      <Route path={`${match.path}/score`}
+        component={checkId(ScorePage)}/>
       <Route path={`${match.path}/error`}
         component={ErrorPage}/>
       <Route path={match.path}>
