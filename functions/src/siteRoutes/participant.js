@@ -7,6 +7,7 @@ const {
   updateDB,
   setDB,
   moveDB,
+  fetchDB,
   busboyMiddleWare,
   uploadFile,
   moveStauts
@@ -142,6 +143,18 @@ router.post('/done/interview', validators.interviewDone, async (req, res) => {
     })
     if (!rsvp) await sendCompensationMail(id)
     res.json({ status: nextStatus })
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
+
+router.get('/score', validators.interviewDone, async (req, res) => {
+  try {
+    const payload = req.query
+    const { id } = payload
+    const esmDistDaily = await fetchDB(`uploadRecord/${id}/esmDistDaily`)
+    res.json({ esmDistDaily: esmDistDaily || [] })
   } catch (err) {
     console.error(err)
     res.status(500).send('error')
