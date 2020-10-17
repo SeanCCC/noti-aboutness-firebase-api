@@ -2,7 +2,7 @@ const _ = require('lodash')
 const moment = require('moment-timezone')
 const { fetchDB, updateDB, findDB } = require('../utils')
 const status = require('../status')
-const { sendResearchEndNotice } = require('../mail')
+const { sendResearchEndNotice, sendResearchStartMail } = require('../mail')
 
 const setResearchDone = async (uid, compensation) => {
   const now = moment().tz('Asia/Taipei').format()
@@ -65,13 +65,18 @@ const researchStarter = async () => {
   const today = moment().add(1, 'hours').tz('Asia/Taipei').format('YYYY-MM-DD')
   const participants = await findDB('participant', 'researchStartDate', today)
   const result = _.reduce(participants, (acu, p, uid) => {
-    if (p.status === status.RESEARCH_RUNNING) return acu
+    if (p.status !== status.APP_VALID) return acu
     const _acu = { ...acu }
     _acu[uid] = { ...p, status: status.RESEARCH_RUNNING }
     return _acu
   }, {})
+  const mailAsyncList = _.reduce(participants, (acu, p, uid) => {
+    if (p.status !== status.APP_VALID) return acu
+    const _acu = [...acu, sendResearchStartMail(uid)]
+    return _acu
+  }, [])
   if (_.size(result) === 0) return null
-  return updateDB('/participant', result)
+  return Promise.all([updateDB('/participant', result), ...mailAsyncList])
 }
 
 module.exports = {

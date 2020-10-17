@@ -85,6 +85,17 @@ const sendConsentAcceptMail = async (id) => {
   return transporter.sendMail(config)
 }
 
+const sendResearchStartMail = async (id) => {
+  const { email, name, gender, researchStartDate } = await fetchEmailInfo(id, 'participant')
+  const config = {
+    from: 'MUILAB通知實驗研究團隊',
+    to: email,
+    subject: 'MUILAB通知實驗-實驗開始',
+    html: `<p>${name}${gender === 'male' ? '先生' : '小姐'}您好，<br/>您的實驗已經於今日${researchStartDate}開始，<br/>請記得從今日起開始填寫表單，<br/>如果想知道您已完成的表單數量，<br/>請進入<a href="https://notiaboutness.muilab.org/participant/score?id=${id}">此研究網站</a>，<br/>感激不盡！</p>`
+  }
+  return transporter.sendMail(config)
+}
+
 const sendResearchRemind = async (id) => {
   const { email, name, gender } = await fetchEmailInfo(id, 'participant')
   const config = {
@@ -235,5 +246,6 @@ module.exports = {
   sendInterviewInviteReminder,
   sendInterviewSchedule,
   sendInterviewCancel,
-  sendResearchEndNotice
+  sendResearchEndNotice,
+  sendResearchStartMail
 }
