@@ -165,11 +165,12 @@ router.get('/score', async (req, res) => {
   try {
     const payload = req.query
     const { id } = payload
-    const [esmDistDaily, researchStartDate] = await Promise.all([
+    const [tmp, researchStartDate] = await Promise.all([
       fetchDB(`uploadRecord/${id}/esmDistDaily`),
       fetchDB(`uploadRecord/${id}/researchStartDate`)
     ])
-    if (!esmDistDaily || !researchStartDate) return res.json({ esmDistDaily: [] })
+    const esmDistDaily = tmp || []
+    if (!researchStartDate) return res.status(500).send('error')
     const today = moment().tz('Asia/Taipei').startOf('day')
     const startDay = moment.tz(researchStartDate, 'YYYY-MM-DD', 'Asia/Taipei')
     const ms = today.diff(startDay)
