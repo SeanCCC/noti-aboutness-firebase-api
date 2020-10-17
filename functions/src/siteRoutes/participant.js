@@ -149,7 +149,7 @@ router.post('/done/interview', validators.interviewDone, async (req, res) => {
   }
 })
 
-router.get('/score', validators.interviewDone, async (req, res) => {
+router.get('/score', async (req, res) => {
   try {
     const payload = req.query
     const { id } = payload
