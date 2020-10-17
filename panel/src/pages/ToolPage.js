@@ -75,6 +75,8 @@ class ToolPage extends Component {
 
   async submit () {
     const { name, nameValid, email, emailValid } = this.state
+    this.checkVal('name')
+    this.checkVal('email')
     this.setState({ submitted: true })
     if (!nameValid || !emailValid) return
     const result = bigFiveDoneTemplate(name, email)
