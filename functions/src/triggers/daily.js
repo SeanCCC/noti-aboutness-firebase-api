@@ -3,6 +3,8 @@ const moment = require('moment-timezone')
 const { fetchDB, updateDB, findDB } = require('../utils')
 const status = require('../status')
 const { sendResearchEndNotice, sendResearchStartMail } = require('../mail')
+const periodRequired = 14
+const questionnaireEachDay = 3
 
 const setResearchDone = async (uid, compensation) => {
   const now = moment().tz('Asia/Taipei').format()
@@ -10,8 +12,10 @@ const setResearchDone = async (uid, compensation) => {
     compensation,
     status: status.RESEARCH_DONE,
     lastStatusChanged: now,
-    // next line may need change
     researchEndDate: moment().startOf('day').subtract(1, 'days').tz('Asia/Taipei').format('YYYY-MM-DD')
+  })
+  await updateDB(`uploadRecord/${uid}`, {
+    active: false
   })
   await sendResearchEndNotice(uid)
 }
@@ -50,15 +54,15 @@ const dailyRecordFunction = async () => {
       const then = moment(r.researchStartDate)
       const ms = now.diff(then)
       const days = moment.duration(ms).asDays()
-      return days >= 14 && r.totalEsmCount >= 42
+      return days >= periodRequired && r.totalEsmCount >= periodRequired * questionnaireEachDay
     })
     .map((r) => {
-      const compensation = 1550 + Math.max(0, r.totalEsmCount - 70) * 20
-      console.log(compensation)
+      const compensation = 1550 + Math.max(0, r.totalEsmCount - 5 * periodRequired) * 20
       return setResearchDone(r.uid, compensation)
     })
     .value()
-  return Promise.all([updateDB('/uploadRecord', result), ...researchDoneList])
+  await Promise.all(researchDoneList)
+  return updateDB('/uploadRecord', result)
 }
 
 const researchStarter = async () => {

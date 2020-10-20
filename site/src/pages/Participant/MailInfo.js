@@ -45,8 +45,9 @@ export default class MailInfo extends Component {
             textAlign="center">說明</Header>
         1.請印出並且簽署研究者參與同意書，然後交付至實驗室信箱或寄到實驗室，實驗室的位置在下方有詳細說明。<br/>
         2.如果選擇郵寄，請盡可能以掛號方式寄出，這可以確保信件一定會到達，以避免您不必要的困擾。<br/>
-        3.所有影印、郵務方面支出，均已經包含在報酬中。<br/>
-        4.請在選取交件方式後點選『我已送出同意書』（在最下方）
+        3.選擇郵寄時，如果因故無法使用掛號，請使用限時平信。<br/>
+        4.所有影印、郵務方面支出，均已經包含在報酬中。<br/>
+        5.請在選取交件方式後點選『我已送出同意書』（在最下方）
           <a target="_blank"
             href={consentFileLink}
             rel='noreferrer noopener'>
@@ -97,7 +98,7 @@ export default class MailInfo extends Component {
             checked={mailMethod === 'registeredMail'}
           />
           <Checkbox
-            label='同意書以平信方式寄出。'
+            label='同意書以限時平信方式寄出。'
             onChange={() => { this.toggle('ordinaryMail') }}
             checked={mailMethod === 'ordinaryMail'}
           />

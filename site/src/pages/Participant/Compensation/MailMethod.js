@@ -40,8 +40,9 @@ export default class MailMethod extends Component {
         1.實驗團隊將在收到領據之後的一週內支付報酬給您。<br/>
         2.請印出並且簽署我們在信中附上的領據，然後交付至實驗室信箱或郵寄到實驗室，實驗室的位置在下方有詳細說明。<br/>
         3.如果選擇郵寄，請盡可能以掛號方式寄出，這可以確保信件一定會到達，以避免您不必要的困擾。<br/>
-        4.所有影印、郵務方面支出，均已經包含在報酬中。<br/>
-        5.請在選取交件方式點選『選擇收款途徑』（在下方）<br/>
+        4.選擇郵寄時，如果因故無法使用掛號，請使用限時平信。<br/>
+        5.所有影印、郵務方面支出，均已經包含在報酬中。<br/>
+        6.請在選取交件方式點選『選擇收款途徑』（在下方）<br/>
         </Segment>
         <Segment attached>
           <Header as='h3'
@@ -84,7 +85,7 @@ export default class MailMethod extends Component {
             checked={mailMethod === 'registeredMail'}
           />
           <Checkbox
-            label='領據以平信方式寄出。'
+            label='領據以限時平信方式寄出。'
             onChange={() => { this.setMailMethod('ordinaryMail') }}
             checked={mailMethod === 'ordinaryMail'}
           />

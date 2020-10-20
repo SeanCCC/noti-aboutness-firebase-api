@@ -124,9 +124,6 @@ router.post('/payment/done', async (req, res) => {
       payDate,
       lastStatusChanged: moment().tz('Asia/Taipei').format()
     })
-    await updateDB(`uploadRecord/${uid}`, {
-      active: false
-    })
     res.send('success')
   } catch (err) {
     console.error(err)
@@ -200,9 +197,6 @@ router.post('/interview/finish', async (req, res) => {
       payMethod: 'inPerson',
       compensation: p.compensation + 300
     })
-    await updateDB(`uploadRecord/${uid}`, {
-      active: false
-    })
     res.send('success')
   } catch (err) {
     console.error(err)
@@ -255,7 +249,11 @@ router.post('/research/done', async (req, res) => {
     await updateDB(`participant/${uid}`, {
       compensation: 1550,
       status: status.RESEARCH_DONE,
-      lastStatusChanged: today
+      lastStatusChanged: today,
+      researchEndDate: moment().startOf('day').subtract(1, 'days').tz('Asia/Taipei').format('YYYY-MM-DD')
+    })
+    await updateDB(`uploadRecord/${uid}`, {
+      active: false
     })
     res.send('success')
   } catch (err) {
