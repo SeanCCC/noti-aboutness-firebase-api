@@ -101,7 +101,7 @@ const formContent = [
     }, {
       type: 'select',
       label: '請選擇您的手機系統版本',
-      errorMsg: '該實驗目前不支援Android 4以下或非Android系統的手機',
+      errorMsg: '該實驗目前不支援Android 6以下或非Android系統的手機',
       name: 'androidVersion',
       options: androidSystemVersion
     }]
@@ -168,7 +168,7 @@ export default class FormPage extends Component {
     else if (['phoneNumber'].includes(name)) checkFunc = (input) => check.match(input, /^09\d{8}$/)
     else if (['phoneSystem'].includes(name)) checkFunc = (input) => input === 'android'
     else if (['phoneBrand'].includes(name)) checkFunc = (input) => input !== 'apple' && check.not.undefined(input)
-    else if (['androidVersion'].includes(name)) checkFunc = (input) => input !== 'notAndroid' && input !== '4' && check.not.undefined(input)
+    else if (['androidVersion'].includes(name)) checkFunc = (input) => input !== 'notAndroid' && input !== '6' && check.not.undefined(input)
     else if (['gender', 'city', 'occupation', 'cellularAccess', 'onlineFrequency', 'travelPlan', 'wearableDevice'].includes(name)) {
       checkFunc = check.not.undefined
     } else if (['brandName'].includes(name)) {

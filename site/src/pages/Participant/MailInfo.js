@@ -3,10 +3,7 @@ import { Header, Segment, Checkbox, Button, Icon, Message, Image } from 'semanti
 import PropTypes from 'prop-types'
 import { ContactComp } from '../Contact'
 import LabMap from './LabMap'
-// import { Link } from 'react-router-dom'
-// import axios from 'axios'
-
-const consentFileLink = 'https://www.youtube.com/'
+import { consentFileLink } from './Orientation'
 
 export default class MailInfo extends Component {
   constructor (props) {

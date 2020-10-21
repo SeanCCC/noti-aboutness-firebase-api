@@ -3,7 +3,7 @@ import { Header, Embed, Segment, Checkbox, Button, Icon, Message } from 'semanti
 import PropTypes from 'prop-types'
 import { ContactComp } from '../Contact'
 
-const consentFileLink = 'https://www.youtube.com/'
+export const consentFileLink = 'https://www.youtube.com/'
 
 export default class Orientation extends Component {
   constructor (props) {
@@ -53,7 +53,6 @@ export default class Orientation extends Component {
         <Segment attached>
           <Embed
             id='O6Xo21L0ybE'
-            // placeholder='/images/image-16by9.png'
             source='youtube'
           />
         </Segment>

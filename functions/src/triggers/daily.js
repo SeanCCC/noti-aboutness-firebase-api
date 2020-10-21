@@ -57,7 +57,7 @@ const dailyRecordFunction = async () => {
       return days >= periodRequired && r.totalEsmCount >= periodRequired * questionnaireEachDay
     })
     .map((r) => {
-      const compensation = 1550 + Math.max(0, r.totalEsmCount - 5 * periodRequired) * 20
+      const compensation = 1550 + Math.max(0, r.totalEsmCount - 5 * periodRequired) * 22
       return setResearchDone(r.uid, compensation)
     })
     .value()
