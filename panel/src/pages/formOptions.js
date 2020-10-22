@@ -99,7 +99,9 @@ const networkLimit = [
 const mailMethodOptions = [
   { text: '自行送交', value: 'selfDeliver' },
   { text: '掛號信', value: 'registeredMail' },
-  { text: '平信', value: 'ordinaryMail' }
+  { text: '限時郵件', value: 'ordinaryMail' },
+  { text: '回郵掛號', value: 'reversedRegisteredMail' },
+  { text: '回郵限時郵件', value: 'reversedOrdinaryMail' }
 ]
 
 const payMethodOptions = [

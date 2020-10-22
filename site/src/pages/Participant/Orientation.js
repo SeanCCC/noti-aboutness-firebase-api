@@ -46,7 +46,7 @@ export default class Orientation extends Component {
             <Button fluid
               primary >
               <Icon name='file pdf'/>
-            下載參與者研究說明書
+            下載『參與者研究說明書』
             </Button>
           </a>
         </Segment>

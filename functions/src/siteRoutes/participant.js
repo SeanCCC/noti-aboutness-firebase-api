@@ -70,9 +70,26 @@ router.post('/done/bigfive', validators.bigfive, async (req, res) => {
 router.post('/done/sendconsent', validators.sendConsent, async (req, res) => {
   try {
     const payload = req.body
-    const { id, mailMethod } = payload
-    await updateDB(`participant/${id}`, {
+    const {
+      id,
       mailMethod,
+      mailBackAddress,
+      mailBackCell,
+      mailBackPostNumber,
+      mailBackName
+    } = payload
+    let data
+    if (['reversedOrdinaryMail', 'reversedRegisteredMail'].includes(mailMethod)) {
+      data = {
+        mailMethod,
+        mailBackAddress,
+        mailBackCell,
+        mailBackPostNumber,
+        mailBackName
+      }
+    } else data = { mailMethod }
+    await updateDB(`participant/${id}`, {
+      ...data,
       consentSentTime: moment().tz('Asia/Taipei').format(),
       status: status.CONSENT_SENT,
       lastStatusChanged: moment().tz('Asia/Taipei').format()
