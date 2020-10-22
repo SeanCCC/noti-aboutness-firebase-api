@@ -222,4 +222,16 @@ router.get('/score', async (req, res) => {
     res.status(500).send('error')
   }
 })
+
+router.get('/mailmethod', async (req, res) => {
+  try {
+    const payload = req.query
+    const { id } = payload
+    const mailMethod = await fetchDB(`participant/${id}/mailMethod`)
+    res.json({ mailMethod })
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
 module.exports = router
