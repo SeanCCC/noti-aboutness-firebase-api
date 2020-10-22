@@ -1,9 +1,29 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Table, Button, Modal } from 'semantic-ui-react'
+import { Table, Button, Modal, Header } from 'semantic-ui-react'
 import status from '../../status'
 import { mailMethodOptions } from '../../formOptions'
 import moment from 'moment-timezone'
+
+const InfoModalComponent = (props) => {
+  const { p } = props
+  const mailMethod = translate(mailMethodOptions, p.mailMethod, '未送出')
+  return <Modal.Content scrolling>
+    <Modal.Description>
+      <Header as="h2">{`${p.name}的回郵資訊`}</Header>
+      姓名:{p.mailBackName}<br/>
+      地址:{p.mailBackAddress}<br/>
+      電話:{p.mailBackCell}<br/>
+      郵遞區號:{p.mailBackPostNumber}<br/>
+      寄送方法:{mailMethod}<br/>
+    </Modal.Description>
+  </Modal.Content>
+}
+
+InfoModalComponent.propTypes = {
+  p: PropTypes.object,
+  passbook: PropTypes.string
+}
 
 const translate = (options, value, defaultValue) => {
   if (defaultValue !== undefined && value === undefined) return defaultValue
@@ -55,7 +75,16 @@ export default class ConsentPendingCell extends Component {
           {consentSentTime}
         </Table.Cell>
         <Table.Cell>
-          {p.status === status.CONSENT_SENT
+          {p.status === status.CONSENT_CHOSEN && ['reversedOrdinaryMail', 'reversedRegisteredMail'].includes(p.mailMethod)
+            ? <Fragment><Modal
+              size="massive"
+              trigger={<Button content="回郵資訊" primary />}
+            >
+              <InfoModalComponent p={p}/>
+            </Modal>
+            </Fragment>
+            : null}
+          {p.status === status.CONSENT_CHOSEN
             ? <Modal
               size="mini"
               trigger={<Button content="確認同意書" loading={acceptingConsent} disabled={acceptingConsent} primary />}

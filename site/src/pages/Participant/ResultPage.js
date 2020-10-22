@@ -55,6 +55,18 @@ export function CompletePage () {
   )
 }
 
+export function MailBackPage () {
+  return (
+    <div className="page">
+      <Header textAlign="center"
+        as='h2'>感謝您的合作</Header>
+      <Message positive>
+        <Message.Header>您的實驗任務已經完成，團隊將在近期與您聯絡報酬事宜。</Message.Header>
+      </Message>
+      <ContactComp/>
+    </div>
+  )
+}
 export function WaitForPayPage () {
   return (
     <div className="page">

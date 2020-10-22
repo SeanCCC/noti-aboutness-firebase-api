@@ -39,7 +39,7 @@ const receipt = validator(({ mailMethod }) => {
   return check.undefined(receiptMailMethod)
 }, status.SET_RECEIPT_MAIL_METHOD)
 
-const sendConsent = validator(({ mailMethod }) => {
+const sendchoose = validator(({ mailMethod }) => {
   return check.nonEmptyString(mailMethod)
 }, ({ mailMethod }) => {
   return check.undefined(mailMethod)
@@ -59,7 +59,7 @@ module.exports = {
   interviewDone,
   compensation,
   receipt,
-  sendConsent,
+  sendchoose,
   video,
   bigfive,
   bind

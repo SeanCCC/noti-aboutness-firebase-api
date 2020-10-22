@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom'
 import Orientation from './Orientation'
 import Bigfive from './Bigfive'
-import MailInfo from './MailInfo'
+import MailChoose from './MailChoose'
 import Compensation from './Compensation'
 import ScorePage from './ScorePage'
 import {
@@ -23,6 +23,7 @@ import {
 import Instruction from './Instruction'
 import { checkId } from './checkId'
 import Interview from './Interview'
+import MailInfo from './MailInfo'
 
 export default function Participant () {
   const match = useRouteMatch()
@@ -30,6 +31,8 @@ export default function Participant () {
     <Switch>
       <Route path={`${match.path}/orientation`}
         component={checkId(Orientation)}/>
+      <Route path={`${match.path}/mailchoose`}
+        component={checkId(MailChoose)}/>
       <Route path={`${match.path}/mailinfo`}
         component={checkId(MailInfo)}/>
       <Route path={`${match.path}/waiting`}

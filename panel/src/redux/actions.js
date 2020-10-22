@@ -35,14 +35,14 @@ export const updateCandidates = payload => {
 
 function createPrepareNumber (consentPendingParticipants) {
   const consentSent = consentPendingParticipants
-    .filter((p) => p.status === status.CONSENT_SENT)
+    .filter((p) => p.status === status.CONSENT_CHOSEN)
   const now = moment()
   const consentSent3D = consentPendingParticipants
     .filter((p) => {
       const then = moment(p.consentSentTime)
       const ms = now.diff(then)
       const hours = moment.duration(ms).asHours()
-      return p.status === status.CONSENT_SENT && hours > 3 * 24
+      return p.status === status.CONSENT_CHOSEN && hours > 3 * 24
     })
   const consentPending = consentPendingParticipants
   return [
@@ -113,7 +113,7 @@ function createResearchDoneNumber (researchDoneParticipants) {
 export const updateParticipants = payload => {
   const participants = payload
   const consentPendingParticipants =
-    participants.filter((d) => [status.INIT, status.VIDEO_DONE, status.CONSENT_SENT].includes(d.status))
+    participants.filter((d) => [status.INIT, status.VIDEO_DONE, status.CONSENT_CHOSEN].includes(d.status))
   const researchRunningParticipants =
     participants.filter((d) => [status.RESEARCH_RUNNING].includes(d.status))
   const researchDoneParticipants =

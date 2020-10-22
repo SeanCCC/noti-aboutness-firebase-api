@@ -14,9 +14,23 @@ const {
   sendInterviewInvitation,
   sendInterviewInviteReminder,
   sendInterviewSchedule,
-  sendInterviewCancel
+  sendInterviewCancel,
+  sendConsentReversedMail
 } = require('../mail')
 const status = require('../status')
+
+router.post('/consent/reversedSent', async (req, res) => {
+  try {
+    const payload = req.body
+    const { uid } = payload
+    await sendConsentReversedMail(uid)
+    await moveStauts(uid, status.CONSENT_VALID)
+    res.send('success')
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
 
 router.post('/consent/accept', async (req, res) => {
   try {

@@ -1,117 +1,34 @@
 import React, { Component } from 'react'
-import { Header, Segment, Checkbox, Button, Icon, Message, Image, Input } from 'semantic-ui-react'
+import { Header, Segment, Button, Icon, Message, Image } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { ContactComp } from '../Contact'
 import { consentFileLink } from './Orientation'
 import LabMap from './LabMap'
-import check from 'check-types'
 
 export default class MailInfo extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      mailMethod: null,
-      submitted: false,
-      loading: false,
-      mailBackAddress: '',
-      mailBackCell: '',
-      mailBackPostNumber: '',
-      mailBackName: '',
-      valid: false
+      loading: false
     }
-    this.toggle = this.toggle.bind(this)
-    this.onInputBlur = this.onInputBlur.bind(this)
-    this.handleChange = this.handleChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
-    this.checkVal = this.checkVal.bind(this)
-  }
-
-  handleChange (e, { name, value }) {
-    const { submitted } = this.state
-    this.setState({ [name]: value }, () => {
-      if (submitted) {
-        this.checkVal()
-      }
-    })
-  }
-
-  async checkVal () {
-    const {
-      mailMethod,
-      mailBackAddress,
-      mailBackCell,
-      mailBackPostNumber,
-      mailBackName
-    } = this.state
-    if (check.null(mailMethod)) {
-      await this.setState({ valid: false })
-      return false
-    }
-    if (['reversedOrdinaryMail', 'reversedRegisteredMail'].includes(mailMethod)) {
-      if (check.emptyString(mailBackAddress) ||
-      check.emptyString(mailBackCell) ||
-      check.emptyString(mailBackPostNumber) ||
-      check.emptyString(mailBackName)
-      ) {
-        await this.setState({ valid: false })
-        return false
-      }
-    }
-    await this.setState({ valid: true })
-    return true
-  }
-
-  onInputBlur (name) {
-    const value = this.state[name]
-    if (value === null) return
-    this.setState({ [name]: value.trim() }, this.checkVal)
-  }
-
-  toggle (value) {
-    this.setState({ mailMethod: value }, this.checkVal)
   }
 
   async onSubmit () {
-    this.setState({ submitted: true })
-    const {
-      mailMethod, mailBackAddress,
-      mailBackCell,
-      mailBackPostNumber,
-      mailBackName
-    } = this.state
     const { nextStep } = this.props
-    await this.checkVal()
-    if (!this.state.valid) return
     this.setState({ loading: true })
-    let data
-    if (['reversedOrdinaryMail', 'reversedRegisteredMail'].includes(mailMethod)) {
-      data = {
-        mailMethod,
-        mailBackAddress,
-        mailBackCell,
-        mailBackPostNumber,
-        mailBackName
-      }
-    } else data = { mailMethod }
-    await nextStep(data)
+    await nextStep()
     this.setState({ loading: false })
   }
 
   render () {
     const {
-      mailMethod,
-      submitted,
-      loading,
-      mailBackAddress,
-      mailBackName,
-      mailBackPostNumber,
-      mailBackCell,
-      valid
+      loading
     } = this.state
     return (
       <div className="page">
         <Header as='h2'
-          textAlign="center">簽署與寄出同意書</Header>
+          textAlign="center">簽署並寄出同意書</Header>
         <Segment attached>
           <Header as='h3'
             textAlign="center">說明</Header>
@@ -121,7 +38,7 @@ export default class MailInfo extends Component {
         4.如果選擇郵寄，請盡可能以掛號方式寄出，這可以確保信件一定會到達，以避免您不必要的困擾。<br/>
         5.選擇郵寄時，如果因故無法使用掛號，請使用限時郵件。<br/>
         6.所有影印、郵務方面支出，均已經包含在報酬中。<br/>
-        7.請在選取交件方式後點選『送出』（在最下方）
+        7.請在『確實寄出同意書後』後點選『通知團隊信件已經寄出』（在下方）
           <a target="_blank"
             href={consentFileLink}
             rel='noreferrer noopener'>
@@ -144,92 +61,11 @@ export default class MailInfo extends Component {
             請在『第十段』填寫正楷姓名、簽名、日期、聯絡電話與通訊住址。
         </Segment>
         <Segment attached>
-          <Header as='h3'
-            textAlign="center">交件方式選擇</Header>
-          <Checkbox
-            label='同意書由本人交付至實驗室信箱。'
-            onChange={() => { this.toggle('selfDeliver') }}
-            checked={mailMethod === 'selfDeliver'}
-          />
-          <Checkbox
-            label='同意書以掛號方式寄出。'
-            onChange={() => { this.toggle('registeredMail') }}
-            checked={mailMethod === 'registeredMail'}
-          />
-          <Checkbox
-            label='同意書以限時郵件方式寄出。'
-            onChange={() => { this.toggle('ordinaryMail') }}
-            checked={mailMethod === 'ordinaryMail'}
-          />
-          <Checkbox
-            label='同意書與信封袋將用回郵取得，然後以掛號寄出。'
-            onChange={() => { this.toggle('reversedRegisteredMail') }}
-            checked={mailMethod === 'reversedRegisteredMail'}
-          />
-          <Checkbox
-            label='同意書與信封袋將用回郵取得，然後以限時郵件寄出。'
-            onChange={() => { this.toggle('reversedOrdinaryMail') }}
-            checked={mailMethod === 'reversedOrdinaryMail'}
-          />
-        </Segment>
-        {['reversedOrdinaryMail', 'reversedRegisteredMail'].includes(mailMethod) &&
-         <Segment attached>
-           <Input
-             key='mailBackName'
-             value={mailBackName}
-             fluid
-             label={'回郵收件人'}
-             disabled={loading}
-             placeholder={'請輸入同意書收件人的名稱'}
-             name='mailBackName'
-             onChange={this.handleChange}
-             onBlur={() => { this.onInputBlur('mailBackName') }}
-           />
-           <Input
-             key='mailBackAddress'
-             value={mailBackAddress}
-             fluid
-             label={'回郵地址'}
-             disabled={loading}
-             placeholder={'請輸入同意書要寄往的地址'}
-             name='mailBackAddress'
-             onChange={this.handleChange}
-             onBlur={() => { this.onInputBlur('mailBackAddress') }}
-           />
-           <Input
-             key='mailBackPostNumber'
-             value={mailBackPostNumber}
-             fluid
-             label={'回郵郵遞區號'}
-             disabled={loading}
-             placeholder={'請輸入同意書要寄往的郵遞區號'}
-             name='mailBackPostNumber'
-             onChange={this.handleChange}
-             onBlur={() => { this.onInputBlur('mailBackPostNumber') }}
-           />
-           <Input
-             key='mailBackCell'
-             value={mailBackCell}
-             fluid
-             label={'回郵收件人手機'}
-             disabled={loading}
-             placeholder={'請輸入同意書收件人的手機號碼'}
-             name='mailBackCell'
-             onChange={this.handleChange}
-             onBlur={() => { this.onInputBlur('mailBackCell') }}
-           />
-         </Segment>}
-        <Segment attached>
-          {submitted && !valid
-            ? <Message negative>
-              <Message.Header>請選擇交件方式，並填寫必要資訊。</Message.Header>
-            </Message>
-            : null}
           <Button fluid
             primary
             onClick={this.onSubmit}
             loading={loading}
-            disabled={loading} >送出</Button>
+            disabled={loading} >通知團隊信件已經寄出</Button>
         </Segment>
         <Segment attached>
           <Header as='h3'
@@ -245,6 +81,7 @@ export default class MailInfo extends Component {
           <Header as='h3'
             textAlign="center">回郵資訊</Header>
         我們會將已經填好地址並貼好郵票的的信封與未簽名的研究者參與同意書都用限時郵件寄送給您，<br/>
+        並且會在寄出信封與同意書後寄信通知您，<br/>
         您只需要在完全理解並同意研究者參與同意書的內容後，參考上方『同意書簽署注意事項』完成同意書須填內容，<br/>
         並且透過掛號或限時郵件寄出即可。
         </Segment>

@@ -67,7 +67,7 @@ router.post('/done/bigfive', validators.bigfive, async (req, res) => {
   }
 })
 
-router.post('/done/sendconsent', validators.sendConsent, async (req, res) => {
+router.post('/done/sendchoose', validators.sendchoose, async (req, res) => {
   try {
     const payload = req.body
     const {
@@ -88,6 +88,24 @@ router.post('/done/sendconsent', validators.sendConsent, async (req, res) => {
         mailBackName
       }
     } else data = { mailMethod }
+    await updateDB(`participant/${id}`, {
+      ...data,
+      consentChosenTime: moment().tz('Asia/Taipei').format(),
+      status: status.CONSENT_CHOSEN,
+      lastStatusChanged: moment().tz('Asia/Taipei').format()
+    })
+    res.json({ status: status.CONSENT_CHOSEN })
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
+
+router.post('/done/sendconsent', async (req, res) => {
+  try {
+    const payload = req.body
+    const { id } = payload
+    let data
     await updateDB(`participant/${id}`, {
       ...data,
       consentSentTime: moment().tz('Asia/Taipei').format(),
