@@ -19,12 +19,12 @@ const {
 } = require('../mail')
 const status = require('../status')
 
-router.post('/consent/reversedSent', async (req, res) => {
+router.post('/consent/reversesent', async (req, res) => {
   try {
     const payload = req.body
     const { uid } = payload
     await sendConsentReversedMail(uid)
-    await moveStauts(uid, status.CONSENT_VALID)
+    await updateDB(`participant/${uid}`, { reverseNoticedTime: moment().tz('Asia/Taipei').format() })
     res.send('success')
   } catch (err) {
     console.error(err)

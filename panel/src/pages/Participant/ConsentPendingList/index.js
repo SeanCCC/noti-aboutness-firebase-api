@@ -1,27 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Table } from 'semantic-ui-react'
-import axios from 'axios'
 import ConsentPendingCell from './ConsentPendingCell'
 import HighlightTableBody from '../../HighlightTableBody'
 
 export default class ConsentPendingList extends Component {
-  async acceptConsent (uid) {
-    try {
-      await axios.post('/apis/participant/consent/accept', { uid })
-    } catch (err) {
-      console.error(err)
-    }
-  }
-
-  async sendReminderMail (uid) {
-    try {
-      await axios.post('/apis/participant/consent/remind', { uid })
-    } catch (err) {
-      console.error(err)
-    }
-  }
-
   render () {
     const { participants } = this.props
     return <Table basic='very' celled >
@@ -40,8 +23,6 @@ export default class ConsentPendingList extends Component {
         porpMapper={
           (p) => {
             return {
-              acceptConsent: () => this.acceptConsent(p.uid),
-              sendReminderMail: () => this.sendReminderMail(p.uid),
               participant: p
             }
           }

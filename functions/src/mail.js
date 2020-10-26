@@ -91,7 +91,7 @@ const sendConsentReversedMail = async (id) => {
     from: 'MUILAB通知實驗研究團隊',
     to: email,
     subject: 'MUILAB通知實驗-回郵已寄出',
-    html: `<p>${name}${gender === 'male' ? '先生' : '小姐'}您好，<br/>我們已經將您的同意書與信封寄過去了，<br/>請進入<a href="https://notiaboutness.muilab.org/participant/bigfive?id=${id}">此研究網站</a>進行下一步，<br/>感激不盡！</p>`
+    html: `<p>${name}${gender === 'male' ? '先生' : '小姐'}您好，<br/>我們已經將您的同意書與信封寄過去了，<br/>查收後請進入<a href="https://notiaboutness.muilab.org/participant/mailinfo?id=${id}">此研究網站</a>進行下一步，<br/>感激不盡！</p>`
   }
   return transporter.sendMail(config)
 }

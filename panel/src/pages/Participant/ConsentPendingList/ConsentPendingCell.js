@@ -1,12 +1,14 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component, Fragment, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Table, Button, Modal, Header } from 'semantic-ui-react'
+import axios from 'axios'
 import status from '../../status'
 import { mailMethodOptions } from '../../formOptions'
 import moment from 'moment-timezone'
 
 const InfoModalComponent = (props) => {
-  const { p } = props
+  const { p, sendReverseNotice } = props
+  const [loading, setLoading] = useState(false)
   const mailMethod = translate(mailMethodOptions, p.mailMethod, '未送出')
   return <Modal.Content scrolling>
     <Modal.Description>
@@ -16,13 +18,31 @@ const InfoModalComponent = (props) => {
       電話:{p.mailBackCell}<br/>
       郵遞區號:{p.mailBackPostNumber}<br/>
       寄送方法:{mailMethod}<br/>
+      回郵時間:{p.reverseNoticedTime || '尚未送出回郵'} <br/>
+      <Modal
+        size="mini"
+        trigger={<Button content="通知回郵已寄出" loading={loading} disabled={!!p.reverseNoticedTime} primary />}
+        header='是否通知回郵已寄出'
+        content=''
+        actions={['取消', {
+          key: 'confirm',
+          content: '確定',
+          positive: true,
+          onClick: async () => {
+            setLoading(true)
+            await sendReverseNotice()
+            setLoading(false)
+          }
+        }]}
+      />
     </Modal.Description>
   </Modal.Content>
 }
 
 InfoModalComponent.propTypes = {
   p: PropTypes.object,
-  passbook: PropTypes.string
+  passbook: PropTypes.string,
+  sendReverseNotice: PropTypes.func
 }
 
 const translate = (options, value, defaultValue) => {
@@ -39,20 +59,46 @@ export default class ConsentPendingCell extends Component {
     }
     this.sendAcceptMail = this.sendAcceptMail.bind(this)
     this.sendReminder = this.sendReminder.bind(this)
+    this.sendReverseNotice = this.sendReverseNotice.bind(this)
   }
 
   async sendAcceptMail () {
-    const { participant, acceptConsent } = this.props
-    this.setState({ acceptingConsent: true })
-    await acceptConsent(participant.uid)
-    this.setState({ acceptingConsent: false })
+    const { participant } = this.props
+    try {
+      this.setState({ acceptingConsent: true })
+      await axios.post('/apis/participant/consent/accept', {
+        uid: participant.uid
+      })
+      this.setState({ acceptingConsent: false })
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   async sendReminder () {
-    const { sendReminderMail, participant } = this.props
-    this.setState({ sendingReminder: true })
-    await sendReminderMail(participant.uid)
-    this.setState({ sendingReminder: false })
+    const { participant } = this.props
+    try {
+      this.setState({ sendingReminder: true })
+      await axios.post('/apis/participant/consent/remind', {
+        uid: participant.uid
+      })
+      this.setState({ sendingReminder: false })
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  async sendReverseNotice () {
+    const { participant } = this.props
+    try {
+      this.setState({ sendingReminder: true })
+      await axios.post('/apis/participant/consent/reversesent', {
+        uid: participant.uid
+      })
+      this.setState({ sendingReminder: false })
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   render () {
@@ -78,13 +124,13 @@ export default class ConsentPendingCell extends Component {
           {p.status === status.CONSENT_CHOSEN && ['reversedOrdinaryMail', 'reversedRegisteredMail'].includes(p.mailMethod)
             ? <Fragment><Modal
               size="massive"
-              trigger={<Button content="回郵資訊" primary />}
+              trigger={<Button content="回郵資訊與動作" primary />}
             >
-              <InfoModalComponent p={p}/>
+              <InfoModalComponent p={p} sendReverseNotice={this.sendReverseNotice}/>
             </Modal>
             </Fragment>
             : null}
-          {p.status === status.CONSENT_CHOSEN
+          {p.status === status.CONSENT_SENT || p.status === status.CONSENT_CHOSEN
             ? <Modal
               size="mini"
               trigger={<Button content="確認同意書" loading={acceptingConsent} disabled={acceptingConsent} primary />}
@@ -108,7 +154,5 @@ export default class ConsentPendingCell extends Component {
 }
 
 ConsentPendingCell.propTypes = {
-  acceptConsent: PropTypes.func,
-  sendReminderMail: PropTypes.func,
   participant: PropTypes.object
 }
