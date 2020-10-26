@@ -139,7 +139,8 @@ export default class MailChoose extends Component {
             <Icon name='warning' />
             請詳閱此內容。
           </Message>
-            請下載並印出『研究者參與同意書』，<br/>
+          請下載印出『研究者參與同意書』，如果理解同意上面的內容，請簽署。<br/>
+            下方兩項需要完成，整份同意書才算簽署完成。<br/>
             請在『第五段』勾選您同意的資料使用方法，<br/>
             請在『第十段』填寫正楷姓名、簽名、日期、聯絡電話與通訊住址。
         </Segment>
