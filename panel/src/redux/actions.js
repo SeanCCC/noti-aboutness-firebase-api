@@ -35,7 +35,7 @@ export const updateCandidates = payload => {
 
 function createPrepareNumber (consentPendingParticipants) {
   const consentSent = consentPendingParticipants
-    .filter((p) => p.status === status.CONSENT_CHOSEN)
+    .filter((p) => p.status === status.CONSENT_SENT)
   const now = moment()
   const consentSent3D = consentPendingParticipants
     .filter((p) => {
