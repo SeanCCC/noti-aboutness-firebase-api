@@ -227,7 +227,7 @@ export default class MailChoose extends Component {
             </Message>
             : null}
           <Button fluid
-            primary
+            color="green"
             onClick={this.onSubmit}
             loading={loading}
             disabled={loading} >送出</Button>

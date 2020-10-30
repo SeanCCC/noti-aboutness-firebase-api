@@ -122,7 +122,7 @@ export default class MailInfo extends Component {
           </Segment>}
         <Segment attached>
           <Button fluid
-            primary
+            color="green"
             onClick={this.onSubmit}
             loading={uploading}
             disabled={uploading} >通知團隊信件已經寄出</Button>

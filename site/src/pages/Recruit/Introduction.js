@@ -39,13 +39,6 @@ export default function Introduction () {
         as='h2'>聯絡我們</Header>
       <Segment.Group attached>
         <ContactComp/>
-        <Segment>
-        研究計畫主持人<br/>
-張永儒, 助理教授<br/>
-國立交通大學資訊工程學系<br/>
-(03) 5712121 #56632<br/>
-armuro@cs.nctu.edu.tw<br/>
-        </Segment>
       </Segment.Group>
       <div className='submit-button'>
         <Link to="/recruit/form">

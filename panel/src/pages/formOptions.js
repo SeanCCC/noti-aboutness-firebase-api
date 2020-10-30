@@ -1,6 +1,8 @@
 const genderOptions = [
   { key: 'm', text: '男', value: 'male' },
-  { key: 'f', text: '女', value: 'female' }
+  { key: 'f', text: '女', value: 'female' },
+  { key: 'other', text: '其他', value: 'other' },
+  { key: 'secret', text: '不願透露', value: 'secret' }
 ]
 
 const boolOptions = [
@@ -31,12 +33,6 @@ const mobileOpitons = [
   { key: 'google', text: 'Google', value: 'google' },
   { key: 'lg', text: 'LG', value: 'lg' },
   { key: 'vivo', text: 'VIVO', value: 'vivo' },
-  { key: 'other', text: '其他', value: 'other' }
-]
-
-const osOptions = [
-  { key: 'android', text: 'Android', value: 'android' },
-  { key: 'ios', text: 'iOS', value: 'ios' },
   { key: 'other', text: '其他', value: 'other' }
 ]
 
@@ -115,7 +111,6 @@ export {
   boolOptions,
   androidSystemVersion,
   mobileOpitons,
-  osOptions,
   cityOptions,
   jobOptions,
   networkAccessOptions,

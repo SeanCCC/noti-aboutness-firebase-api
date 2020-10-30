@@ -15,7 +15,7 @@ const {
 } = require('../utils')
 const validators = require('./validators')
 const status = require('../status')
-const { sendCompensationMail } = require('../mail')
+const { sendCompensationMail, sendConsentMailInfo } = require('../mail')
 
 router.get('/checkid', async (req, res) => {
   try {
@@ -94,6 +94,9 @@ router.post('/done/sendchoose', validators.sendchoose, async (req, res) => {
       status: status.CONSENT_CHOSEN,
       lastStatusChanged: moment().tz('Asia/Taipei').format()
     })
+    if (!['reversedOrdinaryMail', 'reversedRegisteredMail'].includes(mailMethod)) {
+      await sendConsentMailInfo(id)
+    }
     res.json({ status: status.CONSENT_CHOSEN })
   } catch (err) {
     console.error(err)

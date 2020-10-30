@@ -1,10 +1,17 @@
 const genderOptions = [
   { key: 'm', text: '男', value: 'male' },
-  { key: 'f', text: '女', value: 'female' }
+  { key: 'f', text: '女', value: 'female' },
+  { key: 'other', text: '其他', value: 'other' },
+  { key: 'secret', text: '不願透露', value: 'secret' }
 ]
 
 const boolOptions = [
   { key: 'true', text: '是', value: true },
+  { key: 'false', text: '否', value: false }
+]
+
+const needToCloseOptions = [
+  { key: 'true', text: '是，我了解，我願意關閉聊天漂浮頭貼的功能。', value: true },
   { key: 'false', text: '否', value: false }
 ]
 
@@ -31,12 +38,6 @@ const mobileOpitons = [
   { key: 'google', text: 'Google', value: 'google' },
   { key: 'lg', text: 'LG', value: 'lg' },
   { key: 'vivo', text: 'VIVO', value: 'vivo' },
-  { key: 'other', text: '其他', value: 'other' }
-]
-
-const osOptions = [
-  { key: 'android', text: 'Android', value: 'android' },
-  { key: 'ios', text: 'iOS', value: 'ios' },
   { key: 'other', text: '其他', value: 'other' }
 ]
 
@@ -96,4 +97,4 @@ const networkLimit = [
   { key: 'unlimmited', text: '無限制', value: 'unlimmited' }
 ]
 
-export { genderOptions, boolOptions, androidSystemVersion, mobileOpitons, osOptions, cityOptions, jobOptions, networkAccessOptions, networkLimit }
+export { genderOptions, boolOptions, androidSystemVersion, mobileOpitons, needToCloseOptions, cityOptions, jobOptions, networkAccessOptions, networkLimit }

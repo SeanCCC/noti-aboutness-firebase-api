@@ -2,7 +2,17 @@ import React, { Component } from 'react'
 import { Header, Form } from 'semantic-ui-react'
 import check from 'check-types'
 import axios from 'axios'
-import { genderOptions, boolOptions, androidSystemVersion, mobileOpitons, osOptions, cityOptions, jobOptions, networkAccessOptions, networkLimit } from './formOptions'
+import {
+  genderOptions,
+  boolOptions,
+  androidSystemVersion,
+  mobileOpitons,
+  cityOptions,
+  jobOptions,
+  networkAccessOptions,
+  networkLimit,
+  needToCloseOptions
+} from './formOptions'
 import { Redirect } from 'react-router-dom'
 const formContent = [
   {
@@ -41,18 +51,6 @@ const formContent = [
       name: 'travelPlan',
       options: boolOptions
     }]
-  }, {
-    type: 'group',
-    content: [{
-      type: 'input',
-      label: '請輸入您的電子郵件',
-      name: 'email'
-    }, {
-      type: 'input',
-      label: '請出入您的手機號碼',
-      name: 'phoneNumber',
-      placeholder: '09XXXXXXXX'
-    }]
   },
   {
     type: 'select',
@@ -64,11 +62,11 @@ const formContent = [
   },
   {
     type: 'select',
-    label: '我了解通知內容對此研究是很重要的，因此可能需要facebook messanger聊天漂浮頭貼的功能。',
+    label: '我了解通知內容對此研究是很重要的，因此需要配合關閉facebook messanger聊天漂浮頭貼的功能。',
     name: 'needToClose',
     placeholder: '請選擇',
-    errorMsg: '請理解通知內容對實驗過程是很重要的，並且我們不會向任何人洩漏通知資訊，也會進行去連結。',
-    options: boolOptions
+    errorMsg: '請理解通知內容對實驗過程是很重要的，需要做此調整才能收到必要的資訊。',
+    options: needToCloseOptions
   }, {
     type: 'group',
     content: [{
@@ -94,13 +92,7 @@ const formContent = [
     type: 'group',
     content: [{
       type: 'select',
-      label: '請選擇您的手機系統',
-      errorMsg: '該實驗目前不支援Android系統以外的手機系統',
-      name: 'phoneSystem',
-      options: osOptions
-    }, {
-      type: 'select',
-      label: '請選擇您的手機系統版本',
+      label: '請選擇您的Android系統版本',
       errorMsg: '該實驗目前不支援Android 6以下或非Android系統的手機',
       name: 'androidVersion',
       options: androidSystemVersion
@@ -117,6 +109,18 @@ const formContent = [
       label: '請問您多常透過手機連到網路？',
       name: 'onlineFrequency',
       options: networkAccessOptions
+    }]
+  }, {
+    type: 'group',
+    content: [{
+      type: 'input',
+      label: '為了方便聯繫您，請留下電子郵件',
+      name: 'email'
+    }, {
+      type: 'input',
+      label: '為了方便聯繫您，請留下手機號碼',
+      name: 'phoneNumber',
+      placeholder: '09XXXXXXXX'
     }]
   }
 ]
