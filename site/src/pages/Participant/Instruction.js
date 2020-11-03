@@ -13,7 +13,8 @@ export default class Instruction extends Component {
           textAlign="center">App安裝教學與驗證</Header>
         <Segment attached>
           1.請依照下方影片教學安裝App與進行App功能驗證，如果有任何不順利的地方，歡迎與研究團隊聯絡，或來訪實驗室，由實驗團隊代勞。<br/>
-          2.實驗將在驗證完成後的一天開始進行
+          2.如果您用手機瀏覽此頁面，可以點擊下方的『下載實驗用App』下載App。如果不是，我們也提供了QRCode方便您下載。<br/>
+          3.實驗將在驗證完成後的一天開始進行。
           <a target="_blank"
             href={apkFileLink}
             rel='noreferrer noopener'>
@@ -30,6 +31,8 @@ export default class Instruction extends Component {
           </div>
         </Segment>
         <Segment attached>
+          <Header as='h3'
+            textAlign="center">App安裝教學影片</Header>
           <Embed
             id='O6Xo21L0ybE'
             // placeholder='/images/image-16by9.png'

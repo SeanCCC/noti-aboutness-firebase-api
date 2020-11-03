@@ -268,7 +268,13 @@ export default class MailChoose extends Component {
           <Image fluid
             src="https://storage.googleapis.com/noti-aboutness-firebase-48728.appspot.com/box.jpg"/>
         </Segment>
-        <ContactComp/>
+        <Segment >
+研究計畫聯絡人<br/>
+張忠喬, 研究生<br/>
+國立交通大學資訊科學與工程研究所<br/>
+0975-068-858<br/>
+notiatmuilab@gmail.com<br/>
+        </Segment>
       </div>
     )
   }
