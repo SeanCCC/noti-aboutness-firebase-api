@@ -68,6 +68,9 @@ export default class MailInfo extends Component {
             下載『研究者參與同意書』
             </Button>
           </a>
+          <Message info>
+            <Message.Header>我們已經將此頁面的網址寄給了您，您隨時可以回來看這些資訊。</Message.Header>
+          </Message>
         </Segment>
         <Segment>
           <Header as='h3'
