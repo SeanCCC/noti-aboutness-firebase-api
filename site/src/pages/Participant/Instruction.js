@@ -3,7 +3,7 @@ import { Header, Embed, Segment, Button, Icon } from 'semantic-ui-react'
 import { ContactComp } from '../Contact'
 import QRCode from 'qrcode.react'
 
-const apkFileLink = 'https://www.youtube.com/'
+const apkFileLink = 'https://firebasestorage.googleapis.com/v0/b/noti-aboutness-firebase-48728.appspot.com/o/app-debug-2.0.7.apk?alt=media&token=21784b27-f07b-4d6d-a108-e26bf2a8c95b'
 
 export default class Instruction extends Component {
   render () {

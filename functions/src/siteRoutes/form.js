@@ -41,13 +41,13 @@ router.get('/mailcheck', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const payload = req.body
-    const { email, name, gender } = payload
+    const { email, name } = payload
     // check email repeated
     const emailRepeat = await checkEmailRepeat(email)
     if (emailRepeat) return res.status(400).send('repeated')
     const newRef = await pushDB('submitted', { ...payload, timestamp: moment().tz('Asia/Taipei').format() })
     const id = newRef.key
-    await sendEmailCheck(email, name, gender, id)
+    await sendEmailCheck(email, name, id)
     res.send('success')
   } catch (err) {
     console.error(err)

@@ -80,7 +80,7 @@ const sendConsentAcceptMail = async (id) => {
     from: 'MUILAB通知實驗研究團隊',
     to: email,
     subject: 'MUILAB通知實驗-同意書確認信',
-    html: `<p>${name}先生/小姐您好，<br/>我們已經確認了您的同意書，<br/>請進入<a href="https://notiaboutness.muilab.org/participant/bigfive?id=${id}">此研究網站</a>進行下一步，<br/>感激不盡！</p>`
+    html: `<p>${name}先生/小姐您好，<br/>我們已經確認了您的同意書，<br/>請進入<a href="https://notiaboutness.muilab.org/participant/bigfive?id=${id}">此研究網站</a>進行填寫研究相關量表，<br/>感激不盡！</p>`
   }
   return transporter.sendMail(config)
 }
