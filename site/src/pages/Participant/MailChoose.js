@@ -146,6 +146,42 @@ export default class MailChoose extends Component {
         </Segment>
         <Segment attached>
           <Header as='h3'
+            textAlign="center">文書寄出資訊</Header>
+        您需要將同意書郵寄至實驗室，盡量採用掛號的方法，<br/>
+        如果不方便前往郵局掛號，請採用限時郵件的方式寄出，<br/>
+        實測4張紙與一個信封不超過50克，限時郵件郵票貼23元以上就會足夠。<br/>
+        收件人：張忠喬 先生<br/>
+        聯絡電話：0975-068-858<br/>
+        地址：30010新竹市東區大學路1001號交通大學電子與資訊研究中心715室<br/>
+        </Segment>
+        <Segment attached>
+          <Header as='h3'
+            textAlign="center">回郵資訊</Header>
+        我們會將已經填好地址並貼好郵票的的信封與未簽名的研究者參與同意書都用限時郵件寄送給您，<br/>
+        並且會在寄出信封與同意書後寄信通知您，<br/>
+        您只需要在完全理解並同意研究者參與同意書的內容後，參考上方『同意書簽署注意事項』完成同意書須填內容，<br/>
+        並且透過掛號或限時郵件寄出即可。
+        </Segment>
+        <Segment attached>
+          <Header as='h3'
+            textAlign="center">同意書親自交付資訊</Header>
+        請直接將同意書投入郵箱即可<br/>
+        郵箱位址：新竹市東區大學路1001號交通大學電子與資訊研究中心二樓33號信箱<br/>
+        門禁時間：防疫期間下午六點半點後需要刷卡進出，非防疫期間晚上七點後需要刷卡進出。
+          <Header as='h4'
+            textAlign="center">實驗室地圖</Header>
+          <LabMap/>
+          <Header as='h4'
+            textAlign="center">郵箱位置圖</Header>
+          <Image fluid
+            src="https://storage.googleapis.com/noti-aboutness-firebase-48728.appspot.com/2FMap.jpg"/>
+          <Image fluid
+            src="https://storage.googleapis.com/noti-aboutness-firebase-48728.appspot.com/boxes.jpg"/>
+          <Image fluid
+            src="https://storage.googleapis.com/noti-aboutness-firebase-48728.appspot.com/box.jpg"/>
+        </Segment>
+        <Segment attached>
+          <Header as='h3'
             textAlign="center">交件方式選擇</Header>
           <Checkbox
             label='同意書由本人交付至實驗室信箱。'
@@ -231,42 +267,6 @@ export default class MailChoose extends Component {
             onClick={this.onSubmit}
             loading={loading}
             disabled={loading} >送出</Button>
-        </Segment>
-        <Segment attached>
-          <Header as='h3'
-            textAlign="center">文書寄出資訊</Header>
-        您需要將同意書郵寄至實驗室，盡量採用掛號的方法，<br/>
-        如果不方便前往郵局掛號，請採用限時郵件的方式寄出，<br/>
-        實測4張紙與一個信封不超過50克，限時郵件郵票貼23元以上就會足夠。<br/>
-        收件人：張忠喬 先生<br/>
-        聯絡電話：0975-068-858<br/>
-        地址：30010新竹市東區大學路1001號交通大學電子與資訊研究中心715室<br/>
-        </Segment>
-        <Segment attached>
-          <Header as='h3'
-            textAlign="center">回郵資訊</Header>
-        我們會將已經填好地址並貼好郵票的的信封與未簽名的研究者參與同意書都用限時郵件寄送給您，<br/>
-        並且會在寄出信封與同意書後寄信通知您，<br/>
-        您只需要在完全理解並同意研究者參與同意書的內容後，參考上方『同意書簽署注意事項』完成同意書須填內容，<br/>
-        並且透過掛號或限時郵件寄出即可。
-        </Segment>
-        <Segment attached>
-          <Header as='h3'
-            textAlign="center">同意書親自交付資訊</Header>
-        請直接將同意書投入郵箱即可<br/>
-        郵箱位址：新竹市東區大學路1001號交通大學電子與資訊研究中心二樓33號信箱<br/>
-        門禁時間：防疫期間下午六點半點後需要刷卡進出，非防疫期間晚上七點後需要刷卡進出。
-          <Header as='h4'
-            textAlign="center">實驗室地圖</Header>
-          <LabMap/>
-          <Header as='h4'
-            textAlign="center">郵箱位置圖</Header>
-          <Image fluid
-            src="https://storage.googleapis.com/noti-aboutness-firebase-48728.appspot.com/2FMap.jpg"/>
-          <Image fluid
-            src="https://storage.googleapis.com/noti-aboutness-firebase-48728.appspot.com/boxes.jpg"/>
-          <Image fluid
-            src="https://storage.googleapis.com/noti-aboutness-firebase-48728.appspot.com/box.jpg"/>
         </Segment>
         <Segment >
 研究計畫聯絡人<br/>

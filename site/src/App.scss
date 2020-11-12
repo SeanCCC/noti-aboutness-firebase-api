@@ -10,6 +10,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  max-width: 1024px;
 }
 
 .submit-button{
@@ -27,7 +28,7 @@
 
 .likert-scale{
   display: grid;
-  grid-template-columns: auto 1fr 1fr 1fr 1fr 1fr auto;
+  grid-template-columns: auto 80px 80px 80px 80px 80px auto;
   grid-column-gap: 4px;
   margin-bottom: 16px;
 }
@@ -35,6 +36,18 @@
 .align-center{
   align-items: center;
   justify-content: center;
+  display: grid;
+}
+
+.align-left{
+  align-items: center;
+  justify-content: left;
+  display: grid;
+}
+
+.align-right{
+  align-items: center;
+  justify-content: right;
   display: grid;
 }
 

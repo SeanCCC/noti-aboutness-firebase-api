@@ -31,9 +31,16 @@ export default function Introduction () {
       <Segment attached>
       1.您必須年滿 20 歲，且未逾 60 歲。<br/>
 2.您必須使用 7.0 或更高版本的 Android 智慧型手機作為主要手機。<br/>
-3.您必須每天攜帶主要手機。<br/>
-4.您必須完全參與研究，即在 14 天內填寫至少 42 則問卷，填寫每則問卷約費時8分鐘。<br/>
-5.將會排除與主持人有利害關係的學生，包含主持人開課學生、指導學生，均會排除。
+3.將會排除與主持人有利害關係的學生，包含主持人開課學生、指導學生，均會排除。
+      </Segment>
+      <Header textAlign="center"
+        as='h2'>配合事項</Header>
+      <Segment attached>
+1.您會需要每天攜帶主要手機。<br/>
+2.您會需要完全參與研究，即在 14 天內填寫至少 42 則問卷，填寫每則問卷約費時8分鐘。<br/>
+3.您會需要關閉Facebook messanger聊天大頭貼的功能。<br/>
+4.您會需要關閉影響研究App運作的相關電量設定。<br/>
+5.您會需要開啟GPS定位功能。
       </Segment>
       <Header textAlign="center"
         as='h2'>聯絡我們</Header>
