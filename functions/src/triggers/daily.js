@@ -3,7 +3,7 @@ const moment = require('moment-timezone')
 const { fetchDB, updateDB, findDB } = require('../utils')
 const status = require('../status')
 const { sendResearchEndNotice, sendResearchStartMail } = require('../mail')
-const periodRequired = 14
+const periodRequired = 7 // for pilot
 const questionnaireEachDay = 3
 
 const setResearchDone = async (uid, compensation) => {
