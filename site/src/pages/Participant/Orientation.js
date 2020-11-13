@@ -40,6 +40,9 @@ export default class Orientation extends Component {
           textAlign="center">實驗說明影片</Header>
         <Segment attached>
           我們將在這個影片中詳細說明實驗內容、實驗流程與參與者研究說明書的所有內容，如果有任何不解，歡迎聯絡實驗團隊（頁底有聯絡資訊）。請務必看完這個影片並詳讀參與者研究說明書以了解實驗參與者的權利與義務。看完後請勾選下方勾選框。
+          <Message warning>
+            <Message.Header>請完整了解知情同意書內容，以保護您的權益。</Message.Header>
+          </Message>
           <a target="_blank"
             href={consentFileLink}
             rel='noreferrer noopener'>
