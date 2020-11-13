@@ -57,6 +57,10 @@ export default class Orientation extends Component {
           <Embed
             id='6AaJiaciJCI'
             source='youtube'
+            hd
+            iframe={{
+              allowFullScreen: true
+            }}
           />
         </Segment>
         <Segment attached>

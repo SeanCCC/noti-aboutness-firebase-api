@@ -12,11 +12,12 @@ const likertScale = (text, no, value, onChange) => {
       <div className="align-right">非常不精準</div>
       {[1, 2, 3, 4, 5].map((idx) => {
         return <div className="align-center"
+          onClick={() => { onChange(no, idx) }}
           key={`${no}-${idx}`}>
           <div>{idx}</div>
           <Checkbox radio
             checked={value === idx}
-            onChange={() => { onChange(no, idx) }} />
+          />
         </div>
       })}
       <div className="align-left">非常精準</div>

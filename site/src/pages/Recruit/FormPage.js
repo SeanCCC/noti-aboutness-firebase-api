@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Header, Form } from 'semantic-ui-react'
+import { Header, Form, Modal, Icon } from 'semantic-ui-react'
 import check from 'check-types'
 import axios from 'axios'
 import {
@@ -96,6 +96,10 @@ const formContent = [
       errorMsg: '該實驗目前不支援Android 6以下或非Android系統的手機',
       name: 'androidVersion',
       options: androidSystemVersion
+    }, {
+      type: 'link',
+      label: '看看如何查詢版本',
+      url: 'https://support.google.com/android/answer/7680439?hl=zh-Hant'
     }]
   }, {
     type: 'group',
@@ -127,6 +131,7 @@ const formContent = [
 
 const createDefaultState = () => {
   return formContent.reduce((acu, cur) => {
+    if (cur.type === 'link') return acu
     const _acu = { ...acu }
     const defaultValue = {
       value: undefined,
@@ -217,7 +222,7 @@ export default class FormPage extends Component {
 
   renderItem (item) {
     const { type, name } = item
-    const { valid, value } = this.state[name]
+    const { valid, value } = this.state[name] || {}
     const { submitted, uploading } = this.state
     if (type === 'input') {
       const { label, placeholder, errorMsg } = item
@@ -239,7 +244,7 @@ export default class FormPage extends Component {
         />
       )
     } else if (type === 'select') {
-      const { label, name, placeholder, options, errorMsg } = item
+      const { label, placeholder, options, errorMsg } = item
       return (
         <Form.Select
           key={name}
@@ -257,6 +262,18 @@ export default class FormPage extends Component {
           onChange={this.handleChange}
         />
       )
+    } else if (type === 'link') {
+      const { url, label } = item
+      return <a target="_blank"
+        href={url}
+        rel='noreferrer noopener'>
+        <Form.Button
+          key={name}
+          primary >
+          <Icon name='linkify'/>
+          {label}
+        </Form.Button>
+      </a>
     } else return null
   }
 
@@ -324,11 +341,16 @@ export default class FormPage extends Component {
           <Header as='h3'
             textAlign="center"
           >請將notiatmuilab@gmail.com加入剛剛填寫的信箱的通訊錄中，以免漏收後續信件。</Header>
-          <Form.Button fluid
-            primary
-            loading={uploading}
-            disabled={uploading}
-            onClick={this.onSubmit} >提交</Form.Button>
+          <Modal
+            size="mini"
+            trigger={<Form.Button fluid
+              primary
+              loading={uploading}
+              disabled={uploading} >提交</Form.Button>}
+            header='請確認資料是否正確'
+            content='我們會使用此資料聯繫您，請確認資訊的正確性。'
+            actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: this.onSubmit }]}
+          />
         </Form>
       </div>
     )
