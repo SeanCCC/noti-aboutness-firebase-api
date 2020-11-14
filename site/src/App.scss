@@ -17,6 +17,13 @@
   max-width: 100%;
 }
 
+.form-modal .field{
+  display: flex;
+  height: 100%;
+  align-items: flex-end;
+  width: max-content;
+}
+
 .submit-button{
   position: sticky;
   bottom: 0px;

@@ -3,7 +3,7 @@ import { Header, Embed, Segment, Button, Icon, Message } from 'semantic-ui-react
 import { ContactComp } from '../Contact'
 import QRCode from 'qrcode.react'
 
-const apkFileLink = 'https://firebasestorage.googleapis.com/v0/b/noti-aboutness-firebase-48728.appspot.com/o/app-debug-2.0.7.apk?alt=media&token=21784b27-f07b-4d6d-a108-e26bf2a8c95b'
+const apkFileLink = 'https://firebasestorage.googleapis.com/v0/b/noti-aboutness-firebase-48728.appspot.com/o/app-debug-2.0.8-B.apk?alt=media&token=10744971-2d53-4d0f-a9b0-230ad95dd365'
 
 export default class Instruction extends Component {
   render () {
@@ -13,7 +13,7 @@ export default class Instruction extends Component {
           textAlign="center">App安裝教學與驗證</Header>
         <Segment attached>
           1.請依照下方影片教學安裝App與進行App功能驗證，如果有任何不順利的地方，歡迎與研究團隊聯絡，或來訪實驗室，由實驗團隊代勞。<br/>
-          2.如果您用手機瀏覽此頁面，可以點擊下方的『下載實驗用App』下載App。如果不是，我們也提供了QRCode方便您下載。<br/>
+          2.如果您用手機瀏覽此頁面，可以點擊下方的『下載實驗用App』下載App。如果不是，我們也提供了QRCode並已經寄送檔案連結給您。<br/>
           3.實驗將在驗證完成後的一天開始進行。
           <Message warning>
             <Message.Header>請完整了解研究流程，這會影響研究參與成功與否。</Message.Header>

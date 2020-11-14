@@ -97,9 +97,10 @@ const formContent = [
       name: 'androidVersion',
       options: androidSystemVersion
     }, {
-      type: 'link',
+      type: 'modal',
       label: '看看如何查詢版本',
-      url: 'https://support.google.com/android/answer/7680439?hl=zh-Hant'
+      title: '如何查詢版本',
+      context: '請進入系統>關於手機>Android版本'
     }]
   }, {
     type: 'group',
@@ -131,7 +132,7 @@ const formContent = [
 
 const createDefaultState = () => {
   return formContent.reduce((acu, cur) => {
-    if (cur.type === 'link') return acu
+    if (cur.type === 'modal') return acu
     const _acu = { ...acu }
     const defaultValue = {
       value: undefined,
@@ -262,18 +263,20 @@ export default class FormPage extends Component {
           onChange={this.handleChange}
         />
       )
-    } else if (type === 'link') {
-      const { url, label } = item
-      return <a target="_blank"
-        href={url}
-        rel='noreferrer noopener'>
-        <Form.Button
-          key={name}
-          primary >
-          <Icon name='linkify'/>
-          {label}
-        </Form.Button>
-      </a>
+    } else if (type === 'modal') {
+      const { context, title, label } = item
+      return <Modal
+        size="mini"
+        trigger={<div className="form-modal">
+          <Form.Button
+            key={name} >
+            {label}
+          </Form.Button>
+        </div>}
+        header= {title}
+        content= {context}
+        actions={[{ key: 'confirm', content: '沒問題', primary: true }]}
+      />
     } else return null
   }
 
@@ -344,7 +347,7 @@ export default class FormPage extends Component {
           <Modal
             size="mini"
             trigger={<Form.Button fluid
-              primary
+              positive
               loading={uploading}
               disabled={uploading} >提交</Form.Button>}
             header='請確認資料是否正確'

@@ -15,7 +15,7 @@ const {
 } = require('../utils')
 const validators = require('./validators')
 const status = require('../status')
-const { sendCompensationMail, sendConsentMailInfo } = require('../mail')
+const { sendCompensationMail, sendConsentMailInfo, sendApkLink } = require('../mail')
 
 router.get('/checkid', async (req, res) => {
   try {
@@ -60,6 +60,7 @@ router.post('/done/bigfive', validators.bigfive, async (req, res) => {
     const setBigfiveAsync = setDB(`bigfive/${id}`, result)
     const moveStatusAsync = moveStauts(id, status.BIG_FIVE_DONE)
     await Promise.all([moveStatusAsync, setBigfiveAsync])
+    await sendApkLink(id)
     res.json({ status: status.BIG_FIVE_DONE })
   } catch (err) {
     console.error(err)
