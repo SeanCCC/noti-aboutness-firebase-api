@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import queryString from 'query-string'
 import axios from 'axios'
-import { Header, Segment, Button, Icon, Message, Image } from 'semantic-ui-react'
+import { Header, Segment, Button, Icon, Message, Image, Modal } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { ContactComp } from '../Contact'
 import { consentFileLink } from './Orientation'
@@ -124,11 +124,16 @@ export default class MailInfo extends Component {
               src="https://storage.googleapis.com/noti-aboutness-firebase-48728.appspot.com/box.jpg"/>
           </Segment>}
         <Segment attached>
-          <Button fluid
-            color="green"
-            onClick={this.onSubmit}
-            loading={uploading}
-            disabled={uploading} >通知團隊信件已經寄出</Button>
+          <Modal
+            size="mini"
+            trigger={<Button fluid
+              color="green"
+              loading={uploading}
+              disabled={uploading} >通知團隊信件已經寄出</Button>}
+            header='請在同意書確實交付後再點選確認'
+            content='如果尚未完成，請您盡量在一周內交付，感激不盡。'
+            actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: this.onSubmit }]}
+          />
         </Segment>
         <ContactComp/>
       </div>

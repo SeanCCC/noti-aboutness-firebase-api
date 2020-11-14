@@ -50,7 +50,8 @@ const sendAcceptMail = async (id) => {
   const { email, name } = await fetchEmailInfo(id, 'candidate')
   const html = mailTemplate([
     `${name}先生/小姐您好，`,
-    '感謝您願意參與此研究，'`<a href="https://notiaboutness.muilab.org/participant/orientation?id=${id}">此網站</a>會引導您完成知情同意流程，`,
+    '感謝您願意參與此研究，',
+    `<a href="https://notiaboutness.muilab.org/participant/orientation?id=${id}">此網站</a>會引導您完成知情同意流程，`,
     '請您點擊並按照指引完成所有步驟。'
   ])
   const config = {
@@ -402,6 +403,25 @@ const sendResearchEndNotice = async (id) => {
   return transporter.sendMail(config)
 }
 
+const sendApkLink = async (id) => {
+  const { email, name } = await fetchEmailInfo(id, 'participant')
+  const apkFileLink = 'https://firebasestorage.googleapis.com/v0/b/noti-aboutness-firebase-48728.appspot.com/o/app-debug-2.0.8-B.apk?alt=media&token=10744971-2d53-4d0f-a9b0-230ad95dd365'
+  const html = mailTemplate([
+    `${name}先生/小姐您好，`,
+    '我們是MUILAB的通知研究團隊，',
+    `接下來請透過<a href="${apkFileLink}">此連結</a>研究用下載App，`,
+    `並依照<a href="https://notiaboutness.muilab.org/participant/instruction?id=${id}">此網站</a>安裝與使用App，`,
+    '感激不盡！'
+  ])
+  const config = {
+    from: 'MUILAB通知實驗研究團隊',
+    to: email,
+    subject: 'MUILAB通知實驗-研究用App下載連結',
+    html
+  }
+  return transporter.sendMail(config)
+}
+
 module.exports = {
   sendEmailCheck,
   sendAcceptMail,
@@ -422,5 +442,6 @@ module.exports = {
   sendInterviewCancel,
   sendResearchEndNotice,
   sendResearchStartMail,
-  sendConsentMailInfo
+  sendConsentMailInfo,
+  sendApkLink
 }

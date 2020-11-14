@@ -267,6 +267,7 @@ export default class FormPage extends Component {
       const { context, title, label } = item
       return <Modal
         size="mini"
+        dimmer="inverted"
         trigger={<div className="form-modal">
           <Form.Button
             key={name} >
