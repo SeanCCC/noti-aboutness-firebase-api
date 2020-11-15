@@ -37,7 +37,7 @@ export default class Instruction extends Component {
           <Header as='h3'
             textAlign="center">App安裝與使用教學影片</Header>
           <Embed
-            id='L-9JJwih-Ck'
+            id='K4IDpkMxdgM'
             hd
             source='youtube'
             iframe={{
@@ -55,7 +55,17 @@ export default class Instruction extends Component {
         <Segment attached>
           <Header as='h3'
             textAlign="center">進行電量相關設定</Header>
-          TBD
+            請查看下方文件的『電量相關設定』段落，如果您的手機品牌在上面，請依照教學進行設定。<br/>
+          <a target="_blank"
+            href="https://docs.google.com/document/d/1Bg6TyPAzUXZy9XaIZiNzPyQGroa4nF2Cx3j36Vwix34/edit#heading=h.by88tzx3roz0"
+            rel='noreferrer noopener'>
+            <Button
+              fluid
+              primary >
+              <Icon name='linkify'/>
+          如何進行電量設定
+            </Button>
+          </a>
         </Segment>
         <ContactComp/>
       </div>
