@@ -23,7 +23,7 @@ router.get('/checkid', async (req, res) => {
     const { id } = payload
     const result = await fetchParticipantDetailById(id)
     if (result !== null) {
-      res.json({ status: result.status })
+      res.json({ status: result.status, phoneBrand: result.phoneBrand })
     } else {
       const candi = await fetchCandidateDetailById(id)
       if (candi === null) res.status(400).send('not found')

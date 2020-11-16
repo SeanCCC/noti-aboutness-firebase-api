@@ -1,12 +1,25 @@
 import React, { Component } from 'react'
 import { Header, Embed, Segment, Button, Icon, Message } from 'semantic-ui-react'
 import { ContactComp } from '../Contact'
+import PropTypes from 'prop-types'
+import { mobileOpitons } from '../Recruit/formOptions'
 import QRCode from 'qrcode.react'
 
 const apkFileLink = 'https://firebasestorage.googleapis.com/v0/b/noti-aboutness-firebase-48728.appspot.com/o/app-debug-2.0.8-B.apk?alt=media&token=10744971-2d53-4d0f-a9b0-230ad95dd365'
 
+const batteryLinkTable = {
+  asus: 'https://docs.google.com/document/d/1Bg6TyPAzUXZy9XaIZiNzPyQGroa4nF2Cx3j36Vwix34/edit#heading=h.hw5o2t1m5uc0',
+  xiaomi: 'https://docs.google.com/document/d/1Bg6TyPAzUXZy9XaIZiNzPyQGroa4nF2Cx3j36Vwix34/edit#heading=h.ms2a4br3ishv',
+  samsung: 'https://docs.google.com/document/d/1Bg6TyPAzUXZy9XaIZiNzPyQGroa4nF2Cx3j36Vwix34/edit#heading=h.ey9wdlgi7nd4',
+  sony: 'https://docs.google.com/document/d/1Bg6TyPAzUXZy9XaIZiNzPyQGroa4nF2Cx3j36Vwix34/edit#heading=h.vnfowizn96c',
+  vivo: 'https://docs.google.com/document/d/1Bg6TyPAzUXZy9XaIZiNzPyQGroa4nF2Cx3j36Vwix34/edit#heading=h.ul17p3jwpkvr'
+}
+
 export default class Instruction extends Component {
   render () {
+    const { phoneBrand } = this.props
+    const brand = mobileOpitons.find(o => o.value === phoneBrand)
+    const brandName = !brand ? null : brand.text
     return (
       <div className="page">
         <Header as='h2'
@@ -37,7 +50,7 @@ export default class Instruction extends Component {
           <Header as='h3'
             textAlign="center">App安裝與使用教學影片</Header>
           <Embed
-            id='K4IDpkMxdgM'
+            id='K4IDpkMxdgMy'
             hd
             source='youtube'
             iframe={{
@@ -52,12 +65,18 @@ export default class Instruction extends Component {
           2. 向下捲動並點按聊天大頭貼。
           3. 切換按鍵以關閉。
         </Segment>
-        <Segment attached>
+        {!brandName || !batteryLinkTable[phoneBrand] ? (
+          <Segment attached>
+            <Header as='h3'
+              textAlign="center">關於電量設定</Header>
+            如果有開啟低電量模式，請於研究期間關閉<br/>
+          </Segment>
+        ) : (<Segment attached>
           <Header as='h3'
-            textAlign="center">進行電量相關設定</Header>
-            請查看下方文件的『電量相關設定』段落，如果您的手機品牌在上面，請依照教學進行設定。<br/>
+            textAlign="center">{brandName}的電量設定</Header>
+            請關閉低電量設定，並查看下方文件，依照教學進行設定。<br/>
           <a target="_blank"
-            href="https://docs.google.com/document/d/1Bg6TyPAzUXZy9XaIZiNzPyQGroa4nF2Cx3j36Vwix34/edit#heading=h.by88tzx3roz0"
+            href={batteryLinkTable[phoneBrand]}
             rel='noreferrer noopener'>
             <Button
               fluid
@@ -66,9 +85,13 @@ export default class Instruction extends Component {
           如何進行電量設定
             </Button>
           </a>
-        </Segment>
+        </Segment>)}
         <ContactComp/>
       </div>
     )
   }
+}
+
+Instruction.propTypes = {
+  phoneBrand: PropTypes.array
 }

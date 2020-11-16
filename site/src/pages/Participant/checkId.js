@@ -33,7 +33,8 @@ export const checkId = (WrappedComponent) => {
         authed: null,
         loading: true,
         error: false,
-        status: status.INIT
+        status: status.INIT,
+        phoneBrand: null
       }
       this.redirect = this.redirect.bind(this)
       this.nextStep = this.nextStep.bind(this)
@@ -44,8 +45,8 @@ export const checkId = (WrappedComponent) => {
       try {
         const { id } = queryString.parse(this.props.location.search)
         const res = await axios.get(`/apis/participant/checkid?id=${id}`)
-        const { status } = res.data
-        this.setState({ loading: false, authed: true, status })
+        const data = res.data
+        this.setState({ loading: false, authed: true, ...data })
       } catch (err) {
         if (err.response && err.response.status === 401) this.setState({ loading: false, authed: false })
         else this.setState({ loading: false, error: true })
@@ -63,8 +64,8 @@ export const checkId = (WrappedComponent) => {
       const { api } = match
       if (api === undefined) return
       const res = await axios.post(api, { id, ...payload })
-      const newStatus = res.data.status
-      await this.setState({ status: newStatus })
+      const data = res.data
+      await this.setState({ ...data })
     }
 
     setStatus (status) {
@@ -91,10 +92,11 @@ export const checkId = (WrappedComponent) => {
     }
 
     render () {
-      const { authed, loading, status } = this.state
+      const { authed, loading, status, phoneBrand } = this.state
       if (loading) return <LoadingPage text="載入中"/>
       else if (authed === true) {
         return this.redirect() || <WrappedComponent {...this.props}
+          phoneBrand={phoneBrand}
           nextStep={this.nextStep}
           status={status}
           setStatus={this.setStatus}/>
