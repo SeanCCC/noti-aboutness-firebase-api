@@ -3,7 +3,7 @@ import { Header, Embed, Segment, Checkbox, Button, Icon, Message } from 'semanti
 import PropTypes from 'prop-types'
 import { ContactComp } from '../Contact'
 
-export const consentFileLink = 'https://firebasestorage.googleapis.com/v0/b/noti-aboutness-firebase-48728.appspot.com/o/4.%E5%8F%83%E8%88%87%E8%80%85%E7%A0%94%E7%A9%B6%E8%AA%AA%E6%98%8E%E6%9B%B8201021.pdf?alt=media&token=1282c65b-3893-4c0e-b64b-c2c68bda253f'
+export const consentFileLink = 'https://firebasestorage.googleapis.com/v0/b/noti-aboutness-firebase-48728.appspot.com/o/%E8%AE%8A%E6%9B%B4%E6%A0%B8%E5%AE%9A%E7%89%88_%E5%8F%83%E8%88%87%E8%80%85%E5%90%8C%E6%84%8F%E6%9B%B8V3.pdf?alt=media&token=601b3171-878d-4afe-8353-159cd9b047d3'
 
 export default class Orientation extends Component {
   constructor (props) {
