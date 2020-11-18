@@ -57,7 +57,7 @@ const sendAcceptMail = async (id) => {
   const config = {
     from: 'MUILAB通知實驗研究團隊',
     to: email,
-    subject: 'MUILAB通知實驗',
+    subject: 'MUILAB通知實驗 - 知情同意流程',
     html
   }
   return transporter.sendMail(config)
@@ -141,7 +141,7 @@ const sendConsentMailInfo = async (id) => {
     '感謝您選擇了交付同意書的方法，',
     '請盡量在一周內交付同意書',
     `<a href="https://notiaboutness.muilab.org/participant/mailinfo?id=${id}">此研究網站</a>提供了必要的交付細節，`,
-    '在交付後點擊網站上的上的『通知團隊信件已經寄出』，',
+    '請在交付後點擊網站上的『通知團隊信件已經寄出』，',
     '感激不盡！'
   ])
   const config = {
@@ -390,7 +390,7 @@ const sendResearchEndNotice = async (id) => {
   const html = mailTemplate([
     `${name}先生/小姐您好，`,
     '您的實驗任務已經完成，',
-    '團隊將在近期與您聯絡報酬事宜。',
+    '團隊將在一到兩個工作天內與您聯絡報酬事宜。',
     '您可以放心移除研究App，',
     '感激不盡！'
   ])

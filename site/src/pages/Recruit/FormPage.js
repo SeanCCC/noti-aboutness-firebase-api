@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Header, Form, Modal, Icon } from 'semantic-ui-react'
+import { Header, Form, Modal } from 'semantic-ui-react'
+import { ContactComp } from '../Contact'
 import check from 'check-types'
 import axios from 'axios'
 import {
@@ -62,7 +63,7 @@ const formContent = [
   },
   {
     type: 'select',
-    label: '我了解通知內容對此研究是很重要的，因此需要配合關閉facebook messanger聊天漂浮頭貼的功能。',
+    label: '我了解通知內容對此研究是很重要的，因此需要配合關閉facebook messanger聊天大頭貼的功能。',
     name: 'needToClose',
     placeholder: '請選擇',
     errorMsg: '請理解通知內容對實驗過程是很重要的，需要做此調整才能收到必要的資訊。',
@@ -91,16 +92,16 @@ const formContent = [
   }, {
     type: 'group',
     content: [{
+      type: 'modal',
+      label: '看看如何查詢版本',
+      title: '如何查詢版本',
+      context: '請進入系統>關於手機>Android版本'
+    }, {
       type: 'select',
       label: '請選擇您的Android系統版本',
       errorMsg: '該實驗目前不支援Android 6以下或非Android系統的手機',
       name: 'androidVersion',
       options: androidSystemVersion
-    }, {
-      type: 'modal',
-      label: '看看如何查詢版本',
-      title: '如何查詢版本',
-      context: '請進入系統>關於手機>Android版本'
     }]
   }, {
     type: 'group',
@@ -270,6 +271,7 @@ export default class FormPage extends Component {
         dimmer="inverted"
         trigger={<div className="form-modal">
           <Form.Button
+            primary
             key={name} >
             {label}
           </Form.Button>

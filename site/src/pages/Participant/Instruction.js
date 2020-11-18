@@ -86,6 +86,8 @@ export default class Instruction extends Component {
             </Button>
           </a>
         </Segment>)}
+        <Header textAlign="center"
+          as='h3'>遇到困難請聯絡『研究計畫聯絡人』</Header>
         <ContactComp/>
       </div>
     )

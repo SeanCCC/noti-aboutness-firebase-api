@@ -10,7 +10,7 @@ export function AcceptPage () {
       <Header textAlign="center"
         as='h2'>感謝您費時填寫表單</Header>
       <Message positive>
-        <Message.Header>您已經完成表單，研究團隊會在數日內透過您填入的電子信箱聯絡您，請密切關注。</Message.Header>
+        <Message.Header>您已經完成表單，研究團隊會在一到兩個工作天內內透過您填入的電子信箱聯絡您，請密切關注。</Message.Header>
       </Message>
     </div>
   )
@@ -74,7 +74,7 @@ export function SuccessPage () {
       <Header textAlign="center"
         as='h2'>驗證成功</Header>
       <Message positive>
-        <Message.Header>研究團隊將於短期內與您聯絡。</Message.Header>
+        <Message.Header>研究團隊將於一到兩個工作天內內與您聯絡。</Message.Header>
       </Message>
     </div>
   )

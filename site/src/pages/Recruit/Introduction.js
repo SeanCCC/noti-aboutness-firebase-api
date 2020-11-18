@@ -23,14 +23,14 @@ export default function Introduction () {
         as='h2'>實驗任務</Header>
       <Segment attached>
 實驗開始後的至少十四天內，會需要透過實驗App：<br/>
-1.手機背景上傳通知相關資訊：我們會在背景收集手機的多種與通知相關的資訊，所有資訊均會去連結並嚴密保存。<br/>
+1.手機背景上傳通知相關資訊：我們會在背景收集手機的多種與通知相關的資訊，所有資訊均會嚴密保存。我們也會刪除所有可以辨識您身份的個人資料。<br/>
 2.回答每日問卷：收到通知提醒 (非睡眠時段) 後，平均填寫3份每日問卷。
       </Segment>
       <Header textAlign="center"
         as='h2'>招募條件</Header>
       <Segment attached>
       1.您必須年滿 20 歲，且未逾 60 歲。<br/>
-2.您必須使用 7.0 或更高版本的 Android 智慧型手機作為主要手機。<br/>
+2.您必須使用 7.0 或更高版本的 Android 智慧型手機作為主要手機。{'（請進入系統>關於手機>Android版本處查看）'}<br/>
 3.將會排除與主持人有利害關係的學生，包含主持人開課學生、指導學生，均會排除。
       </Segment>
       <Header textAlign="center"
@@ -38,7 +38,11 @@ export default function Introduction () {
       <Segment attached>
 1.您會需要每天攜帶主要手機。<br/>
 2.您會需要完全參與研究，即在 14 天內填寫至少 42 則問卷，填寫每則問卷約費時8分鐘。<br/>
-3.您會需要關閉Facebook messanger聊天大頭貼的功能。<br/>
+3.您會需要關閉Facebook messanger聊天大頭貼的功能。<a target="_blank"
+          href="https://www.facebook.com/help/messenger-app/android/1611232179138526?rdrhc"
+          rel='noreferrer noopener'>
+            （看看什麼是聊天大頭貼？）
+        </a><br/>
 4.您會需要關閉影響研究App運作的相關電量設定。<br/>
 5.您會需要開啟GPS定位功能。
       </Segment>

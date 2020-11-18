@@ -83,6 +83,10 @@ export default class MailInfo extends Component {
             下方兩項需要完成，整份同意書才算簽署完成。<br/>
             請在『第五段』勾選您同意的資料使用方法，<br/>
             請在『第十段』填寫正楷姓名、簽名、日期、聯絡電話與通訊住址。
+          <Image fluid
+            src="https://storage.googleapis.com/noti-aboutness-firebase-48728.appspot.com/sign-diagram1-1.jpg"/>
+          <Image fluid
+            src="https://storage.googleapis.com/noti-aboutness-firebase-48728.appspot.com/sign-diagram2-1.jpg"/>
         </Segment>
         {['registeredMail', 'ordinaryMail'].includes(mailMethod) &&
           <Segment attached>

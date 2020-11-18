@@ -80,6 +80,7 @@ export const checkId = (WrappedComponent) => {
       const match = statusMoveTable.find(item => {
         return item.status === status
       })
+      window.scrollTo(0, 0)
       if (match === undefined) {
         this.setState({ error: true, authed: false })
         return <ErrorPage/>

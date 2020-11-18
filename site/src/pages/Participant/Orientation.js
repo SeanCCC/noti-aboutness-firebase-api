@@ -3,7 +3,7 @@ import { Header, Embed, Segment, Checkbox, Button, Icon, Message } from 'semanti
 import PropTypes from 'prop-types'
 import { ContactComp } from '../Contact'
 
-export const consentFileLink = 'https://firebasestorage.googleapis.com/v0/b/noti-aboutness-firebase-48728.appspot.com/o/%E8%AE%8A%E6%9B%B4%E6%A0%B8%E5%AE%9A%E7%89%88_%E5%8F%83%E8%88%87%E8%80%85%E5%90%8C%E6%84%8F%E6%9B%B8V3.pdf?alt=media&token=601b3171-878d-4afe-8353-159cd9b047d3'
+export const consentFileLink = 'https://storage.googleapis.com/noti-aboutness-firebase-48728.appspot.com/%E8%AE%8A%E6%9B%B4%E6%A0%B8%E5%AE%9A%E7%89%88_%E5%8F%83%E8%88%87%E8%80%85%E5%90%8C%E6%84%8F%E6%9B%B8V3.pdf'
 
 export default class Orientation extends Component {
   constructor (props) {
@@ -39,9 +39,9 @@ export default class Orientation extends Component {
         <Header as='h2'
           textAlign="center">實驗說明影片</Header>
         <Segment attached>
-          我們將在這個影片中詳細說明實驗內容、實驗流程與參與者研究說明書的所有內容，如果有任何不解，歡迎聯絡實驗團隊（頁底有聯絡資訊）。請務必看完這個影片並詳讀參與者研究說明書以了解實驗參與者的權利與義務。看完後請勾選下方勾選框。
+          我們將在這個影片中詳細說明實驗內容、實驗流程與參與者研究說明書的所有內容，如果有任何不解，歡迎聯絡實驗團隊（頁底有聯絡資訊）。請務必看完這個影片並詳讀參與者研究說明書。了解實驗參與者的權利與義務後，請勾選下方勾選框。
           <Message warning>
-            <Message.Header>請完整了解知情同意書內容，以保護您的權益。</Message.Header>
+            <Message.Header>請完整觀看影片以了解知情同意書內容，以保護您的權益。</Message.Header>
           </Message>
           <a target="_blank"
             href={consentFileLink}
@@ -54,6 +54,8 @@ export default class Orientation extends Component {
           </a>
         </Segment>
         <Segment attached>
+          <Header textAlign="center"
+            as='h3'>研究說明書講解影片</Header>
           <Embed
             id='t90rsQSddOo'
             source='youtube'

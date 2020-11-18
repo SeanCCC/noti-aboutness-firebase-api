@@ -143,6 +143,10 @@ export default class MailChoose extends Component {
             下方兩項需要完成，整份同意書才算簽署完成。<br/>
             請在『第五段』勾選您同意的資料使用方法，<br/>
             請在『第十段』填寫正楷姓名、簽名、日期、聯絡電話與通訊住址。
+          <Image fluid
+            src="https://storage.googleapis.com/noti-aboutness-firebase-48728.appspot.com/sign-diagram1-1.jpg"/>
+          <Image fluid
+            src="https://storage.googleapis.com/noti-aboutness-firebase-48728.appspot.com/sign-diagram2-1.jpg"/>
         </Segment>
         <Segment attached>
           <Header as='h3'
@@ -268,13 +272,7 @@ export default class MailChoose extends Component {
             loading={loading}
             disabled={loading} >送出</Button>
         </Segment>
-        <Segment >
-研究計畫聯絡人<br/>
-張忠喬, 研究生<br/>
-國立交通大學資訊科學與工程研究所<br/>
-0975-068-858<br/>
-notiatmuilab@gmail.com<br/>
-        </Segment>
+        <ContactComp/>
       </div>
     )
   }

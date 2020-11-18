@@ -10,7 +10,7 @@ export function WaitPage () {
       <Header textAlign="center"
         as='h2'>感謝您的合作</Header>
       <Message positive>
-        <Message.Header>實驗團隊將在收到您的同意書後，主動與您聯繫。請密切關注郵箱或垃圾信箱。</Message.Header>
+        <Message.Header>實驗團隊將在收到您的同意書後，在一到兩個工作天內與您聯繫。請密切關注郵箱或垃圾信箱。</Message.Header>
       </Message>
     </div>
   )
@@ -48,7 +48,7 @@ export function CompletePage () {
       <Header textAlign="center"
         as='h2'>感謝您的合作</Header>
       <Message positive>
-        <Message.Header>您的實驗任務已經完成，團隊將在近期與您聯絡報酬事宜。</Message.Header>
+        <Message.Header>您的實驗任務已經完成，團隊將在一到兩個工作天內與您聯絡報酬事宜。</Message.Header>
       </Message>
       <ContactComp/>
     </div>
@@ -61,7 +61,7 @@ export function MailBackPage () {
       <Header textAlign="center"
         as='h2'>感謝您的合作</Header>
       <Message positive>
-        <Message.Header>您的實驗任務已經完成，團隊將在近期與您聯絡報酬事宜。</Message.Header>
+        <Message.Header>您的實驗任務已經完成，團隊將在一到兩個工作天內與您聯絡報酬事宜。</Message.Header>
       </Message>
       <ContactComp/>
     </div>
@@ -125,7 +125,7 @@ export function InterviewAcceptPage () {
     <Header textAlign="center"
       as='h2'>感謝您接受邀請</Header>
     <Message positive>
-      <Message.Header>您已接受訪談邀約，研究團隊將盡快與您聯繫。</Message.Header>
+      <Message.Header>您已接受訪談邀約，研究團隊將在一到兩個工作天內與您聯繫。</Message.Header>
     </Message>
     <Segment attached>
       <Header as='h3'
