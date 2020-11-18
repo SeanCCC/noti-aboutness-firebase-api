@@ -113,7 +113,7 @@ function createResearchDoneNumber (researchDoneParticipants) {
 export const updateParticipants = payload => {
   const participants = payload
   const consentPendingParticipants =
-    participants.filter((d) => [status.INIT, status.VIDEO_DONE, status.CONSENT_CHOSEN, status.CONSENT_SENT].includes(d.status))
+    participants.filter((d) => [status.INIT, status.VIDEO_DONE, status.CONSENT_CHOSEN, status.WAIT_FOR_REVERSED, status.CONSENT_SENT].includes(d.status))
   const researchRunningParticipants =
     participants.filter((d) => [status.RESEARCH_RUNNING].includes(d.status))
   const researchDoneParticipants =

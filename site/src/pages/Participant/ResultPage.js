@@ -168,3 +168,15 @@ export function ResearchDonePage () {
     <ContactComp/>
   </div>
 }
+
+export function ReserveWaitMessage () {
+  return (
+    <div className="page">
+      <Header textAlign="center"
+        as='h2'>請等待我們寄出回郵信封</Header>
+      <Message positive>
+        <Message.Header>研究團隊將在一到兩個工作日內寄出回郵信件，寄出後將會通知您並提供必要的資訊。</Message.Header>
+      </Message>
+    </div>
+  )
+}

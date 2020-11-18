@@ -1,6 +1,7 @@
 const INIT = 'init'
 const VIDEO_DONE = 'videoDone'
 const CONSENT_CHOSEN = 'consentChosen'
+const WAIT_FOR_REVERSED = 'waitForReversed'
 const CONSENT_SENT = 'consentSent'
 const CONSENT_VALID = 'consentValid'
 const BIG_FIVE_DONE = 'bigFiveDone'
@@ -22,6 +23,7 @@ export default {
   BIG_FIVE_DONE,
   CONSENT_CHOSEN,
   CONSENT_SENT,
+  WAIT_FOR_REVERSED,
   CONSENT_VALID,
   VIDEO_DONE,
   APP_VALID,

@@ -10,6 +10,7 @@ const statusMoveTable = [
   { status: status.INIT, path: '/participant/orientation', api: '/apis/participant/done/video' },
   { status: status.VIDEO_DONE, path: '/participant/mailchoose', api: '/apis/participant/done/sendchoose' },
   { status: status.CONSENT_CHOSEN, path: '/participant/mailinfo', api: '/apis/participant/done/sendconsent' },
+  { status: status.WAIT_FOR_REVERSED, path: '/participant/waitreversed' },
   { status: status.CONSENT_SENT, path: '/participant/waiting' },
   { status: status.CONSENT_VALID, path: '/participant/bigfive', api: '/apis/participant/done/bigfive' },
   { status: status.BIG_FIVE_DONE, path: '/participant/instruction' },

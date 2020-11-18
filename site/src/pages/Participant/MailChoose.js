@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { Header, Segment, Checkbox, Button, Icon, Message, Image, Input } from 'semantic-ui-react'
+import { Header, Segment, Checkbox, Button, Modal, Message, Image, Input } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { ContactComp } from '../Contact'
-import { consentFileLink } from './Orientation'
 import LabMap from './LabMap'
 import check from 'check-types'
 
@@ -108,6 +107,8 @@ export default class MailChoose extends Component {
       mailBackCell,
       valid
     } = this.state
+    const btnMsg = ['reversedOrdinaryMail', 'reversedRegisteredMail'].includes(mailMethod)
+      ? '送出後請等待研究團隊寄出回郵信封與提供相關細節。' : '送出後我們會將交件細節寄給您，並將頁面轉到相關頁面，方便您取得需要的資訊。'
     return (
       <div className="page">
         <Header as='h2'
@@ -115,38 +116,15 @@ export default class MailChoose extends Component {
         <Segment attached>
           <Header as='h3'
             textAlign="center">說明</Header>
-        1.您可以透過回郵（下方有詳細資訊）或下載影印取得『同意書簽署注意事項』<br/>
-        2.請依照下方『同意書簽署流程』簽署研究者參與同意書<br/>
-        3.交付至實驗室信箱或寄到實驗室，實驗室的位置在下方有詳細說明。<br/>
-        4.如果選擇郵寄，請盡可能以掛號方式寄出，這可以確保信件一定會到達，以避免您不必要的困擾。<br/>
-        5.選擇郵寄時，如果因故無法使用掛號，請使用限時郵件。<br/>
-        6.所有影印、郵務方面支出，均已經包含在報酬中。<br/>
-        7.請在選取交件方式後點選『送出』（在下方）
-          <a target="_blank"
-            href={consentFileLink}
-            rel='noreferrer noopener'>
-            <Button fluid
-              primary>
-              <Icon name='file pdf'/>
-            下載『研究者參與同意書』
-            </Button>
-          </a>
-        </Segment>
-        <Segment>
-          <Header as='h3'
-            textAlign="center">同意書簽署注意事項</Header>
-          <Message warning>
-            <Icon name='warning' />
-            請詳閱此內容。
+        1.請在此頁選擇同意書交付方式。<br/>
+        2.交付至實驗室信箱或寄到實驗室，實驗室的位置在下方有詳細說明。<br/>
+        3.如果選擇郵寄，請盡可能以掛號方式寄出，這可以確保信件一定會到達，以避免您不必要的困擾。<br/>
+        4.選擇郵寄時，如果因故無法使用掛號，請使用限時郵件。<br/>
+        5.所有影印、郵務方面支出，均已經包含在報酬中。<br/>
+        6.請在選取交件方式後點選『送出』（在下方）
+          <Message info>
+            <Message.Header>請在此頁選擇同意書交件方法，下一頁會提供同意書檔案與您選擇的方法的交件細節。</Message.Header>
           </Message>
-          請下載印出『研究者參與同意書』，如果理解同意上面的內容，請簽署。<br/>
-            下方兩項需要完成，整份同意書才算簽署完成。<br/>
-            請在『第五段』勾選您同意的資料使用方法，<br/>
-            請在『第十段』填寫正楷姓名、簽名、日期、聯絡電話與通訊住址。
-          <Image fluid
-            src="https://storage.googleapis.com/noti-aboutness-firebase-48728.appspot.com/sign-diagram1-1.jpg"/>
-          <Image fluid
-            src="https://storage.googleapis.com/noti-aboutness-firebase-48728.appspot.com/sign-diagram2-1.jpg"/>
         </Segment>
         <Segment attached>
           <Header as='h3'
@@ -266,11 +244,16 @@ export default class MailChoose extends Component {
               <Message.Header>請選擇交件方式，並填寫必要資訊。</Message.Header>
             </Message>
             : null}
-          <Button fluid
-            color="green"
-            onClick={this.onSubmit}
-            loading={loading}
-            disabled={loading} >送出</Button>
+          <Modal
+            size="mini"
+            trigger={<Button fluid
+              color="green"
+              loading={loading}
+              disabled={loading} >送出</Button>}
+            header='注意事項'
+            content={btnMsg}
+            actions={[{ key: 'confirm', content: '確定', positive: true, onClick: this.onSubmit }]}
+          />
         </Segment>
         <ContactComp/>
       </div>

@@ -80,6 +80,7 @@ router.post('/done/sendchoose', validators.sendchoose, async (req, res) => {
       mailBackName
     } = payload
     let data
+    let nextStatus
     if (['reversedOrdinaryMail', 'reversedRegisteredMail'].includes(mailMethod)) {
       data = {
         mailMethod,
@@ -88,11 +89,15 @@ router.post('/done/sendchoose', validators.sendchoose, async (req, res) => {
         mailBackPostNumber,
         mailBackName
       }
-    } else data = { mailMethod }
+      nextStatus = status.WAIT_FOR_REVERSED
+    } else {
+      data = { mailMethod }
+      nextStatus = status.CONSENT_CHOSEN
+    }
     await updateDB(`participant/${id}`, {
       ...data,
       consentChosenTime: moment().tz('Asia/Taipei').format(),
-      status: status.CONSENT_CHOSEN,
+      status: nextStatus,
       lastStatusChanged: moment().tz('Asia/Taipei').format()
     })
     if (!['reversedOrdinaryMail', 'reversedRegisteredMail'].includes(mailMethod)) {

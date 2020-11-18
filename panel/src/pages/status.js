@@ -2,6 +2,7 @@ const INIT = 'init'
 const VIDEO_DONE = 'videoDone'
 const CONSENT_CHOSEN = 'consentChosen'
 const CONSENT_SENT = 'consentSent'
+const WAIT_FOR_REVERSED = 'waitForReversed'
 const CONSENT_VALID = 'consentValid'
 const BIG_FIVE_DONE = 'bigFiveDone'
 const APP_VALID = 'appValid'
@@ -21,6 +22,7 @@ module.exports = {
   INIT,
   BIG_FIVE_DONE,
   CONSENT_CHOSEN,
+  WAIT_FOR_REVERSED,
   CONSENT_SENT,
   CONSENT_VALID,
   VIDEO_DONE,

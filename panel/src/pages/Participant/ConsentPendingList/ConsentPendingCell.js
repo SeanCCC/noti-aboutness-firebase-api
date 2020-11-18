@@ -23,7 +23,7 @@ const InfoModalComponent = (props) => {
         size="mini"
         trigger={<Button content="通知回郵已寄出" loading={loading} disabled={!!p.reverseNoticedTime} primary />}
         header='是否通知回郵已寄出'
-        content=''
+        content='請在確實寄出後再點選'
         actions={['取消', {
           key: 'confirm',
           content: '確定',
@@ -121,7 +121,7 @@ export default class ConsentPendingCell extends Component {
           {consentSentTime}
         </Table.Cell>
         <Table.Cell>
-          {p.status === status.CONSENT_CHOSEN && ['reversedOrdinaryMail', 'reversedRegisteredMail'].includes(p.mailMethod)
+          {p.status === status.WAIT_FOR_REVERSED
             ? <Fragment><Modal
               size="massive"
               trigger={<Button content="回郵資訊與動作" primary />}

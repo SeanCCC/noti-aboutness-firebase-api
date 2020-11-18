@@ -18,7 +18,8 @@ import {
   ErrorPage,
   RunningPage,
   CompletePage,
-  ResearchDonePage
+  ResearchDonePage,
+  ReserveWaitMessage
 } from './ResultPage'
 import Instruction from './Instruction'
 import { checkId } from './checkId'
@@ -33,6 +34,8 @@ export default function Participant () {
         component={checkId(Orientation)}/>
       <Route path={`${match.path}/mailchoose`}
         component={checkId(MailChoose)}/>
+      <Route path={`${match.path}/waitreversed`}
+        component={checkId(ReserveWaitMessage)}/>
       <Route path={`${match.path}/mailinfo`}
         component={checkId(MailInfo)}/>
       <Route path={`${match.path}/waiting`}

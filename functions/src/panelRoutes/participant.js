@@ -23,8 +23,8 @@ router.post('/consent/reversesent', async (req, res) => {
   try {
     const payload = req.body
     const { uid } = payload
+    await updateDB(`participant/${uid}`, { status: status.CONSENT_CHOSEN, reverseNoticedTime: moment().tz('Asia/Taipei').format() })
     await sendConsentReversedMail(uid)
-    await updateDB(`participant/${uid}`, { reverseNoticedTime: moment().tz('Asia/Taipei').format() })
     res.send('success')
   } catch (err) {
     console.error(err)
