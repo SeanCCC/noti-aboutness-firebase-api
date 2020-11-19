@@ -123,7 +123,7 @@ export default class MailChoose extends Component {
         5.所有影印、郵務方面支出，均已經包含在報酬中。<br/>
         6.請在選取交件方式後點選『送出』（在下方）
           <Message info>
-            <Message.Header>請在此頁選擇同意書交件方法，下一頁會提供同意書檔案與您選擇的方法的交件細節。</Message.Header>
+            <Message.Header>請在此頁選擇同意書交件方法，後續步驟將會提供同意書檔案與您選擇的方法的交件細節。</Message.Header>
           </Message>
         </Segment>
         <Segment attached>

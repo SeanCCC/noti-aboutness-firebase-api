@@ -39,7 +39,7 @@
 
 .likert-scale{
   display: grid;
-  grid-template-columns: auto 80px 80px 80px 80px 80px auto;
+  grid-template-columns: auto repeat(5, minmax( 20px, 80px )) auto;
   grid-column-gap: 4px;
   margin-bottom: 16px;
 }
