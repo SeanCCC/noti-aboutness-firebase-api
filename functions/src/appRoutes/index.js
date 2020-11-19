@@ -25,14 +25,11 @@ const fetchUIDByDeviceId = async (deviceId) => {
 router.post('/bind', async (req, res) => {
   try {
     const payload = req.body
-    const { email, deviceId } = payload
-    console.log({ email, deviceId })
+    const { email, deviceId, androidFineVersion, deviceModal } = payload
     if (check.not.assigned(email) && check.not.assigned(deviceId)) return res.status(400).send('missing email or deviceId')
     const participant = await fetchDetailByEmail(email)
-    console.log({ participant })
     if (check.null(participant)) return res.status(400).send('participant not found')
     const { data, uid } = participant
-    console.log({ data })
     if (check.assigned(data.deviceId) &&
      [status.APP_VALID, status.RESEARCH_RUNNING].includes(data.status)) {
       if (data.deviceId !== deviceId) {
@@ -47,6 +44,8 @@ router.post('/bind', async (req, res) => {
     const researchStartDate = moment().tz('Asia/Taipei').add(1, 'days').format('YYYY-MM-DD')
     const asyncP = updateDB(`participant/${uid}`, {
       deviceId,
+      androidFineVersion,
+      deviceModal,
       status: status.APP_VALID,
       researchStartDate,
       lastStatusChanged: moment().tz('Asia/Taipei').format()
