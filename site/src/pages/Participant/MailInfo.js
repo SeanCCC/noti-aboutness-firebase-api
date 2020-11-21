@@ -4,7 +4,7 @@ import axios from 'axios'
 import { Header, Segment, Button, Icon, Message, Image, Modal } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { ContactComp } from '../Contact'
-import { consentFileLink } from './Orientation'
+import { consentFileLink } from './constants'
 import { LoadingPage, ErrorPage } from './ResultPage'
 import LabMap from './LabMap'
 

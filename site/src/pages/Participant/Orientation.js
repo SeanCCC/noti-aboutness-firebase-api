@@ -2,9 +2,7 @@ import React, { Component } from 'react'
 import { Header, Embed, Segment, Checkbox, Button, Icon, Message } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { ContactComp } from '../Contact'
-
-export const consentFileLink = 'https://storage.googleapis.com/noti-aboutness-firebase-48728.appspot.com/%E8%AE%8A%E6%9B%B4%E6%A0%B8%E5%AE%9A%E7%89%88_%E5%8F%83%E8%88%87%E8%80%85%E5%90%8C%E6%84%8F%E6%9B%B8V3.pdf'
-
+import { consentFileLink, orientationYoutubeId } from './constants'
 export default class Orientation extends Component {
   constructor (props) {
     super(props)
@@ -57,7 +55,7 @@ export default class Orientation extends Component {
           <Header textAlign="center"
             as='h3'>研究說明書講解影片</Header>
           <Embed
-            id='t90rsQSddOo'
+            id={orientationYoutubeId}
             source='youtube'
             hd
             iframe={{

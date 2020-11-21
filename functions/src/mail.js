@@ -122,7 +122,7 @@ const sendConsentAcceptMail = async (id) => {
   const html = mailTemplate([
     `${name}先生/小姐您好，`,
     '我們已經確認了您的同意書，',
-    `請進入<a href="https://notiaboutness.muilab.org/participant/bigfive?id=${id}">此研究網站</a>進行填寫研究相關量表，`,
+    `請進入<a href="https://notiaboutness.muilab.org/participant/bigfive?id=${id}">此網站</a>進行填寫研究相關量表，`,
     '感激不盡！'
   ])
   const config = {
@@ -140,7 +140,7 @@ const sendConsentMailInfo = async (id) => {
     `${name}先生/小姐您好，`,
     '感謝您選擇了交付同意書的方法，',
     '請盡量在一周內交付同意書',
-    `<a href="https://notiaboutness.muilab.org/participant/mailinfo?id=${id}">此研究網站</a>提供了必要的交付細節，`,
+    `<a href="https://notiaboutness.muilab.org/participant/mailinfo?id=${id}">此網站</a>提供了必要的交付細節，`,
     '請在交付後點擊網站上的『通知團隊信件已經寄出』，',
     '感激不盡！'
   ])
@@ -158,7 +158,7 @@ const sendConsentReversedMail = async (id) => {
   const html = mailTemplate([
     `${name}先生/小姐您好，`,
     '我們已經將您的同意書與信封寄過去了，',
-    `查收後請進入<a href="https://notiaboutness.muilab.org/participant/mailinfo?id=${id}">此研究網站</a>進行下一步，`,
+    `查收後請進入<a href="https://notiaboutness.muilab.org/participant/mailinfo?id=${id}">此網站</a>進行下一步，`,
     '並在郵寄後點擊網站上的上的『通知團隊信件已經寄出』。',
     '請盡量在一周內寄出，',
     '感激不盡！'
@@ -177,9 +177,10 @@ const sendResearchStartMail = async (id) => {
   const html = mailTemplate([
     `${name}先生/小姐您好，`,
     `您的實驗已經於今日${researchStartDate}開始，`,
-    '請記得從今日起開始填寫表單，',
+    '請記得從今日起開始填寫表單。',
     '如果想知道您已完成的表單數量，',
-    `請進入<a href="https://notiaboutness.muilab.org/participant/score?id=${id}">此研究網站</a>，`,
+    '或需要App安裝設定與表單填寫的相關資訊，',
+    `請進入<a href="https://notiaboutness.muilab.org/participant/score?id=${id}">此網站</a>查詢，`,
     '感激不盡！'
   ])
   const config = {

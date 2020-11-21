@@ -4,16 +4,7 @@ import { ContactComp } from '../Contact'
 import PropTypes from 'prop-types'
 import { mobileOpitons } from '../Recruit/formOptions'
 import QRCode from 'qrcode.react'
-
-const apkFileLink = 'https://firebasestorage.googleapis.com/v0/b/noti-aboutness-firebase-48728.appspot.com/o/app-debug-2.0.8-B.apk?alt=media&token=10744971-2d53-4d0f-a9b0-230ad95dd365'
-
-const batteryLinkTable = {
-  asus: 'https://docs.google.com/document/d/1Bg6TyPAzUXZy9XaIZiNzPyQGroa4nF2Cx3j36Vwix34/edit#heading=h.hw5o2t1m5uc0',
-  xiaomi: 'https://docs.google.com/document/d/1Bg6TyPAzUXZy9XaIZiNzPyQGroa4nF2Cx3j36Vwix34/edit#heading=h.ms2a4br3ishv',
-  samsung: 'https://docs.google.com/document/d/1Bg6TyPAzUXZy9XaIZiNzPyQGroa4nF2Cx3j36Vwix34/edit#heading=h.ey9wdlgi7nd4',
-  sony: 'https://docs.google.com/document/d/1Bg6TyPAzUXZy9XaIZiNzPyQGroa4nF2Cx3j36Vwix34/edit#heading=h.vnfowizn96c',
-  vivo: 'https://docs.google.com/document/d/1Bg6TyPAzUXZy9XaIZiNzPyQGroa4nF2Cx3j36Vwix34/edit#heading=h.ul17p3jwpkvr'
-}
+import { apkFileLink, batteryLinkTable, esmTutorial, installYoutubeId } from './constants'
 
 export default class Instruction extends Component {
   render () {
@@ -50,7 +41,7 @@ export default class Instruction extends Component {
           <Header as='h3'
             textAlign="center">App安裝與使用教學影片</Header>
           <Embed
-            id='eUsD4yGrjoQ'
+            id={installYoutubeId}
             hd
             source='youtube'
             iframe={{
@@ -86,6 +77,20 @@ export default class Instruction extends Component {
             </Button>
           </a>
         </Segment>)}
+        <Segment attached>
+          <Header as='h3'
+            textAlign="center">問卷相關補充說明</Header>
+          <a target="_blank"
+            href={esmTutorial}
+            rel='noreferrer noopener'>
+            <Button
+              fluid
+              primary >
+              <Icon name='linkify'/>
+          查看補充說明
+            </Button>
+          </a>
+        </Segment>
         <Header textAlign="center"
           as='h3'>遇到困難請聯絡『研究計畫聯絡人』</Header>
         <ContactComp/>
