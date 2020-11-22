@@ -8,5 +8,5 @@ export const batteryLinkTable = {
   vivo: 'https://docs.google.com/document/d/1Bg6TyPAzUXZy9XaIZiNzPyQGroa4nF2Cx3j36Vwix34/edit#heading=h.ul17p3jwpkvr'
 }
 export const esmTutorial = 'https://docs.google.com/document/d/1Bg6TyPAzUXZy9XaIZiNzPyQGroa4nF2Cx3j36Vwix34/edit?usp=sharing'
-export const installYoutubeId = 'e3_pD9123Wk'
-export const orientationYoutubeId = 't90rsQSddOo'
+export const installYoutubeId = 'y23G5DVGkYk'
+export const orientationYoutubeId = 'yBISEo_nI9I'
