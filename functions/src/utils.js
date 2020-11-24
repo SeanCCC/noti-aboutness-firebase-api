@@ -2,6 +2,7 @@ const admin = require('firebase-admin')
 const serviceAccount = require('../serviceAccountKey')
 const Busboy = require('busboy')
 const moment = require('moment-timezone')
+const path = require('path')
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -73,10 +74,10 @@ const busboyMiddleWare = (req, res, next) => {
   busboy.end(req.rawBody)
 }
 
-function uploadFile (req, prefix, filename) {
+function uploadFile (req, dir, filename) {
   return new Promise((resolve, reject) => {
     try {
-      const destName = `${prefix}${filename}`
+      const destName = path.posix.join(dir, filename)
       const dest = bucket.file(destName)
       const busboy = new Busboy({
         headers: req.headers,

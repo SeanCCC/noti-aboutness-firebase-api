@@ -153,7 +153,7 @@ router.post('/done/compensation', busboyMiddleWare, validators.compensation, asy
     let payDetail = {}
     if (payMethod === 'bankTransfer') {
       const { bankAccount, bankCode } = payload
-      imgPath = await uploadFile(req, 'passbook', id)
+      imgPath = await uploadFile(req, 'passbooks', id)
       payDetail = { payMethod, imgPath, bankAccount, bankCode }
     } else if (payMethod === 'jko') {
       const { jkoAccount } = payload
