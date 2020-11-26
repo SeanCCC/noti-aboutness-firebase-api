@@ -35,20 +35,20 @@ export default class PayorInviteCell extends Component {
   }
 
   render () {
-    const { participant: p } = this.props
+    const { participant: p, record } = this.props
     const { askingPayment, invitingInterview } = this.state
-    const mailMethod = translate(mailMethodOptions, p.mailMethod, '未送出')
-    const consentSentTime = !p.consentSentTime ? '未送出' : moment(new Date(p.consentSentTime)).tz('Asia/Taipei').format('YYYY-MM-DD HH:mm')
+    const { totalEsmCount } = record
+    const { researchEndDate } = p
     return (
       <Fragment>
         <Table.Cell>
           {p.name}
         </Table.Cell>
         <Table.Cell>
-          {mailMethod}
+          {totalEsmCount || 0}
         </Table.Cell>
         <Table.Cell>
-          {consentSentTime}
+          {researchEndDate || 'N/A'}
         </Table.Cell>
         <Table.Cell>
           <Modal
@@ -74,5 +74,6 @@ export default class PayorInviteCell extends Component {
 PayorInviteCell.propTypes = {
   askAboutPayment: PropTypes.func,
   inviteInterview: PropTypes.func,
-  participant: PropTypes.object
+  participant: PropTypes.object,
+  record: PropTypes.object
 }

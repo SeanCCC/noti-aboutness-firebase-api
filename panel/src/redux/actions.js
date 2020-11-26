@@ -172,6 +172,7 @@ const completeHourly = (notiDistHourly = [], daysBetween = []) => {
 }
 
 const completeRecord = (record) => {
+  if (!record.active) return record
   const {
     researchStartDate,
     esmDistDaily,
@@ -226,7 +227,7 @@ function createResearchRunningNumber (uploadRecord) {
 export const updateUploadRecord = (uploadRecord) => {
   let _uploadRecord = uploadRecord
     .map(completeRecord)
-  const researchRunningNumber = createResearchRunningNumber(_uploadRecord)
+  const researchRunningNumber = createResearchRunningNumber(_uploadRecord.filter(r => r.active))
   _uploadRecord = _uploadRecord.reduce((acu, cur) => {
     acu[cur.uid] = cur
     return acu

@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Table } from 'semantic-ui-react'
+import { connect } from 'react-redux'
 import axios from 'axios'
 import PayOrInviteCell from './PayOrInviteCell'
 import HighlightTableBody from '../../HighlightTableBody'
 
-export default class PayOrInviteList extends Component {
+class PayOrInviteList extends Component {
   async inviteInterview (uid) {
     try {
       await axios.post('/apis/participant/interview/invite', { uid })
@@ -23,7 +24,7 @@ export default class PayOrInviteList extends Component {
   }
 
   render () {
-    const { participants } = this.props
+    const { participants, uploadRecord } = this.props
     return <Table basic='very' celled >
       <Table.Header>
         <Table.Row>
@@ -41,7 +42,8 @@ export default class PayOrInviteList extends Component {
             return {
               askAboutPayment: () => this.askAboutPayment(p.uid),
               inviteInterview: () => this.inviteInterview(p.uid),
-              participant: p
+              participant: p,
+              record: uploadRecord[p.uid] || {}
             }
           }
         }/>
@@ -49,6 +51,13 @@ export default class PayOrInviteList extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  uploadRecord: state.uploadRecord
+})
+
 PayOrInviteList.propTypes = {
-  participants: PropTypes.array
+  participants: PropTypes.array,
+  uploadRecord: PropTypes.object
 }
+
+export default connect(mapStateToProps)(PayOrInviteList)
