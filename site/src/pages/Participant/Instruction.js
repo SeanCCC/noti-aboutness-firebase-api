@@ -17,11 +17,25 @@ export default class Instruction extends Component {
           textAlign="center">App安裝教學與使用</Header>
         <Segment attached>
           1.請依照下方影片教學安裝App與使用App，如果有任何不順利的地方，歡迎與研究團隊聯絡，或來訪實驗室，由實驗團隊代勞。<br/>
-          2.如果您用手機瀏覽此頁面，可以點擊下方的『下載實驗用App』下載App。如果不是，我們也提供了QRCode並已經寄送檔案連結給您。<br/>
+          2.如果您用手機瀏覽此頁面，可以點擊影片下方的『下載實驗用App』下載App。如果不是，我們也提供了QRCode並已經寄送檔案連結給您。<br/>
           3.實驗將在驗證完成後的一天開始進行。
           <Message warning>
             <Message.Header>請完整了解研究流程，這會影響研究參與成功與否。此外，我們也已將安裝檔連結透過Email寄給了您。</Message.Header>
           </Message>
+        </Segment>
+        <Segment attached>
+          <Header as='h3'
+            textAlign="center">App安裝與使用教學影片</Header>
+          <Embed
+            id={installYoutubeId}
+            hd
+            source='youtube'
+            iframe={{
+              allowFullScreen: true
+            }}
+          />
+        </Segment>
+        <Segment attached>
           <a target="_blank"
             href={apkFileLink}
             rel='noreferrer noopener'>
@@ -36,18 +50,6 @@ export default class Instruction extends Component {
               實驗App下載用QRCode
             <QRCode value={apkFileLink} />
           </div>
-        </Segment>
-        <Segment attached>
-          <Header as='h3'
-            textAlign="center">App安裝與使用教學影片</Header>
-          <Embed
-            id={installYoutubeId}
-            hd
-            source='youtube'
-            iframe={{
-              allowFullScreen: true
-            }}
-          />
         </Segment>
         <Segment attached>
           <Header as='h3'

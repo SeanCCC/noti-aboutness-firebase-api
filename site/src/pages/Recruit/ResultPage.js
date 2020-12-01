@@ -74,7 +74,7 @@ export function SuccessPage () {
       <Header textAlign="center"
         as='h2'>驗證成功</Header>
       <Message positive>
-        <Message.Header>研究團隊將於一到兩個工作天內內與您聯絡。</Message.Header>
+        <Message.Header>研究團隊將於一到兩個工作天內透過email與您聯絡。</Message.Header>
       </Message>
     </div>
   )

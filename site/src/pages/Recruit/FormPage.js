@@ -354,7 +354,7 @@ export default class FormPage extends Component {
               loading={uploading}
               disabled={uploading} >提交</Form.Button>}
             header='請確認資料是否正確'
-            content='我們會使用此資料聯繫您，請確認資訊的正確性。'
+            content='我們會使用此資料聯繫您，請確認資訊的正確性。按確認後，您將收到一封email確認信，如果找不到，則可能在垃圾信箱中。'
             actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: this.onSubmit }]}
           />
         </Form>

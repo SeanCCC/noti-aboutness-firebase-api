@@ -41,15 +41,6 @@ export default class Orientation extends Component {
           <Message warning>
             <Message.Header>請完整觀看影片以了解知情同意書內容，以保護您的權益。</Message.Header>
           </Message>
-          <a target="_blank"
-            href={consentFileLink}
-            rel='noreferrer noopener'>
-            <Button fluid
-              primary >
-              <Icon name='file pdf'/>
-            下載『參與者研究說明書』
-            </Button>
-          </a>
         </Segment>
         <Segment attached>
           <Header textAlign="center"
@@ -70,6 +61,17 @@ export default class Orientation extends Component {
             onChange={this.toggle}
             checked={confirm}
           />
+        </Segment>
+        <Segment attached>
+          <a target="_blank"
+            href={consentFileLink}
+            rel='noreferrer noopener'>
+            <Button fluid
+              primary >
+              <Icon name='file pdf'/>
+            下載『參與者研究說明書』
+            </Button>
+          </a>
         </Segment>
         {submitted && !confirm ? <Segment attached>
           <Message negative>

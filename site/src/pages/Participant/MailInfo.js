@@ -58,7 +58,7 @@ export default class MailInfo extends Component {
         4.如果選擇郵寄，請盡可能以掛號方式寄出，這可以確保信件一定會到達，以避免您不必要的困擾。<br/>
         5.選擇郵寄時，如果因故無法使用掛號，請使用限時郵件。<br/>
         6.所有影印、郵務方面支出，均已經包含在報酬中。<br/>
-        7.請在『確實寄出同意書後』後點選『通知團隊信件已經寄出』（在下方）
+        7.請在『確實寄出同意書後』後點選『我已經寄出文件』（在下方）
           <a target="_blank"
             href={consentFileLink}
             rel='noreferrer noopener'>
@@ -133,7 +133,7 @@ export default class MailInfo extends Component {
             trigger={<Button fluid
               color="green"
               loading={uploading}
-              disabled={uploading} >通知團隊信件已經寄出</Button>}
+              disabled={uploading} >我已經寄出文件</Button>}
             header='請在同意書確實交付後再點選確認'
             content='如果尚未完成，請您盡量在一周內交付，感激不盡。'
             actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: this.onSubmit }]}
