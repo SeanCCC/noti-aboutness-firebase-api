@@ -55,14 +55,6 @@ export default class Orientation extends Component {
           />
         </Segment>
         <Segment attached>
-          <Checkbox
-            label='本人已完整觀看研究介紹影片並且已詳細瞭解上述研究計畫中研究方法、目的與程序，及所可能產生的危險與利益，有關本
-            研究計畫的疑問，亦獲得詳細解答。'
-            onChange={this.toggle}
-            checked={confirm}
-          />
-        </Segment>
-        <Segment attached>
           <a target="_blank"
             href={consentFileLink}
             rel='noreferrer noopener'>
@@ -72,6 +64,14 @@ export default class Orientation extends Component {
             下載『參與者研究說明書』
             </Button>
           </a>
+        </Segment>
+        <Segment attached>
+          <Checkbox
+            label='本人已完整觀看研究介紹影片並且已詳細瞭解上述研究計畫中研究方法、目的與程序，及所可能產生的危險與利益，有關本
+            研究計畫的疑問，亦獲得詳細解答。'
+            onChange={this.toggle}
+            checked={confirm}
+          />
         </Segment>
         {submitted && !confirm ? <Segment attached>
           <Message negative>

@@ -108,7 +108,8 @@ export default class MailChoose extends Component {
       valid
     } = this.state
     const btnMsg = ['reversedOrdinaryMail', 'reversedRegisteredMail'].includes(mailMethod)
-      ? '送出後請等待研究團隊寄出回郵信封與提供相關細節。' : '送出後我們會將交件細節寄給您，並將頁面轉到相關頁面，方便您取得需要的資訊。'
+      ? '送出後請等待研究團隊寄出回郵信封與提供相關細節。'
+      : '送出後我們會將交件細節寄給您，並將頁面轉到相關頁面，方便您取得需要的資訊。並請在一週內交付同意書。'
     return (
       <div className="page">
         <Header as='h2'
@@ -123,7 +124,7 @@ export default class MailChoose extends Component {
         5.所有影印、郵務方面支出，均已經包含在報酬中。<br/>
         6.請在選取交件方式後點選『送出』（在下方）
           <Message info>
-            <Message.Header>請在此頁選擇同意書交件方法，後續步驟將會提供同意書檔案與您選擇的方法的交件細節。</Message.Header>
+            <Message.Header>請在此頁選擇同意書交件方法，在後續步驟，我們將會提供同意書檔案與您選擇的方法的交件細節。</Message.Header>
           </Message>
         </Segment>
         <Segment attached>

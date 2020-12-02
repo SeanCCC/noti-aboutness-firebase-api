@@ -48,7 +48,7 @@ const formContent = [
       options: cityOptions
     }, {
       type: 'select',
-      label: '請問您接下來的一個月內是否有三天以上的旅遊計畫',
+      label: '請問接下來的一個月內，您是否有計劃出去旅遊三天以上',
       name: 'travelPlan',
       options: boolOptions
     }]
@@ -60,14 +60,21 @@ const formContent = [
     placeholder: '請選擇',
     errorMsg: '輸入錯誤或不符合招募條件(不得有利害關係)',
     options: boolOptions
-  },
-  {
-    type: 'select',
-    label: '我了解通知內容對此研究是很重要的，因此需要配合關閉facebook messanger聊天大頭貼的功能。',
-    name: 'needToClose',
-    placeholder: '請選擇',
-    errorMsg: '請理解通知內容對實驗過程是很重要的，需要做此調整才能收到必要的資訊。',
-    options: needToCloseOptions
+  }, {
+    type: 'group',
+    content: [{
+      type: 'modal',
+      label: '看看聊天大頭貼說明',
+      title: '聊天大頭天說明',
+      context: '聊天大頭貼（一個顯示您朋友相片的圓圈）會在您收到新訊息時彈出。若要在不離開您目前畫面的情況下檢視及回覆訊息，只須點按聊天大頭貼。'
+    }, {
+      type: 'select',
+      label: '我了解通知內容對此研究是很重要的，因此需要配合關閉facebook messanger聊天大頭貼的功能。',
+      name: 'needToClose',
+      placeholder: '請選擇',
+      errorMsg: '請理解通知內容對實驗過程是很重要的，需要做此調整才能收到必要的資訊。',
+      options: needToCloseOptions
+    }]
   }, {
     type: 'group',
     content: [{
@@ -78,7 +85,7 @@ const formContent = [
       options: mobileOpitons
     }, {
       type: 'input',
-      label: '請輸入您的手機品牌名稱（如果上一題選其他才要填）',
+      label: '如果上一題選其他，請輸入您的手機品牌名稱',
       placeholder: '上一題選其他才要填',
       name: 'brandName'
     },
@@ -95,7 +102,7 @@ const formContent = [
       type: 'modal',
       label: '看看如何查詢版本',
       title: '如何查詢版本',
-      context: '請進入系統>關於手機>Android版本'
+      context: '請進入設定>關於手機>Android版本'
     }, {
       type: 'select',
       label: '請選擇您的Android系統版本',
@@ -162,6 +169,7 @@ export default class FormPage extends Component {
       accept: false,
       ...defaultState
     }
+    window.scrollTo(0, 0)
     this.handleChange = this.handleChange.bind(this)
     this.checkVal = this.checkVal.bind(this)
     this.checkForm = this.checkForm.bind(this)
@@ -272,6 +280,7 @@ export default class FormPage extends Component {
         trigger={<div className="form-modal">
           <Form.Button
             primary
+            disabled={uploading}
             key={name} >
             {label}
           </Form.Button>

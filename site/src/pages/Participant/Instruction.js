@@ -18,7 +18,7 @@ export default class Instruction extends Component {
         <Segment attached>
           1.請依照下方影片教學安裝App與使用App，如果有任何不順利的地方，歡迎與研究團隊聯絡，或來訪實驗室，由實驗團隊代勞。<br/>
           2.如果您用手機瀏覽此頁面，可以點擊影片下方的『下載實驗用App』下載App。如果不是，我們也提供了QRCode並已經寄送檔案連結給您。<br/>
-          3.實驗將在驗證完成後的一天開始進行。
+          3.實驗將在App設定好後的一天開始進行。
           <Message warning>
             <Message.Header>請完整了解研究流程，這會影響研究參與成功與否。此外，我們也已將安裝檔連結透過Email寄給了您。</Message.Header>
           </Message>
