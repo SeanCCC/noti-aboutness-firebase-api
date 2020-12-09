@@ -52,7 +52,7 @@ export default class MailInfo extends Component {
         <Segment attached>
           <Header as='h3'
             textAlign="center">說明</Header>
-        1.您可以透過回郵（下方有詳細資訊）或下載影印取得『同意書簽署注意事項』<br/>
+        1.您可以透過回郵（下方有詳細資訊）或下載影印取得『同意書』<br/>
         2.請依照下方『同意書簽署流程』簽署研究者參與同意書<br/>
         3.交付至實驗室信箱或寄到實驗室，實驗室的位置在下方有詳細說明。<br/>
         4.如果選擇郵寄，請盡可能以掛號方式寄出，這可以確保信件一定會到達，以避免您不必要的困擾。<br/>
@@ -79,12 +79,8 @@ export default class MailInfo extends Component {
             <Icon name='warning' />
             請詳閱此內容。
           </Message>
-            請下載印出『研究者參與同意書』，如果理解同意上面的內容，請簽署。<br/>
-            下方兩項需要完成，整份同意書才算簽署完成。<br/>
-            請在『第五段』勾選您同意的資料使用方法，<br/>
+            請取得『研究者參與同意書』，如果理解同意上面的內容，<br/>
             請在『第十段』填寫正楷姓名、簽名、日期、聯絡電話與通訊住址。
-          <Image fluid
-            src="https://storage.googleapis.com/noti-aboutness-firebase-48728.appspot.com/sign-diagram1-1.jpg"/>
           <Image fluid
             src="https://storage.googleapis.com/noti-aboutness-firebase-48728.appspot.com/sign-diagram2-1.jpg"/>
         </Segment>
@@ -94,7 +90,7 @@ export default class MailInfo extends Component {
               textAlign="center">文書寄出資訊</Header>
         您需要將同意書郵寄至實驗室，盡量採用掛號的方法，<br/>
         如果不方便前往郵局掛號，請採用限時郵件的方式寄出，<br/>
-        實測4張紙與一個信封不超過50克，限時郵件郵票貼23元以上就會足夠。<br/>
+        限時郵件郵票貼23元以上就會足夠。<br/>
         收件人：張忠喬 先生<br/>
         聯絡電話：0975-068-858<br/>
         地址：30010新竹市東區大學路1001號交通大學電子與資訊研究中心715室<br/>

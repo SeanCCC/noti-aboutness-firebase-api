@@ -1,13 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Table, Button, Modal } from 'semantic-ui-react'
-import { mailMethodOptions } from '../../formOptions'
-import moment from 'moment-timezone'
-
-const translate = (options, value, defaultValue) => {
-  if (defaultValue !== undefined && value === undefined) return defaultValue
-  return options.find(opt => opt.value === value).text
-}
 
 export default class PayorInviteCell extends Component {
   constructor (props) {
@@ -58,7 +51,6 @@ export default class PayorInviteCell extends Component {
             content='真的不訪談這個人?'
             actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: this.askAboutPayment }]}
           />
-
           <Modal
             size="mini"
             trigger={<Button content="寄出訪談邀請" loading={invitingInterview} disabled={invitingInterview} primary />}
