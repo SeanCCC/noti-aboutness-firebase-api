@@ -127,6 +127,15 @@ const moveStauts = (id, status) => {
   })
 }
 
+const getReceiptUrl = async (id) => {
+  const file = bucket.file(`receipts/${id}.pdf`)
+  const url = await file.getSignedUrl({
+    action: 'read',
+    expires: '03-09-2491'
+  })
+  return url
+}
+
 module.exports = {
   busboyMiddleWare,
   uploadFile,
@@ -139,5 +148,6 @@ module.exports = {
   fetchParticipantDetailById,
   fetchCandidateDetailById,
   moveStauts,
-  db
+  db,
+  getReceiptUrl
 }

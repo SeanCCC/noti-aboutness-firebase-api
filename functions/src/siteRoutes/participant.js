@@ -11,7 +11,8 @@ const {
   fetchDB,
   busboyMiddleWare,
   uploadFile,
-  moveStauts
+  moveStauts,
+  getReceiptUrl
 } = require('../utils')
 const validators = require('./validators')
 const status = require('../status')
@@ -243,4 +244,17 @@ router.get('/mailmethod', async (req, res) => {
     res.status(500).send('error')
   }
 })
+
+router.get('/receipt', async (req, res) => {
+  try {
+    const payload = req.query
+    const { id } = payload
+    const url = await getReceiptUrl(id)
+    res.json({ url })
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
+
 module.exports = router
