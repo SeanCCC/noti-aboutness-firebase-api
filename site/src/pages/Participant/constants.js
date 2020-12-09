@@ -9,4 +9,4 @@ export const batteryLinkTable = {
 }
 export const esmTutorial = 'https://docs.google.com/document/d/1Bg6TyPAzUXZy9XaIZiNzPyQGroa4nF2Cx3j36Vwix34/edit?usp=sharing'
 export const installYoutubeId = 'y23G5DVGkYk'
-export const orientationYoutubeId = 'b157rOlTwwo'
+export const orientationYoutubeId = '7VPQgyaAx6E'
