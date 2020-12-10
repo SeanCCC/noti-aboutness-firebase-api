@@ -37,12 +37,15 @@ export default class MailMethod extends Component {
         <Segment attached>
           <Header as='h3'
             textAlign="center">說明</Header>
-        1.實驗團隊將在收到領據之後的一週內支付報酬給您。<br/>
-        2.請印出並且簽署我們在信中附上的領據，然後交付至實驗室信箱或郵寄到實驗室，實驗室的位置在下方有詳細說明。<br/>
+        1.我們會在後續步驟提供您領據的檔案，需要請您印出。<br/>
+        2.印出後會請您交付領據至實驗室信箱或郵寄到實驗室，實驗室的位置在下方有詳細說明。<br/>
         3.如果選擇郵寄，請盡可能以掛號方式寄出，這可以確保信件一定會到達，以避免您不必要的困擾。<br/>
         4.選擇郵寄時，如果因故無法使用掛號，請使用限時郵件。<br/>
         5.所有影印、郵務方面支出，均已經包含在報酬中。<br/>
         6.請選取交件方式並點選『選擇收款途徑』（在下方）<br/>
+          <Message info>
+            <Message.Header>請在此頁選擇交件方法，在後續步驟，我們將會提供領據檔案與您選擇的方法的交件細節。</Message.Header>
+          </Message>
         </Segment>
         <Segment attached>
           <Header as='h3'
