@@ -141,7 +141,7 @@ const sendConsentMailInfo = async (id) => {
     '感謝您選擇了交付同意書的方法，',
     '請盡量在一周內交付同意書',
     `<a href="https://notiaboutness.muilab.org/participant/mailinfo?id=${id}">此網站</a>提供了必要的交付細節，`,
-    '請在交付後點擊網站上的『通知團隊信件已經寄出』，',
+    '請在交付後點擊網站上的『通知團隊同意書已經送出』，',
     '感激不盡！'
   ])
   const config = {
@@ -159,14 +159,14 @@ const sendConsentReversedMail = async (id) => {
     `${name}先生/小姐您好，`,
     '我們已經將您的同意書與信封寄過去了，',
     `查收後請進入<a href="https://notiaboutness.muilab.org/participant/mailinfo?id=${id}">此網站</a>進行下一步，`,
-    '並在郵寄後點擊網站上的上的『通知團隊信件已經寄出』。',
-    '請盡量在一周內寄出，',
+    '並在送出文件後點擊網站上的上的『通知團隊同意書已經送出』。',
+    '請盡量在一周內送出文件，',
     '感激不盡！'
   ])
   const config = {
     from: 'MUILAB通知實驗研究團隊',
     to: email,
-    subject: 'MUILAB通知實驗-回郵已寄出',
+    subject: 'MUILAB通知實驗-同意書回郵已寄出',
     html
   }
   return transporter.sendMail(config)
@@ -214,7 +214,7 @@ const sendConsentRemind = async (id) => {
   const { email, name } = await fetchEmailInfo(id, 'participant')
   const html = mailTemplate([
     `${name}先生/小姐您好，`,
-    '我們發現您尚未完成同意書的寄出回報，',
+    '我們發現您尚未回報同意書的寄出，',
     `希望您盡早寄出並從<a href="https://notiaboutness.muilab.org/participant/instruction?id=${id}">此網站</a>回報，`,
     '感激不盡！'
   ])
@@ -423,6 +423,44 @@ const sendApkLink = async (id) => {
   return transporter.sendMail(config)
 }
 
+const sendReceiptMailInfo = async (id) => {
+  const { email, name } = await fetchEmailInfo(id, 'participant')
+  const html = mailTemplate([
+    `${name}先生/小姐您好，`,
+    '感謝您選擇了交付領據與支付報酬的方法，',
+    '請盡量在一周內交付領據以利後續流程，',
+    `<a href="https://notiaboutness.muilab.org/participant/compensation/mailinfo?id=${id}">此網站</a>提供了必要的交付細節，`,
+    '請在交付後點擊網站上的『通知團隊領據已經送出』，',
+    '感激不盡！'
+  ])
+  const config = {
+    from: 'MUILAB通知實驗研究團隊',
+    to: email,
+    subject: 'MUILAB通知實驗-交付細節',
+    html
+  }
+  return transporter.sendMail(config)
+}
+
+const sendReceiptReversedMail = async (id) => {
+  const { email, name } = await fetchEmailInfo(id, 'participant')
+  const html = mailTemplate([
+    `${name}先生/小姐您好，`,
+    '我們已經將您的領據與信封寄過去了，',
+    `查收後請進入<a href="https://notiaboutness.muilab.org/participant/compensation/mailinfo?id=${id}">此網站</a>進行下一步，`,
+    '並在送出文件後點擊網站上的上的『通知團隊領據已經送出』。',
+    '請盡量在一周內送出文件，',
+    '感激不盡！'
+  ])
+  const config = {
+    from: 'MUILAB通知實驗研究團隊',
+    to: email,
+    subject: 'MUILAB通知實驗-領據回郵已寄出',
+    html
+  }
+  return transporter.sendMail(config)
+}
+
 module.exports = {
   sendEmailCheck,
   sendAcceptMail,
@@ -444,5 +482,7 @@ module.exports = {
   sendResearchEndNotice,
   sendResearchStartMail,
   sendConsentMailInfo,
-  sendApkLink
+  sendApkLink,
+  sendReceiptMailInfo,
+  sendReceiptReversedMail
 }

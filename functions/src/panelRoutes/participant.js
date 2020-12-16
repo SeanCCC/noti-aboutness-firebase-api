@@ -15,7 +15,8 @@ const {
   sendInterviewInviteReminder,
   sendInterviewSchedule,
   sendInterviewCancel,
-  sendConsentReversedMail
+  sendConsentReversedMail,
+  sendReceiptReversedMail
 } = require('../mail')
 const status = require('../status')
 
@@ -90,6 +91,24 @@ router.post('/receipt/remind', async (req, res) => {
     const { uid } = payload
     await sendReceiptRemind(uid)
     await updateDB(`participant/${uid}`, { receiptReminderSent: moment().tz('Asia/Taipei').format() })
+    res.send('success')
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
+
+router.post('/receipt/reversesent', async (req, res) => {
+  try {
+    const payload = req.body
+    const { uid } = payload
+    await updateDB(`participant/${uid}`, {
+      status: status.RECEIPT_CHOSEN,
+      receipt: {
+        reverseNoticedTime: moment().tz('Asia/Taipei').format()
+      }
+    })
+    await sendReceiptReversedMail(uid)
     res.send('success')
   } catch (err) {
     console.error(err)

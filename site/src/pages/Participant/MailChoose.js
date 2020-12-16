@@ -142,7 +142,7 @@ export default class MailChoose extends Component {
             textAlign="center">回郵資訊</Header>
         我們會將已經填好地址並貼好郵票的的信封與未簽名的研究者參與同意書都用限時郵件寄送給您，<br/>
         並且會在寄出信封與同意書後寄信通知您，<br/>
-        您只需要在完全理解並同意研究者參與同意書的內容後，參考上方『同意書簽署注意事項』完成同意書須填內容，<br/>
+        您只需要在完全理解並同意研究者參與同意書的內容後簽署文件，<br/>
         並且透過掛號或限時郵件寄出即可。
         </Segment>
         <Segment attached>

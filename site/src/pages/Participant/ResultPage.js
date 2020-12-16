@@ -73,7 +73,7 @@ export function WaitForPayPage () {
       <Header textAlign="center"
         as='h2'>感謝您的合作</Header>
       <Message positive>
-        <Message.Header>實驗室將在收到領據後，儘快以您指定的方法付款給您。</Message.Header>
+        <Message.Header>實驗室將在收到領據後，會在七日內以您指定的方法付款給您。</Message.Header>
       </Message>
       <ContactComp/>
     </div>

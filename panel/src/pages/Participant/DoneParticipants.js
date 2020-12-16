@@ -42,7 +42,7 @@ class DoneParticipants extends Component {
     if (loading) return <LoadingPage/>
     const payOrInvite = researchDoneParticipants.filter(p => p.status === status.RESEARCH_DONE)
     const Inverviewees = researchDoneParticipants.filter(p => [status.INTERVIEW_ACCEPTED, status.INTERVIEW_INVITED, status.INTERVIEW_SCHEDULED].includes(p.status))
-    const settingPayment = researchDoneParticipants.filter(p => [status.SET_RECEIPT_MAIL_METHOD, status.SET_PAY_METHOD, status.PAYMENT_REQUIRED].includes(p.status))
+    const settingPayment = researchDoneParticipants.filter(p => [status.SET_RECEIPT_MAIL_METHOD, status.SET_PAY_METHOD, status.PAYMENT_REQUIRED, status.RECEIPT_CHOSEN, status.WAIT_FOR_RECEIPT_REVERSED].includes(p.status))
     return <div className="page">
       <Header as="h1">實驗後面板</Header>
       <div className="numbers">

@@ -16,7 +16,12 @@ const {
 } = require('../utils')
 const validators = require('./validators')
 const status = require('../status')
-const { sendCompensationMail, sendConsentMailInfo, sendApkLink } = require('../mail')
+const {
+  sendReceiptMailInfo,
+  sendCompensationMail,
+  sendConsentMailInfo,
+  sendApkLink
+} = require('../mail')
 
 router.get('/checkid', async (req, res) => {
   try {
@@ -24,7 +29,11 @@ router.get('/checkid', async (req, res) => {
     const { id } = payload
     const result = await fetchParticipantDetailById(id)
     if (result !== null) {
-      res.json({ status: result.status, phoneBrand: result.phoneBrand })
+      res.json({
+        status: result.status,
+        phoneBrand: result.phoneBrand,
+        receiptMailMethod: result.receiptMailMethod
+      })
     } else {
       const candi = await fetchCandidateDetailById(id)
       if (candi === null) res.status(400).send('not found')
@@ -132,10 +141,31 @@ router.post('/done/sendconsent', async (req, res) => {
 router.post('/done/receipt', validators.receipt, async (req, res) => {
   try {
     const payload = req.body
-    const { id, mailMethod } = payload
+    const {
+      id,
+      mailMethod,
+      mailBackAddress,
+      mailBackCell,
+      mailBackPostNumber,
+      mailBackName
+    } = payload
+    let data
+    if (['reversedOrdinaryMail', 'reversedRegisteredMail'].includes(mailMethod)) {
+      data = {
+        receiptMailMethod: mailMethod,
+        receiptReverseInfo: {
+          mailBackAddress,
+          mailBackCell,
+          mailBackPostNumber,
+          mailBackName
+        }
+      }
+    } else {
+      data = { receiptMailMethod: mailMethod }
+    }
     await updateDB(`participant/${id}`, {
-      receiptMailMethod: mailMethod,
-      receiptMailTime: moment().tz('Asia/Taipei').format(),
+      ...data,
+      // receiptMailTime: moment().tz('Asia/Taipei').format(),
       status: status.SET_PAY_METHOD,
       lastStatusChanged: moment().tz('Asia/Taipei').format()
     })
@@ -152,6 +182,7 @@ router.post('/done/compensation', busboyMiddleWare, validators.compensation, asy
     const { id, payMethod } = payload
     let imgPath = null
     let payDetail = {}
+    const p = await fetchParticipantDetailById(id)
     if (payMethod === 'bankTransfer') {
       const { bankAccount, bankCode } = payload
       imgPath = await uploadFile(req, 'passbooks', id)
@@ -163,8 +194,26 @@ router.post('/done/compensation', busboyMiddleWare, validators.compensation, asy
       const { linePayAccount } = payload
       payDetail = { payMethod, linePayAccount }
     }
+    const nextStatus = ['reversedOrdinaryMail', 'reversedRegisteredMail'].includes(p.receiptMailMethod)
+      ? status.WAIT_FOR_RECEIPT_REVERSED : status.RECEIPT_CHOSEN
     await updateDB(`participant/${id}`, {
       payDetail,
+      status: nextStatus,
+      lastStatusChanged: moment().tz('Asia/Taipei').format()
+    })
+    if (!['reversedOrdinaryMail', 'reversedRegisteredMail'].includes(p.receiptMailMethod)) await sendReceiptMailInfo(id)
+    res.json({ status: nextStatus })
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
+
+router.post('/done/sendreceipt', async (req, res) => {
+  try {
+    const { id } = req.body
+    await updateDB(`participant/${id}`, {
+      receiptMailTime: moment().tz('Asia/Taipei').format(),
       status: status.PAYMENT_REQUIRED,
       lastStatusChanged: moment().tz('Asia/Taipei').format()
     })
@@ -245,12 +294,13 @@ router.get('/mailmethod', async (req, res) => {
   }
 })
 
-router.get('/receipt', async (req, res) => {
+router.get('/receipt/mailmethod', async (req, res) => {
   try {
     const payload = req.query
     const { id } = payload
     const url = await getReceiptUrl(id)
-    res.json({ url })
+    const mailMethod = await fetchDB(`participant/${id}/receiptMailMethod`)
+    res.json({ mailMethod, url })
   } catch (err) {
     console.error(err)
     res.status(500).send('error')

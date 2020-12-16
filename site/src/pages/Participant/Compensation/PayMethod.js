@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Header, Segment, Checkbox, Button, Message } from 'semantic-ui-react'
+import { Header, Segment, Checkbox, Button, Message, Modal } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import check from 'check-types'
 import { ContactComp } from '../../Contact'
@@ -130,6 +130,11 @@ export default class PayMethod extends Component {
       payMethod,
       uri
     } = this.state
+    const { receiptMailMethod } = this.props
+    const btnMsg = ['reversedOrdinaryMail', 'reversedRegisteredMail'].includes(receiptMailMethod)
+      ? '送出後請等待研究團隊寄出回郵信封與提供相關細節。'
+      : '送出後我們會將交件細節寄給您，並將頁面轉到相關頁面，方便您取得需要的資訊。並請在一週內交付同意書。'
+
     return (
       <div className="page">
         <Header as='h2'
@@ -190,11 +195,16 @@ export default class PayMethod extends Component {
           imageUrl={uri}
         /> : null }
         <Segment attached>
-          <Button fluid
-            primary
-            onClick={this.onSubmit}
-            loading={uploading}
-            disabled={uploading} >送出</Button>
+          <Modal
+            size="mini"
+            trigger={<Button fluid
+              color="green"
+              loading={uploading}
+              disabled={uploading} >送出</Button>}
+            header='注意事項'
+            content={btnMsg}
+            actions={[{ key: 'confirm', content: '確定', positive: true, onClick: this.onSubmit }]}
+          />
         </Segment>
         <ContactComp/>
       </div>
@@ -204,5 +214,6 @@ export default class PayMethod extends Component {
 
 PayMethod.propTypes = {
   id: PropTypes.string,
-  setStatus: PropTypes.func
+  setStatus: PropTypes.func,
+  receiptMailMethod: PropTypes.string
 }

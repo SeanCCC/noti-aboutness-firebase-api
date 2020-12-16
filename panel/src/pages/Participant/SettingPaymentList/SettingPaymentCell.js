@@ -1,5 +1,6 @@
 import React, { Component, Fragment, useState } from 'react'
 import PropTypes from 'prop-types'
+import axios from 'axios'
 import { Table, Button, Modal, Header, Image } from 'semantic-ui-react'
 import status from '../../status'
 import { mailMethodOptions, payMethodOptions } from '../../formOptions'
@@ -92,6 +93,47 @@ InfoModalComponent.propTypes = {
   passbook: PropTypes.string
 }
 
+const ReversedInfoModalComponent = (props) => {
+  const { p, sendReverseNotice } = props
+  const { receiptReverseInfo } = p
+  const [loading, setLoading] = useState(false)
+  const mailMethod = translate(mailMethodOptions, p.mailMethod, '未送出')
+  return <Modal.Content scrolling>
+    <Modal.Description>
+      <Header as="h2">{`${p.name}的回郵資訊`}</Header>
+      姓名:{receiptReverseInfo.mailBackName}<br/>
+      地址:{receiptReverseInfo.mailBackAddress}<br/>
+      電話:{receiptReverseInfo.mailBackCell}<br/>
+      郵遞區號:{receiptReverseInfo.mailBackPostNumber}<br/>
+      寄送方法:{mailMethod}<br/>
+      回郵時間:{receiptReverseInfo.reverseNoticedTime || '尚未送出回郵'} <br/>
+      <Modal
+        size="mini"
+        trigger={<Button content="通知回郵已寄出" loading={loading} disabled={!!p.reverseNoticedTime} primary />}
+        header='是否通知回郵已寄出'
+        content='請在確實寄出後再點選'
+        actions={['取消', {
+          key: 'confirm',
+          content: '確定',
+          positive: true,
+          onClick: async () => {
+            setLoading(true)
+            await sendReverseNotice()
+            setLoading(false)
+          }
+        }]}
+      />
+    </Modal.Description>
+  </Modal.Content>
+}
+
+ReversedInfoModalComponent.propTypes = {
+  p: PropTypes.object,
+  passbook: PropTypes.string,
+  sendReverseNotice: PropTypes.func,
+  receiptReverseInfo: PropTypes.object
+}
+
 export default class ConsentPendingCell extends Component {
   constructor (props) {
     super(props)
@@ -102,6 +144,7 @@ export default class ConsentPendingCell extends Component {
     }
     this.sendReceiptReminder = this.sendReceiptReminder.bind(this)
     this.sendPayMethodReminder = this.sendPayMethodReminder.bind(this)
+    this.sendReverseNotice = this.sendReverseNotice.bind(this)
   }
 
   async componentDidMount () {
@@ -129,6 +172,19 @@ export default class ConsentPendingCell extends Component {
     this.setState({ sendingPayMethodReminder: false })
   }
 
+  async sendReverseNotice () {
+    const { participant } = this.props
+    try {
+      this.setState({ sendingReminder: true })
+      await axios.post('/apis/participant/receipt/reversesent', {
+        uid: participant.uid
+      })
+      this.setState({ sendingReminder: false })
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   render () {
     const { passbook } = this.state
     const { participant: p, completePayment } = this.props
@@ -154,6 +210,15 @@ export default class ConsentPendingCell extends Component {
           {p.compensation + '元' || 'N/A'}
         </Table.Cell>
         <Table.Cell>
+          {p.status === status.WAIT_FOR_RECEIPT_REVERSED
+            ? <Fragment><Modal
+              size="massive"
+              trigger={<Button content="回郵資訊與動作" primary />}
+            >
+              <ReversedInfoModalComponent p={p} sendReverseNotice={this.sendReverseNotice}/>
+            </Modal>
+            </Fragment>
+            : null}
           {p.status === status.SET_RECEIPT_MAIL_METHOD
             ? <Fragment><Modal
               size="mini"

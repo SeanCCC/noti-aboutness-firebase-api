@@ -119,7 +119,8 @@ export const updateParticipants = payload => {
   const researchDoneParticipants =
     participants.filter((d) => [status.RESEARCH_DONE, status.SET_RECEIPT_MAIL_METHOD,
       status.SET_PAY_METHOD, status.PAYMENT_REQUIRED, status.PAYMENT_DONE,
-      status.INTERVIEW_INVITED, status.INTERVIEW_ACCEPTED, status.INTERVIEW_SCHEDULED].includes(d.status))
+      status.INTERVIEW_INVITED, status.INTERVIEW_ACCEPTED, status.INTERVIEW_SCHEDULED,
+      status.RECEIPT_CHOSEN, status.WAIT_FOR_RECEIPT_REVERSED].includes(d.status))
   const researchPendingParticipants =
     participants.filter((d) => [status.CONSENT_VALID, status.BIG_FIVE_DONE, status.APP_VALID].includes(d.status))
   const consentPendingNumber = createPrepareNumber(consentPendingParticipants)

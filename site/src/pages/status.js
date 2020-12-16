@@ -11,6 +11,8 @@ const RESEARCH_RUNNING = 'researchRunning'
 const RESEARCH_DONE = 'researchDone'
 const SET_RECEIPT_MAIL_METHOD = 'setReceiptMailMethod'
 const SET_PAY_METHOD = 'setPayMethod'
+const WAIT_FOR_RECEIPT_REVERSED = 'waitForReceiptReversed'
+const RECEIPT_CHOSEN = 'receiptChosen'
 const PAYMENT_REQUIRED = 'paymentRequired'
 const PAYMENT_DONE = 'paymentDone'
 const INTERVIEW_INVITED = 'interviewInvited'
@@ -32,6 +34,8 @@ export default {
   RESEARCH_DONE,
   SET_RECEIPT_MAIL_METHOD,
   SET_PAY_METHOD,
+  WAIT_FOR_RECEIPT_REVERSED,
+  RECEIPT_CHOSEN,
   PAYMENT_REQUIRED,
   PAYMENT_DONE,
   INTERVIEW_INVITED,

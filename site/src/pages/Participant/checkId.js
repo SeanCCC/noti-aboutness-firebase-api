@@ -19,6 +19,8 @@ const statusMoveTable = [
   { status: status.RESEARCH_DONE, path: '/participant/complete' },
   { status: status.SET_RECEIPT_MAIL_METHOD, path: '/participant/compensation/choosemail', api: '/apis/participant/done/receipt' },
   { status: status.SET_PAY_METHOD, path: '/participant/compensation/choosepay' },
+  { status: status.WAIT_FOR_RECEIPT_REVERSED, path: '/participant/compensation/waitreversed' },
+  { status: status.RECEIPT_CHOSEN, path: '/participant/compensation/mailinfo', api: '/apis/participant/done/sendreceipt' },
   { status: status.PAYMENT_REQUIRED, path: '/participant/waitforpay' },
   { status: status.INTERVIEW_INVITED, path: '/participant/interview/invitation', api: '/apis/participant/done/interview' },
   { status: status.INTERVIEW_ACCEPTED, path: '/participant/interview/accept' },
@@ -35,7 +37,8 @@ export const checkId = (WrappedComponent) => {
         loading: true,
         error: false,
         status: status.INIT,
-        phoneBrand: null
+        phoneBrand: null,
+        receiptMailMethod: null
       }
       this.redirect = this.redirect.bind(this)
       this.nextStep = this.nextStep.bind(this)
@@ -94,10 +97,11 @@ export const checkId = (WrappedComponent) => {
     }
 
     render () {
-      const { authed, loading, status, phoneBrand } = this.state
+      const { authed, loading, status, phoneBrand, receiptMailMethod } = this.state
       if (loading) return <LoadingPage text="載入中"/>
       else if (authed === true) {
         return this.redirect() || <WrappedComponent {...this.props}
+          receiptMailMethod={receiptMailMethod}
           phoneBrand={phoneBrand}
           nextStep={this.nextStep}
           status={status}
