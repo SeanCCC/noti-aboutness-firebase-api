@@ -5,9 +5,11 @@ export const batteryLinkTable = {
   xiaomi: 'https://docs.google.com/document/d/1Bg6TyPAzUXZy9XaIZiNzPyQGroa4nF2Cx3j36Vwix34/edit#heading=h.ms2a4br3ishv',
   samsung: 'https://docs.google.com/document/d/1Bg6TyPAzUXZy9XaIZiNzPyQGroa4nF2Cx3j36Vwix34/edit#heading=h.ey9wdlgi7nd4',
   sony: 'https://docs.google.com/document/d/1Bg6TyPAzUXZy9XaIZiNzPyQGroa4nF2Cx3j36Vwix34/edit#heading=h.vnfowizn96c',
-  vivo: 'https://docs.google.com/document/d/1Bg6TyPAzUXZy9XaIZiNzPyQGroa4nF2Cx3j36Vwix34/edit#heading=h.ul17p3jwpkvr'
+  vivo: 'https://docs.google.com/document/d/1Bg6TyPAzUXZy9XaIZiNzPyQGroa4nF2Cx3j36Vwix34/edit#heading=h.ul17p3jwpkvr',
+  realme: 'https://docs.google.com/document/d/1Bg6TyPAzUXZy9XaIZiNzPyQGroa4nF2Cx3j36Vwix34/edit#heading=h.8niwlr2771ys',
+  oppo: 'https://docs.google.com/document/d/1Bg6TyPAzUXZy9XaIZiNzPyQGroa4nF2Cx3j36Vwix34/edit#heading=h.ik7ymn1jpeyi'
 }
 export const esmTutorial = 'https://docs.google.com/document/d/1Bg6TyPAzUXZy9XaIZiNzPyQGroa4nF2Cx3j36Vwix34/edit?usp=sharing'
-export const installYoutubeId = 'y23G5DVGkYk'
+export const installYoutubeId = 'FC7o3QdPKyc'
 export const orientationYoutubeId = '7VPQgyaAx6E'
 export const receiptSample = 'https://storage.googleapis.com/noti-aboutness-firebase-48728.appspot.com/receipt-sample.png'
