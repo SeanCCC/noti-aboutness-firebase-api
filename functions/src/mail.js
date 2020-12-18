@@ -128,7 +128,7 @@ const sendConsentAcceptMail = async (id) => {
   const config = {
     from: 'MUILAB通知實驗研究團隊',
     to: email,
-    subject: 'MUILAB通知實驗-同意書確認信',
+    subject: 'MUILAB通知實驗-同意書已收到，請填寫表單',
     html
   }
   return transporter.sendMail(config)
@@ -404,9 +404,8 @@ const sendResearchEndNotice = async (id) => {
   return transporter.sendMail(config)
 }
 
-const sendApkLink = async (id) => {
+const sendApkLink = async (id, apkFileLink) => {
   const { email, name } = await fetchEmailInfo(id, 'participant')
-  const apkFileLink = 'https://firebasestorage.googleapis.com/v0/b/noti-aboutness-firebase-48728.appspot.com/o/app-debug-2.0.8-B.apk?alt=media&token=10744971-2d53-4d0f-a9b0-230ad95dd365'
   const html = mailTemplate([
     `${name}先生/小姐您好，`,
     '我們是MUILAB的通知研究團隊，',

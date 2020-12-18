@@ -63,6 +63,8 @@ router.post('/done/video', validators.video, async (req, res) => {
   }
 })
 
+const apkFileLink = 'https://storage.googleapis.com/noti-aboutness-firebase-48728.appspot.com/app-debug-2.2.1.apk'
+
 router.post('/done/bigfive', validators.bigfive, async (req, res) => {
   try {
     const payload = req.body
@@ -70,7 +72,7 @@ router.post('/done/bigfive', validators.bigfive, async (req, res) => {
     const setBigfiveAsync = setDB(`bigfive/${id}`, result)
     const moveStatusAsync = moveStauts(id, status.BIG_FIVE_DONE)
     await Promise.all([moveStatusAsync, setBigfiveAsync])
-    await sendApkLink(id)
+    await sendApkLink(id, apkFileLink)
     res.json({ status: status.BIG_FIVE_DONE })
   } catch (err) {
     console.error(err)
