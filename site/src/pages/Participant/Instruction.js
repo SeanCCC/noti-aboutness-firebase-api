@@ -4,7 +4,7 @@ import { ContactComp } from '../Contact'
 import PropTypes from 'prop-types'
 import { mobileOpitons } from '../Recruit/formOptions'
 import QRCode from 'qrcode.react'
-import { apkFileLink, batteryLinkTable, esmTutorial, installYoutubeId } from './constants'
+import { internalApkLink, batteryLinkTable, esmTutorial, installYoutubeId } from './constants'
 
 export default class Instruction extends Component {
   render () {
@@ -37,7 +37,7 @@ export default class Instruction extends Component {
         </Segment>
         <Segment attached>
           <a target="_blank"
-            href={apkFileLink}
+            href={internalApkLink}
             rel='noreferrer noopener'>
             <Button fluid
               primary
@@ -48,7 +48,7 @@ export default class Instruction extends Component {
           </a>
           <div className='align-center short-padded'>
               實驗App下載用QRCode
-            <QRCode value={apkFileLink} />
+            <QRCode value={internalApkLink} />
           </div>
         </Segment>
         <Segment attached>

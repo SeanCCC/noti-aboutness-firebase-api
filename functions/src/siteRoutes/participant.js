@@ -63,7 +63,7 @@ router.post('/done/video', validators.video, async (req, res) => {
   }
 })
 
-const apkFileLink = 'https://storage.googleapis.com/noti-aboutness-firebase-48728.appspot.com/app-debug-2.2.1.apk'
+const apkFileLink = 'https://notiaboutness.muilab.org/appdl'
 
 router.post('/done/bigfive', validators.bigfive, async (req, res) => {
   try {

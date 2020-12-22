@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import queryString from 'query-string'
 import PropTypes from 'prop-types'
-import { Header, Table, Segment, Embed, Message, Button, Icon } from 'semantic-ui-react'
+import { Header, Table, Segment, Embed, Button, Icon } from 'semantic-ui-react'
 import axios from 'axios'
 import { mobileOpitons } from '../Recruit/formOptions'
 import { ContactComp } from '../Contact'
 import QRCode from 'qrcode.react'
 import { LoadingPage, ErrorPage } from './ResultPage'
-import { apkFileLink, batteryLinkTable, esmTutorial, installYoutubeId } from './constants'
+import { internalApkLink, batteryLinkTable, esmTutorial, installYoutubeId } from './constants'
 
 export default class ScorePage extends Component {
   constructor (props) {
@@ -78,7 +78,7 @@ export default class ScorePage extends Component {
           <Header as='h3'
             textAlign="center">App下載連結</Header>
           <a target="_blank"
-            href={apkFileLink}
+            href={internalApkLink}
             rel='noreferrer noopener'>
             <Button fluid
               primary
@@ -89,7 +89,7 @@ export default class ScorePage extends Component {
           </a>
           <div className='align-center short-padded'>
               實驗App下載用QRCode
-            <QRCode value={apkFileLink} />
+            <QRCode value={internalApkLink} />
           </div>
         </Segment>
         <Segment attached>

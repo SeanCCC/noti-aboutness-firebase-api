@@ -3,6 +3,7 @@ import 'semantic-ui-css/semantic.min.css'
 import './App.scss'
 import Recruit from './pages/Recruit'
 import Participant from './pages/Participant'
+import AppDownload from './pages/AppDownload'
 import {
   BrowserRouter as Router,
   Switch,
@@ -15,8 +16,12 @@ function App () {
     <Router>
       <div className="App">
         <Switch>
-          <Route path="/recruit" component={Recruit}/>
-          <Route path="/participant" component={Participant}/>
+          <Route path="/recruit"
+            component={Recruit}/>
+          <Route path="/participant"
+            component={Participant}/>
+          <Route path="/appdl"
+            component={AppDownload}/>
           <Route path="/">
             <Redirect to='/recruit/introduction' />
           </Route>
