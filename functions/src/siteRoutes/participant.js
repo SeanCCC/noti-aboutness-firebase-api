@@ -12,7 +12,8 @@ const {
   busboyMiddleWare,
   uploadFile,
   moveStauts,
-  getReceiptUrl
+  getReceiptUrl,
+  scoreBigFive
 } = require('../utils')
 const validators = require('./validators')
 const status = require('../status')
@@ -69,8 +70,13 @@ router.post('/done/bigfive', validators.bigfive, async (req, res) => {
   try {
     const payload = req.body
     const { id, result } = payload
+    const score = scoreBigFive(result)
     const setBigfiveAsync = setDB(`bigfive/${id}`, result)
-    const moveStatusAsync = moveStauts(id, status.BIG_FIVE_DONE)
+    const moveStatusAsync = updateDB(`participant/${id}`, {
+      bigfive: score,
+      status: status.BIG_FIVE_DONE,
+      lastStatusChanged: moment().tz('Asia/Taipei').format()
+    })
     await Promise.all([moveStatusAsync, setBigfiveAsync])
     await sendApkLink(id, apkFileLink)
     res.json({ status: status.BIG_FIVE_DONE })

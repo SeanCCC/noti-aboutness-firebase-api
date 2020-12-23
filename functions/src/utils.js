@@ -136,6 +136,23 @@ const getReceiptUrl = async (id) => {
   return url
 }
 
+const scoreBigFive = (raw) => {
+  const score = [0, 0, 0, 0, 0]
+  const positive = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 30, 32, 34, 36, 39, 40, 41, 42, 44, 46, 47, 49]
+  raw.forEach((item, idx) => {
+    const s = positive.includes(idx) ? item : ((item * -1) + 6)
+    score[idx % 5] += s
+  })
+  const result = {
+    extraversion: score[0],
+    agreeableness: score[1],
+    conscientiousness: score[2],
+    emotionalStability: score[3],
+    intellect: score[4]
+  }
+  return result
+}
+
 module.exports = {
   busboyMiddleWare,
   uploadFile,
@@ -149,5 +166,6 @@ module.exports = {
   fetchCandidateDetailById,
   moveStauts,
   db,
-  getReceiptUrl
+  getReceiptUrl,
+  scoreBigFive
 }
