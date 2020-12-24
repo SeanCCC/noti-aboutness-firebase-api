@@ -51,7 +51,7 @@ module.exports = [{ packageName: 'com.Slack', appName: 'Slack', category: 'chat'
   { packageName: 'money.com.invoicemanager', appName: '發票載具', category: 'tool' },
   { packageName: 'com.sparkslab.dcardreader', appName: 'Dcard', category: 'social' },
   { packageName: 'com.jkos.app', appName: '街口支付', category: 'finance' },
-  { packageName: 'com.bbk.calendar', appName: '行事曆', category: 'calendar' },
+  { packageName: 'com.bbk.calendar', appName: '行事曆', category: 'reminder' },
   { packageName: 'com.android.systemui', appName: null, category: 'system' },
   {
     packageName: 'com.global.foodpanda.android',
@@ -176,13 +176,12 @@ module.exports = [{ packageName: 'com.Slack', appName: 'Slack', category: 'chat'
   { packageName: 'com.ddim.happygo', appName: 'HAPPY GO', category: 'market' },
   { packageName: 'com.ddpowers.uupon', appName: 'UUPON', category: 'market' },
   { packageName: 'com.PChome.Shopping', appName: 'PChome24h購物', category: 'market' },
-  { packageName: 'com.example.notificationsender', appName: 'NotificationSender' },
+  { packageName: 'com.example.notificationsender', appName: 'NotificationSender', category: undefined },
   {
     packageName: 'com.google.android.apps.recorder',
     appName: '錄音機',
     category: 'tool'
   },
-  { packageName: 'com.heytap.themestore', appName: '主題商店', category: undefined }, //
   { packageName: 'com.supercell.clashofclans', appName: '部落衝突', category: 'game' },
   { packageName: 'com.wssyncmldm', appName: undefined, category: 'system' },
   {
@@ -232,85 +231,80 @@ module.exports = [{ packageName: 'com.Slack', appName: 'Slack', category: 'chat'
     appName: '三星截圖',
     category: 'system'
   },
-  { packageName: 'com.iqoo.powersaving', appName: undefined, category: undefined },
-  { packageName: 'com.vivo.assistant', appName: 'Jovi智慧場景', category: undefined },
-  { packageName: 'com.sony.nfx.app.sfrc', appName: 'News Suite', category: undefined },
+  { packageName: 'com.iqoo.powersaving', appName: undefined, category: 'system' },
+  { packageName: 'com.vivo.assistant', appName: 'Jovi智慧場景', category: 'tool' },
+  { packageName: 'com.sony.nfx.app.sfrc', appName: 'News Suite', category: 'reader' },
   {
     packageName: 'com.microsoft.office.outlook',
     appName: 'Outlook',
     category: 'email'
   },
-  { packageName: 'com.eztable.shareshopping', appName: 'EZTABLE', category: undefined },
+  { packageName: 'com.eztable.shareshopping', appName: 'EZTABLE', category: 'food' },
   {
     packageName: 'com.sec.android.app.dexonpc',
     appName: 'PC 版 DeX',
-    category: undefined
+    category: 'system'
   },
-  { packageName: 'nexti.android.bustaipei', appName: '台北等公車', category: undefined },
+  { packageName: 'nexti.android.bustaipei', appName: '台北等公車', category: 'traffic' },
   {
     packageName: 'com.google.android.apps.wellbeing',
     appName: 'Digital Wellbeing',
-    category: undefined
+    category: 'system'
   },
   {
     packageName: 'com.sec.spp.push',
     appName: 'Samsung Push Service',
-    category: undefined
+    category: 'reader'
   },
   { packageName: 'com.udn.news', appName: 'udn News', category: 'reader' },
   { packageName: 'net.ettoday.phone', appName: '新聞雲', category: 'reader' },
   {
     packageName: 'com.yahoo.mobile.client.android.superapp',
     appName: 'Yahoo奇摩',
-    category: undefined
+    category: 'reader'
   },
   {
     packageName: 'com.fusionmedia.investing',
     appName: 'Investing',
-    category: undefined
+    category: 'finance'
   },
   {
     packageName: 'com.amazon.mShop.android.shopping',
     appName: 'Amazon Shopping',
     category: 'market'
   },
-  { packageName: 'com.audible.application', appName: 'Audible', category: undefined },
+  { packageName: 'com.audible.application', appName: 'Audible', category: 'reader' },
   {
     packageName: 'com.yahoo.mobile.client.android.TWStock',
     appName: '股市',
-    category: undefined
+    category: 'finance'
   },
-  { packageName: 'com.reddit.frontpage', appName: 'Reddit', category: undefined },
+  { packageName: 'com.reddit.frontpage', appName: 'Reddit', category: 'reader' },
   {
     packageName: 'com.mobile01.android.forum',
     appName: 'Mobile01',
-    category: undefined
+    category: 'reader'
   },
   {
     packageName: 'com.google.android.apps.fitness',
     appName: 'Fit',
-    category: undefined
+    category: 'tool'
   },
   { packageName: 'com.eslite.tw', appName: '誠品人', category: 'market' },
-  { packageName: 'com.wowprimeapp.app', appName: '王品瘋美食', category: undefined },
+  { packageName: 'com.wowprimeapp.app', appName: '王品瘋美食', category: 'food' },
   { packageName: 'com.garena.game.kgtw', appName: '傳說對決', category: 'game' },
-  {
-    packageName: 'com.google.android.apps.paidtasks',
-    appName: 'Google 意見回饋獎勵',
-    category: undefined
-  },
   { packageName: 'com.linkedin.android', appName: 'LinkedIn', category: 'social' },
   { packageName: 'com.esun', appName: '玉山A+行動下單', category: 'finance' },
   { packageName: 'com.housefun.buyapp', appName: '好房網買屋', category: 'market' },
-  { packageName: 'com.google.android.dialer', appName: undefined, category: undefined },
+  { packageName: 'com.google.android.dialer', appName: undefined, category: 'phone' },
   { packageName: 'com.wealert.weather', appName: '天氣即時預報', category: 'tool' },
-  { packageName: 'com.hpicorp.codegociti', appName: '行動市集', category: undefined },
-  { packageName: 'com.htc.launcher', appName: 'Sense 首頁', category: undefined },
-  { packageName: 'org.telegram.messenger', appName: 'Telegram', category: undefined },
+  { packageName: 'com.hpicorp.codegociti', appName: '行動市集', category: 'finance' },
+  { packageName: 'com.htc.launcher', appName: 'Sense 首頁', category: 'tool' },
+  { packageName: 'org.telegram.messenger', appName: 'Telegram', category: 'chat' },
   {
     packageName: 'com.melodis.midomiMusicIdentifier.freemium',
     appName: 'SoundHound',
-    category: undefined
+    category: 'music'
   },
   {
     packageName: 'com.yahoo.mobile.client.android.mail',
@@ -320,9 +314,9 @@ module.exports = [{ packageName: 'com.Slack', appName: 'Slack', category: 'chat'
   {
     packageName: 'bodyfast.zero.fastingtracker.weightloss',
     appName: '斷食追蹤',
-    category: undefined
+    category: 'food'
   },
-  { packageName: 'com.pinterest', appName: 'Pinterest', category: undefined },
+  { packageName: 'com.pinterest', appName: 'Pinterest', category: 'reader' },
   {
     packageName: 'com.nianticlabs.pokemongo',
     appName: 'Pokémon GO',
@@ -332,7 +326,7 @@ module.exports = [{ packageName: 'com.Slack', appName: 'Slack', category: 'chat'
   {
     packageName: 'money.expense.budget.wallet.manager.track.finance.tracker',
     appName: 'Money Manager',
-    category: undefined
+    category: 'finance'
   },
   {
     packageName: 'org.thunderdog.challegram',
@@ -342,25 +336,25 @@ module.exports = [{ packageName: 'com.Slack', appName: 'Slack', category: 'chat'
   {
     packageName: 'com.sonyericsson.conversations',
     appName: '訊息功能',
-    category: undefined
+    category: 'chat'
   },
   {
     packageName: 'tw.com.taishinbank.richart',
     appName: 'Richart',
-    category: undefined
+    category: 'finance'
   },
   {
     packageName: 'com.sonymobile.superstamina',
     appName: 'STAMINA模式',
-    category: undefined
+    category: 'system'
   },
   {
     packageName: 'games.wfs.anothereden',
     appName: 'ANOTHER EDEN',
-    category: undefined
+    category: 'game'
   },
   { packageName: 'tv.twitch.android.app', appName: 'Twitch', category: 'media' },
-  { packageName: 'com.fitbit.FitbitMobile', appName: 'Fitbit', category: undefined },
+  { packageName: 'com.fitbit.FitbitMobile', appName: 'Fitbit', category: 'tool' },
   { packageName: 'com.discord', appName: 'Discord', category: 'chat' },
   { packageName: 'com.twitter.android', appName: 'Twitter', category: 'socail' },
   { packageName: 'tw.clotai.easyreader', appName: '輕鬆讀小說', category: 'reader' },
@@ -369,13 +363,13 @@ module.exports = [{ packageName: 'com.Slack', appName: 'Slack', category: 'chat'
   {
     packageName: 'com.sonyericsson.android.camera',
     appName: '相機',
-    category: undefined
+    category: 'system'
   },
   { packageName: 'com.hyxen.app.etmall', appName: '東森購物', category: 'market' },
   {
     packageName: 'com.samsung.android.gearrplugin',
     appName: 'Watch Active2 Plugin',
-    category: undefined
+    category: 'tool'
   },
   { packageName: 'com.agoda.mobile.consumer', appName: 'Agoda', category: 'market' },
   {
@@ -392,32 +386,56 @@ module.exports = [{ packageName: 'com.Slack', appName: 'Slack', category: 'chat'
   {
     packageName: 'com.htc.aiclient',
     appName: 'HTC Sense Companion',
-    category: undefined
-  },
-  {
-    packageName: 'com.htc.captiveportallogin',
-    appName: 'HtcCaptivePortalLogin',
-    category: undefined
+    category: 'tool'
   },
   {
     packageName: 'com.samsung.android.calendar',
     appName: undefined,
-    category: undefined
+    category: 'reminder'
   },
   {
     packageName: 'com.sec.android.app.clockpackage',
     appName: undefined,
-    category: undefined
+    category: 'alarm'
   },
   {
     packageName: 'com.sonyericsson.soundenhancement',
     appName: '音訊設定',
-    category: undefined
+    category: 'system'
   },
   {
     packageName: 'com.sonyericsson.updatecenter',
     appName: undefined,
+    category: 'system'
+  },
+  { packageName: 'com.taobao.tmoversea.android', appName: '淘寶台灣', category: 'market' },
+  {
+    packageName: 'com.traplight.battleslides',
+    appName: 'Battle Legion',
+    category: 'game'
+  },
+  { packageName: 'com.s.antivirus', appName: 'AVG Protection', category: undefined },
+  {
+    packageName: 'com.android.providers.downloads.ui',
+    appName: '下載管理',
     category: undefined
   },
-  { packageName: 'com.taobao.tmoversea.android', appName: '淘寶台灣', category: 'market' }
+  { packageName: 'com.android.deskclock', appName: '時鐘', category: 'alarm' },
+  {
+    packageName: 'com.kpmoney.android',
+    appName: '理財幫手AndroMoney',
+    category: 'finance'
+  },
+  { packageName: 'com.android.htmlviewer', appName: 'HTML 檢視器', category: undefined },
+  {
+    packageName: 'com.chinatrust.mobilebank',
+    appName: 'Home Bank',
+    category: 'finance'
+  },
+  { packageName: 'com.klook', appName: 'KLOOK客路', category: undefined },
+  { packageName: 'com.xiaomi.discover', appName: '系統應用升級器', category: undefined },
+  { packageName: 'com.miui.securitycenter', appName: '手機管家', category: undefined },
+  { packageName: 'tw.gov.tra.twtraffic', appName: 'tra-ptr-app', category: undefined },
+  { packageName: 'com.ocard', appName: 'Ocard', category: undefined },
+  { packageName: 'com.miui.cleanmaster', appName: '垃圾清理', category: undefined }
 ]
