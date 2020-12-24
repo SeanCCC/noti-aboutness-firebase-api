@@ -21,7 +21,7 @@ const setResearchDone = async (uid, compensation) => {
 }
 
 const dailyRecordFunction = async () => {
-  const yesterday = moment().startOf('day').subtract(1, 'days').tz('Asia/Taipei').format()
+  const yesterday = moment().tz('Asia/Taipei').startOf('day').subtract(1, 'days').format()
   const now = moment().tz('Asia/Taipei')
   const uploadRecord = await fetchDB('/uploadRecord')
   console.log({ yesterday })
