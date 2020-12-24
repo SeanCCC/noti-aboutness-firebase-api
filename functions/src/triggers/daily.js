@@ -24,6 +24,7 @@ const dailyRecordFunction = async () => {
   const yesterday = moment().startOf('day').subtract(1, 'days').tz('Asia/Taipei').format()
   const now = moment().tz('Asia/Taipei')
   const uploadRecord = await fetchDB('/uploadRecord')
+  console.log({ yesterday })
   const result = _.mapValues(uploadRecord, (p) => {
     if (!p.notiDistHourly || !p.active) return p
     const notiDistDaily = _.chain(p.notiDistHourly)
@@ -31,6 +32,7 @@ const dailyRecordFunction = async () => {
       .reduce((acu, value, key) => {
         const date = moment(key, 'YYYY-MM-DD').tz('Asia/Taipei')
         if (date.isAfter(yesterday)) return acu
+        console.log({ notidate: date.format() })
         const amount = value.reduce((acc, { amount }) => acc + amount, 0)
         return [...acu, { date: key, amount }]
       }, [])
@@ -40,6 +42,7 @@ const dailyRecordFunction = async () => {
     const totalEsmCount = !p.esmDistDaily ? 0 : p.esmDistDaily
       .filter(d => {
         const date = moment(d.date, 'YYYY-MM-DD').tz('Asia/Taipei')
+        if (!date.isAfter(yesterday)) console.log({ esmdate: date.format() })
         return !date.isAfter(yesterday)
       })
       .reduce((acc, { amount }) => acc + amount, 0)

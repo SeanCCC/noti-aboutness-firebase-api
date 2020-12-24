@@ -1,6 +1,6 @@
-const { setDB, fetchDB, scoreBigFive } = require('./src/utils')
+// const { setDB, fetchDB, scoreBigFive } = require('./src/utils')
 // const { sendResearchStartMail } = require('./src/mail')
-// const { researchStarter } = require('./src/triggers/daily')
+const { dailyRecordFunction } = require('./src/triggers/daily')
 // const _appTable = require('./appTable')
 // const appTable = _appTable.reduce((acu, cur) => {
 //   if (cur.category === undefined || cur.appName === undefined) return acu
@@ -11,14 +11,15 @@ const { setDB, fetchDB, scoreBigFive } = require('./src/utils')
 // console.log({ appTable })
 // setDB('/appTable', appTable)
 
-const something = async () => {
-  const input = await fetchDB('/bigfive')
-  Object.keys(input).forEach((uid) => {
-    const bigFiveRaw = input[uid]
-    const score = scoreBigFive(bigFiveRaw)
-    console.log({ score })
-    setDB(`/participant/${uid}/bigfive`, score)
-  })
-}
+// const something = async () => {
+//   const input = await fetchDB('/bigfive')
+//   Object.keys(input).forEach((uid) => {
+//     const bigFiveRaw = input[uid]
+//     const score = scoreBigFive(bigFiveRaw)
+//     console.log({ score })
+//     setDB(`/participant/${uid}/bigfive`, score)
+//   })
+// }
 
-something()
+// something()
+dailyRecordFunction()
