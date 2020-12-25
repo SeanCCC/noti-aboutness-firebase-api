@@ -22,7 +22,6 @@ const setResearchDone = async (uid, compensation) => {
 
 const dailyRecordFunction = async () => {
   const yesterday = moment().tz('Asia/Taipei').startOf('day').subtract(1, 'days').format()
-  const now = moment().tz('Asia/Taipei')
   const uploadRecord = await fetchDB('/uploadRecord')
   console.log({ yesterday })
   const result = _.mapValues(uploadRecord, (p) => {
@@ -30,7 +29,7 @@ const dailyRecordFunction = async () => {
     const notiDistDaily = _.chain(p.notiDistHourly)
       .groupBy('date')
       .reduce((acu, value, key) => {
-        const date = moment(key, 'YYYY-MM-DD').tz('Asia/Taipei')
+        const date = moment.tz(key, 'YYYY-MM-DD', 'Asia/Taipei')
         if (date.isAfter(yesterday)) return acu
         console.log({ notidate: date.format() })
         const amount = value.reduce((acc, { amount }) => acc + amount, 0)
@@ -41,13 +40,14 @@ const dailyRecordFunction = async () => {
     const totalNotiCount = notiDistDaily.reduce((acc, { amount }) => acc + amount, 0)
     const totalEsmCount = !p.esmDistDaily ? 0 : p.esmDistDaily
       .filter(d => {
-        const date = moment(d.date, 'YYYY-MM-DD').tz('Asia/Taipei')
+        const date = moment.tz(d.date, 'YYYY-MM-DD', 'Asia/Taipei')
         if (!date.isAfter(yesterday)) console.log({ esmdate: date.format() })
         return !date.isAfter(yesterday)
       })
       .reduce((acc, { amount }) => acc + amount, 0)
     return { ...p, notiDistDaily, totalNotiCount, totalEsmCount }
   })
+  const now = moment().tz('Asia/Taipei')
   const researchDoneList = _.chain(result)
     .mapValues((r, uid) => {
       return { ...r, uid }
