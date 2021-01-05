@@ -54,9 +54,10 @@ const dailyRecordFunction = async () => {
     })
     .filter(r => {
       if (!r.active) return false
-      const then = moment(r.researchStartDate)
+      const then = moment.tz(r.researchStartDate, 'YYYY-MM-DD', 'Asia/Taipei')
       const ms = now.diff(then)
       const days = moment.duration(ms).asDays()
+      console.log({ days, cool: days >= periodRequired && r.totalEsmCount >= periodRequired * questionnaireEachDay })
       return days >= periodRequired && r.totalEsmCount >= periodRequired * questionnaireEachDay
     })
     .map((r) => {

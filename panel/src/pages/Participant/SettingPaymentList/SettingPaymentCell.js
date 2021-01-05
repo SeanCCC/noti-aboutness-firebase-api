@@ -111,7 +111,7 @@ const ReversedInfoModalComponent = (props) => {
         size="mini"
         trigger={<Button content="通知回郵已寄出" loading={loading} disabled={!!p.reverseNoticedTime} primary />}
         header='是否通知回郵已寄出'
-        content='請在確實寄出後再點選'
+        content='請在貼上28元郵資並且確實寄出後再點選，記得要在地址旁寫上電話號碼。'
         actions={['取消', {
           key: 'confirm',
           content: '確定',

@@ -10,9 +10,9 @@ const transporter = nodemailer.createTransport({
   auth: {
     type: 'OAuth2',
     user: 'notiatmuilab@gmail.com',
-    clientId: '217090144295-pt9048452rmom8aq5721oo7ak83cbah0.apps.googleusercontent.com',
-    clientSecret: 'ysWBMCIJTlI64Siftk0eBS9H',
-    refreshToken: '1//04KDiWhXPct-rCgYIARAAGAQSNwF-L9Ircq9bTxvI28GkSaqEyUGqcIF1t2B_bzLg5NonsQrrO_7_avAK16WcNNEmxhwJLS2heRQ'
+    clientId: '565872836833-65pu6hjk8ro591l2a3kp2leun7omqtqm.apps.googleusercontent.com',
+    clientSecret: 'D0BlAebCEWqXUa2sIGIi-e-s',
+    refreshToken: '1//04V55JMExBUbzCgYIARAAGAQSNwF-L9IrQk2ymPRMDOTbhrT13XxY8a4Y2zJifACcD5dN84WuPC9sKedrjxACt35E0ICKccXXghw'
   }
 })
 
@@ -311,7 +311,7 @@ const sendInterviewInvitation = async (id) => {
     '若您願意接受訪談，',
     '研究團隊將提供300元的車馬費。',
     '實驗的報酬也會在訪談當天以現金一併付清。',
-    `這是<a href="https://notiaboutness.muilab.org/participant/interview/invitation?id=${id}">邀請函</a>，`,
+    `請點入<a href="https://notiaboutness.muilab.org/participant/interview/invitation?id=${id}">邀請函</a>並回應，`,
     '期待您的回應。'
   ])
   const config = {
@@ -332,7 +332,7 @@ const sendInterviewInviteReminder = async (id) => {
     '若您願意接受訪談，',
     '研究團隊將提供300元的車馬費。',
     '實驗的報酬也會在訪談當天以現金一併付清。',
-    `這是<a href="https://notiaboutness.muilab.org/participant/interview/invitation?id=${id}">邀請函</a>，`,
+    `請點入<a href="https://notiaboutness.muilab.org/participant/interview/invitation?id=${id}">邀請函</a>並回應，`,
     '希望您能在近期回應。'
   ])
   const config = {
