@@ -2,7 +2,7 @@ const _ = require('lodash')
 const moment = require('moment-timezone')
 const { fetchDB, updateDB, findDB } = require('../utils')
 const status = require('../status')
-const { sendResearchEndNotice, sendResearchStartMail } = require('../mail')
+const { sendResearchEndNotice, sendResearchStartMail, sendWeekReminder } = require('../mail')
 const periodRequired = 14 // for pilot
 const questionnaireEachDay = 3
 
@@ -49,6 +49,22 @@ const dailyRecordFunction = async () => {
   })
   await updateDB('/uploadRecord', result)
   const now = moment().tz('Asia/Taipei')
+  const WeekRemindList = _.chain(result)
+    .mapValues((r, uid) => {
+      return { ...r, uid }
+    })
+    .filter(r => {
+      if (!r.active) return false
+      const then = moment.tz(r.researchStartDate, 'YYYY-MM-DD', 'Asia/Taipei')
+      const ms = now.diff(then)
+      const days = moment.duration(ms).asDays()
+      return days >= 7 && days < 8
+    })
+    .map((r) => {
+      return sendWeekReminder(r.uid, r.totalEsmCount)
+    })
+    .value()
+  await Promise.all(WeekRemindList)
   const researchDoneList = _.chain(result)
     .mapValues((r, uid) => {
       return { ...r, uid }
@@ -58,7 +74,6 @@ const dailyRecordFunction = async () => {
       const then = moment.tz(r.researchStartDate, 'YYYY-MM-DD', 'Asia/Taipei')
       const ms = now.diff(then)
       const days = moment.duration(ms).asDays()
-      console.log({ days, cool: days >= periodRequired && r.totalEsmCount >= periodRequired * questionnaireEachDay })
       return days >= periodRequired && r.totalEsmCount >= periodRequired * questionnaireEachDay
     })
     .map((r) => {

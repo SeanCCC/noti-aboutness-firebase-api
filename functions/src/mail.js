@@ -460,6 +460,28 @@ const sendReceiptReversedMail = async (id) => {
   return transporter.sendMail(config)
 }
 
+const sendWeekReminder = async (id, totalEsmCount) => {
+  const { email, name, researchStartDate } = await fetchEmailInfo(id, 'participant')
+  const html = mailTemplate([
+    `${name}先生/小姐您好，`,
+    `您的實驗從${researchStartDate}到今天剛好一週了，`,
+    `目前您總共填了${totalEsmCount}則問卷。`,
+    '請務必記得實驗在時間長度達兩週',
+    '且完成問卷數量到達每日平均3則總共42則時才會結束，',
+    '如果數量不足實驗會延長到數量滿足為止。',
+    '如果想知道您已完成的每日表單數量，',
+    `請進入<a href="https://notiaboutness.muilab.org/participant/score?id=${id}">此網站</a>查詢，`,
+    '感激不盡！'
+  ])
+  const config = {
+    from: 'MUILAB通知實驗研究團隊',
+    to: email,
+    subject: 'MUILAB通知實驗-首週進度提醒',
+    html
+  }
+  return transporter.sendMail(config)
+}
+
 module.exports = {
   sendEmailCheck,
   sendAcceptMail,
@@ -483,5 +505,6 @@ module.exports = {
   sendConsentMailInfo,
   sendApkLink,
   sendReceiptMailInfo,
-  sendReceiptReversedMail
+  sendReceiptReversedMail,
+  sendWeekReminder
 }
