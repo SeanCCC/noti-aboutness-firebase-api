@@ -47,6 +47,7 @@ const dailyRecordFunction = async () => {
       .reduce((acc, { amount }) => acc + amount, 0)
     return { ...p, notiDistDaily, totalNotiCount, totalEsmCount }
   })
+  await updateDB('/uploadRecord', result)
   const now = moment().tz('Asia/Taipei')
   const researchDoneList = _.chain(result)
     .mapValues((r, uid) => {
@@ -65,8 +66,7 @@ const dailyRecordFunction = async () => {
       return setResearchDone(r.uid, compensation)
     })
     .value()
-  await Promise.all(researchDoneList)
-  return updateDB('/uploadRecord', result)
+  return Promise.all(researchDoneList)
 }
 
 const researchStarter = async () => {
