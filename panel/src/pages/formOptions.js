@@ -12,8 +12,7 @@ const boolOptions = [
 
 const androidSystemVersion = [
   { key: 'notAndroid', text: '使用其他系統的手機', value: 'notAndroid' },
-  { key: '6', text: '6以下（包含6.x.x）', value: '6' },
-  { key: '7', text: '7.x.x', value: '7' },
+  { key: '7', text: '7以下（包含6.x.x）', value: '7' },
   { key: '8', text: '8.x.x', value: '8' },
   { key: '9', text: '9.x.x', value: '9' },
   { key: '10', text: '10.x.x', value: '10' },
