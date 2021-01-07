@@ -30,7 +30,7 @@ export default function Introduction () {
         as='h2'>招募條件</Header>
       <Segment attached>
       1.您必須年滿 20 歲，且未逾 60 歲。<br/>
-2.您必須使用 7.0 或更高版本的 Android 智慧型手機作為主要手機。{'（請進入設定>關於手機>Android版本處查看）'}<br/>
+2.您必須使用 8.0 或更高版本的 Android 智慧型手機作為主要手機。{'（請進入設定>關於手機>Android版本處查看）'}<br/>
 3.將會排除與主持人有利害關係的學生，包含主持人開課學生、指導學生，均會排除。
       </Segment>
       <Header textAlign="center"

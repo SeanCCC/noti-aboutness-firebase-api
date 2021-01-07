@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Header, Form, Modal } from 'semantic-ui-react'
-import { ContactComp } from '../Contact'
 import check from 'check-types'
 import axios from 'axios'
 import {
@@ -106,7 +105,7 @@ const formContent = [
     }, {
       type: 'select',
       label: '請選擇您的Android系統版本',
-      errorMsg: '該實驗目前不支援Android 6以下或非Android系統的手機',
+      errorMsg: '該實驗目前不支援Android 7以下或非Android系統的手機',
       name: 'androidVersion',
       options: androidSystemVersion
     }]
@@ -187,7 +186,7 @@ export default class FormPage extends Component {
     else if (['phoneNumber'].includes(name)) checkFunc = (input) => check.match(input, /^09\d{8}$/)
     else if (['phoneSystem'].includes(name)) checkFunc = (input) => input === 'android'
     else if (['phoneBrand'].includes(name)) checkFunc = (input) => input !== 'apple' && check.not.undefined(input)
-    else if (['androidVersion'].includes(name)) checkFunc = (input) => input !== 'notAndroid' && input !== '6' && check.not.undefined(input)
+    else if (['androidVersion'].includes(name)) checkFunc = (input) => input !== 'notAndroid' && input !== '7' && check.not.undefined(input)
     else if (['gender', 'city', 'occupation', 'cellularAccess', 'onlineFrequency', 'travelPlan', 'wearableDevice'].includes(name)) {
       checkFunc = check.not.undefined
     } else if (['brandName'].includes(name)) {
