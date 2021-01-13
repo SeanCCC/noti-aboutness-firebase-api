@@ -50,7 +50,8 @@ const sendAcceptMail = async (id) => {
   const { email, name } = await fetchEmailInfo(id, 'candidate')
   const html = mailTemplate([
     `${name}先生/小姐您好，`,
-    '感謝您願意參與此研究，',
+    '感謝您填寫招募問卷，',
+    '我們已經將您納入此實驗。',
     `<a href="https://notiaboutness.muilab.org/participant/orientation?id=${id}">此網站</a>會引導您完成知情同意流程，`,
     '請您點擊並按照指引完成所有步驟。'
   ])
