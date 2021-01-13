@@ -32,11 +32,14 @@ class PayModal extends Component {
     this.state = {
       file: null,
       error: false,
-      uploading: false
+      uploading: false,
+      payOpen: false,
+      askingPayment: false
     }
     this.getFile = this.getFile.bind(this)
     this.uploadFile = this.uploadFile.bind(this)
     this.onNextClick = this.onNextClick.bind(this)
+    this.setPayOpen = this.setPayOpen.bind(this)
   }
 
   getFile (event) {
@@ -61,7 +64,7 @@ class PayModal extends Component {
   }
 
   async onNextClick () {
-    const { setOpen, askAboutPayment } = this.props
+    const { askAboutPayment } = this.props
     const { file } = this.state
     if (!file) {
       this.setState({ error: true })
@@ -71,13 +74,29 @@ class PayModal extends Component {
     await this.uploadFile()
     await askAboutPayment()
     this.setState({ uploading: false })
-    setOpen(false)
+    this.setPayOpen(false)
+  }
+
+  setPayOpen (input) {
+    this.setState({ payOpen: input })
+  }
+
+  async askAboutPayment () {
+    const { uid, askAboutPayment } = this.props
+    this.setState({ askingPayment: true })
+    await askAboutPayment(uid)
+    this.setState({ askingPayment: false })
   }
 
   render () {
-    const { setOpen } = this.props
-    const { error, file, uploading } = this.state
-    return <Fragment>
+    const { error, file, uploading, payOpen, askingPayment } = this.state
+    return <Modal
+      size="mini"
+      trigger={<Button content="進入付款程序" loading={this.askingPayment} disabled={askingPayment} primary />}
+      onClose={() => this.setPayOpen(false)}
+      onOpen={() => this.setPayOpen(true)}
+      open={payOpen}
+    >
       <Header>
       確認進入付款程序?
       </Header>
@@ -94,19 +113,18 @@ class PayModal extends Component {
         !error || <Message error={error} header="請上傳文件" />
       }
       <Modal.Actions>
-        <Button color='red' onClick={() => setOpen(false)} disabled={uploading}>
+        <Button color='red' onClick={() => this.setPayOpen(false)} disabled={uploading}>
           <Icon name='remove' /> 取消
         </Button>
         <Button color='green' onClick={this.onNextClick} disabled={uploading} loading={uploading}>
           <Icon name='checkmark' /> 上傳領據
         </Button>
       </Modal.Actions>
-    </Fragment>
+    </Modal>
   }
 }
 
 PayModal.propTypes = {
-  setOpen: PropTypes.func,
   uid: PropTypes.string,
   askAboutPayment: PropTypes.func
 }
@@ -115,20 +133,9 @@ export default class PayorInviteCell extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      askingPayment: false,
-      invitingInterview: false,
-      payOpen: false
+      invitingInterview: false
     }
-    this.askAboutPayment = this.askAboutPayment.bind(this)
     this.inviteInterview = this.inviteInterview.bind(this)
-    this.setPayOpen = this.setPayOpen.bind(this)
-  }
-
-  async askAboutPayment () {
-    const { participant, askAboutPayment } = this.props
-    this.setState({ askingPayment: true })
-    await askAboutPayment(participant.uid)
-    this.setState({ askingPayment: false })
   }
 
   async inviteInterview () {
@@ -138,13 +145,9 @@ export default class PayorInviteCell extends Component {
     this.setState({ invitingInterview: false })
   }
 
-  setPayOpen (input) {
-    this.setState({ payOpen: input })
-  }
-
   render () {
-    const { participant: p, record } = this.props
-    const { askingPayment, invitingInterview, payOpen } = this.state
+    const { participant: p, record, askAboutPayment } = this.props
+    const { invitingInterview } = this.state
     const { totalEsmCount } = record
     const { researchEndDate } = p
     return (
@@ -159,15 +162,10 @@ export default class PayorInviteCell extends Component {
           {researchEndDate || 'N/A'}
         </Table.Cell>
         <Table.Cell>
-          <Modal
-            size="mini"
-            trigger={<Button content="進入付款程序" loading={askingPayment} disabled={askingPayment} primary />}
-            onClose={() => this.setPayOpen(false)}
-            onOpen={() => this.setPayOpen(true)}
-            open={payOpen}
-          >
-            <PayModal setOpen = {this.setPayOpen} uid={p.uid} askAboutPayment={this.askAboutPayment} />
-          </Modal>
+          <PayModal
+            uid={p.uid}
+            askAboutPayment={askAboutPayment}
+          />
           <Modal
             size="mini"
             trigger={<Button content="寄出訪談邀請" loading={invitingInterview} disabled={invitingInterview} primary />}
