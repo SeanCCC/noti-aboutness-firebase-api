@@ -38,6 +38,14 @@ export default class InterviewInviteList extends Component {
     }
   }
 
+  async askAboutPayment (uid) {
+    try {
+      await axios.post('/apis/participant/payment/ask', { uid, interview: true })
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   render () {
     const { participants } = this.props
     return <Table basic='very' celled >
@@ -61,6 +69,7 @@ export default class InterviewInviteList extends Component {
               sendReminderMail: this.sendReminderMail,
               finishInterview: this.finishInterview,
               cancelInterview: this.cancelInterview,
+              askAboutPayment: this.askAboutPayment,
               participant: p
             }
           }

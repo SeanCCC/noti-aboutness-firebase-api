@@ -133,9 +133,12 @@ router.post('/payment/ask', async (req, res) => {
   try {
     const payload = req.body
     const now = moment().tz('Asia/Taipei').format()
-    const { uid } = payload
+    const { uid, interview } = payload
+    const p = await fetchDB(`participant/${uid}`)
     await askPaymentMail(uid)
+    const compensation = interview ? (p.compensation + 300) : p.compensation
     await updateDB(`participant/${uid}`, {
+      compensation,
       status: status.SET_RECEIPT_MAIL_METHOD,
       askPaymentTime: now,
       lastStatusChanged: now
