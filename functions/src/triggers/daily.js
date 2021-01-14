@@ -93,16 +93,24 @@ const researchStarter = async () => {
     _acu[uid] = { ...p, status: status.RESEARCH_RUNNING }
     return _acu
   }, {})
+  if (_.size(result) === 0) return null
+  return updateDB('/participant', result)
+}
+
+const researchReminder = async () => {
+  const today = moment().tz('Asia/Taipei').format('YYYY-MM-DD')
+  const participants = await findDB('participant', 'researchStartDate', today)
   const mailAsyncList = _.reduce(participants, (acu, p, uid) => {
-    if (p.status !== status.APP_VALID) return acu
+    if (p.status !== status.RESEARCH_RUNNING) return acu
     const _acu = [...acu, sendResearchStartMail(uid)]
     return _acu
   }, [])
-  if (_.size(result) === 0) return null
-  return Promise.all([updateDB('/participant', result), ...mailAsyncList])
+  if (_.size(mailAsyncList) === 0) return null
+  return Promise.all(mailAsyncList)
 }
 
 module.exports = {
   dailyRecordFunction,
-  researchStarter
+  researchStarter,
+  researchReminder
 }

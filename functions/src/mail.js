@@ -173,12 +173,19 @@ const sendConsentReversedMail = async (id) => {
   return transporter.sendMail(config)
 }
 
+const notiDoc = 'https://docs.google.com/document/d/1Bg6TyPAzUXZy9XaIZiNzPyQGroa4nF2Cx3j36Vwix34/edit?usp=sharing'
+
 const sendResearchStartMail = async (id) => {
   const { email, name, researchStartDate } = await fetchEmailInfo(id, 'participant')
   const html = mailTemplate([
     `${name}先生/小姐您好，`,
     `您的實驗已經於今日${researchStartDate}開始，`,
-    '請記得從今日起開始填寫表單。',
+    '請記得開始填寫表單。',
+    '',
+    '此外如果您在填寫時遇到困難的話，',
+    `可以參考<a href="${notiDoc}">此文件</a>對問卷內容的說明，`,
+    '如果您需要進一步的幫助也歡迎直接回信給我們。',
+    '',
     '如果想知道您已完成的表單數量，',
     '或需要App安裝設定與表單填寫的相關資訊，',
     `請進入<a href="https://notiaboutness.muilab.org/participant/score?id=${id}">此網站</a>查詢，`,

@@ -5,7 +5,13 @@ const cookieParser = require('cookie-parser')
 const siteRoutes = require('./src/siteRoutes')
 const panelRoutes = require('./src/panelRoutes')
 const appRoutes = require('./src/appRoutes')
-const { countNotifications, dailyRecordFunction, countESM, researchStarter } = require('./src/triggers')
+const {
+  countNotifications,
+  dailyRecordFunction,
+  countESM,
+  researchStarter,
+  researchReminder
+} = require('./src/triggers')
 
 // site apis
 const siteApp = express()
@@ -63,13 +69,17 @@ const onQuestionnaireAdded = functions.database
   .onUpdate(countESM)
 
 // cronjob
-const dailyRecord = functions.pubsub.schedule('0 5 * * *') // running at every 8 am
+const dailyRecord = functions.pubsub.schedule('0 5 * * *') // running at every 5 am
   .timeZone('Asia/Taipei')
   .onRun(dailyRecordFunction)
 
-const startResearch = functions.pubsub.schedule('0 0 * * *') // running at every 8 am
+const startResearch = functions.pubsub.schedule('0 0 * * *') // running at every 0 am
   .timeZone('Asia/Taipei')
   .onRun(researchStarter)
+
+const researchRemind = functions.pubsub.schedule('0 9 * * *') // running at every 9 am
+  .timeZone('Asia/Taipei')
+  .onRun(researchReminder)
 
 module.exports = {
   site,
@@ -78,5 +88,6 @@ module.exports = {
   onNotificationAdded,
   onQuestionnaireAdded,
   dailyRecord,
-  startResearch
+  startResearch,
+  researchRemind
 }
