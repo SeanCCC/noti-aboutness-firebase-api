@@ -53,7 +53,7 @@ export default class MailInfo extends Component {
         <Segment attached>
           <Header as='h3'
             textAlign="center">說明</Header>
-        1.請在此頁選擇領據交付方式。<br/>
+        1.請在此頁選擇領據交付方式，我們會在收到領據後支付款項給您。<br/>
         2.交付至實驗室信箱或寄到實驗室，實驗室的位置在下方有詳細說明。<br/>
         3.如果選擇郵寄，請盡可能以掛號方式寄出，這可以確保信件一定會到達，以避免您不必要的困擾。<br/>
         4.選擇郵寄時，如果因故無法使用掛號，請使用限時郵件。<br/>

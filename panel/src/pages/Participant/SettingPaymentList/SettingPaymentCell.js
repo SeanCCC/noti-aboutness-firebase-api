@@ -150,7 +150,7 @@ export default class ConsentPendingCell extends Component {
   async componentDidMount () {
     const { participant } = this.props
     const { payDetail } = participant
-    if (participant.status === status.PAYMENT_REQUIRED &&
+    if ([status.RECEIPT_CHOSEN, status.PAYMENT_REQUIRED].includes(participant.status) &&
       payDetail.payMethod === 'bankTransfer') {
       const storageRef = firebaseStorage.ref()
       const passbook = await storageRef.child(payDetail.imgPath).getDownloadURL()
@@ -239,9 +239,9 @@ export default class ConsentPendingCell extends Component {
             />
             <br/>上次寄信：{p.payMethodReminderSent || '無'}</Fragment>
             : null}
-          {p.status === status.PAYMENT_REQUIRED
+          {p.status === status.PAYMENT_REQUIRED || p.status === status.RECEIPT_CHOSEN
             ? <Fragment><Modal
-              size="massive"
+              size="large"
               trigger={<Button content="支付資訊" primary />}
             >
               <InfoModalComponent p={p} passbook={passbook}/>
