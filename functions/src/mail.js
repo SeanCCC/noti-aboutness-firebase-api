@@ -85,10 +85,11 @@ const sendDeclineMail = async (id) => {
 }
 
 const sendCompensationMail = async (id) => {
-  const { email, name } = await fetchEmailInfo(id, 'participant')
+  const { email, name, compensation } = await fetchEmailInfo(id, 'participant')
   const html = mailTemplate([
     `${name}先生/小姐您好，`,
     '您已經完成所有的實驗流程，',
+    `您的報酬總共有${compensation}元，`,
     `請依照<a href="https://notiaboutness.muilab.org/participant/compensation/choosemail?id=${id}">報酬領取資訊</a>的流程，`,
     '提供團隊支付報酬所需的資訊，',
     '感激不盡。'
