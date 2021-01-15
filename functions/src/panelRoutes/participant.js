@@ -135,7 +135,6 @@ router.post('/payment/ask', async (req, res) => {
     const now = moment().tz('Asia/Taipei').format()
     const { uid, interview } = payload
     const p = await fetchDB(`participant/${uid}`)
-    await askPaymentMail(uid)
     const compensation = interview ? (p.compensation + 300) : p.compensation
     await updateDB(`participant/${uid}`, {
       compensation,
@@ -143,6 +142,7 @@ router.post('/payment/ask', async (req, res) => {
       askPaymentTime: now,
       lastStatusChanged: now
     })
+    await askPaymentMail(uid)
     res.send('success')
   } catch (err) {
     console.error(err)

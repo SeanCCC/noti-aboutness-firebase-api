@@ -237,10 +237,11 @@ const sendConsentRemind = async (id) => {
 }
 
 const askPaymentMail = async (id) => {
-  const { email, name } = await fetchEmailInfo(id, 'participant')
+  const { email, name, compensation } = await fetchEmailInfo(id, 'participant')
   const html = mailTemplate([
     `${name}先生/小姐您好，`,
     '感謝您完成此實驗，',
+    `您的報酬總共是${compensation}元`,
     `請依照<a href="https://notiaboutness.muilab.org/participant/compensation/choosemail?id=${id}">此網站</a>的步驟領取報酬，`,
     '感激不盡！'
   ])
