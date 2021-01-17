@@ -77,10 +77,10 @@ export default class MailInfo extends Component {
             textAlign="center">領據簽署注意事項</Header>
           <Message warning>
             <Icon name='warning' />
-            請詳閱此內容。
+            請詳閱此內容，並『完全』按照說明簽署同意書，以免影響付款流程。填寫不完整或填寫紅框以外的內容會導致無法請領款項。
           </Message>
-            請取得『領據』，並在下圖紅框處『完整』填寫資料。<br/>
-            填寫不完整會導致無法請領款項。
+            請取得領據，並在下圖紅框處『完整』填寫資料。<br/>
+            填寫不完整或填寫紅框以外的內容會導致無法請領款項。
           <Image fluid
             src={receiptSample}/>
         </Segment>
