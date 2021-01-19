@@ -187,7 +187,7 @@ router.post('/done/receipt', validators.receipt, async (req, res) => {
 router.post('/done/compensation', busboyMiddleWare, validators.compensation, async (req, res) => {
   try {
     const payload = req.body
-    const { id, payMethod } = payload
+    const { id, payMethod, halfYearInTaiwan } = payload
     let imgPath = null
     let payDetail = {}
     const p = await fetchParticipantDetailById(id)
@@ -206,6 +206,7 @@ router.post('/done/compensation', busboyMiddleWare, validators.compensation, asy
       ? status.WAIT_FOR_RECEIPT_REVERSED : status.RECEIPT_CHOSEN
     await updateDB(`participant/${id}`, {
       payDetail,
+      halfYearInTaiwan: halfYearInTaiwan === 'true',
       status: nextStatus,
       lastStatusChanged: moment().tz('Asia/Taipei').format()
     })
