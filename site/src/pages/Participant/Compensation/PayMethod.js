@@ -224,7 +224,7 @@ export default class PayMethod extends Component {
             fluid
             value={halfYearInTaiwan}
             placeholder='請拉下選擇是或否'
-            label="請問今年您是否在中華民國待183天以上。"
+            label="請問您今年是否已經或預計待在中華民國境內183天以上。"
             disabled={uploading}
             name="halfYearInTaiwan"
             options={boolOptions}
