@@ -35,7 +35,7 @@ const ConfirmModalComponent = (props) => {
         showTimeSelect
         disabled={paymentCompleting}
         timeIntervals={1}
-        dateFormat="yyyy MM dd h:mm aa"
+        dateFormat="yyyy MM dd h:mm"
       />
     </Modal.Description>
     <Modal
