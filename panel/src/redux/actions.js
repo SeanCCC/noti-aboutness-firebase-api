@@ -126,6 +126,10 @@ export const updateParticipants = payload => {
   const consentPendingNumber = createPrepareNumber(consentPendingParticipants)
   const researchPendingNumber = createResearchPendingNumber(researchPendingParticipants)
   const researchDoneNumber = createResearchDoneNumber(researchDoneParticipants)
+  const unPaid = researchDoneParticipants.reduce((acc, cur) => acc + cur.compensation, 0)
+  const totalUnpaidNumber = [
+    { value: unPaid, label: '尚未支出' }
+  ]
   return {
     type: 'UPDATE_PARTICIPANTS',
     payload: {
@@ -135,7 +139,8 @@ export const updateParticipants = payload => {
       consentPendingNumber,
       researchPendingNumber,
       researchDoneParticipants,
-      researchDoneNumber
+      researchDoneNumber,
+      totalUnpaidNumber
     }
   }
 }
@@ -250,10 +255,15 @@ export const setNumberHightlight = (key, idx) => {
 }
 
 export const updateDone = (doneParticipants) => {
+  const totalPaid = doneParticipants.reduce((acc, cur) => acc + cur.compensation, 0)
+  const totalPaidNumber = [
+    { value: totalPaid, label: '已經支出' }
+  ]
   return {
     type: 'UPDATE_DONE_PARTICIPANTS',
     payload: {
-      doneParticipants
+      doneParticipants,
+      totalPaidNumber
     }
   }
 }

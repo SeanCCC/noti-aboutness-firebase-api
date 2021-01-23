@@ -34,6 +34,7 @@ Numbers.propTypes = {
   researchPendingNumber: PropTypes.array,
   candidatesNumber: PropTypes.array,
   researchDoneNumber: PropTypes.array,
+  totalPaidNumber: PropTypes.array,
   setNumberHightlight: PropTypes.func
 }
 
@@ -42,13 +43,21 @@ const mapStateToProps = ({
   consentPendingNumber,
   researchPendingNumber,
   candidatesNumber,
-  researchDoneNumber
+  researchDoneNumber,
+  totalPaidNumber,
+  totalUnpaidNumber
 }) => ({
   researchRunningNumber,
   consentPendingNumber,
   researchPendingNumber,
   candidatesNumber,
-  researchDoneNumber
+  researchDoneNumber,
+  totalPayment: [
+    ...totalPaidNumber,
+    { label: '', number: '' },
+    ...totalUnpaidNumber,
+    { label: '', number: '' }
+  ]
 })
 
 export default connect(mapStateToProps, { setNumberHightlight })(Numbers)

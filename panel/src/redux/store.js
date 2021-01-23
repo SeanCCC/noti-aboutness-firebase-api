@@ -16,7 +16,9 @@ const initState = {
   highlightKey: null,
   highlightIdx: null,
   highlightMode: null,
-  doneParticipants: []
+  doneParticipants: [],
+  totalPaidNumber: [],
+  totalUnpaidNumber: []
 }
 
 const reducer = (state = initState, action) => {

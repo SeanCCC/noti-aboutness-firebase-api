@@ -25,6 +25,10 @@ const Home = () => {
       <Header as="h3">訪談與報酬</Header>
       <Numbers numberName='researchDoneNumber' />
     </div>
+    <div className="numbers">
+      <Header as="h3">已支付金額</Header>
+      <Numbers numberName='totalPayment' />
+    </div>
   </div>
 }
 
