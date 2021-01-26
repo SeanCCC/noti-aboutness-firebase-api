@@ -3,6 +3,7 @@ const { fetchDB } = require('./utils')
 const { join } = require('path')
 const moment = require('moment-timezone')
 const status = require('./status')
+const notiDoc = 'https://docs.google.com/document/d/1Bg6TyPAzUXZy9XaIZiNzPyQGroa4nF2Cx3j36Vwix34/edit?usp=sharing'
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -174,8 +175,6 @@ const sendConsentReversedMail = async (id) => {
   return transporter.sendMail(config)
 }
 
-const notiDoc = 'https://docs.google.com/document/d/1Bg6TyPAzUXZy9XaIZiNzPyQGroa4nF2Cx3j36Vwix34/edit?usp=sharing'
-
 const sendResearchStartMail = async (id) => {
   const { email, name, researchStartDate } = await fetchEmailInfo(id, 'participant')
   const html = mailTemplate([
@@ -196,6 +195,31 @@ const sendResearchStartMail = async (id) => {
     from: 'MUILAB通知實驗研究團隊',
     to: email,
     subject: 'MUILAB通知實驗-實驗開始',
+    html
+  }
+  return transporter.sendMail(config)
+}
+
+const sendFitstEsmReminderMail = async (id) => {
+  const { email, name } = await fetchEmailInfo(id, 'participant')
+  const html = mailTemplate([
+    `${name}先生/小姐您好，`,
+    '我們發現您已經完成首次的問卷填寫，',
+    '您的投入對我們來說是很重要的。',
+    '',
+    '您也有可能在填寫問卷時遇到困惑，',
+    `如果是這樣請參考<a href="${notiDoc}">此文件</a>對問卷內容的說明，`,
+    '如果您需要進一步的幫助也歡迎直接回信給我們。',
+    '',
+    '如果想知道您已完成的表單數量，',
+    '或需要App安裝設定與表單填寫的相關資訊，',
+    `請進入<a href="https://notiaboutness.muilab.org/participant/score?id=${id}">此網站</a>查詢，`,
+    '感激不盡！'
+  ])
+  const config = {
+    from: 'MUILAB通知實驗研究團隊',
+    to: email,
+    subject: 'MUILAB通知實驗-填問卷時感到困惑就看一下',
     html
   }
   return transporter.sendMail(config)
@@ -516,5 +540,6 @@ module.exports = {
   sendApkLink,
   sendReceiptMailInfo,
   sendReceiptReversedMail,
-  sendWeekReminder
+  sendWeekReminder,
+  sendFitstEsmReminderMail
 }

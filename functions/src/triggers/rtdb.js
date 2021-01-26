@@ -1,6 +1,7 @@
 const _ = require('lodash')
 const moment = require('moment-timezone')
 const { db, fetchDB } = require('../utils')
+const { sendFitstEsmReminderMail } = require('../mail')
 
 const countNotifications = (snapshot, context) => {
   const time = snapshot.val()
@@ -32,9 +33,10 @@ const getNotificaiton = (uid, nid) => fetchDB(`notification/${uid}/${nid}`)
 
 const addESMCount = (date, uid) => db
   .ref(`uploadRecord/${uid}/esmDistDaily`)
-  .transaction(function (currentValue) {
+  .transaction(async currentValue => {
     const esmDistDaily = currentValue || []
     const idx = esmDistDaily.findIndex(d => d.date === date)
+    if (idx === -1) await sendFitstEsmReminderMail(uid)
     if (idx === -1) esmDistDaily[esmDistDaily.length] = { date, amount: 1 }
     else esmDistDaily[idx].amount = esmDistDaily[idx].amount + 1
     const result = _.sortBy(esmDistDaily, (r) => { return new Date(r.date) })
