@@ -50,8 +50,8 @@ export default class ScorePage extends Component {
           textAlign="center">問卷填寫進度與使用教學</Header>
         <Segment attached>
           <Header as='h3'
-            textAlign="center">問卷填寫進度</Header>
-          約定問卷日均數量爲3個<br/>
+            textAlign="center">問卷填寫進度（每天午夜更新）</Header>
+          約定問卷總數量爲42個<br/>
           到目前共{dnum}日<br/>
           每日平均{avgEsm}則通知<br/>
           共{totalEsm}則通知<br/>
