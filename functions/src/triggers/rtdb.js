@@ -33,10 +33,10 @@ const getNotificaiton = (uid, nid) => fetchDB(`notification/${uid}/${nid}`)
 
 const addESMCount = (date, uid) => db
   .ref(`uploadRecord/${uid}/esmDistDaily`)
-  .transaction(async currentValue => {
+  .transaction(function (currentValue) {
     const esmDistDaily = currentValue || []
     const idx = esmDistDaily.findIndex(d => d.date === date)
-    if (idx === -1) await sendFitstEsmReminderMail(uid)
+    // if (idx === -1) await sendFitstEsmReminderMail(uid)
     if (idx === -1) esmDistDaily[esmDistDaily.length] = { date, amount: 1 }
     else esmDistDaily[idx].amount = esmDistDaily[idx].amount + 1
     const result = _.sortBy(esmDistDaily, (r) => { return new Date(r.date) })
@@ -63,6 +63,12 @@ const addCatDistGeneral = async (notification, appTable) => {
     })
 }
 
+const sendFirstESMEmail = async (uid) => {
+  const result = await fetchDB(`uploadRecord/${uid}/esmDistDaily`)
+  if (result == null) await sendFitstEsmReminderMail(uid)
+  return true
+}
+
 const countESM = async (change, context) => {
   const esm = change.after.val()
   const { drmtime, notificationId } = esm
@@ -70,7 +76,11 @@ const countESM = async (change, context) => {
   const path = context.params
   const { uid, date } = path
   const [notification, appTable] = await Promise.all(
-    [getNotificaiton(uid, notificationId), getAppTable()]
+    [
+      getNotificaiton(uid, notificationId),
+      getAppTable(),
+      sendFirstESMEmail(uid)
+    ]
   )
   return Promise.all([
     addESMCount(date, uid),
