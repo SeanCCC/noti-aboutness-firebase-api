@@ -11,7 +11,7 @@ export const batteryLinkTable = {
   htc: 'https://docs.google.com/document/d/1Bg6TyPAzUXZy9XaIZiNzPyQGroa4nF2Cx3j36Vwix34/edit#heading=h.z2uwii13w0sp'
 }
 export const esmTutorial = 'https://docs.google.com/document/d/1Bg6TyPAzUXZy9XaIZiNzPyQGroa4nF2Cx3j36Vwix34/edit?usp=sharing'
-export const installYoutubeId = 'FC7o3QdPKyc'
+export const installYoutubeId = 'g4vEPUrKKIA'
 export const orientationYoutubeId = 'WdLTVaiYkv0'
 export const receiptSample = 'https://storage.googleapis.com/noti-aboutness-firebase-48728.appspot.com/receipt-sample.png'
 export const internalApkLink = 'https://notiaboutness.muilab.org/appdl'
