@@ -1,7 +1,8 @@
 import React from 'react'
-import { Header, Button, Segment } from 'semantic-ui-react'
+import { Header, Button, Segment, Message } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { ContactComp } from '../Contact'
+import { fullAtThisStage } from '../Participant/constants'
 
 export default function Introduction () {
   return (
@@ -9,6 +10,10 @@ export default function Introduction () {
       <Header textAlign="center"
         as='h2'>『注意力中心之社群運算』: 建立資訊接受度感知之行動通知與電腦媒介溝通系統-探討影響通知接收時機的因素間交互關係</Header>
       <Segment attached>
+        {!fullAtThisStage || <Message
+          info
+          header='此階段參與者已經飽和，但還是歡迎您填寫表單，這會讓我們在往後的招募階段可以主動聯絡您。'
+        />}
       交通大學資訊工程系 移動裝置與普及運算實驗室正在招募受測者收集和研究智慧型手機用
 戶的移動性。我們希望您使用我們的 Android 手機應用程序填寫問卷與記錄手機資訊！
 通過參與這項研究，您將幫助研究人員評估手機通知適當的跳出時間。這將幫助未來的研究
