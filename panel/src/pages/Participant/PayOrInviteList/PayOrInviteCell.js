@@ -56,10 +56,10 @@ class PayModal extends Component {
   }
 
   async uploadFile () {
-    const { uid } = this.props
+    const { p } = this.props
     const { file } = this.state
     const storageRef = firebaseStorage.ref()
-    const fileRef = storageRef.child(`receipts/${uid}.pdf`)
+    const fileRef = storageRef.child(`receipts/${p.uid}.pdf`)
     await fileRef.put(file)
   }
 
@@ -82,7 +82,8 @@ class PayModal extends Component {
   }
 
   async askAboutPayment () {
-    const { uid, askAboutPayment } = this.props
+    const { p, askAboutPayment } = this.props
+    const { uid } = p
     this.setState({ askingPayment: true })
     await askAboutPayment(uid)
     this.setState({ askingPayment: false })
@@ -90,6 +91,8 @@ class PayModal extends Component {
 
   render () {
     const { error, file, uploading, payOpen, askingPayment } = this.state
+    const { p } = this.props
+    const { compensation } = p
     return <Modal
       size="mini"
       trigger={<Button content="進入付款程序" loading={this.askingPayment} disabled={askingPayment} primary />}
@@ -102,7 +105,7 @@ class PayModal extends Component {
       </Header>
       <Modal.Content>
         <p>
-        真的不訪談這個人?不訪談就上傳一下領據吧
+        真的不訪談{p.name}?不訪談就上傳一下領據吧，金額為{compensation}
         </p>
         <Basic getFile = {this.getFile} disabled={uploading}/>
       </Modal.Content>
@@ -125,7 +128,7 @@ class PayModal extends Component {
 }
 
 PayModal.propTypes = {
-  uid: PropTypes.string,
+  p: PropTypes.object,
   askAboutPayment: PropTypes.func
 }
 
@@ -163,7 +166,7 @@ export default class PayorInviteCell extends Component {
         </Table.Cell>
         <Table.Cell>
           <PayModal
-            uid={p.uid}
+            p={p}
             askAboutPayment={askAboutPayment}
           />
           <Modal
