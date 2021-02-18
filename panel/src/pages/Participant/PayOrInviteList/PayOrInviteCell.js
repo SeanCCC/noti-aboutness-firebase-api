@@ -167,10 +167,12 @@ export default class PayorInviteCell extends Component {
         <Table.Cell>
           <PayModal
             p={p}
+            key={p.uid}
             askAboutPayment={askAboutPayment}
           />
           <Modal
             size="mini"
+            key={p.uid}
             trigger={<Button content="寄出訪談邀請" loading={invitingInterview} disabled={invitingInterview} primary />}
             header='是否邀請訪談'
             content='無'
