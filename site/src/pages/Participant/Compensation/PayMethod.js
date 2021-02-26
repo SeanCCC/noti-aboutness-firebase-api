@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Header, Segment, Checkbox, Button, Message, Modal, Form } from 'semantic-ui-react'
+import { Header, Segment, Checkbox, Button, Message, Modal } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import check from 'check-types'
 import { ContactComp } from '../../Contact'
