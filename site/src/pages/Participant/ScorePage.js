@@ -51,7 +51,9 @@ export default class ScorePage extends Component {
         <Segment attached>
           <Header as='h3'
             textAlign="center">問卷填寫進度</Header>
-          約定問卷總數量爲42個<br/>
+          請盡量每日填寫收到的問卷<br/>
+          數量多且穩定的問卷對這個研究會有非常大的貢獻<br/>
+          研究團隊感謝您提供的一切資料<br/>
           到目前共{dnum}日<br/>
           每日平均{avgEsm}則通知<br/>
           共{totalEsm}則通知<br/>

@@ -6,11 +6,6 @@ import { ContactComp } from '../../Contact'
 import { JkoSegment, LinePaySegment, BankTransferSegment } from './PaySegments'
 import { postFormData, fileResizer } from './utils'
 
-const boolOptions = [
-  { key: 'true', text: '是', value: true },
-  { key: 'false', text: '否', value: false }
-]
-
 export default class PayMethod extends Component {
   constructor (props) {
     super(props)
@@ -26,8 +21,6 @@ export default class PayMethod extends Component {
       linePayAccount: null,
       linePayValid: false,
       payMethod: null,
-      halfYearInTaiwan: null,
-      halfYearValid: false,
       illegal: false,
       error: false,
       accept: false,
@@ -45,11 +38,10 @@ export default class PayMethod extends Component {
 
   async submitPayInfo (payInfo, payMethod, file) {
     const { id, setStatus } = this.props
-    const { halfYearInTaiwan } = this.state
     try {
       const res = await postFormData(
         '/apis/participant/done/compensation',
-        { ...payInfo, payMethod, id, halfYearInTaiwan }, file
+        { ...payInfo, payMethod, id }, file
       )
       if (res.status === 200) this.setState({ accept: true })
       const newStatus = res.data.status
@@ -92,9 +84,6 @@ export default class PayMethod extends Component {
       await this.setState({ bankAccountValid: valid })
     } else if (name === 'bankCode') {
       await this.setState({ bankCodeValid: valid })
-    } else if (name === 'halfYearInTaiwan') {
-      const valid = check.boolean(value)
-      await this.setState({ halfYearValid: valid })
     }
     return valid
   }
@@ -113,18 +102,15 @@ export default class PayMethod extends Component {
     await this.checkVal('linePayAccount')
     await this.checkVal('bankAccount')
     await this.checkVal('bankCode')
-    await this.checkVal('halfYearInTaiwan')
     const {
       jkoValid,
       linePayValid,
       bankAccountValid,
-      bankCodeValid,
-      halfYearValid
+      bankCodeValid
     } = this.state
     if (payMethod === 'bankTransfer' && (!bankAccountValid || !bankCodeValid || file === null)) return
     else if (payMethod === 'linePay' && !linePayValid) return
     else if (payMethod === 'jko' && !jkoValid) return
-    if (!halfYearValid) return
     this.setState({ uploading: true })
     const { bankAccount, bankCode, linePayAccount, jkoAccount } = this.state
     if (payMethod === 'bankTransfer') {
@@ -150,8 +136,6 @@ export default class PayMethod extends Component {
       bankCode,
       bankAccount,
       payMethod,
-      halfYearInTaiwan,
-      halfYearValid,
       uri
     } = this.state
     const { receiptMailMethod } = this.props
@@ -218,23 +202,6 @@ export default class PayMethod extends Component {
           onFileChange={this.onFileChange}
           imageUrl={uri}
         /> : null }
-        <Segment attached>
-          <Form.Select
-            key="halfYearInTaiwan"
-            fluid
-            value={halfYearInTaiwan}
-            placeholder='請拉下選擇是或否'
-            label="請問您今年是否已經或預計待在中華民國境內183天以上。"
-            disabled={uploading}
-            name="halfYearInTaiwan"
-            options={boolOptions}
-            onChange={this.handleChange}
-          />
-          {!halfYearValid && submitted
-            ? <Message negative>
-              <Message.Header>請選擇</Message.Header>
-            </Message> : null}
-        </Segment>
         <Segment attached>
           <Modal
             size="mini"

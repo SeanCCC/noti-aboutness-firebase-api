@@ -22,7 +22,8 @@ export default function Introduction () {
       <Header textAlign="center"
         as='h2'>報酬</Header>
       <Segment attached>
-      完成實驗，您會獲得最少新台幣 1550 元至最多 2774 元的報酬。
+      完成實驗後，我們會提供300元的基本報酬，以感謝您花費的時間並支應實驗中產生的雜支。<br/>
+      在此之上，我們也會就每則問卷提供20元的報酬，以感謝您對問卷資料的寶貴貢獻。
       </Segment>
       <Header textAlign="center"
         as='h2'>實驗任務</Header>
@@ -42,7 +43,7 @@ export default function Introduction () {
         as='h2'>參與期間配合事項</Header>
       <Segment attached>
 1.您將會需要每天攜帶主要手機。<br/>
-2.您將會需要完全參與研究，即在 14 天內填寫至少 42 則問卷，填寫每則問卷約費時8分鐘。<br/>
+2.您將會需要完全參與研究，即在 14 天內持續填寫問卷，填寫每則問卷約費時8分鐘。<br/>
 3.您將會需要關閉Facebook messanger聊天大頭貼的功能。<a target="_blank"
           href="https://www.facebook.com/help/messenger-app/android/1611232179138526?rdrhc"
           rel='noreferrer noopener'>

@@ -121,6 +121,11 @@ const formContent = [
       label: '請問您多常透過手機連到網路？',
       name: 'onlineFrequency',
       options: networkAccessOptions
+    }, {
+      type: 'select',
+      label: '請問您今年會有183天以上在中華民國嘛？',
+      name: 'halfYearInTaiwan',
+      options: boolOptions
     }]
   }, {
     type: 'group',
@@ -187,7 +192,7 @@ export default class FormPage extends Component {
     else if (['phoneSystem'].includes(name)) checkFunc = (input) => input === 'android'
     else if (['phoneBrand'].includes(name)) checkFunc = (input) => input !== 'apple' && check.not.undefined(input)
     else if (['androidVersion'].includes(name)) checkFunc = (input) => input !== 'notAndroid' && input !== '7' && check.not.undefined(input)
-    else if (['gender', 'city', 'occupation', 'cellularAccess', 'onlineFrequency', 'travelPlan', 'wearableDevice'].includes(name)) {
+    else if (['gender', 'city', 'occupation', 'cellularAccess', 'onlineFrequency', 'travelPlan', 'wearableDevice', 'halfYearInTaiwan'].includes(name)) {
       checkFunc = check.not.undefined
     } else if (['brandName'].includes(name)) {
       checkFunc = this.state.phoneBrand.value === 'other' ? check.nonEmptyString : () => true

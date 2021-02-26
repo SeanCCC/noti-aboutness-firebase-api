@@ -438,6 +438,26 @@ const sendResearchEndNotice = async (id) => {
   return transporter.sendMail(config)
 }
 
+const sendResearchExtendNotice = async (id, extendDays) => {
+  const { email, name } = await fetchEmailInfo(id, 'participant')
+  const html = mailTemplate([
+    `${name}先生/小姐您好，`,
+    '您的實驗到目前已滿十四天，，',
+    `我們發現您有${extendDays}天沒有填到問卷，`,
+    '由於數量穩定的問卷填寫對此研究是非常重要的，',
+    `所以主動幫您把研究給延長了${extendDays}日，`,
+    '我們想煩請您在接下來幾天盡量填寫問卷，',
+    '感激不盡！'
+  ])
+  const config = {
+    from: 'MUILAB通知實驗研究團隊',
+    to: email,
+    subject: 'MUILAB通知實驗-實驗延長通知',
+    html
+  }
+  return transporter.sendMail(config)
+}
+
 const sendApkLink = async (id, apkFileLink) => {
   const { email, name } = await fetchEmailInfo(id, 'participant')
   const html = mailTemplate([
@@ -499,10 +519,12 @@ const sendWeekReminder = async (id, totalEsmCount) => {
   const html = mailTemplate([
     `${name}先生/小姐您好，`,
     `您的實驗從${researchStartDate}到今天剛好一週了，`,
-    `目前您總共填了${totalEsmCount}則問卷。`,
-    '請務必記得實驗在時間長度達兩週',
-    '且完成問卷數量到達每日平均3則總共42則時才會結束，',
-    '如果數量不足實驗會延長到數量滿足為止。',
+    `目前您總共填了${totalEsmCount}則問卷，`,
+    '我們感謝您提供的每一筆資料。',
+    '請盡量每日持續填寫問卷，',
+    '數量穩定且多的問卷對此研究會有很大的貢獻，',
+    '如果有幾天因故無法填寫問卷，',
+    '研究團隊會再就實驗延長的事情與您聯繫。',
     '如果想知道您已完成的每日表單數量，',
     `請進入<a href="https://notiaboutness.muilab.org/participant/score?id=${id}">此網站</a>查詢，`,
     '感激不盡！'
@@ -535,6 +557,7 @@ module.exports = {
   sendInterviewSchedule,
   sendInterviewCancel,
   sendResearchEndNotice,
+  sendResearchExtendNotice,
   sendResearchStartMail,
   sendConsentMailInfo,
   sendApkLink,

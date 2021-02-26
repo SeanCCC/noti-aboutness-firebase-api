@@ -1,10 +1,33 @@
 const _ = require('lodash')
 const moment = require('moment-timezone')
 const { fetchDB, updateDB, findDB } = require('../utils')
+const check = require('check-types')
 const status = require('../status')
-const { sendResearchEndNotice, sendResearchStartMail, sendWeekReminder } = require('../mail')
+const { sendResearchEndNotice, sendResearchExtendNotice, sendResearchStartMail, sendWeekReminder } = require('../mail')
 const periodRequired = 14 // for pilot
-const questionnaireEachDay = 3
+const legacyParticipants = ['-MS0XZqwabHWm6gG7D0m', '-MRzDcE9ZJsk9YsXS9GT']
+
+const legacyResearchEnd = (result, now) => {
+  const questionnaireEachDay = 3
+  const researchDoneList = _.chain(result)
+    .mapValues((r, uid) => {
+      return { ...r, uid }
+    })
+    .filter(r => {
+      if (!legacyParticipants.includes(r.uid)) return false
+      if (!r.active) return false
+      const then = moment.tz(r.researchStartDate, 'YYYY-MM-DD', 'Asia/Taipei')
+      const ms = now.diff(then)
+      const days = moment.duration(ms).asDays()
+      return days >= periodRequired && r.totalEsmCount >= periodRequired * questionnaireEachDay
+    })
+    .map((r) => {
+      const compensation = 1550 + Math.max(0, r.totalEsmCount - 5 * periodRequired) * 22
+      return setResearchDone(r.uid, compensation)
+    })
+    .value()
+  return Promise.all(researchDoneList)
+}
 
 const setResearchDone = async (uid, compensation) => {
   const now = moment().tz('Asia/Taipei').format()
@@ -20,10 +43,16 @@ const setResearchDone = async (uid, compensation) => {
   await sendResearchEndNotice(uid)
 }
 
+const setResearchExtend = async (uid, extendDays) => {
+  await updateDB(`uploadRecord/${uid}`, {
+    extendDays
+  })
+  await sendResearchExtendNotice(uid, extendDays)
+}
+
 const dailyRecordFunction = async () => {
   const yesterday = moment().tz('Asia/Taipei').startOf('day').subtract(1, 'days').format()
   const uploadRecord = await fetchDB('/uploadRecord')
-  console.log({ yesterday })
   const result = _.mapValues(uploadRecord, (p) => {
     if (!p.notiDistHourly || !p.active) return p
     const notiDistDaily = _.chain(p.notiDistHourly)
@@ -31,7 +60,6 @@ const dailyRecordFunction = async () => {
       .reduce((acu, value, key) => {
         const date = moment.tz(key, 'YYYY-MM-DD', 'Asia/Taipei')
         if (date.isAfter(yesterday)) return acu
-        console.log({ notidate: date.format() })
         const amount = value.reduce((acc, { amount }) => acc + amount, 0)
         return [...acu, { date: key, amount }]
       }, [])
@@ -41,7 +69,6 @@ const dailyRecordFunction = async () => {
     const totalEsmCount = !p.esmDistDaily ? 0 : p.esmDistDaily
       .filter(d => {
         const date = moment.tz(d.date, 'YYYY-MM-DD', 'Asia/Taipei')
-        if (!date.isAfter(yesterday)) console.log({ esmdate: date.format() })
         return !date.isAfter(yesterday)
       })
       .reduce((acc, { amount }) => acc + amount, 0)
@@ -65,19 +92,50 @@ const dailyRecordFunction = async () => {
     })
     .value()
   await Promise.all(WeekRemindList)
+  await legacyResearchEnd(result, now)
+  const researchExtendList = _.chain(result)
+    .mapValues((r, uid) => {
+      return { ...r, uid }
+    })
+    .filter(r => {
+      if (legacyParticipants.includes(r.uid)) return false
+      if (!r.active) return false
+      if (check.assigned(r.extendDays)) return false
+      const { esmDistDaily } = r
+      const then = moment.tz(r.researchStartDate, 'YYYY-MM-DD', 'Asia/Taipei')
+      const ms = now.diff(then)
+      const days = _.floor(moment.duration(ms).asDays())
+      const validDays = check.not.assigned(esmDistDaily) ? 0 : esmDistDaily.length
+      return days === periodRequired && validDays < periodRequired
+    })
+    .map((r) => {
+      const { esmDistDaily } = r
+      const validDays = check.not.assigned(esmDistDaily) ? 0 : esmDistDaily.length
+      const extendDays = periodRequired - validDays
+      return setResearchExtend(r.uid, extendDays)
+    })
+    .value()
+  await Promise.all(researchExtendList)
   const researchDoneList = _.chain(result)
     .mapValues((r, uid) => {
       return { ...r, uid }
     })
     .filter(r => {
+      if (legacyParticipants.includes(r.uid)) return false
       if (!r.active) return false
+      const { esmDistDaily, extendDays } = r
+      const validDays = check.not.assigned(esmDistDaily) ? 0 : esmDistDaily.length
+      if (validDays >= periodRequired) return true
+      if (check.not.assigned(extendDays)) return false
       const then = moment.tz(r.researchStartDate, 'YYYY-MM-DD', 'Asia/Taipei')
       const ms = now.diff(then)
-      const days = moment.duration(ms).asDays()
-      return days >= periodRequired && r.totalEsmCount >= periodRequired * questionnaireEachDay
+      const days = _.floor(moment.duration(ms).asDays())
+      console.log({ id: r.uid, days, extendDays })
+      return days >= periodRequired + extendDays
     })
     .map((r) => {
-      const compensation = 1550 + Math.max(0, r.totalEsmCount - 5 * periodRequired) * 22
+      const compensation = r.totalEsmCount * 20 + 300
+      console.log({ id: r.uid, compensation })
       return setResearchDone(r.uid, compensation)
     })
     .value()
