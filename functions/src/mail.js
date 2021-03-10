@@ -219,7 +219,7 @@ const sendFitstEsmReminderMail = async (id) => {
   const config = {
     from: 'MUILAB通知實驗研究團隊',
     to: email,
-    subject: 'MUILAB通知實驗-請閱讀填問卷後的一點提醒',
+    subject: 'MUILAB通知實驗-請閱讀首次填問卷後的一點提醒',
     html
   }
   return transporter.sendMail(config)
