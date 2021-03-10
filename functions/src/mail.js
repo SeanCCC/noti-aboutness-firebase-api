@@ -207,8 +207,8 @@ const sendFitstEsmReminderMail = async (id) => {
     '我們發現您已經完成首次的問卷填寫，',
     '您的投入對我們來說是很重要的。',
     '',
-    '您也有可能在填寫問卷時遇到困惑，',
-    `如果是這樣請參考<a href="${notiDoc}">此文件</a>對問卷內容的說明，`,
+    `我們希望您可以閱讀<a href="${notiDoc}">此文件</a>對問卷內容的說明，`,
+    '來確認對問卷的認知與我們研究設計是一致的，',
     '如果您需要進一步的幫助也歡迎直接回信給我們。',
     '',
     '如果想知道您已完成的表單數量，',
@@ -219,7 +219,7 @@ const sendFitstEsmReminderMail = async (id) => {
   const config = {
     from: 'MUILAB通知實驗研究團隊',
     to: email,
-    subject: 'MUILAB通知實驗-填問卷時感到困惑就看一下',
+    subject: 'MUILAB通知實驗-請閱讀填問卷後的一點提醒',
     html
   }
   return transporter.sendMail(config)
