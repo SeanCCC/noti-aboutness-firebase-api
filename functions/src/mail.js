@@ -229,9 +229,12 @@ const sendResearchRemind = async (id) => {
   const { email, name } = await fetchEmailInfo(id, 'participant')
   const html = mailTemplate([
     `${name}先生/小姐您好，`,
-    '我們發現您的實驗狀態異常，',
-    '請確認App是否有正常運作，',
-    '並持續投入實驗，',
+    '我們發現您的問卷填寫狀態異常，',
+    '如果您有收到問卷填寫邀請，',
+    '請記得持續填寫問卷。',
+    '',
+    '如果沒有請確認一下電量設定的部份，',
+    '如果還是沒有請聯繫研究團隊，',
     '感激不盡！'
   ])
   const config = {
