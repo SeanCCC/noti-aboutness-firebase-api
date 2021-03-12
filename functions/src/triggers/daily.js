@@ -74,15 +74,16 @@ const dailyRecordFunction = async () => {
       return { ...r, uid }
     })
     .filter(r => {
-      if (!r.active) return false
-      if (check.assigned(r.extendDays)) return false
-      const { esmDistDaily } = r
       const then = moment.tz(r.researchStartDate, 'YYYY-MM-DD', 'Asia/Taipei')
       const ms = now.diff(then)
       const days = _.floor(moment.duration(ms).asDays())
+      if (!r.active) return false
+      if (days < periodRequired) return false // 沒到14天不用討論
+      if (check.assigned(r.extendDays)) return false // 已經延期過得不用討論
+      const { esmDistDaily } = r
       const validDays = check.not.assigned(esmDistDaily) ? 0 : esmDistDaily.length
       const extendDays = periodRequired - validDays
-      return days === periodRequired && extendDays > 0 && extendDays < 8
+      return extendDays > 0 && extendDays < 8 // 要延期太多天也不延期
     })
     .map((r) => {
       const { esmDistDaily } = r
@@ -97,17 +98,18 @@ const dailyRecordFunction = async () => {
       return { ...r, uid }
     })
     .filter(r => {
-      if (!r.active) return false
-      const { esmDistDaily, extendDays } = r
-      const validDays = check.not.assigned(esmDistDaily) ? 0 : esmDistDaily.length
-      if (validDays >= periodRequired) return true
-      if (periodRequired - validDays >= 8) return true
-      if (check.not.assigned(extendDays)) return false
       const then = moment.tz(r.researchStartDate, 'YYYY-MM-DD', 'Asia/Taipei')
       const ms = now.diff(then)
       const days = _.floor(moment.duration(ms).asDays())
+      if (!r.active) return false
+      if (days < periodRequired) return false // 沒到14天不用討論
+      const { esmDistDaily, extendDays } = r
+      const validDays = check.not.assigned(esmDistDaily) ? 0 : esmDistDaily.length
+      if (validDays >= periodRequired) return true // 完美完成
+      if (periodRequired - validDays >= 8) return true // 沒完美完成 但有七天以上沒填寫 直接放棄
+      if (check.not.assigned(extendDays)) return false // 不放棄的部份 沒有extend過不要結束
       console.log({ id: r.uid, days, extendDays })
-      return days >= periodRequired + extendDays
+      return days >= periodRequired + extendDays // 如果有extend過了 時間到就結束
     })
     .map((r) => {
       const compensation = r.totalEsmCount * 20 + 300

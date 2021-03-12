@@ -25,14 +25,14 @@ const androidSystemVersion = [
 ]
 
 const mobileOpitons = [
-  { key: 'apple', text: '蘋果', value: 'apple' },
+  { key: 'apple', text: '蘋果', value: 'apple' },
   { key: 'samsung', text: '三星', value: 'samsung' },
   { key: 'oppo', text: 'OPPO', value: 'oppo' },
   { key: 'realme', text: 'realme', value: 'realme' },
   { key: 'asus', text: '華碩', value: 'asus' },
   { key: 'htc', text: 'HTC', value: 'htc' },
   { key: 'sony', text: 'Sony', value: 'sony' },
-  { key: 'xiaomi', text: '小米', value: 'xiaomi' },
+  { key: 'xiaomi', text: '小米/Redmi', value: 'xiaomi' },
   { key: 'huawei', text: '華為', value: 'huawei' },
   { key: 'google', text: 'Google', value: 'google' },
   { key: 'lg', text: 'LG', value: 'lg' },
