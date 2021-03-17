@@ -162,7 +162,7 @@ export default class ConsentPendingCell extends Component {
                 content='寄太多信會變成騷擾，務必先確認寄信頻率'
                 actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: this.sendSendReminder }]}
               />
-              <br/>上次動作時間：{p.reverseNoticedTime || p.lastStatusChanged}
+              <br/>上次動作時間：{p.consentSendReminderSent || p.reverseNoticedTime || p.lastStatusChanged}
             </Fragment>
             : <Fragment>
               <Modal
