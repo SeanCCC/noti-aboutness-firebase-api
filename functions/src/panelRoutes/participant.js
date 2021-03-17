@@ -59,6 +59,19 @@ router.post('/consent/remind', async (req, res) => {
   }
 })
 
+router.post('/consent/sendremind', async (req, res) => {
+  try {
+    const payload = req.body
+    const { uid } = payload
+    await sendConsentRemind(uid)
+    await updateDB(`participant/${uid}`, { consentSendReminderSent: moment().tz('Asia/Taipei').format() })
+    res.send('success')
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
+
 router.post('/preResearchRemind', async (req, res) => {
   try {
     const payload = req.body
