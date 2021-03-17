@@ -5,6 +5,7 @@ import axios from 'axios'
 import status from '../../status'
 import { mailMethodOptions } from '../../formOptions'
 import moment from 'moment-timezone'
+import check from 'check-types'
 
 const InfoModalComponent = (props) => {
   const { p, sendReverseNotice } = props
@@ -55,11 +56,13 @@ export default class ConsentPendingCell extends Component {
     super(props)
     this.state = {
       acceptingConsent: false,
-      sendingReminder: false
+      sendingReminder: false,
+      sendingSendReminder: false
     }
     this.sendAcceptMail = this.sendAcceptMail.bind(this)
     this.sendReminder = this.sendReminder.bind(this)
     this.sendReverseNotice = this.sendReverseNotice.bind(this)
+    this.sendSendReminder = this.sendSendReminder.bind(this)
   }
 
   async sendAcceptMail () {
@@ -88,6 +91,19 @@ export default class ConsentPendingCell extends Component {
     }
   }
 
+  async sendSendReminder () {
+    const { participant } = this.props
+    try {
+      this.setState({ sendingSendReminder: true })
+      await axios.post('/apis/participant/consent/sendremind', {
+        uid: participant.uid
+      })
+      this.setState({ sendingSendReminder: false })
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   async sendReverseNotice () {
     const { participant } = this.props
     try {
@@ -103,7 +119,7 @@ export default class ConsentPendingCell extends Component {
 
   render () {
     const { participant: p } = this.props
-    const { acceptingConsent, sendingReminder } = this.state
+    const { acceptingConsent, sendingReminder, sendingSendReminder } = this.state
     const mailMethod = translate(mailMethodOptions, p.mailMethod, '未送出')
     const consentSentTime = !p.consentSentTime ? '未送出' : moment(new Date(p.consentSentTime)).tz('Asia/Taipei').format('YYYY-MM-DD HH:mm')
     return (
@@ -131,13 +147,23 @@ export default class ConsentPendingCell extends Component {
             </Fragment>
             : null}
           {p.status === status.CONSENT_SENT || p.status === status.CONSENT_CHOSEN
-            ? <Modal
-              size="mini"
-              trigger={<Button content="確認同意書" loading={acceptingConsent} disabled={acceptingConsent} primary />}
-              header='確認同意書有效'
-              content='資料是否有填寫完整？'
-              actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: this.sendAcceptMail }]}
-            />
+            ? <Fragment>
+              <Modal
+                size="mini"
+                trigger={<Button content="確認同意書" loading={acceptingConsent} disabled={acceptingConsent} primary />}
+                header='確認同意書有效'
+                content='資料是否有填寫完整？'
+                actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: this.sendAcceptMail }]}
+              />
+              <Modal
+                size="mini"
+                trigger={<Button content="寄出提醒信" loading={sendingSendReminder} disabled={sendingSendReminder} primary />}
+                header='是否寄出提醒信'
+                content='寄太多信會變成騷擾，務必先確認寄信頻率'
+                actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: this.sendSendReminder }]}
+              />
+              <br/>上次動作時間：{p.reverseNoticedTime || p.lastStatusChanged}
+            </Fragment>
             : <Fragment>
               <Modal
                 size="mini"
@@ -146,7 +172,7 @@ export default class ConsentPendingCell extends Component {
                 content='寄太多信會變成騷擾，務必先確認寄信頻率'
                 actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: this.sendReminder }]}
               />
-              <br/>上次寄提醒信：{p.consentReminderSent || '無'}
+              <br/>{check.assigned(p.consentReminderSent) ? '上次寄提醒信' : '上次寄信'}：{p.consentReminderSent || p.lastStatusChanged}
             </Fragment>}
         </Table.Cell>
       </Fragment>)

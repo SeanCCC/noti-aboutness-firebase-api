@@ -267,3 +267,36 @@ export const updateDone = (doneParticipants) => {
     }
   }
 }
+
+function handleLog (acc, cur) {
+  const uid = cur.uid
+  delete cur.uid
+  const log = _.chain(cur)
+    .reduce((acc, cur) => {
+      const { time } = cur
+      const date = moment(time).format('YYYY-MM-DD')
+      const hour = moment(time).format('H')
+      const idx = _.findIndex(acc, item => hour === item.hour && date === item.date)
+      if (idx === -1) acc.push({ date, hour, amount: 1 })
+      else {
+        acc[idx].amount = acc[idx].amount + 1
+      }
+      return acc
+    }, [])
+    .value()
+  acc[uid] = log
+  return acc
+}
+
+export const updateEsmLog = (data) => {
+  const log = _.chain(data)
+    .reduce(handleLog, {})
+    .value()
+  console.log({ log })
+  return {
+    type: 'XXX',
+    payload: {
+
+    }
+  }
+}

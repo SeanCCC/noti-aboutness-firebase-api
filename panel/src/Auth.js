@@ -3,7 +3,9 @@ import { Button, Form, Message } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { firebaseAuth, firebaseDB } from './firebaseInit.js'
-import { updateParticipants, updateCandidates, updateUploadRecord, updateDone } from './redux/actions'
+import {
+  updateParticipants, updateCandidates, updateUploadRecord, updateDone, updateEsmLog
+} from './redux/actions'
 
 const restructure = (objs) => {
   if (!objs) return []
@@ -48,6 +50,7 @@ class Auth extends Component {
           dbRefArray('done', this.props.updateDone)
           dbRefArray('participant', this.props.updateParticipants)
           dbRefArray('candidate', this.props.updateCandidates)
+          // dbRefArray('sendESMLog', this.props.updateEsmLog)
         }
       }
     )
@@ -104,7 +107,10 @@ Auth.propTypes = {
   updateParticipants: PropTypes.func,
   updateCandidates: PropTypes.func,
   updateUploadRecord: PropTypes.func,
-  updateDone: PropTypes.func
+  updateDone: PropTypes.func,
+  updateEsmLog: PropTypes.func
 }
 
-export default connect(null, { updateParticipants, updateCandidates, updateUploadRecord, updateDone })(Auth)
+export default connect(null,
+  { updateParticipants, updateCandidates, updateUploadRecord, updateDone, updateEsmLog }
+)(Auth)
