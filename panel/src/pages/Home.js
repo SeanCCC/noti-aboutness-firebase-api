@@ -29,6 +29,10 @@ const Home = () => {
       <Header as="h3">已支付金額</Header>
       <Numbers numberName='totalPayment' />
     </div>
+    <div className="numbers">
+      <Header as="h3">已完成問卷</Header>
+      <Numbers numberName='totalEsmNumber'/>
+    </div>
   </div>
 }
 

@@ -1,6 +1,25 @@
 import status from '../pages/status'
 import moment from 'moment-timezone'
 import _ from 'lodash'
+import check from 'check-types'
+
+const devUid = [
+  '-MUsqS9eH6z6Yq69sStn',
+  '-MVy3EUMH1LHhiQpDqk9'
+]
+
+const pilotUid = [
+  '-MOtQD2d94wZ0alaOYie',
+  '-MOv33XmO7oUZS7Yrb3W',
+  '-MOyiNJ8JVWnCeV2pXr2',
+  '-MOzou76Mf2hIyoumFPd',
+  '-MRz0tbsQzMPDiyBswKP',
+  '-MRz_clP1G3Hv0f5_eRu',
+  '-MRzw8veKUYpuB6HZZyC',
+  '-MS0cquY7rbolARN7eQP',
+  '-MS0XZqwabHWm6gG7D0m',
+  '-MRzDcE9ZJsk9YsXS9GT'
+]
 
 function createCandidatesNumber (candidates) {
   const mailYetSent = candidates
@@ -230,6 +249,21 @@ function createResearchRunningNumber (uploadRecord) {
   ]
 }
 
+function createTotalEsmNumber (input) {
+  const totalNumber = _.chain(input)
+    .map()
+    .filter(d => !devUid.includes(d.uid) && !pilotUid.includes(d.uid))
+    .reduce((acc, cur) => {
+      const total = check.greater(cur.totalEsmCount, 0)
+        ? cur.totalEsmCount - 1 : 0
+      return acc + total
+    }, 0)
+    .value()
+  return [
+    { value: totalNumber, label: '有效問卷' }
+  ]
+}
+
 export const updateUploadRecord = (uploadRecord) => {
   let _uploadRecord = uploadRecord
     .map(completeRecord)
@@ -238,11 +272,13 @@ export const updateUploadRecord = (uploadRecord) => {
     acu[cur.uid] = cur
     return acu
   }, {})
+  const totalEsmNumber = createTotalEsmNumber(_uploadRecord)
   return {
     type: 'UPDATE_UPLOAD_RECORD',
     payload: {
       uploadRecord: _uploadRecord,
-      researchRunningNumber
+      researchRunningNumber,
+      totalEsmNumber
     }
   }
 }

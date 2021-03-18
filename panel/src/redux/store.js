@@ -18,7 +18,8 @@ const initState = {
   highlightMode: null,
   doneParticipants: [],
   totalPaidNumber: [],
-  totalUnpaidNumber: []
+  totalUnpaidNumber: [],
+  totalEsmNumber: []
 }
 
 const reducer = (state = initState, action) => {
