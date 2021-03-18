@@ -4,6 +4,12 @@ import PropTypes from 'prop-types'
 import { Table, Modal, Button, Header } from 'semantic-ui-react'
 import axios from 'axios'
 import BlockChart from './BlockChart'
+import { cityOptions, jobOptions } from '../../formOptions'
+
+const translate = (options, value) => {
+  const opt = options.find(opt => opt.value === value)
+  return opt ? opt.text : 'N/A'
+}
 
 const ModalComponent = (props) => {
   const { p, record } = props
@@ -11,6 +17,11 @@ const ModalComponent = (props) => {
   return <Modal.Content scrolling>
     <Modal.Description>
       <Header as="h2">{`${p.name}的更多資訊`}</Header>
+      <Header as="h3">聯絡資訊與uid</Header>
+      Email: {p.email}<br/>
+      手機號碼：{p.phoneNumber}<br/>
+      手機：{p.phoneBrand}的{p.deviceModal}<br/>
+      uid:{p.uid}
       <Header as="h3">問卷分佈</Header>
       <ResponsiveContainer width='100%' aspect={3}>
         <LineChart data={record.esmDistDaily} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
@@ -71,10 +82,12 @@ class ResearchOngoingCell extends Component {
   render () {
     const { participant: p, record = {} } = this.props
     const { sendingReminder } = this.state
+    const city = translate(cityOptions, p.city)
+    const job = translate(jobOptions, p.occupation)
     return (
       <Fragment >
         <Table.Cell>
-          {p.name}
+          {p.name}<br/>{city}/{job}
         </Table.Cell>
         <Table.Cell>
           {record.meanNotiCount || 'N/A'}
