@@ -12,6 +12,13 @@ export function WaitPage () {
       <Message positive>
         <Message.Header>實驗團隊將在收到您的同意書後，在一到兩個工作天內與您聯繫。請密切關注郵箱或垃圾信箱。</Message.Header>
       </Message>
+      <Segment attached>
+        <Header as='h3'
+          textAlign="center">收件資訊</Header>
+        收件人：張忠喬 先生<br/>
+        收件人手機：0975-068-858<br/>
+        收件地址：30010 新竹市東區大學路1001號交通大學電子與資訊研究中心715室<br/>
+      </Segment >
     </div>
   )
 }
@@ -55,18 +62,6 @@ export function CompletePage () {
   )
 }
 
-export function MailBackPage () {
-  return (
-    <div className="page">
-      <Header textAlign="center"
-        as='h2'>感謝您的合作</Header>
-      <Message positive>
-        <Message.Header>您的實驗任務已經完成，團隊將在一到兩個工作天內與您聯絡報酬事宜。</Message.Header>
-      </Message>
-      <ContactComp/>
-    </div>
-  )
-}
 export function WaitForPayPage () {
   return (
     <div className="page">
@@ -163,7 +158,7 @@ export function ResearchDonePage () {
     <Header textAlign="center"
       as='h2'>感謝您的參與</Header>
     <Message positive>
-      <Message.Header>您的所有研究流程已經完成，感謝您的參與，未來研究若有繼續招人，也希望您能推薦給朋友。</Message.Header>
+      <Message.Header>您的所有研究流程已經完成，感謝您的參與，也希望您能將此研究推薦給朋友。</Message.Header>
     </Message>
     <ContactComp/>
   </div>
