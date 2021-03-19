@@ -83,22 +83,22 @@ function createResearchPendingNumber (researchPendingParticipants) {
 
 function createResearchDoneNumber (researchDoneParticipants) {
   const now = moment().tz('Asia/Taipei')
-  const yetInviteOrPay = researchDoneParticipants
-    .filter((p) => p.status === status.RESEARCH_DONE)
-  const notResponding = researchDoneParticipants
-    .filter((p) => {
-      if (p.status !== status.INTERVIEW_INVITED) return false
-      const time = p.interviewInviteRemindTime || p.interviewInviteTime
-      const then = moment(time)
-      const ms = now.diff(then)
-      const hours = moment.duration(ms).asHours()
-      return hours > 3 * 24
-    })
-  const notScheduled = researchDoneParticipants
-    .filter((p) => {
-      if (p.status !== status.INTERVIEW_ACCEPTED) return false
-      return !p.interviewScheduleTime
-    })
+  // const yetInviteOrPay = researchDoneParticipants
+  //   .filter((p) => p.status === status.RESEARCH_DONE)
+  // const notResponding = researchDoneParticipants
+  //   .filter((p) => {
+  //     if (p.status !== status.INTERVIEW_INVITED) return false
+  //     const time = p.interviewInviteRemindTime || p.interviewInviteTime
+  //     const then = moment(time)
+  //     const ms = now.diff(then)
+  //     const hours = moment.duration(ms).asHours()
+  //     return hours > 3 * 24
+  //   })
+  // const notScheduled = researchDoneParticipants
+  //   .filter((p) => {
+  //     if (p.status !== status.INTERVIEW_ACCEPTED) return false
+  //     return !p.interviewScheduleTime
+  //   })
   const notSendingReceipt = researchDoneParticipants
     .filter((p) => {
       if (p.status !== status.SET_RECEIPT_MAIL_METHOD) return false
@@ -120,9 +120,9 @@ function createResearchDoneNumber (researchDoneParticipants) {
   const yetPay = researchDoneParticipants
     .filter((p) => p.status === status.PAYMENT_REQUIRED)
   return [
-    { value: yetInviteOrPay.length, label: '尚未邀請訪談或付款', dangerous: yetInviteOrPay.length > 0, payload: yetInviteOrPay },
-    { value: notResponding.length, label: '三天未回覆邀約', warning: notResponding.length > 0, payload: notResponding },
-    { value: notScheduled.length, label: '尚未安排訪談', dangerous: notScheduled.length > 0, payload: notScheduled },
+    // { value: yetInviteOrPay.length, label: '尚未邀請訪談或付款', dangerous: yetInviteOrPay.length > 0, payload: yetInviteOrPay },
+    // { value: notResponding.length, label: '三天未回覆邀約', warning: notResponding.length > 0, payload: notResponding },
+    // { value: notScheduled.length, label: '尚未安排訪談', dangerous: notScheduled.length > 0, payload: notScheduled },
     { value: notSendingReceipt.length, label: '領據三天未寄出', warning: notSendingReceipt.length > 0, payload: notSendingReceipt },
     { value: notSettingPayMethod.length, label: '支付方法三天未設定', warning: notSettingPayMethod.length > 0, payload: notSettingPayMethod },
     { value: yetPay.length, label: '尚未支付', dangerous: yetPay.length > 0, payload: yetPay }
@@ -138,7 +138,7 @@ export const updateParticipants = payload => {
   const researchDoneParticipants =
     participants.filter((d) => [status.RESEARCH_DONE, status.SET_RECEIPT_MAIL_METHOD,
       status.SET_PAY_METHOD, status.PAYMENT_REQUIRED, status.PAYMENT_DONE,
-      status.INTERVIEW_INVITED, status.INTERVIEW_ACCEPTED, status.INTERVIEW_SCHEDULED,
+      status.INTERVIEWEE, status.RESEARCH_RUNNING,
       status.RECEIPT_CHOSEN, status.WAIT_FOR_RECEIPT_REVERSED].includes(d.status))
   const researchPendingParticipants =
     participants.filter((d) => [status.CONSENT_VALID, status.BIG_FIVE_DONE, status.APP_VALID].includes(d.status))

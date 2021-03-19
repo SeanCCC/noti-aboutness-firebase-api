@@ -15,12 +15,6 @@ const validator = (bodyValidator = () => true, userValidator = () => true, valid
   next()
 }
 
-const interviewDone = validator(({ rsvp }) => {
-  return check.boolean(rsvp)
-}, ({ rsvp }) => {
-  return check.undefined(rsvp)
-}, status.INTERVIEW_INVITED)
-
 const compensation = validator(({ payMethod, linePayAccount, jkoAccount, bankAccount, bankCode }) => {
   if (payMethod === 'linePay') {
     return check.nonEmptyString(linePayAccount)
@@ -56,7 +50,6 @@ const bind = validator(({ result }) => {
 }, undefined, status.CONSENT_VALID)
 
 module.exports = {
-  interviewDone,
   compensation,
   receipt,
   sendchoose,

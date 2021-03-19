@@ -16,6 +16,14 @@ class ResearchPendingList extends Component {
     }
   }
 
+  async inviteInterview (uid) {
+    try {
+      await axios.post('/apis/participant/interview/invite', { uid })
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   render () {
     const { participants, uploadRecord } = this.props
     return <Table basic='very' celled >
@@ -35,6 +43,7 @@ class ResearchPendingList extends Component {
           (p) => {
             return {
               sendReminderMail: this.sendReminderMail,
+              inviteInterview: this.inviteInterview,
               participant: p,
               record: uploadRecord[p.uid]
             }

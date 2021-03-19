@@ -29,15 +29,15 @@ const ScheduleModal = (props) => {
           onChange={date => setInterviewDate(date)}
           showTimeSelect
           disabled={schedulingInterview}
-          timeIntervals={1}
-          dateFormat="yyyy MM dd h:mm aa"
+          timeIntervals={5}
+          dateFormat="yyyy/MM/dd HH:mm"
         />
       </Modal.Description>
       <Modal
         size="mini"
         trigger={<Button content="設定訪談時間" loading={schedulingInterview} disabled={schedulingInterview} primary />}
         header='確認時間'
-        content='無'
+        content={`${p.name}的訪談設定在${moment(interviewTime).tz('Asia/Taipei').format()}嗎？`}
         actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: scheduleInterview }]}
       />
     </Modal.Content>

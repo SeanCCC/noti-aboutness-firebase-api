@@ -3,6 +3,7 @@ import { firebaseStorage } from '../../../firebaseInit'
 import PropTypes from 'prop-types'
 import { Table, Button, Modal, Header, Icon, Message } from 'semantic-ui-react'
 import { useDropzone } from 'react-dropzone'
+import check from 'check-types'
 
 function Basic ({ getFile, disabled }) {
   const { getRootProps, getInputProps } = useDropzone(
@@ -167,17 +168,17 @@ export default class PayorInviteCell extends Component {
         <Table.Cell>
           <PayModal
             p={p}
-            key={p.uid}
+            key={`${p.uid}-paymodal`}
             askAboutPayment={askAboutPayment}
           />
-          <Modal
+          { check.not.assigned(p.interviewStatus) && <Modal
             size="mini"
-            key={p.uid}
-            trigger={<Button content="寄出訪談邀請" loading={invitingInterview} disabled={invitingInterview} primary />}
-            header='是否邀請訪談'
+            key={`${p.uid}-invitemodal`}
+            trigger={<Button content="已經寄出訪談邀約" loading={invitingInterview} disabled={invitingInterview} primary />}
+            header={`是否已經寄出${p.name}的訪談邀約？`}
             content='無'
-            actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: this.inviteInterview }]}
-          />
+            actions={['取消', { key: 'confirm', content: '是的', positive: true, onClick: this.inviteInterview }]}
+          />}
         </Table.Cell>
       </Fragment>)
   }

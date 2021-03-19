@@ -3,17 +3,30 @@ const moment = require('moment-timezone')
 const { fetchDB, updateDB, findDB } = require('../utils')
 const check = require('check-types')
 const status = require('../status')
-const { sendResearchEndNotice, sendResearchExtendNotice, sendResearchStartMail, sendWeekReminder } = require('../mail')
+const interviewStatus = require('../interviewStatus')
+const { sendResearchEndNotice, sendResearchExtendNotice, sendResearchStartMail, sendWeekReminder, sendInterviewReminder } = require('../mail')
 const periodRequired = 14 // for pilot
 
 const setResearchDone = async (uid, compensation) => {
   const now = moment().tz('Asia/Taipei').format()
-  await updateDB(`participant/${uid}`, {
-    compensation,
-    status: status.RESEARCH_DONE,
-    lastStatusChanged: now,
-    researchEndDate: moment().startOf('day').subtract(1, 'days').tz('Asia/Taipei').format('YYYY-MM-DD')
-  })
+  const p = await fetchDB(`participant/${uid}`)
+  if ([interviewStatus.SCHEDULED, interviewStatus.PENDING].includes(p.interviewStatus)) {
+    await updateDB(`participant/${uid}`, {
+      compensation,
+      status: status.INTERVIEWEE,
+      lastStatusChanged: now,
+      researchEndDate: moment().startOf('day').subtract(1, 'days').tz('Asia/Taipei').format('YYYY-MM-DD')
+    })
+  } else {
+    let _compensation = compensation
+    if (p.interviewStatus === interviewStatus.DONE) _compensation += 300
+    await updateDB(`participant/${uid}`, {
+      compensation: _compensation,
+      status: status.RESEARCH_DONE,
+      lastStatusChanged: now,
+      researchEndDate: moment().startOf('day').subtract(1, 'days').tz('Asia/Taipei').format('YYYY-MM-DD')
+    })
+  }
   await updateDB(`uploadRecord/${uid}`, {
     active: false
   })
@@ -108,7 +121,6 @@ const dailyRecordFunction = async () => {
       if (validDays >= periodRequired) return true // 完美完成
       if (periodRequired - validDays >= 8) return true // 沒完美完成 但有七天以上沒填寫 直接放棄
       if (check.not.assigned(extendDays)) return false // 不放棄的部份 沒有extend過不要結束
-      console.log({ id: r.uid, days, extendDays })
       return days >= periodRequired + extendDays // 如果有extend過了 時間到就結束
     })
     .map((r) => {
@@ -145,8 +157,30 @@ const researchReminder = async () => {
   return Promise.all(mailAsyncList)
 }
 
+const interviewReminder = async () => {
+  const today = moment().tz('Asia/Taipei').startOf('day')
+  const participants = await fetchDB('/participant')
+  const intervieweeReminders = _.chain(participants)
+    .map((p, uid) => ({ ...p, uid }))
+    .filter(p => {
+      if (p.interviewStatus !== interviewStatus.SCHEDULED) return false
+      const interviewScheduleDate = moment(p.interviewScheduleTime).tz('Asia/Taipei')
+      const ms = interviewScheduleDate.diff(today)
+      const days = _.floor(moment.duration(ms).asDays())
+      return days === 2
+    })
+    .map(p => {
+      const { uid, interviewScheduleTime } = p
+      const readableTime = moment(interviewScheduleTime).tz('Asia/Taipei').format('YYYY/MM/DD HH:mm')
+      return sendInterviewReminder(uid, readableTime)
+    })
+    .value()
+  return Promise.all(intervieweeReminders)
+}
+
 module.exports = {
   dailyRecordFunction,
   researchStarter,
-  researchReminder
+  researchReminder,
+  interviewReminder
 }

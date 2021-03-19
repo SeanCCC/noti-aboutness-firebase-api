@@ -11,14 +11,12 @@ const {
   sendReceiptRemind,
   sendPayMethodRemind,
   sendPayCompleteMail,
-  sendInterviewInvitation,
-  sendInterviewInviteReminder,
   sendInterviewSchedule,
-  sendInterviewCancel,
   sendConsentReversedMail,
   sendReceiptReversedMail
 } = require('../mail')
 const status = require('../status')
+const interviewStatus = require('../interviewStatus')
 
 router.post('/consent/reversesent', async (req, res) => {
   try {
@@ -148,6 +146,7 @@ router.post('/payment/ask', async (req, res) => {
     const now = moment().tz('Asia/Taipei').format()
     const { uid, interview } = payload
     const p = await fetchDB(`participant/${uid}`)
+    // 遠端支付的部份
     const compensation = interview ? (p.compensation + 300) : p.compensation
     await updateDB(`participant/${uid}`, {
       compensation,
@@ -185,12 +184,20 @@ router.post('/interview/invite', async (req, res) => {
     const now = moment().tz('Asia/Taipei').format()
     const payload = req.body
     const { uid } = payload
-    await sendInterviewInvitation(uid)
-    await updateDB(`participant/${uid}`, {
-      status: status.INTERVIEW_INVITED,
-      interviewInviteTime: now,
-      lastStatusChanged: now
-    })
+    const p = await fetchDB(`participant/${uid}`)
+    if (p.status === status.RESEARCH_DONE) {
+      await updateDB(`participant/${uid}`, {
+        status: status.INTERVIEWEE,
+        lastStatusChanged: now,
+        interviewInviteTime: now,
+        interviewStatus: interviewStatus.PENDING
+      })
+    } else { // RESEARCH_RUNNING
+      await updateDB(`participant/${uid}`, {
+        interviewInviteTime: now,
+        interviewStatus: interviewStatus.PENDING
+      })
+    }
     res.send('success')
   } catch (err) {
     console.error(err)
@@ -198,15 +205,23 @@ router.post('/interview/invite', async (req, res) => {
   }
 })
 
-router.post('/interview/remind', async (req, res) => {
+router.post('/interview/declined', async (req, res) => {
   try {
     const now = moment().tz('Asia/Taipei').format()
     const payload = req.body
     const { uid } = payload
-    await sendInterviewInviteReminder(uid)
-    await updateDB(`participant/${uid}`, {
-      interviewInviteRemindTime: now
-    })
+    const p = await fetchDB(`participant/${uid}`)
+    if (p.status === status.RESEARCH_RUNNING) {
+      await updateDB(`participant/${uid}`, {
+        interviewStatus: interviewStatus.DECLINED
+      })
+    } else {
+      await updateDB(`participant/${uid}`, {
+        status: status.RESEARCH_DONE,
+        lastStatusChanged: now,
+        interviewStatus: interviewStatus.DECLINED
+      })
+    }
     res.send('success')
   } catch (err) {
     console.error(err)
@@ -216,14 +231,12 @@ router.post('/interview/remind', async (req, res) => {
 
 router.post('/interview/schedule', async (req, res) => {
   try {
-    const now = moment().tz('Asia/Taipei').format()
     const payload = req.body
     const { uid, interviewScheduleTime } = payload
     await sendInterviewSchedule(uid, interviewScheduleTime)
     await updateDB(`participant/${uid}`, {
-      status: status.INTERVIEW_SCHEDULED,
-      interviewScheduleTime,
-      lastStatusChanged: now
+      interviewStatus: interviewStatus.SCHEDULED,
+      interviewScheduleTime
     })
     res.send('success')
   } catch (err) {
@@ -239,13 +252,20 @@ router.post('/interview/finish', async (req, res) => {
     const payload = req.body
     const { uid } = payload
     const p = await fetchDB(`participant/${uid}`)
-    await moveDB(`participant/${uid}`, `done/${uid}`, {
-      status: status.ALL_DONE,
-      lastStatusChanged: now,
-      payDate,
-      payMethod: 'inPerson',
-      compensation: p.compensation + 300
-    })
+    if (p.status === status.RESEARCH_RUNNING) {
+      await updateDB(`participant/${uid}`, {
+        interviewStatus: interviewStatus.DONE
+      })
+    } else {
+      await moveDB(`participant/${uid}`, `done/${uid}`, {
+        interviewStatus: interviewStatus.DONE,
+        status: status.ALL_DONE,
+        lastStatusChanged: now,
+        payDate,
+        payMethod: 'inPerson',
+        compensation: p.compensation + 300
+      })
+    }
     res.send('success')
   } catch (err) {
     console.error(err)
@@ -258,12 +278,18 @@ router.post('/interview/cancel', async (req, res) => {
     const now = moment().tz('Asia/Taipei').format()
     const payload = req.body
     const { uid } = payload
-    await sendInterviewCancel(uid)
-    await updateDB(`participant/${uid}`, {
-      status: status.SET_RECEIPT_MAIL_METHOD,
-      askPaymentTime: now,
-      lastStatusChanged: now
-    })
+    const p = await fetchDB(`participant/${uid}`)
+    if (p.status === status.RESEARCH_RUNNING) {
+      await updateDB(`participant/${uid}`, {
+        interviewStatus: interviewStatus.CANCELED
+      })
+    } else {
+      await updateDB(`participant/${uid}`, {
+        status: status.RESEARCH_DONE,
+        lastStatusChanged: now,
+        interviewStatus: interviewStatus.CANCELED
+      })
+    }
     res.send('success')
   } catch (err) {
     console.error(err)

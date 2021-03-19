@@ -5,6 +5,7 @@ import { Table, Modal, Button, Header } from 'semantic-ui-react'
 import axios from 'axios'
 import BlockChart from './BlockChart'
 import { cityOptions, jobOptions } from '../../formOptions'
+import check from 'check-types'
 
 const translate = (options, value) => {
   const opt = options.find(opt => opt.value === value)
@@ -58,9 +59,11 @@ class ResearchOngoingCell extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      sendingReminder: false
+      sendingReminder: false,
+      sendingInvitation: false
     }
     this.sendReminder = this.sendReminder.bind(this)
+    this.sendInterviewInvitation = this.sendInterviewInvitation.bind(this)
     this.endResearch = this.endResearch.bind(this)
   }
 
@@ -69,6 +72,13 @@ class ResearchOngoingCell extends Component {
     this.setState({ sendingReminder: true })
     await sendReminderMail(participant.uid)
     this.setState({ sendingReminder: false })
+  }
+
+  async sendInterviewInvitation () {
+    const { inviteInterview, participant } = this.props
+    this.setState({ sendingInvitation: true })
+    await inviteInterview(participant.uid)
+    this.setState({ sendingInvitation: false })
   }
 
   async endResearch (uid) {
@@ -81,7 +91,7 @@ class ResearchOngoingCell extends Component {
 
   render () {
     const { participant: p, record = {} } = this.props
-    const { sendingReminder } = this.state
+    const { sendingReminder, sendingInvitation } = this.state
     const city = translate(cityOptions, p.city)
     const job = translate(jobOptions, p.occupation)
     return (
@@ -112,6 +122,14 @@ class ResearchOngoingCell extends Component {
             content='寄太多信會變成騷擾，務必先確認寄信頻率'
             actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: this.sendReminder }]}
           />
+          {check.assigned(p.interviewStatus) ? null : <Modal
+            size="mini"
+            key={`${p.uid}-invitemodal`}
+            trigger={<Button content="已經寄出訪談邀約" loading={sendingInvitation} disabled={sendingInvitation} primary />}
+            header={`是否已經寄出${p.name}的訪談邀約？`}
+            content='無'
+            actions={['取消', { key: 'confirm', content: '是的', positive: true, onClick: this.sendInterviewInvitation }]}
+          />}
           <Modal
             size="mini"
             trigger={<Button content="結束實驗" />}
@@ -127,6 +145,7 @@ class ResearchOngoingCell extends Component {
 
 ResearchOngoingCell.propTypes = {
   sendReminderMail: PropTypes.func,
+  inviteInterview: PropTypes.func,
   participant: PropTypes.object,
   record: PropTypes.object
 }

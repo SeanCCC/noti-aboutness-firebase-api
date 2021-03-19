@@ -11,8 +11,6 @@ import MailChoose from './MailChoose'
 import Compensation from './Compensation'
 import ScorePage from './ScorePage'
 import {
-  InterviewSchedulePage,
-  InterviewAcceptPage,
   WaitPage, ReadyPage,
   WaitForPayPage,
   ErrorPage,
@@ -23,7 +21,6 @@ import {
 } from './ResultPage'
 import Instruction from './Instruction'
 import { checkId } from './checkId'
-import Interview from './Interview'
 import MailInfo from './MailInfo'
 
 export default function Participant () {
@@ -50,12 +47,6 @@ export default function Participant () {
         component={checkId(RunningPage)}/>
       <Route path={`${match.path}/complete`}
         component={checkId(CompletePage)}/>
-      <Route path={`${match.path}/interview/invitation`}
-        component={checkId(Interview)}/>
-      <Route path={`${match.path}/interview/accept`}
-        component={checkId(InterviewAcceptPage)}/>
-      <Route path={`${match.path}/interview/schedule`}
-        component={checkId(InterviewSchedulePage)}/>
       <Route path={`${match.path}/compensation`}
         component={checkId(Compensation)}/>
       <Route path={`${match.path}/waitforpay`}

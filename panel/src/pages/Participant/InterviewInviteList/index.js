@@ -14,17 +14,17 @@ export default class InterviewInviteList extends Component {
     }
   }
 
-  async sendReminderMail (uid) {
+  async finishInterview (uid) {
     try {
-      await axios.post('/apis/participant/interview/remind', { uid })
+      await axios.post('/apis/participant/interview/finish', { uid })
     } catch (err) {
       console.error(err)
     }
   }
 
-  async finishInterview (uid) {
+  async declineInterview (uid) {
     try {
-      await axios.post('/apis/participant/interview/finish', { uid })
+      await axios.post('/apis/participant/interview/declined', { uid })
     } catch (err) {
       console.error(err)
     }
@@ -53,7 +53,6 @@ export default class InterviewInviteList extends Component {
         <Table.Row>
           <Table.HeaderCell>姓名</Table.HeaderCell>
           <Table.HeaderCell>邀請時間</Table.HeaderCell>
-          <Table.HeaderCell>接受時間</Table.HeaderCell>
           <Table.HeaderCell>訪談時間</Table.HeaderCell>
           <Table.HeaderCell>報酬金額</Table.HeaderCell>
           <Table.HeaderCell>動作</Table.HeaderCell>
@@ -66,10 +65,10 @@ export default class InterviewInviteList extends Component {
           (p) => {
             return {
               scheduleInterview: this.scheduleInterview,
-              sendReminderMail: this.sendReminderMail,
               finishInterview: this.finishInterview,
               cancelInterview: this.cancelInterview,
               askAboutPayment: this.askAboutPayment,
+              declineInterview: this.declineInterview,
               participant: p
             }
           }

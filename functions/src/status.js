@@ -15,9 +15,7 @@ const WAIT_FOR_RECEIPT_REVERSED = 'waitForReceiptReversed'
 const RECEIPT_CHOSEN = 'receiptChosen'
 const PAYMENT_REQUIRED = 'paymentRequired'
 const PAYMENT_DONE = 'paymentDone'
-const INTERVIEW_INVITED = 'interviewInvited'
-const INTERVIEW_ACCEPTED = 'interviewAccepted'
-const INTERVIEW_SCHEDULED = 'interviewScheduled'
+const INTERVIEWEE = 'interviewee'
 const ALL_DONE = 'allDone'
 
 module.exports = {
@@ -38,8 +36,6 @@ module.exports = {
   RECEIPT_CHOSEN,
   PAYMENT_REQUIRED,
   PAYMENT_DONE,
-  INTERVIEW_INVITED,
-  INTERVIEW_ACCEPTED,
-  INTERVIEW_SCHEDULED,
+  INTERVIEWEE,
   ALL_DONE
 }

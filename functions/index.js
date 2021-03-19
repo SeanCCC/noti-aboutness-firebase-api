@@ -10,7 +10,8 @@ const {
   dailyRecordFunction,
   countESM,
   researchStarter,
-  researchReminder
+  researchReminder,
+  interviewReminder
 } = require('./src/triggers')
 
 // site apis
@@ -81,6 +82,10 @@ const researchRemind = functions.pubsub.schedule('0 9 * * *') // running at ever
   .timeZone('Asia/Taipei')
   .onRun(researchReminder)
 
+const interviewRemind = functions.pubsub.schedule('30 12 * * *') // running at every 12:30
+  .timeZone('Asia/Taipei')
+  .onRun(interviewReminder)
+
 module.exports = {
   site,
   app,
@@ -89,5 +94,6 @@ module.exports = {
   onQuestionnaireAdded,
   dailyRecord,
   startResearch,
-  researchRemind
+  researchRemind,
+  interviewRemind
 }

@@ -3,24 +3,21 @@ import PropTypes from 'prop-types'
 import ScheduleModal from './ScheduleModal'
 import MultiplePayModal from './MultiplePayModal'
 import { Table, Button, Modal } from 'semantic-ui-react'
+import interviewStatus from '../../interviewStatus'
+import check from 'check-types'
 import status from '../../status'
 
 export default class InterviewInviteCell extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      sendingReminder: false,
-      cancelingInterview: false
+      cancelingInterview: false,
+      decliningInterview: false,
+      finishingInterview: false
     }
-    this.sendReminder = this.sendReminder.bind(this)
     this.cancelInterview = this.cancelInterview.bind(this)
-  }
-
-  async sendReminder () {
-    const { sendReminderMail, participant } = this.props
-    this.setState({ sendingReminder: true })
-    await sendReminderMail(participant.uid)
-    this.setState({ sendingReminder: false })
+    this.declineInterview = this.declineInterview.bind(this)
+    this.finishInterview = this.finishInterview.bind(this)
   }
 
   async cancelInterview () {
@@ -30,9 +27,23 @@ export default class InterviewInviteCell extends Component {
     this.setState({ cancelingInterview: false })
   }
 
+  async declineInterview () {
+    const { declineInterview, participant } = this.props
+    this.setState({ decliningInterview: true })
+    await declineInterview(participant.uid)
+    this.setState({ decliningInterview: false })
+  }
+
+  async finishInterview () {
+    const { finishInterview, participant } = this.props
+    this.setState({ finishingInterview: true })
+    await finishInterview(participant.uid)
+    this.setState({ finishingInterview: false })
+  }
+
   render () {
     const { participant: p, scheduleInterview, finishInterview, askAboutPayment } = this.props
-    const { sendingReminder, cancelingInterview } = this.state
+    const { cancelingInterview, decliningInterview, finishingInterview } = this.state
     return (
       <Fragment>
         <Table.Cell>
@@ -42,43 +53,47 @@ export default class InterviewInviteCell extends Component {
           {p.interviewInviteTime}
         </Table.Cell>
         <Table.Cell>
-          {p.interviewAcceptTime || '尚未接受'}
-        </Table.Cell>
-        <Table.Cell>
           {p.interviewScheduleTime || '尚未安排時間'}
         </Table.Cell>
         <Table.Cell>
-          {p.compensation + 300 + '元' || 'N/A'}
+          {check.assigned(p.compensation) ? p.compensation + 300 + '元' : 'N/A'}
         </Table.Cell>
         <Table.Cell>
-          {p.status === status.INTERVIEW_INVITED
-            ? <Fragment>
-              <Modal
-                size="mini"
-                trigger={<Button content="寄出提醒信" loading={sendingReminder} disabled={sendingReminder} primary />}
-                header='是否寄出提醒信'
-                content='寄太多信會變成騷擾，務必先確認寄信頻率'
-                actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: this.sendReminder }]}
-              />
-              <br/>上次寄提醒信：{p.interviewInviteRemindTime || '無'}
-            </Fragment> : null}
-          {p.status === status.INTERVIEW_ACCEPTED
-            ? <ScheduleModal p={p} scheduleInterview={scheduleInterview}/>
-            : null}
-          {p.status === status.INTERVIEW_SCHEDULED
-            ? <MultiplePayModal
+          {p.interviewStatus === interviewStatus.PENDING &&
+           <ScheduleModal p={p} scheduleInterview={scheduleInterview}/>
+          }
+          {p.interviewStatus === interviewStatus.SCHEDULED &&
+            p.status === status.INTERVIEWEE &&
+            <MultiplePayModal
               participant={p}
               finishInterview={finishInterview}
               askAboutPayment={askAboutPayment}
-            />
-            : null}
-          <Modal
+            />}
+          {
+            p.interviewStatus === interviewStatus.SCHEDULED &&
+              p.status === status.RESEARCH_RUNNING &&
+              <Modal
+                size="mini"
+                trigger={<Button content="訪談完成" loading={finishingInterview} disabled={finishingInterview} primary />}
+                header='確認訪談完成'
+                content='無'
+                actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: this.finishInterview }]}
+              />
+          }
+          { p.interviewStatus === interviewStatus.PENDING && <Modal
+            size="mini"
+            trigger={<Button content="參與者拒絕訪談" loading={decliningInterview} disabled={decliningInterview} primary />}
+            header='確認參與者拒絕訪談'
+            content='無'
+            actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: this.declineInterview }]}
+          />}
+          {p.interviewStatus === interviewStatus.SCHEDULED && <Modal
             size="mini"
             trigger={<Button content="取消訪談" loading={cancelingInterview} disabled={cancelingInterview} primary />}
             header='確認取消訪談'
             content='無'
             actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: this.cancelInterview }]}
-          />
+          />}
         </Table.Cell>
       </Fragment>)
   }
@@ -86,9 +101,9 @@ export default class InterviewInviteCell extends Component {
 
 InterviewInviteCell.propTypes = {
   scheduleInterview: PropTypes.func,
-  sendReminderMail: PropTypes.func,
   finishInterview: PropTypes.func,
   cancelInterview: PropTypes.func,
   askAboutPayment: PropTypes.func,
+  declineInterview: PropTypes.func,
   participant: PropTypes.object
 }

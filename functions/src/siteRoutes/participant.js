@@ -19,7 +19,6 @@ const validators = require('./validators')
 const status = require('../status')
 const {
   sendReceiptMailInfo,
-  sendCompensationMail,
   sendConsentMailInfo,
   sendApkLink
 } = require('../mail')
@@ -227,26 +226,6 @@ router.post('/done/sendreceipt', async (req, res) => {
       lastStatusChanged: moment().tz('Asia/Taipei').format()
     })
     res.json({ status: status.PAYMENT_REQUIRED })
-  } catch (err) {
-    console.error(err)
-    res.status(500).send('error')
-  }
-})
-
-router.post('/done/interview', validators.interviewDone, async (req, res) => {
-  try {
-    const now = moment().tz('Asia/Taipei').format()
-    const payload = req.body
-    const { id, rsvp } = payload
-    const nextStatus = rsvp ? status.INTERVIEW_ACCEPTED : status.SET_RECEIPT_MAIL_METHOD
-    await updateDB(`participant/${id}`, {
-      rsvp,
-      status: nextStatus,
-      lastStatusChanged: now,
-      interviewAcceptTime: rsvp ? now : undefined
-    })
-    if (!rsvp) await sendCompensationMail(id)
-    res.json({ status: nextStatus })
   } catch (err) {
     console.error(err)
     res.status(500).send('error')

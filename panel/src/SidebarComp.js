@@ -68,7 +68,7 @@ class SidebarComp extends Component {
           <Menu.Item as='a' onClick={
             () => this.setNextPath('/participant/done')
           }>
-            實驗後面板
+            訪談與報酬面板
           </Menu.Item>
         </Sidebar>
         <Sidebar.Pusher>

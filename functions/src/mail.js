@@ -2,7 +2,6 @@ const nodemailer = require('nodemailer')
 const { fetchDB } = require('./utils')
 const { join } = require('path')
 const moment = require('moment-timezone')
-const status = require('./status')
 const notiDoc = 'https://docs.google.com/document/d/1Bg6TyPAzUXZy9XaIZiNzPyQGroa4nF2Cx3j36Vwix34/edit?usp=sharing'
 
 const transporter = nodemailer.createTransport({
@@ -80,25 +79,6 @@ const sendDeclineMail = async (id) => {
     from: 'MUILAB通知實驗研究團隊',
     to: email,
     subject: 'MUILAB通知實驗-報名結果回報',
-    html
-  }
-  return transporter.sendMail(config)
-}
-
-const sendCompensationMail = async (id) => {
-  const { email, name, compensation } = await fetchEmailInfo(id, 'participant')
-  const html = mailTemplate([
-    `${name}先生/小姐您好，`,
-    '您已經完成所有的實驗流程，',
-    `您的報酬總共有${compensation}元，`,
-    `請依照<a href="https://notiaboutness.muilab.org/participant/compensation/choosemail?id=${id}">報酬領取資訊</a>的流程，`,
-    '提供團隊支付報酬所需的資訊，',
-    '感激不盡。'
-  ])
-  const config = {
-    from: 'MUILAB通知實驗研究團隊',
-    to: email,
-    subject: 'MUILAB通知實驗-報酬領取',
     html
   }
   return transporter.sendMail(config)
@@ -339,56 +319,14 @@ const sendPayCompleteMail = async (id, payDate) => {
   return transporter.sendMail(config)
 }
 
-const sendInterviewInvitation = async (id) => {
-  const { email, name } = await fetchEmailInfo(id, 'participant')
-  const html = mailTemplate([
-    `${name}先生/小姐您好，`,
-    '在檢視您提供的寶貴資訊後，',
-    '我們希望邀請您進行訪談。',
-    '若您願意接受訪談，',
-    '研究團隊將提供300元的車馬費。',
-    '實驗的報酬也會在訪談當天以現金一併付清。',
-    `請點入<a href="https://notiaboutness.muilab.org/participant/interview/invitation?id=${id}">邀請函</a>並回應，`,
-    '期待您的回應。'
-  ])
-  const config = {
-    from: 'MUILAB通知實驗研究團隊',
-    to: email,
-    subject: 'MUILAB通知實驗-訪談邀約與報酬領取',
-    html
-  }
-  return transporter.sendMail(config)
-}
-
-const sendInterviewInviteReminder = async (id) => {
-  const { email, name } = await fetchEmailInfo(id, 'participant')
-  const html = mailTemplate([
-    `${name}先生/小姐您好，`,
-    '由於一直沒收到您的回應，',
-    '我們寄出此信提醒您關於訪談邀約的事情。',
-    '若您願意接受訪談，',
-    '研究團隊將提供300元的車馬費。',
-    '實驗的報酬也會在訪談當天以現金一併付清。',
-    `請點入<a href="https://notiaboutness.muilab.org/participant/interview/invitation?id=${id}">邀請函</a>並回應，`,
-    '希望您能在近期回應。'
-  ])
-  const config = {
-    from: 'MUILAB通知實驗研究團隊',
-    to: email,
-    subject: 'MUILAB通知實驗-訪談邀約提醒',
-    html
-  }
-  return transporter.sendMail(config)
-}
-
 const sendInterviewSchedule = async (id, interviewScheduleTime) => {
   const { email, name } = await fetchEmailInfo(id, 'participant')
   const readableTime = moment(interviewScheduleTime).tz('Asia/Taipei').format('YYYY/MM/DD HH:mm')
   const html = mailTemplate([
     `${name}先生/小姐您好，`,
     `已將您的訪談安排在${readableTime}，`,
-    '地點為交通大學電子資訊中心715實驗室，',
-    '訪談與支付流程會在90分鐘內結束，',
+    '請準時到達約定好的訪談地點，',
+    '訪談流程會在60分鐘內結束，',
     '期待與您相見。'
   ])
   const config = {
@@ -400,24 +338,20 @@ const sendInterviewSchedule = async (id, interviewScheduleTime) => {
   return transporter.sendMail(config)
 }
 
-const sendInterviewCancel = async (id) => {
-  const { email, name, status: _status } = await fetchEmailInfo(id, 'participant')
-  let middleText = '我們將直接進入您的付款階段。'
-  if (_status === status.INTERVIEW_INVITED) {
-    middleText = '由於團隊已收到足夠的訪談資料，我們將直接進入您的付款階段。'
-  } else if (_status === status.INTERVIEW_SCHEDULED || _status === status.INTERVIEW_ACCEPTED) {
-    middleText = '已取消您的訪談，我們將直接進入您的付款階段。'
-  }
+const sendInterviewReminder = async (id, readableTime) => {
+  const { email, name } = await fetchEmailInfo(id, 'participant')
   const html = mailTemplate([
     `${name}先生/小姐您好，`,
-    middleText,
-    `請依照<a href="https://notiaboutness.muilab.org/participant/compensation/choosemail?id=${id}">此網站</a>步驟領取報酬，`,
-    '感激不盡！'
+    `我們想提醒您訪談時間為${readableTime}，`,
+    '請準時到達約定好的訪談地點，',
+    '訪談流程會在60分鐘內結束，',
+    '如果有需要調整時間請務必提早與我們聯繫，',
+    '期待與您相見。'
   ])
   const config = {
     from: 'MUILAB通知實驗研究團隊',
     to: email,
-    subject: 'MUILAB通知實驗-訪談取消通知',
+    subject: 'MUILAB通知實驗-訪談時間提醒',
     html
   }
   return transporter.sendMail(config)
@@ -545,7 +479,6 @@ module.exports = {
   sendEmailCheck,
   sendAcceptMail,
   sendDeclineMail,
-  sendCompensationMail,
   sendPreResearchRemind,
   sendConsentAcceptMail,
   sendConsentReversedMail,
@@ -555,10 +488,7 @@ module.exports = {
   sendReceiptRemind,
   sendPayMethodRemind,
   sendPayCompleteMail,
-  sendInterviewInvitation,
-  sendInterviewInviteReminder,
   sendInterviewSchedule,
-  sendInterviewCancel,
   sendResearchEndNotice,
   sendResearchExtendNotice,
   sendResearchStartMail,
@@ -567,5 +497,6 @@ module.exports = {
   sendReceiptMailInfo,
   sendReceiptReversedMail,
   sendWeekReminder,
-  sendFitstEsmReminderMail
+  sendFitstEsmReminderMail,
+  sendInterviewReminder
 }
