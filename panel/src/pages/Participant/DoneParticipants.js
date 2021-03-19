@@ -5,7 +5,6 @@ import { Accordion, Header, Icon } from 'semantic-ui-react'
 import LoadingPage from '../LoadingPage'
 import Numbers from '../Numbers'
 import status from '../status'
-import check from 'check-types'
 import interviewStatus from '../interviewStatus'
 import PayOrInviteList from './PayOrInviteList'
 import SettingPaymentList from './SettingPaymentList'
@@ -39,11 +38,13 @@ class DoneParticipants extends Component {
     const { loading, activeIndex } = this.state
     const {
       researchDoneParticipants,
-      doneParticipants
+      doneParticipants,
+      researchRunningParticipants
     } = this.props
     if (loading) return <LoadingPage/>
     const payOrInvite = researchDoneParticipants.filter(p => p.status === status.RESEARCH_DONE)
-    const Inverviewees = researchDoneParticipants.filter(p => [interviewStatus.PENDING, interviewStatus.SCHEDULED].includes(p.interviewStatus))
+    const Inverviewees = [...researchDoneParticipants, ...researchRunningParticipants]
+      .filter(p => [interviewStatus.PENDING, interviewStatus.SCHEDULED].includes(p.interviewStatus))
     const settingPayment = researchDoneParticipants.filter(p => [status.SET_RECEIPT_MAIL_METHOD, status.SET_PAY_METHOD, status.PAYMENT_REQUIRED, status.RECEIPT_CHOSEN, status.WAIT_FOR_RECEIPT_REVERSED].includes(p.status))
     return <div className="page">
       <Header as="h1">訪談與報酬面板</Header>
@@ -111,11 +112,13 @@ class DoneParticipants extends Component {
 
 DoneParticipants.propTypes = {
   researchDoneParticipants: PropTypes.array,
+  researchRunningParticipants: PropTypes.array,
   doneParticipants: PropTypes.array
 }
 
 const mapStateToProps = (state) => ({
   researchDoneParticipants: state.researchDoneParticipants,
+  researchRunningParticipants: state.researchRunningParticipants,
   doneParticipants: state.doneParticipants
 })
 
