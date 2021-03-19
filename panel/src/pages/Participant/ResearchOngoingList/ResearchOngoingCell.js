@@ -130,13 +130,13 @@ class ResearchOngoingCell extends Component {
             content='無'
             actions={['取消', { key: 'confirm', content: '是的', positive: true, onClick: this.sendInterviewInvitation }]}
           />}
-          <Modal
+          {/* <Modal
             size="mini"
             trigger={<Button content="結束實驗" />}
             header='是否結束實驗'
             content='這是測試功能'
             actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: () => this.endResearch(p.uid) }]}
-          />
+          /> */}
           <br/>上次寄信：{p.researchReminderSent || '無'}
         </Table.Cell>
       </Fragment>)
