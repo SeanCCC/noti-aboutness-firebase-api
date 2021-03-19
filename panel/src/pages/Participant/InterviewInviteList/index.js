@@ -14,6 +14,14 @@ export default class InterviewInviteList extends Component {
     }
   }
 
+  async rescheduleInterview (uid, interviewScheduleTime) {
+    try {
+      await axios.post('/apis/participant/interview/reschedule', { uid, interviewScheduleTime })
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   async finishInterview (uid) {
     try {
       await axios.post('/apis/participant/interview/finish', { uid })
@@ -69,6 +77,7 @@ export default class InterviewInviteList extends Component {
               cancelInterview: this.cancelInterview,
               askAboutPayment: this.askAboutPayment,
               declineInterview: this.declineInterview,
+              rescheduleInterview: this.rescheduleInterview,
               participant: p
             }
           }

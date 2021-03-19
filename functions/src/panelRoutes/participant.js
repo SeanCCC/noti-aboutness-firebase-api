@@ -13,7 +13,8 @@ const {
   sendPayCompleteMail,
   sendInterviewSchedule,
   sendConsentReversedMail,
-  sendReceiptReversedMail
+  sendReceiptReversedMail,
+  sendInterviewReschedule
 } = require('../mail')
 const status = require('../status')
 const interviewStatus = require('../interviewStatus')
@@ -236,6 +237,21 @@ router.post('/interview/schedule', async (req, res) => {
     await sendInterviewSchedule(uid, interviewScheduleTime)
     await updateDB(`participant/${uid}`, {
       interviewStatus: interviewStatus.SCHEDULED,
+      interviewScheduleTime
+    })
+    res.send('success')
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('error')
+  }
+})
+
+router.post('/interview/reschedule', async (req, res) => {
+  try {
+    const payload = req.body
+    const { uid, interviewScheduleTime } = payload
+    await sendInterviewReschedule(uid, interviewScheduleTime)
+    await updateDB(`participant/${uid}`, {
       interviewScheduleTime
     })
     res.send('success')

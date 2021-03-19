@@ -42,8 +42,18 @@ export default class InterviewInviteCell extends Component {
   }
 
   render () {
-    const { participant: p, scheduleInterview, finishInterview, askAboutPayment } = this.props
-    const { cancelingInterview, decliningInterview, finishingInterview } = this.state
+    const {
+      participant: p,
+      scheduleInterview,
+      rescheduleInterview,
+      finishInterview,
+      askAboutPayment
+    } = this.props
+    const {
+      cancelingInterview,
+      decliningInterview,
+      finishingInterview
+    } = this.state
     return (
       <Fragment>
         <Table.Cell>
@@ -94,6 +104,13 @@ export default class InterviewInviteCell extends Component {
             content='無'
             actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: this.cancelInterview }]}
           />}
+          {p.interviewStatus === interviewStatus.SCHEDULED &&
+            <ScheduleModal
+              p={p}
+              scheduleInterview={scheduleInterview}
+              rescheduleInterview={rescheduleInterview}
+            />
+          }
         </Table.Cell>
       </Fragment>)
   }
@@ -105,5 +122,6 @@ InterviewInviteCell.propTypes = {
   cancelInterview: PropTypes.func,
   askAboutPayment: PropTypes.func,
   declineInterview: PropTypes.func,
+  rescheduleInterview: PropTypes.func,
   participant: PropTypes.object
 }

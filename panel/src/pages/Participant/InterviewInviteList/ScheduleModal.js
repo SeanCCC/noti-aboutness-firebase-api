@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Button, Modal, Header } from 'semantic-ui-react'
 import moment from 'moment-timezone'
 import DatePicker from 'react-datepicker'
+import interviewStatus from '../../interviewStatus'
 import 'react-datepicker/dist/react-datepicker.css'
 
 const ScheduleModal = (props) => {
@@ -14,12 +15,16 @@ const ScheduleModal = (props) => {
   const scheduleInterview = async () => {
     setSchedulingInterview(true)
     const tzTime = moment(interviewTime).tz('Asia/Taipei').format()
-    await props.scheduleInterview(p.uid, tzTime)
+    if (p.interviewStatus === interviewStatus.SCHEDULED) {
+      await props.rescheduleInterview(p.uid, tzTime)
+    } else await props.scheduleInterview(p.uid, tzTime)
     setSchedulingInterview(false)
   }
+  const btnText = p.interviewStatus === interviewStatus.SCHEDULED
+    ? '變更訪談時間' : '安排訪談時間'
   return <Modal
     size="mini"
-    trigger={<Button content="安排訪談時間" primary />}
+    trigger={<Button content={btnText} primary />}
   >
     <Modal.Content scrolling>
       <Modal.Description>
@@ -46,7 +51,8 @@ const ScheduleModal = (props) => {
 
 ScheduleModal.propTypes = {
   p: PropTypes.object,
-  scheduleInterview: PropTypes.func
+  scheduleInterview: PropTypes.func,
+  rescheduleInterview: PropTypes.func
 }
 
 export default ScheduleModal

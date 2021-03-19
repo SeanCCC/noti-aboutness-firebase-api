@@ -338,6 +338,24 @@ const sendInterviewSchedule = async (id, interviewScheduleTime) => {
   return transporter.sendMail(config)
 }
 
+const sendInterviewReschedule = async (id, interviewScheduleTime) => {
+  const { email, name } = await fetchEmailInfo(id, 'participant')
+  const readableTime = moment(interviewScheduleTime).tz('Asia/Taipei').format('YYYY/MM/DD HH:mm')
+  const html = mailTemplate([
+    `${name}先生/小姐您好，`,
+    `已將您的訪談改到${readableTime}，`,
+    '請準時到達約定好的訪談地點，',
+    '期待與您相見。'
+  ])
+  const config = {
+    from: 'MUILAB通知實驗研究團隊',
+    to: email,
+    subject: 'MUILAB通知實驗-訪談安排變動通知',
+    html
+  }
+  return transporter.sendMail(config)
+}
+
 const sendInterviewReminder = async (id, readableTime) => {
   const { email, name } = await fetchEmailInfo(id, 'participant')
   const html = mailTemplate([
@@ -498,5 +516,6 @@ module.exports = {
   sendReceiptReversedMail,
   sendWeekReminder,
   sendFitstEsmReminderMail,
-  sendInterviewReminder
+  sendInterviewReminder,
+  sendInterviewReschedule
 }
