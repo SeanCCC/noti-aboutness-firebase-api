@@ -22,7 +22,7 @@
 
 // something()
 
-const { dailyRecordFunction, interviewReminder } = require('./src/triggers/daily')
+// const { dailyRecordFunction, interviewReminder } = require('./src/triggers/daily')
 
-dailyRecordFunction()
+// dailyRecordFunction()
 // interviewReminder()
