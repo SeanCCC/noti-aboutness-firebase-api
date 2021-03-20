@@ -245,7 +245,8 @@ function createResearchRunningNumber (uploadRecord) {
   })
   return [
     { value: noYesterdayNoti.length, label: '昨日無上傳通知', dangerous: noYesterdayNoti.length > 0, payload: noYesterdayNoti },
-    { value: lowEsmCount.length, label: 'esm填寫量少', warning: lowEsmCount.length > 0, payload: lowEsmCount }
+    { value: lowEsmCount.length, label: 'esm填寫量少', warning: lowEsmCount.length > 0, payload: lowEsmCount },
+    { value: uploadRecord.length, label: '總數量', payload: uploadRecord }
   ]
 }
 
