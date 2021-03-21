@@ -13,3 +13,18 @@ firebase.initializeApp(config)
 export const firebaseAuth = firebase.auth()
 export const firebaseDB = firebase.database()
 export const firebaseStorage = firebase.storage()
+const restructure = (objs) => {
+  if (!objs) return []
+  return Object.keys(objs).map((uid) => {
+    return {
+      uid,
+      ...objs[uid]
+    }
+  })
+}
+
+export const dbRefArray = (colloection, cb, filterFunc = () => true) =>
+  firebaseDB.ref(colloection).on('value', function (snapshot) {
+    const data = restructure(snapshot.val()).filter(filterFunc)
+    cb(data)
+  })

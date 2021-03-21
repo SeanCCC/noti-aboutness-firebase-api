@@ -2,26 +2,10 @@ import React, { Fragment, Component } from 'react'
 import { Button, Form, Message } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { firebaseAuth, firebaseDB } from './firebaseInit.js'
+import { firebaseAuth, dbRefArray } from './firebaseInit.js'
 import {
   updateParticipants, updateCandidates, updateUploadRecord, updateDone, updateEsmLog
 } from './redux/actions'
-
-const restructure = (objs) => {
-  if (!objs) return []
-  return Object.keys(objs).map((uid) => {
-    return {
-      uid,
-      ...objs[uid]
-    }
-  })
-}
-
-const dbRefArray = (colloection, cb, filterFunc = () => true) =>
-  firebaseDB.ref(colloection).on('value', function (snapshot) {
-    const data = restructure(snapshot.val()).filter(filterFunc)
-    cb(data)
-  })
 
 class Auth extends Component {
   constructor (props) {

@@ -51,11 +51,8 @@ class AddUser extends Component {
   }
 
   handleChange (e, { name, value }) {
-    const { submitted } = this.state
     this.setState({ [name]: value }, () => {
-      if (submitted) {
-        this.checkVal(name)
-      }
+      this.checkVal(name)
     })
   }
 
