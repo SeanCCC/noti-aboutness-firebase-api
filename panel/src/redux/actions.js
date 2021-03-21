@@ -55,6 +55,8 @@ export const updateCandidates = payload => {
 function createPrepareNumber (consentPendingParticipants) {
   const consentSent = consentPendingParticipants
     .filter((p) => p.status === status.CONSENT_SENT)
+  const waitForReverse = consentPendingParticipants
+    .filter((p) => p.status === status.WAIT_FOR_REVERSED)
   const now = moment()
   const consentSent3D = consentPendingParticipants
     .filter((p) => {
@@ -66,6 +68,7 @@ function createPrepareNumber (consentPendingParticipants) {
   const consentPending = consentPendingParticipants
   return [
     { value: consentSent3D.length, label: '送出後已過三日', dangerous: consentSent3D.length > 0, payload: consentSent3D },
+    { value: waitForReverse.length, label: '回郵待處理', dangerous: waitForReverse.length > 0, payload: waitForReverse },
     { value: consentSent.length, label: '已經送出', warning: consentSent.length > 0, payload: consentSent },
     { value: consentPending.length, label: '總人數', payload: consentPending }
   ]
