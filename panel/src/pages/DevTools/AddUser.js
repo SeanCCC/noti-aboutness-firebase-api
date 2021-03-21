@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { Header, Form } from 'semantic-ui-react'
+import React, { Component, Fragment } from 'react'
+import { Form } from 'semantic-ui-react'
 import check from 'check-types'
 import moment from 'moment-timezone'
 import axios from 'axios'
@@ -26,7 +26,7 @@ const bigFiveDoneTemplate = (name, email) => ({
   wearableDevice: false
 })
 
-class ToolPage extends Component {
+class AddUser extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -87,8 +87,7 @@ class ToolPage extends Component {
 
   render () {
     const { name, uploading, nameValid, submitted, email, emailValid } = this.state
-    return <div className="page">
-      <Header as="h1">快速新增參與者</Header>
+    return <Fragment>
       <Form.Input
         key='name'
         fluid
@@ -122,8 +121,8 @@ class ToolPage extends Component {
         loading={uploading}
         disabled={uploading}
         onClick={this.submit} >提交</Form.Button>
-    </div>
+    </Fragment>
   }
 }
 
-export default ToolPage
+export default AddUser
