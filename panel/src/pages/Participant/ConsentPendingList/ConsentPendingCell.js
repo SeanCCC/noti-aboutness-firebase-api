@@ -125,7 +125,9 @@ export default class ConsentPendingCell extends Component {
     return (
       <Fragment>
         <Table.Cell>
-          {p.name}
+          {p.name}<br/>
+          {p.email}<br/>
+          {p.phoneNumber}
         </Table.Cell>
         <Table.Cell>
           {p.status === status.INIT ? '否' : '是'}
@@ -174,6 +176,7 @@ export default class ConsentPendingCell extends Component {
               />
               <br/>{check.assigned(p.consentReminderSent) ? '上次寄提醒信' : '上次寄信'}：{p.consentReminderSent || p.lastStatusChanged}
             </Fragment>}
+          <br/>進入此階段時間：{p.lastStatusChanged}
         </Table.Cell>
       </Fragment>)
   }

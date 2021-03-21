@@ -10,7 +10,7 @@ export default class ConsentPendingList extends Component {
     return <Table basic='very' celled >
       <Table.Header>
         <Table.Row>
-          <Table.HeaderCell>姓名</Table.HeaderCell>
+          <Table.HeaderCell>姓名與聯絡資訊</Table.HeaderCell>
           <Table.HeaderCell>是否已看介紹片</Table.HeaderCell>
           <Table.HeaderCell>寄送方法</Table.HeaderCell>
           <Table.HeaderCell>寄送時間</Table.HeaderCell>

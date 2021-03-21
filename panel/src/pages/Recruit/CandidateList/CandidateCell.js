@@ -105,13 +105,15 @@ export default class CandidateCell extends Component {
           {c.phoneNumber}
         </Table.Cell>
         <Table.Cell>
-          {lastInvitationSent}<br/>
+
           {!c.lastInvitationSent
             ? <Fragment>
               {AcceptButton}
               {DeclineButton}
             </Fragment>
             : ResendButton}
+          <br/>上次寄信時間：{lastInvitationSent}
+          <br/>進入此階段時間：{c.timestamp}
         </Table.Cell>
       </Fragment>)
   }
