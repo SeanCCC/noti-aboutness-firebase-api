@@ -2,16 +2,16 @@ import React, { Component, Fragment } from 'react'
 import { Form } from 'semantic-ui-react'
 import { firebaseDB } from '../../firebaseInit'
 import check from 'check-types'
+import InfoPage from './InfoPage'
 import _ from 'lodash'
-import moment from 'moment-timezone'
 
 class FetchQuestionnaire extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      uid: '',
+      uid: '-MUSFItP9NwexaR5wKMi',
       uidValid: false,
-      qid: '',
+      qid: '-MVo2WdIS8dssiwmo6Cx',
       qidValid: false,
       fetching: false,
       submitted: false,
@@ -30,7 +30,6 @@ class FetchQuestionnaire extends Component {
   }
 
   handleChange (e, { name, value }) {
-    const { submitted } = this.state
     this.setState({ [name]: value }, () => {
       this.checkVal(name)
     })
@@ -58,6 +57,7 @@ class FetchQuestionnaire extends Component {
         return null
       }, null)
       .value()
+    console.log({ questionnaire })
     this.setState({ fetching: false, questionnaire })
   }
 
@@ -97,6 +97,9 @@ class FetchQuestionnaire extends Component {
         loading={fetching}
         disabled={fetching}
         onClick={this.submit} >提交</Form.Button>
+      {questionnaire && <Fragment>
+        <InfoPage q={questionnaire}/>
+      </Fragment>}
     </Fragment>
   }
 }
