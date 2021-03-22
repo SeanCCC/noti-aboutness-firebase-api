@@ -60,16 +60,26 @@ function createPrepareNumber (consentPendingParticipants) {
   const now = moment()
   const consentSent3D = consentPendingParticipants
     .filter((p) => {
+      if (check.not.assigned(p.consentSentTime)) return false
       const then = moment(p.consentSentTime)
       const ms = now.diff(then)
       const hours = moment.duration(ms).asHours()
-      return p.status === status.CONSENT_CHOSEN && hours > 3 * 24
+      return hours > 3 * 24
+    })
+  const Pending3D = consentPendingParticipants
+    .filter((p) => {
+      if (check.assigned(p.consentSentTime)) return false
+      const then = moment(p.latestTime)
+      const ms = now.diff(then)
+      const hours = moment.duration(ms).asHours()
+      return hours > 3 * 24
     })
   const consentPending = consentPendingParticipants
   return [
     { value: consentSent3D.length, label: '送出後已過三日', dangerous: consentSent3D.length > 0, payload: consentSent3D },
     { value: waitForReverse.length, label: '回郵待處理', dangerous: waitForReverse.length > 0, payload: waitForReverse },
     { value: consentSent.length, label: '已經送出', warning: consentSent.length > 0, payload: consentSent },
+    { value: Pending3D.length, label: '三天沒有動靜', warning: Pending3D.length > 0, payload: Pending3D },
     { value: consentPending.length, label: '總人數', payload: consentPending }
   ]
 }
@@ -132,10 +142,24 @@ function createResearchDoneNumber (researchDoneParticipants) {
   ]
 }
 
+function timeLatest (arr) {
+  return arr.reduce((acc, cur) => {
+    if (check.not.assigned(cur)) return acc
+    if (check.not.assigned(acc)) return cur
+    const late = moment(cur).isAfter(acc) ? cur : acc
+    return late
+  }, null)
+}
+
 export const updateParticipants = payload => {
   const participants = payload
   const consentPendingParticipants =
     participants.filter((d) => [status.INIT, status.VIDEO_DONE, status.CONSENT_CHOSEN, status.WAIT_FOR_REVERSED, status.CONSENT_SENT].includes(d.status))
+      .map(p => {
+        const { consentReminderSent, lastStatusChanged, reverseNoticedTime } = p
+        const latestTime = timeLatest([consentReminderSent, lastStatusChanged, reverseNoticedTime])
+        return { ...p, latestTime }
+      })
   const researchRunningParticipants =
     participants.filter((d) => [status.RESEARCH_RUNNING].includes(d.status))
   const researchDoneParticipants =
