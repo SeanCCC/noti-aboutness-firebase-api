@@ -156,8 +156,8 @@ export const updateParticipants = payload => {
   const consentPendingParticipants =
     participants.filter((d) => [status.INIT, status.VIDEO_DONE, status.CONSENT_CHOSEN, status.WAIT_FOR_REVERSED, status.CONSENT_SENT].includes(d.status))
       .map(p => {
-        const { consentReminderSent, lastStatusChanged, reverseNoticedTime } = p
-        const latestTime = timeLatest([consentReminderSent, lastStatusChanged, reverseNoticedTime])
+        const { consentReminderSent, lastStatusChanged, reverseNoticedTime, consentSendReminderSent } = p
+        const latestTime = timeLatest([consentReminderSent, lastStatusChanged, reverseNoticedTime, consentSendReminderSent])
         return { ...p, latestTime }
       })
   const researchRunningParticipants =
