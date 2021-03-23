@@ -119,7 +119,7 @@ const dailyRecordFunction = async () => {
       const { esmDistDaily, extendDays } = r
       const validDays = check.not.assigned(esmDistDaily) ? 0 : esmDistDaily.length
       if (validDays >= periodRequired) return true // 完美完成
-      if (periodRequired - validDays >= 8) return true // 沒完美完成 但有七天以上沒填寫 直接放棄
+      if (check.not.assigned(extendDays) && periodRequired - validDays >= 8) return true // 沒完美完成 但有七天以上沒填寫 直接放棄
       if (check.not.assigned(extendDays)) return false // 不放棄的部份 沒有extend過不要結束
       return days >= periodRequired + extendDays // 如果有extend過了 時間到就結束
     })
