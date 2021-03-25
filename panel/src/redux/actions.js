@@ -237,6 +237,7 @@ const completeRecord = (record) => {
   const startDay = moment.tz(researchStartDate, 'YYYY-MM-DD', 'Asia/Taipei')
   const ms = today.diff(startDay)
   const dnum = moment.duration(ms).asDays() + 1
+  if (dnum < 0) return record
   const daysBetween = [...Array(dnum).keys()].map(
     n => moment(startDay).add(n, 'days').format('YYYY-MM-DD')
   )
