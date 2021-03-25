@@ -17,6 +17,10 @@
   max-width: 100%;
 }
 
+.page .ui.message {
+  min-height: fit-content
+}
+
 .form-modal .field{
   display: flex;
   height: 100%;
