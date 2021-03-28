@@ -1,7 +1,7 @@
 import React, { Component, Fragment, useState } from 'react'
 import PropTypes from 'prop-types'
 import axios from 'axios'
-import { Table, Button, Modal, Header, Image } from 'semantic-ui-react'
+import { Table, Button, Modal, Header, Image, Icon } from 'semantic-ui-react'
 import status from '../../status'
 import { mailMethodOptions, payMethodOptions } from '../../formOptions'
 import moment from 'moment-timezone'
@@ -94,7 +94,7 @@ InfoModalComponent.propTypes = {
 }
 
 const ReversedInfoModalComponent = (props) => {
-  const { p, sendReverseNotice } = props
+  const { p, sendReverseNotice, receiptUrl } = props
   const { receiptReverseInfo } = p
   const [loading, setLoading] = useState(false)
   const mailMethod = translate(mailMethodOptions, p.mailMethod, '未送出')
@@ -107,6 +107,14 @@ const ReversedInfoModalComponent = (props) => {
       郵遞區號:{receiptReverseInfo.mailBackPostNumber}<br/>
       寄送方法:{mailMethod}<br/>
       回郵時間:{receiptReverseInfo.reverseNoticedTime || '尚未送出回郵'} <br/>
+      {receiptUrl && <a target="_blank"
+        href={receiptUrl}
+        rel='noreferrer noopener'>
+        <Button >
+          <Icon name='file pdf'/>
+            下載『研究者參與同意書』
+        </Button>
+      </a>}
       <Modal
         size="mini"
         trigger={<Button content="通知回郵已寄出" loading={loading} disabled={!!receiptReverseInfo.reverseNoticedTime} primary />}
@@ -129,7 +137,7 @@ const ReversedInfoModalComponent = (props) => {
 
 ReversedInfoModalComponent.propTypes = {
   p: PropTypes.object,
-  passbook: PropTypes.string,
+  receiptUrl: PropTypes.string,
   sendReverseNotice: PropTypes.func,
   receiptReverseInfo: PropTypes.object
 }
@@ -140,7 +148,8 @@ export default class ConsentPendingCell extends Component {
     this.state = {
       sendingReceiptReminder: false,
       sendingPayMethodReminder: false,
-      passbook: null
+      passbook: null,
+      receiptUrl: null
     }
     this.sendReceiptReminder = this.sendReceiptReminder.bind(this)
     this.sendPayMethodReminder = this.sendPayMethodReminder.bind(this)
@@ -149,6 +158,11 @@ export default class ConsentPendingCell extends Component {
 
   async componentDidMount () {
     const { participant } = this.props
+    if (participant.status === status.WAIT_FOR_RECEIPT_REVERSED) {
+      const storageRef = firebaseStorage.ref()
+      const receipt = await storageRef.child(`receipts/${participant.uid}.pdf`).getDownloadURL()
+      this.setState({ receiptUrl: receipt })
+    }
     const { payDetail } = participant
     if ([status.RECEIPT_CHOSEN, status.PAYMENT_REQUIRED].includes(participant.status) &&
       payDetail.payMethod === 'bankTransfer') {
@@ -186,7 +200,7 @@ export default class ConsentPendingCell extends Component {
   }
 
   render () {
-    const { passbook } = this.state
+    const { passbook, receiptUrl } = this.state
     const { participant: p, completePayment } = this.props
     const { payDetail } = p
     const { sendingReceiptReminder, sendingPayMethodReminder } = this.state
@@ -215,7 +229,7 @@ export default class ConsentPendingCell extends Component {
               size="massive"
               trigger={<Button content="回郵資訊與動作" primary />}
             >
-              <ReversedInfoModalComponent p={p} sendReverseNotice={this.sendReverseNotice}/>
+              <ReversedInfoModalComponent p={p} receiptUrl={receiptUrl} sendReverseNotice={this.sendReverseNotice}/>
             </Modal>
             </Fragment>
             : null}
