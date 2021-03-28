@@ -132,10 +132,13 @@ function createResearchDoneNumber (researchDoneParticipants) {
     })
   const yetPay = researchDoneParticipants
     .filter((p) => p.status === status.PAYMENT_REQUIRED)
+  const waitingForReversed = researchDoneParticipants
+    .filter((p) => p.status === status.WAIT_FOR_RECEIPT_REVERSED)
   return [
     // { value: yetInviteOrPay.length, label: '尚未邀請訪談或付款', dangerous: yetInviteOrPay.length > 0, payload: yetInviteOrPay },
     // { value: notResponding.length, label: '三天未回覆邀約', warning: notResponding.length > 0, payload: notResponding },
     // { value: notScheduled.length, label: '尚未安排訪談', dangerous: notScheduled.length > 0, payload: notScheduled },
+    { value: waitingForReversed.length, label: '領據回郵未處理', dangerous: waitingForReversed.length > 0, payload: waitingForReversed },
     { value: notSendingReceipt.length, label: '領據三天未寄出', warning: notSendingReceipt.length > 0, payload: notSendingReceipt },
     { value: notSettingPayMethod.length, label: '支付方法三天未設定', warning: notSettingPayMethod.length > 0, payload: notSettingPayMethod },
     { value: yetPay.length, label: '尚未支付', dangerous: yetPay.length > 0, payload: yetPay }
