@@ -112,7 +112,7 @@ const ReversedInfoModalComponent = (props) => {
         rel='noreferrer noopener'>
         <Button >
           <Icon name='file pdf'/>
-            下載『研究者參與同意書』
+            下載『領據』
         </Button>
       </a>}
       <Modal
