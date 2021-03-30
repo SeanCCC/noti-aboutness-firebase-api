@@ -4,6 +4,12 @@ import PropTypes from 'prop-types'
 import { Table, Button, Modal, Header, Icon, Message } from 'semantic-ui-react'
 import { useDropzone } from 'react-dropzone'
 import check from 'check-types'
+import { cityOptions, jobOptions } from '../../formOptions'
+
+const translate = (options, value) => {
+  const opt = options.find(opt => opt.value === value)
+  return opt ? opt.text : 'N/A'
+}
 
 function Basic ({ getFile, disabled }) {
   const { getRootProps, getInputProps } = useDropzone(
@@ -154,10 +160,12 @@ export default class PayorInviteCell extends Component {
     const { invitingInterview } = this.state
     const { totalEsmCount } = record
     const { researchEndDate } = p
+    const city = translate(cityOptions, p.city)
+    const job = translate(jobOptions, p.occupation)
     return (
       <Fragment>
         <Table.Cell>
-          {p.name}
+          {p.name}<br/>{city}/{job}{p.remoteInterview && '/可遠端訪談' }
         </Table.Cell>
         <Table.Cell>
           {totalEsmCount || 0}

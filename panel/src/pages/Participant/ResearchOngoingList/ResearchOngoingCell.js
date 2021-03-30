@@ -97,7 +97,7 @@ class ResearchOngoingCell extends Component {
     return (
       <Fragment >
         <Table.Cell>
-          {p.name}<br/>{city}/{job}
+          {p.name}<br/>{city}/{job}{p.remoteInterview && '/可遠端訪談' }
         </Table.Cell>
         <Table.Cell>
           {record.meanNotiCount || 'N/A'}

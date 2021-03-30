@@ -56,7 +56,10 @@ router.post('/done/video', validators.video, async (req, res) => {
     const payload = req.body
     const { id } = payload
     await moveStauts(id, status.VIDEO_DONE)
-    res.json({ status: status.VIDEO_DONE })
+    res.json({
+      remoteInterview: true,
+      status: status.VIDEO_DONE
+    })
   } catch (err) {
     console.error(err)
     res.status(500).send('error')
