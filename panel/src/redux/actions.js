@@ -87,9 +87,19 @@ function createPrepareNumber (consentPendingParticipants) {
 function createResearchPendingNumber (researchPendingParticipants) {
   const yetConfigAppCount = researchPendingParticipants
     .filter((p) => p.status !== status.APP_VALID)
+  const yetConfigAppCount3D = researchPendingParticipants
+    .filter((p) => p.status !== status.APP_VALID)
+    .filter((p) => {
+      const now = moment()
+      const then = check.assigned(p.preResearchReminderSent) ? moment(p.preResearchReminderSent) : moment(p.lastStatusChanged)
+      const ms = now.diff(then)
+      const hours = moment.duration(ms).asHours()
+      return hours > 3 * 24
+    })
   const researchPending = researchPendingParticipants
   return [
     { value: yetConfigAppCount.length, label: '尚未設定App', payload: yetConfigAppCount },
+    { value: yetConfigAppCount3D.length, label: '三天無動作', payload: yetConfigAppCount3D },
     { value: researchPending.length, label: '總人數', payload: researchPending }
   ]
 }

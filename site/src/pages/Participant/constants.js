@@ -15,4 +15,4 @@ export const installYoutubeId = 'IjRmTi4qaME'
 export const orientationYoutubeId = 'Hiu1z8-9bWg'
 export const receiptSample = 'https://storage.googleapis.com/noti-aboutness-firebase-48728.appspot.com/receipt-sample.png'
 export const internalApkLink = 'https://notiaboutness.muilab.org/appdl'
-export const fullAtThisStage = true
+export const fullAtThisStage = false
