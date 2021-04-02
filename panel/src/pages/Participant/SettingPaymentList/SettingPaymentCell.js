@@ -233,7 +233,7 @@ export default class ConsentPendingCell extends Component {
             </Modal>
             </Fragment>
             : null}
-          {p.status === status.SET_RECEIPT_MAIL_METHOD
+          {p.status === status.SET_RECEIPT_MAIL_METHOD || p.status === status.RECEIPT_CHOSEN
             ? <Fragment><Modal
               size="mini"
               trigger={<Button content="寄出領據提醒信" loading={sendingReceiptReminder} disabled={sendingReceiptReminder} primary />}
@@ -241,7 +241,7 @@ export default class ConsentPendingCell extends Component {
               content='寄太多信會變成騷擾，務必先確認寄信頻率'
               actions={['取消', { key: 'confirm', content: '確定', positive: true, onClick: this.sendReceiptReminder }]}
             />
-            <br/>上次寄信：{p.receiptReminderSent || '無'}</Fragment>
+            <br/>上次寄信：{p.receiptReminderSent || '無'}<br/></Fragment>
             : null}
           {p.status === status.SET_PAY_METHOD
             ? <Fragment><Modal

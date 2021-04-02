@@ -104,6 +104,15 @@ function createResearchPendingNumber (researchPendingParticipants) {
   ]
 }
 
+function timeLatest (arr) {
+  return arr.reduce((acc, cur) => {
+    if (check.not.assigned(cur)) return acc
+    if (check.not.assigned(acc)) return cur
+    const late = moment(cur).isAfter(acc) ? cur : acc
+    return late
+  }, null)
+}
+
 function createResearchDoneNumber (researchDoneParticipants) {
   const now = moment().tz('Asia/Taipei')
   // const yetInviteOrPay = researchDoneParticipants
@@ -144,24 +153,24 @@ function createResearchDoneNumber (researchDoneParticipants) {
     .filter((p) => p.status === status.PAYMENT_REQUIRED)
   const waitingForReversed = researchDoneParticipants
     .filter((p) => p.status === status.WAIT_FOR_RECEIPT_REVERSED)
+  const stopFor3D = researchDoneParticipants
+    .filter((p) => {
+      const actionTime = timeLatest([p.receiptReminderSent, p.lastStatusChanged])
+      const then = moment(actionTime)
+      const ms = now.diff(then)
+      const hours = moment.duration(ms).asHours()
+      return hours > 3 * 24
+    })
   return [
     // { value: yetInviteOrPay.length, label: '尚未邀請訪談或付款', dangerous: yetInviteOrPay.length > 0, payload: yetInviteOrPay },
     // { value: notResponding.length, label: '三天未回覆邀約', warning: notResponding.length > 0, payload: notResponding },
     // { value: notScheduled.length, label: '尚未安排訪談', dangerous: notScheduled.length > 0, payload: notScheduled },
     { value: waitingForReversed.length, label: '領據回郵未處理', dangerous: waitingForReversed.length > 0, payload: waitingForReversed },
     { value: notSendingReceipt.length, label: '領據三天未寄出', warning: notSendingReceipt.length > 0, payload: notSendingReceipt },
+    { value: stopFor3D.length, label: '三天無動作', warning: stopFor3D.length > 0, payload: stopFor3D },
     { value: notSettingPayMethod.length, label: '支付方法三天未設定', warning: notSettingPayMethod.length > 0, payload: notSettingPayMethod },
     { value: yetPay.length, label: '尚未支付', dangerous: yetPay.length > 0, payload: yetPay }
   ]
-}
-
-function timeLatest (arr) {
-  return arr.reduce((acc, cur) => {
-    if (check.not.assigned(cur)) return acc
-    if (check.not.assigned(acc)) return cur
-    const late = moment(cur).isAfter(acc) ? cur : acc
-    return late
-  }, null)
 }
 
 export const updateParticipants = payload => {

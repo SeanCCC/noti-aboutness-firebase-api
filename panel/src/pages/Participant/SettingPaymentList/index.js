@@ -6,14 +6,9 @@ import axios from 'axios'
 import SettingPaymentCell from './SettingPaymentCell'
 import HighlightTableBody from '../../HighlightTableBody'
 
-function sleep (ms) {
-  return new Promise(resolve => setTimeout(resolve, ms))
-}
-
 export default class SettingPaymentList extends Component {
   async completePayment (uid, date) {
     const payDate = moment(date).tz('Asia/Taipei').format('YYYY-MM-DD HH:mm')
-    await sleep(1000)
     try {
       await axios.post('/apis/participant/payment/done', { uid, payDate })
     } catch (err) {
