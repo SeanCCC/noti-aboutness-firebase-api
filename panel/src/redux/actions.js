@@ -99,7 +99,7 @@ function createResearchPendingNumber (researchPendingParticipants) {
   const researchPending = researchPendingParticipants
   return [
     { value: yetConfigAppCount.length, label: '尚未設定App', payload: yetConfigAppCount },
-    { value: yetConfigAppCount3D.length, label: '三天無動作', payload: yetConfigAppCount3D },
+    { value: yetConfigAppCount3D.length, label: '三天無動作', payload: yetConfigAppCount3D, warning: yetConfigAppCount3D > 0 },
     { value: researchPending.length, label: '總人數', payload: researchPending }
   ]
 }
