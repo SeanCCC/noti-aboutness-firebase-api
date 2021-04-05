@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Table, Button, Modal, Header } from 'semantic-ui-react'
 import axios from 'axios'
 import status from '../../status'
-import { mailMethodOptions } from '../../formOptions'
+import { mailMethodOptions, cityOptions, jobOptions, genderOptions } from '../../formOptions'
 import moment from 'moment-timezone'
 import check from 'check-types'
 
@@ -121,11 +121,14 @@ export default class ConsentPendingCell extends Component {
     const { participant: p } = this.props
     const { acceptingConsent, sendingReminder, sendingSendReminder } = this.state
     const mailMethod = translate(mailMethodOptions, p.mailMethod, '未送出')
+    const city = translate(cityOptions, p.city)
+    const job = translate(jobOptions, p.occupation)
+    const gender = translate(genderOptions, p.gender)
     const consentSentTime = !p.consentSentTime ? '未送出' : moment(new Date(p.consentSentTime)).tz('Asia/Taipei').format('YYYY-MM-DD HH:mm')
     return (
       <Fragment>
         <Table.Cell>
-          {p.name}<br/>
+          {p.name}/{p.age}歲/{gender}<br/>{city}/{job}<br/>
           {p.email}<br/>
           {p.phoneNumber}
         </Table.Cell>

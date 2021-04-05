@@ -115,22 +115,6 @@ function timeLatest (arr) {
 
 function createResearchDoneNumber (researchDoneParticipants) {
   const now = moment().tz('Asia/Taipei')
-  // const yetInviteOrPay = researchDoneParticipants
-  //   .filter((p) => p.status === status.RESEARCH_DONE)
-  // const notResponding = researchDoneParticipants
-  //   .filter((p) => {
-  //     if (p.status !== status.INTERVIEW_INVITED) return false
-  //     const time = p.interviewInviteRemindTime || p.interviewInviteTime
-  //     const then = moment(time)
-  //     const ms = now.diff(then)
-  //     const hours = moment.duration(ms).asHours()
-  //     return hours > 3 * 24
-  //   })
-  // const notScheduled = researchDoneParticipants
-  //   .filter((p) => {
-  //     if (p.status !== status.INTERVIEW_ACCEPTED) return false
-  //     return !p.interviewScheduleTime
-  //   })
   const notSendingReceipt = researchDoneParticipants
     .filter((p) => {
       if (p.status !== status.SET_RECEIPT_MAIL_METHOD) return false
@@ -162,9 +146,6 @@ function createResearchDoneNumber (researchDoneParticipants) {
       return hours > 3 * 24
     })
   return [
-    // { value: yetInviteOrPay.length, label: '尚未邀請訪談或付款', dangerous: yetInviteOrPay.length > 0, payload: yetInviteOrPay },
-    // { value: notResponding.length, label: '三天未回覆邀約', warning: notResponding.length > 0, payload: notResponding },
-    // { value: notScheduled.length, label: '尚未安排訪談', dangerous: notScheduled.length > 0, payload: notScheduled },
     { value: waitingForReversed.length, label: '領據回郵未處理', dangerous: waitingForReversed.length > 0, payload: waitingForReversed },
     { value: notSendingReceipt.length, label: '領據三天未寄出', warning: notSendingReceipt.length > 0, payload: notSendingReceipt },
     { value: stopFor3D.length, label: '三天無動作', warning: stopFor3D.length > 0, payload: stopFor3D },

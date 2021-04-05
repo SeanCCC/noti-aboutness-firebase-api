@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Table, Modal, Button, Header } from 'semantic-ui-react'
 import axios from 'axios'
 import BlockChart from './BlockChart'
-import { cityOptions, jobOptions } from '../../formOptions'
+import { cityOptions, jobOptions, genderOptions } from '../../formOptions'
 import check from 'check-types'
 
 const translate = (options, value) => {
@@ -94,10 +94,11 @@ class ResearchOngoingCell extends Component {
     const { sendingReminder, sendingInvitation } = this.state
     const city = translate(cityOptions, p.city)
     const job = translate(jobOptions, p.occupation)
+    const gender = translate(genderOptions, p.gender)
     return (
       <Fragment >
         <Table.Cell>
-          {p.name}<br/>{city}/{job}{p.remoteInterview && '/可遠端訪談' }
+          {p.name}/{p.age}歲/{gender}<br/>{city}/{job}<br/>{p.remoteInterview && '可遠端訪談' }
         </Table.Cell>
         <Table.Cell>
           {record.meanNotiCount || 'N/A'}

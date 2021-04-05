@@ -6,6 +6,12 @@ import { Table, Button, Modal } from 'semantic-ui-react'
 import interviewStatus from '../../interviewStatus'
 import check from 'check-types'
 import status from '../../status'
+import { cityOptions, jobOptions, genderOptions } from '../../formOptions'
+
+const translate = (options, value) => {
+  const opt = options.find(opt => opt.value === value)
+  return opt ? opt.text : 'N/A'
+}
 
 export default class InterviewInviteCell extends Component {
   constructor (props) {
@@ -54,10 +60,13 @@ export default class InterviewInviteCell extends Component {
       decliningInterview,
       finishingInterview
     } = this.state
+    const city = translate(cityOptions, p.city)
+    const job = translate(jobOptions, p.occupation)
+    const gender = translate(genderOptions, p.gender)
     return (
       <Fragment>
         <Table.Cell>
-          {p.name}
+          {p.name}/{p.age}歲/{gender}<br/>{city}/{job}<br/>{p.remoteInterview && '可遠端訪談' }
         </Table.Cell>
         <Table.Cell>
           {p.interviewInviteTime}
