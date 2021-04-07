@@ -11,7 +11,6 @@ const {
   fetchDB,
   busboyMiddleWare,
   uploadFile,
-  moveStauts,
   getReceiptUrl,
   scoreBigFive
 } = require('../utils')
