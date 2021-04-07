@@ -55,9 +55,12 @@ router.post('/done/video', validators.video, async (req, res) => {
   try {
     const payload = req.body
     const { id } = payload
-    await moveStauts(id, status.VIDEO_DONE)
-    res.json({
+    await updateDB(`participant/${id}`, {
+      status: status.VIDEO_DONE,
       remoteInterview: true,
+      lastStatusChanged: moment().tz('Asia/Taipei').format()
+    })
+    res.json({
       status: status.VIDEO_DONE
     })
   } catch (err) {
