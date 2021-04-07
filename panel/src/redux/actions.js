@@ -264,6 +264,7 @@ const completeRecord = (record) => {
 
 function createResearchRunningNumber (uploadRecord) {
   const yesterday = moment().tz('Asia/Taipei').subtract(1, 'days').format('YYYY-MM-DD')
+  const tomorrow = moment().tz('Asia/Taipei').add(1, 'days').format('YYYY-MM-DD')
   const noYesterdayNoti = _.filter(uploadRecord, (r) => {
     const { notiDistDaily } = r
     if (!notiDistDaily) return true
@@ -277,10 +278,11 @@ function createResearchRunningNumber (uploadRecord) {
     if (meanEsmCount === null) return false
     return meanEsmCount < 3
   })
+  const totalAmount = uploadRecord.filter(r => r.researchStartDate !== tomorrow)
   return [
     { value: noYesterdayNoti.length, label: '昨日無上傳通知', dangerous: noYesterdayNoti.length > 0, payload: noYesterdayNoti },
     { value: lowEsmCount.length, label: 'esm填寫量少', warning: lowEsmCount.length > 0, payload: lowEsmCount },
-    { value: uploadRecord.length, label: '總數量', payload: uploadRecord }
+    { value: totalAmount.length, label: '總數量', payload: totalAmount }
   ]
 }
 
