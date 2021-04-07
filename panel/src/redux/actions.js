@@ -139,7 +139,10 @@ function createResearchDoneNumber (researchDoneParticipants) {
     .filter((p) => p.status === status.WAIT_FOR_RECEIPT_REVERSED)
   const stopFor3D = researchDoneParticipants
     .filter((p) => {
-      const actionTime = timeLatest([p.receiptReminderSent, p.lastStatusChanged])
+      const { receipt } = p
+      if (p.status === status.PAYMENT_REQUIRED) return false
+      const reverseNoticedTime = receipt && receipt.reverseNoticedTime
+      const actionTime = timeLatest([p.receiptReminderSent, p.lastStatusChanged, reverseNoticedTime])
       const then = moment(actionTime)
       const ms = now.diff(then)
       const hours = moment.duration(ms).asHours()
