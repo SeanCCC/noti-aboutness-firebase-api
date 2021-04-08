@@ -14,18 +14,18 @@ export default class Instruction extends Component {
     return (
       <div className="page">
         <Header as='h2'
-          textAlign="center">App安裝教學與使用</Header>
+          textAlign="center">App安裝與問卷填寫教學</Header>
         <Segment attached>
-          1.請依照下方影片教學安裝App與使用App，如果有任何不順利的地方，歡迎與研究團隊聯絡，或來訪實驗室，由實驗團隊代勞。<br/>
+          1.請依照下方影片教學安裝App與填寫問卷，如果有任何不順利的地方，歡迎與研究團隊聯絡，或來訪實驗室，由實驗團隊代勞。<br/>
           2.如果您用手機瀏覽此頁面，可以點擊影片下方的『下載實驗用App』下載App。如果不是，我們也提供了QRCode並已經寄送檔案連結給您。<br/>
           3.實驗將在App設定好後的一天開始進行。
           <Message warning>
-            <Message.Header>請完整觀看影片，這會影響研究參與成功與否。此外，我們也已將安裝檔連結透過Email寄給了您。</Message.Header>
+f            <Message.Header>請完整觀看影片，這會影響研究參與成功與否。此外，我們也已將安裝檔連結透過Email寄給了您。</Message.Header>
           </Message>
         </Segment>
         <Segment attached>
           <Header as='h3'
-            textAlign="center">App安裝與使用教學影片</Header>
+            textAlign="center">App安裝與使用問卷填寫教學</Header>
           <Embed
             id={installYoutubeId}
             hd
