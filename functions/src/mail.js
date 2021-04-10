@@ -327,7 +327,7 @@ const sendInterviewSchedule = async (id, interviewScheduleTime) => {
   const html = mailTemplate([
     `${name}先生/小姐您好，`,
     `已將您的訪談安排在${readableTime}，`,
-    '請準時到達約定好的訪談地點，',
+    '我們希望當天訪談可以準時開始，',
     '訪談流程會在60分鐘內結束，',
     '期待與您相見。'
   ])
@@ -346,7 +346,7 @@ const sendInterviewReschedule = async (id, interviewScheduleTime) => {
   const html = mailTemplate([
     `${name}先生/小姐您好，`,
     `已將您的訪談改到${readableTime}，`,
-    '請準時到達約定好的訪談地點，',
+    '我們希望當天訪談可以準時開始，',
     '期待與您相見。'
   ])
   const config = {
@@ -363,7 +363,7 @@ const sendInterviewReminder = async (id, readableTime) => {
   const html = mailTemplate([
     `${name}先生/小姐您好，`,
     `我們想提醒您訪談時間為${readableTime}，`,
-    '請準時到達約定好的訪談地點，',
+    '我們希望當天訪談可以準時開始，',
     '訪談流程會在60分鐘內結束，',
     '如果有需要調整時間請務必提早與我們聯繫，',
     '期待與您相見。'
