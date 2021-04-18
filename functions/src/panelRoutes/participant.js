@@ -149,14 +149,22 @@ router.post('/payment/ask', async (req, res) => {
     const p = await fetchDB(`participant/${uid}`)
     // 遠端支付的部份
     const compensation = interview ? (p.compensation + 300) : p.compensation
-    const _interviewStatus = p.status === status.INTERVIEWEE ? interviewStatus.DONE : p.interviewStatus
-    await updateDB(`participant/${uid}`, {
-      compensation,
-      status: status.SET_RECEIPT_MAIL_METHOD,
-      askPaymentTime: now,
-      lastStatusChanged: now,
-      interviewStatus: _interviewStatus
-    })
+    if (p.status === status.INTERVIEWEE) {
+      await updateDB(`participant/${uid}`, {
+        compensation,
+        status: status.SET_RECEIPT_MAIL_METHOD,
+        askPaymentTime: now,
+        lastStatusChanged: now,
+        interviewStatus: interviewStatus.DONE
+      })
+    } else {
+      await updateDB(`participant/${uid}`, {
+        compensation,
+        status: status.SET_RECEIPT_MAIL_METHOD,
+        askPaymentTime: now,
+        lastStatusChanged: now
+      })
+    }
     await askPaymentMail(uid)
     res.send('success')
   } catch (err) {
