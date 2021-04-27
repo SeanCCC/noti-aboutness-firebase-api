@@ -1,4 +1,5 @@
-// const { setDB } = require('./src/utils')
+// const { fetchDB, updateDB } = require('./src/utils')
+
 // const { sendResearchStartMail } = require('./src/mail')
 // const _appTable = require('./appTable')
 // const appTable = _appTable.reduce((acu, cur) => {

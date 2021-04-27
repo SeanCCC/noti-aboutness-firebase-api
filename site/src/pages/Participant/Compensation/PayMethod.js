@@ -161,11 +161,11 @@ export default class PayMethod extends Component {
             onChange={() => { this.setPayMethod('jko') }}
             checked={payMethod === 'jko'}
           />
-          <Checkbox
+          {/* <Checkbox
             label='我想用LINE pay領取報酬。'
             onChange={() => { this.setPayMethod('linePay') }}
             checked={payMethod === 'linePay'}
-          />
+          /> */}
           <Checkbox
             label='我想用接收匯款的方式領取報酬。'
             onChange={() => { this.setPayMethod('bankTransfer') }}
