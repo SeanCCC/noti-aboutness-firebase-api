@@ -91,7 +91,7 @@ export default class MailInfo extends Component {
         限時郵件郵票貼23元以上就會足夠。<br/>
         收件人：張忠喬 先生<br/>
         聯絡電話：0975-068-858<br/>
-        地址：30010新竹市東區大學路1001號交通大學電子與資訊研究中心715室<br/>
+        地址：30010新竹市東區大學路1001號國立陽明交通大學電子與資訊研究中心715室<br/>
           </Segment>}
         {['reversedRegisteredMail', 'reversedOrdinaryMail'].includes(mailMethod) &&
           <Segment attached>
@@ -106,7 +106,7 @@ export default class MailInfo extends Component {
             <Header as='h3'
               textAlign="center">同意書親自交付資訊</Header>
         請直接將同意書投入郵箱即可<br/>
-        郵箱位址：新竹市東區大學路1001號交通大學電子與資訊研究中心二樓33號信箱<br/>
+        郵箱位址：新竹市東區大學路1001號國立陽明交通大學電子與資訊研究中心二樓33號信箱<br/>
         門禁時間：防疫期間下午六點半點後需要刷卡進出，非防疫期間晚上七點後需要刷卡進出。
             <Header as='h4'
               textAlign="center">實驗室地圖</Header>
