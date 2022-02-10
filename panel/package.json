@@ -7,7 +7,7 @@
     "check-types": "^11.1.2",
     "firebase": "^7.10.0",
     "moment-timezone": "^0.5.28",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "qrcode.react": "^1.0.0",
     "query-string": "^6.11.0",
     "react": "^16.11.0",
